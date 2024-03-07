@@ -1,11 +1,18 @@
-import "@blocknote/core/fonts/inter.css";
-import { BlockNoteView, useCreateBlockNote } from "@blocknote/react";
-import "@blocknote/react/style.css";
+import NoteView from "./components/NoteView";
+import NotesView from "./components/NotesView";
+import Sidebar from "./components/Sidebar";
 
 export default function App() {
-  // Creates a new editor instance.
-  const editor = useCreateBlockNote();
+  return (
+    <div className="flex h-full">
+      <Sidebar />
 
-  // Renders the editor instance using a React component.
-  return <BlockNoteView editor={editor} />;
+      <NotesView />
+
+      <div className="flex-grow p-4">
+        <NoteView />
+      </div>
+    </div>
+  )
 }
+
