@@ -6,7 +6,11 @@ const createWindow = () => {
     height: 600,
   });
 
-  win.loadFile('app/build/index.html');
+  if (process.env.PROD) {
+    win.loadFile('app/build/index.html');
+  } else {
+    win.loadURL('http://localhost:5173');
+  }
 };
 
 app.whenReady().then(() => {
