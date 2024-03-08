@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'node:path';
 import { fileURLToPath } from 'url';
+import database from './scripts/database.mjs';
 
 const createWindow = () => {
   const dirname = fileURLToPath(new URL('.', import.meta.url));
@@ -19,8 +20,18 @@ const createWindow = () => {
   }
 };
 
-app.whenReady().then(() => {
-  ipcMain.handle('ping', () => 'pong');
+const main = async () => {
+  const db = await database.connect();
+  console.log('connected!');
+
+  await app.whenReady();
+
+  ipcMain.handle('ping', async (_, title, content) => {
+    console.log('recieved:', title, content);
+    const result = await db.run('INSERT INTO notes (title, content) VALUES (?, ?)', title, content);
+    console.log('result:', result);
+    return 'pong';
+  });
 
   createWindow();
 
@@ -29,10 +40,12 @@ app.whenReady().then(() => {
       createWindow();
     }
   });
-});
+};
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
 });
+
+main();

@@ -1,5 +1,5 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electron', {
-  ping: () => ipcRenderer.invoke('ping'),
+  ping: (title, content) => ipcRenderer.invoke('ping', title, content),
 });

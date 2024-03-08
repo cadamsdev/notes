@@ -15,7 +15,7 @@ const tags = [
 export default function Sidebar() {
 
   const createNote = async () => {
-    const response = await window.electron.ping();
+    const response = await window.electron.ping('A title', 'A note');
     console.log(response);  
   }
 
