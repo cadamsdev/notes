@@ -1,9 +1,15 @@
-const { app, BrowserWindow } = require('electron');
+import { app, BrowserWindow, ipcMain } from 'electron';
+import path from 'node:path';
+import { fileURLToPath } from 'url';
 
 const createWindow = () => {
+  const dirname = fileURLToPath(new URL('.', import.meta.url));
   const win = new BrowserWindow({
     width: 800,
     height: 600,
+    webPreferences: {
+      preload: path.join(dirname, 'scripts/preload.js'),
+    },
   });
 
   if (process.env.PROD) {
@@ -14,6 +20,8 @@ const createWindow = () => {
 };
 
 app.whenReady().then(() => {
+  ipcMain.handle('ping', () => 'pong');
+
   createWindow();
 
   app.on('activate', () => {
