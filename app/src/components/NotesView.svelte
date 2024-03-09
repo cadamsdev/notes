@@ -1,34 +1,6 @@
 <script lang="ts">
 	import { notes, selectedNote, type Note } from '../store';
 
-	const items = [
-		{
-			id: 1,
-			title: 'A title',
-			content: 'A note'
-		},
-		{
-			id: 2,
-			title: 'A title',
-			content: 'A note'
-		},
-		{
-			id: 3,
-			title: 'A title',
-			content: 'A note'
-		},
-		{
-			id: 4,
-			title: 'A title',
-			content: 'A note'
-		},
-		{
-			id: 5,
-			title: 'A title',
-			content: 'A note'
-		}
-	];
-
 	function selectNote(note: Note): void {
 		selectedNote.update(() => note);
 	}

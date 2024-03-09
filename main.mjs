@@ -37,6 +37,13 @@ const main = async () => {
     return result.lastID;
   });
 
+  ipcMain.handle('getNotes', async () => {
+    console.log('calling getNotes!');
+    const result = await db.all('SELECT * FROM notes');
+    console.log(result);
+    return result;
+  });
+
   createWindow();
 
   app.on('activate', () => {
