@@ -2,8 +2,8 @@
 	const tags = ['java', 'python', 'c++'];
 
 	async function createNote(): Promise<void> {
-    const response = await window.electron.ping('A title', 'A note');
-    console.log(response);  
+    const lastID = await window.electron.createNote('A title', 'A note');
+    console.log(lastID);  
 	}
 </script>
 

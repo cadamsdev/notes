@@ -26,11 +26,15 @@ const main = async () => {
 
   await app.whenReady();
 
-  ipcMain.handle('ping', async (_, title, content) => {
+  ipcMain.handle('createNote', async (_, title, content) => {
     console.log('recieved:', title, content);
-    const result = await db.run('INSERT INTO notes (title, content) VALUES (?, ?)', title, content);
+    const result = await db.run(
+      'INSERT INTO notes (title, content) VALUES (?, ?)',
+      title,
+      content
+    );
     console.log('result:', result);
-    return 'pong';
+    return result.lastID;
   });
 
   createWindow();
