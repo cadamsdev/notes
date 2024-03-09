@@ -7,3 +7,4 @@ export interface Note {
 }
 
 export const notes = writable<Note[]>([]);
+export const selectedNote = writable<Note>({ id: -1, title: '', content: '' });

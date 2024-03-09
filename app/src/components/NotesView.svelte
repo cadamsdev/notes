@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { notes } from '../store';
+	import { notes, selectedNote, type Note } from '../store';
 
 	const items = [
 		{
@@ -28,6 +28,10 @@
 			content: 'A note'
 		}
 	];
+
+	function selectNote(note: Note): void {
+		selectedNote.update(() => note);
+	}
 </script>
 
 <div class=" bg-slate-200">
@@ -37,7 +41,7 @@
 	</div>
 
 	{#each $notes as note}
-		<button class="block w-full text-left p-4 bg-slate-300 hover:bg-slate-400">
+		<button class="block w-full text-left p-4 bg-slate-300 hover:bg-slate-400" on:click={() => selectNote(note)}>
 			{note.id}
 			{note.title}
 		</button>
