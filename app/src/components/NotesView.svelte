@@ -27,17 +27,19 @@
 			>
 		</div>
 		<input class="p-2 rounded mb-4" placeholder="Search..." />
-		{#each $notes as note, index}
-			<button
-				class={clsx("block w-full text-left p-4 bg-slate-300 hover:bg-slate-400", {
-					'rounded-t': index === 0,
-					'rounded-b': index === get(notes).length - 1
-				})}
-				on:click={() => selectNote(note)}
-			>
-				{note.id}
-				{note.title}
-			</button>
-		{/each}
+		<div class="max-h-[405px] overflow-y-auto">
+			{#each $notes as note, index}
+				<button
+					class={clsx('block w-full text-left p-4 bg-slate-300 hover:bg-slate-400', {
+						'rounded-t': index === 0,
+						'rounded-b': index === get(notes).length - 1
+					})}
+					on:click={() => selectNote(note)}
+				>
+					{note.id}
+					{note.title}
+				</button>
+			{/each}
+		</div>
 	</div>
 </div>
