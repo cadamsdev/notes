@@ -12,7 +12,7 @@ const createWindow = () => {
       preload: path.join(dirname, 'scripts/preload.js'),
     },
   });
-
+  
   if (process.env.PROD) {
     win.loadFile('app/build/index.html');
   } else {

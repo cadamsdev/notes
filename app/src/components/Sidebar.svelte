@@ -1,7 +1,10 @@
 <script lang="ts">
 	const tags = ['java', 'python', 'c++'];
 
-	function createNote(): void {}
+	async function createNote(): Promise<void> {
+    const response = await window.electron.ping('A title', 'A note');
+    console.log(response);  
+	}
 </script>
 
 <div class="p-6 bg-slate-800">
