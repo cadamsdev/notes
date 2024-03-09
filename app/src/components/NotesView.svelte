@@ -1,6 +1,8 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
 	import { notes, selectedNote, type Note } from '../store';
+	import clsx from 'clsx';
+	import { get } from 'svelte/store';
 
 	function selectNote(note: Note): void {
 		selectedNote.update(() => note);
@@ -25,15 +27,17 @@
 			>
 		</div>
 		<input class="p-2 rounded mb-4" placeholder="Search..." />
-
-			{#each $notes as note}
-		<button
-			class="block rounded w-full text-left p-4 bg-slate-300 hover:bg-slate-400"
-			on:click={() => selectNote(note)}
-		>
-			{note.id}
-			{note.title}
-		</button>
-	{/each}
+		{#each $notes as note, index}
+			<button
+				class={clsx("block w-full text-left p-4 bg-slate-300 hover:bg-slate-400", {
+					'rounded-t': index === 0,
+					'rounded-b': index === get(notes).length - 1
+				})}
+				on:click={() => selectNote(note)}
+			>
+				{note.id}
+				{note.title}
+			</button>
+		{/each}
 	</div>
 </div>
