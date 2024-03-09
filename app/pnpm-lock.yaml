@@ -14,6 +14,9 @@ dependencies:
   '@editorjs/header':
     specifier: ^2.8.1
     version: 2.8.1
+  '@editorjs/inline-code':
+    specifier: ^1.5.0
+    version: 1.5.0
   clsx:
     specifier: ^2.1.0
     version: 2.1.0
@@ -122,6 +125,12 @@ packages:
 
   /@editorjs/header@2.8.1:
     resolution: {integrity: sha512-y0HVXRP7m2W617CWo3fsb5HhXmSLaRpb9GzFx0Vkp/HEm9Dz5YO1s8tC7R8JD3MskwoYh7V0hRFQt39io/r6hA==}
+    dependencies:
+      '@codexteam/icons': 0.0.5
+    dev: false
+
+  /@editorjs/inline-code@1.5.0:
+    resolution: {integrity: sha512-5i6BCOG8eOg4/6qGoLJuL6XSZZg834zIByDW8K80doM1L7ss/VqtLY0nrB2Q5bfs1KA0tOlVHOfjE4JD4438FQ==}
     dependencies:
       '@codexteam/icons': 0.0.5
     dev: false
