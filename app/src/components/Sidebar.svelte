@@ -1,9 +1,16 @@
 <script lang="ts">
+	import { notes } from "../store";
+
 	const tags = ['java', 'python', 'c++'];
 
 	async function createNote(): Promise<void> {
     const lastID = await window.electron.createNote('A title', 'A note');
-    console.log(lastID);  
+    console.log(lastID);
+
+		notes.update((items) => {
+			items.push({ id: lastID, title: 'A title', content: 'A note' });
+			return items;
+		});
 	}
 </script>
 
