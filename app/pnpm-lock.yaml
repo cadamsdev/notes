@@ -5,6 +5,12 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@editorjs/editorjs':
+    specifier: ^2.29.0
+    version: 2.29.0
+  '@editorjs/header':
+    specifier: ^2.8.1
+    version: 2.8.1
   clsx:
     specifier: ^2.1.0
     version: 2.1.0
@@ -25,6 +31,9 @@ devDependencies:
   '@sveltejs/vite-plugin-svelte':
     specifier: ^3.0.0
     version: 3.0.2(svelte@4.2.12)(vite@5.1.5)
+  '@types/editorjs__header':
+    specifier: ^2.6.3
+    version: 2.6.3
   '@types/eslint':
     specifier: ^8.56.0
     version: 8.56.5
@@ -93,6 +102,20 @@ packages:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
     dev: true
+
+  /@codexteam/icons@0.0.5:
+    resolution: {integrity: sha512-s6H2KXhLz2rgbMZSkRm8dsMJvyUNZsEjxobBEg9ztdrb1B2H3pEzY6iTwI4XUPJWJ3c3qRKwV4TrO3J5jUdoQA==}
+    dev: false
+
+  /@editorjs/editorjs@2.29.0:
+    resolution: {integrity: sha512-w2BVboSHokMBd/cAOZn0UU328o3gSZ8XUvFPA2e9+ciIGKILiRSPB70kkNdmhHkuNS3q2px+vdaIFaywBl7wGA==}
+    dev: false
+
+  /@editorjs/header@2.8.1:
+    resolution: {integrity: sha512-y0HVXRP7m2W617CWo3fsb5HhXmSLaRpb9GzFx0Vkp/HEm9Dz5YO1s8tC7R8JD3MskwoYh7V0hRFQt39io/r6hA==}
+    dependencies:
+      '@codexteam/icons': 0.0.5
+    dev: false
 
   /@esbuild/aix-ppc64@0.19.12:
     resolution: {integrity: sha512-bmoCYyWdEL3wDQIVbcyzRyeKLgk2WtWLTWz1ZIAZF/EGbNOwSA6ew3PftJ1PqMiOOGu0OyFMzG53L0zqIpPeNA==}
@@ -631,6 +654,10 @@ packages:
 
   /@types/cookie@0.6.0:
     resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
+    dev: true
+
+  /@types/editorjs__header@2.6.3:
+    resolution: {integrity: sha512-Z6xroWfklSjsiJhaqZd/94lV7h31T2894GCvUjqB8C7UjOn/1yHfTnv1teBIyEjRxmGo5DB0nLyDwyRnhD587A==}
     dev: true
 
   /@types/eslint@8.56.5:
