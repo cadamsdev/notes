@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@editorjs/code':
+    specifier: ^2.9.0
+    version: 2.9.0
   '@editorjs/editorjs':
     specifier: ^2.29.0
     version: 2.29.0
@@ -105,6 +108,12 @@ packages:
 
   /@codexteam/icons@0.0.5:
     resolution: {integrity: sha512-s6H2KXhLz2rgbMZSkRm8dsMJvyUNZsEjxobBEg9ztdrb1B2H3pEzY6iTwI4XUPJWJ3c3qRKwV4TrO3J5jUdoQA==}
+    dev: false
+
+  /@editorjs/code@2.9.0:
+    resolution: {integrity: sha512-QNOWxF29j6mYl/gM5HJzeGOt3s4laoZCUbuRqj6RkIvLBWMU+ASwjckEiouA61hcYUOMfpw4vQjzhsfC7xm/vA==}
+    dependencies:
+      '@codexteam/icons': 0.0.5
     dev: false
 
   /@editorjs/editorjs@2.29.0:

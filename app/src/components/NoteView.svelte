@@ -6,13 +6,16 @@
 
 	onMount(async () => {
 		const Header: any = (await import('@editorjs/header')).default;
+		//@ts-ignore
+		const Code: any = (await import('@editorjs/code')).default;
 		const EditorJS = await import('@editorjs/editorjs');
 		const editor = new EditorJS.default({
 			holder: editorRef,
 			placeholder: 'Type / for commands',
 			inlineToolbar: true,
 			tools: {
-				header: { class: Header, inlineToolbar: true }
+				header: { class: Header, inlineToolbar: true },
+				code: { class: Code }
 			}
 		});
 	});
