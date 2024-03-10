@@ -17,7 +17,9 @@
 			placeholder: 'Type / for commands',
 			inlineToolbar: true,
 			tools: {
-				header: { class: Header, inlineToolbar: true },
+				header: { class: Header, inlineToolbar: true, config: {
+					levels: [1, 2, 3],
+				} },
 				code: { class: Code },
 				inlineCode: { class: InlineCode, inlineToolbar: true }
 			}
