@@ -1,4 +1,5 @@
 <script lang="ts">
+	import clsx from 'clsx';
 	import { selectedNote } from '../store';
 	import { onMount } from 'svelte';
 
@@ -39,12 +40,10 @@
 	});
 </script>
 
-{#if $selectedNote?.title}
-	<h1 class="text-xl font-bold mb-4">{$selectedNote?.title}</h1>
+{#if !$selectedNote}
+	<div class="flex items-center justify-center h-full">
+		<div>No content</div>
+	</div>
 {/if}
 
-{#if $selectedNote?.content}
-	<div>{$selectedNote?.content}</div>
-{/if}
-
-<div bind:this={editorRef} id="editor"></div>
+<div bind:this={editorRef} id="editor" class={clsx({ hidden: !$selectedNote })}></div>
