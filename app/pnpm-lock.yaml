@@ -17,6 +17,9 @@ dependencies:
   '@editorjs/inline-code':
     specifier: ^1.5.0
     version: 1.5.0
+  '@editorjs/list':
+    specifier: ^1.9.0
+    version: 1.9.0
   clsx:
     specifier: ^2.1.0
     version: 2.1.0
@@ -109,6 +112,10 @@ packages:
       '@jridgewell/trace-mapping': 0.3.25
     dev: true
 
+  /@codexteam/icons@0.0.4:
+    resolution: {integrity: sha512-V8N/TY2TGyas4wLrPIFq7bcow68b3gu8DfDt1+rrHPtXxcexadKauRJL6eQgfG7Z0LCrN4boLRawR4S9gjIh/Q==}
+    dev: false
+
   /@codexteam/icons@0.0.5:
     resolution: {integrity: sha512-s6H2KXhLz2rgbMZSkRm8dsMJvyUNZsEjxobBEg9ztdrb1B2H3pEzY6iTwI4XUPJWJ3c3qRKwV4TrO3J5jUdoQA==}
     dev: false
@@ -133,6 +140,12 @@ packages:
     resolution: {integrity: sha512-5i6BCOG8eOg4/6qGoLJuL6XSZZg834zIByDW8K80doM1L7ss/VqtLY0nrB2Q5bfs1KA0tOlVHOfjE4JD4438FQ==}
     dependencies:
       '@codexteam/icons': 0.0.5
+    dev: false
+
+  /@editorjs/list@1.9.0:
+    resolution: {integrity: sha512-BQEvZW4vi0O0dBvGNljiKxiE89vMSHoM2Tu2OzKUndoj7pY9AxqpgCh1qvwIVsJAlG4Lbt/vBFQilnoStMmI6A==}
+    dependencies:
+      '@codexteam/icons': 0.0.4
     dev: false
 
   /@esbuild/aix-ppc64@0.19.12:

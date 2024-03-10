@@ -8,7 +8,8 @@
 		const Header: any = (await import('@editorjs/header')).default;
 		//@ts-ignore
 		const Code: any = (await import('@editorjs/code')).default;
-
+		//@ts-ignore
+		const List: any = (await import('@editorjs/list')).default;
 		//@ts-ignore
 		const InlineCode: any = (await import('@editorjs/inline-code')).default;
 		const EditorJS = await import('@editorjs/editorjs');
@@ -25,7 +26,14 @@
 					}
 				},
 				code: { class: Code },
-				inlineCode: { class: InlineCode, inlineToolbar: true }
+				inlineCode: { class: InlineCode, inlineToolbar: true },
+				list: {
+					class: List,
+					inlineToolbar: true,
+					config: {
+						defaultStyle: 'unordered'
+					}
+				}
 			}
 		});
 	});
