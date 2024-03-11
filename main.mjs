@@ -39,9 +39,13 @@ const main = async () => {
     return result;
   });
 
-  ipcMain.handle('updateNote', async (_, id, content) => {
+  ipcMain.handle('updateNote', async (_, note) => {
+    const id = note.id;
+    const title = note.title || 'New note';
+    const content = note.content;
     const result = await db.run(
-      'UPDATE notes SET content = ? WHERE id = ?',
+      'UPDATE notes SET title = ?, content = ? WHERE id = ?',
+      title,
       content,
       id,
     );

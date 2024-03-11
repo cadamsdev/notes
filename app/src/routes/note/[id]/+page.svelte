@@ -1,7 +1,7 @@
 <script lang="ts">
 	import clsx from 'clsx';
 	import { onDestroy, onMount } from 'svelte';
-	import { notes, selectedNote } from '../../../store';
+	import { notes, selectedNote, type Note } from '../../../store';
 	import { browser } from '$app/environment';
 	import type { PageData } from './$types';
 	import { get } from 'svelte/store';
@@ -30,15 +30,29 @@
 
     timer = setTimeout(async () => {
       const outputData = await editor.save();
+			let title: string | undefined;
+			if (outputData.blocks.length > 0) {
+				title = outputData.blocks[0].data['text'];
+			}
+
       const outputString = JSON.stringify(outputData);
       
       if (browser) {
         const id = +data.id;
-        const result = await window.electron.updateNote(id, outputString);
+
+				const updatedNote: Note = {
+					id,
+					title: title || 'New note',
+					content: outputString,
+				}
+
+        const result = await window.electron.updateNote(updatedNote);
         console.log('saved!', result);
 				notes.update((items) => {
 					const index = items.findIndex((item) => item.id === id);
-					items[index].content = outputString;
+					const item = items[index];
+					item.title = updatedNote.title;
+					item.content = updatedNote.content;
 					return items;
 				});
       }
