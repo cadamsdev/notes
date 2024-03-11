@@ -4,6 +4,7 @@
 	import { notes, selectedNote } from '../../../store';
 	import { browser } from '$app/environment';
 	import type { PageData } from './$types';
+	import { get } from 'svelte/store';
 
 	let editorRef: any = null;
   let editor: EditorJS.default;
@@ -14,6 +15,12 @@
     if (!note) {
       return;
     }
+
+		if (!note.content) {
+			editor?.render({ blocks: [] });
+			return;
+		}
+
     const noteData = JSON.parse(note.content);
     editor?.render(noteData);
   });
@@ -47,6 +54,15 @@
 		//@ts-ignore
 		const InlineCode: any = (await import('@editorjs/inline-code')).default;
 		const EditorJS = await import('@editorjs/editorjs');
+
+		const currentNote = get(selectedNote);
+
+		let data = undefined;
+
+		if (currentNote?.content) {
+			data = JSON.parse(currentNote.content);
+		}
+
 		editor = new EditorJS.default({
 			holder: editorRef,
 			placeholder: 'Type / for commands',
@@ -68,7 +84,8 @@
 						defaultStyle: 'unordered'
 					}
 				}
-			}
+			},
+			data,
 		});
 
     if (browser) {
