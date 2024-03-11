@@ -28,7 +28,7 @@
 				><Icon icon="fa-solid:plus" /></button
 			>
 		</div>
-		<input class="p-2 rounded mb-4" placeholder="Search..." />
+		<input class="p-2 rounded mb-4 w-full" placeholder="Search..." />
 		<div class="max-h-[405px] overflow-y-auto">
 			{#each $notes as note, index}
 				<button
