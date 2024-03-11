@@ -29,18 +29,11 @@
         const id = +data.id;
         const result = await window.electron.updateNote(id, outputString);
         console.log('saved!', result);
-
 				notes.update((items) => {
 					const index = items.findIndex((item) => item.id === id);
 					items[index].content = outputString;
 					return items;
 				});
-
-				// // TODO update stores
-				// selectedNote.update((note) => {
-				// 	note.content = outputString;
-				// 	return note;
-				// });
       }
     }, 750);
   }
