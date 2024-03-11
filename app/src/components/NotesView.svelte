@@ -29,7 +29,7 @@
 			>
 		</div>
 		<input class="p-2 rounded mb-4 w-full" placeholder="Search..." />
-		<div class="max-h-[405px] overflow-y-auto">
+		<div class="max-h-[434px] overflow-y-auto">
 			{#each $notes as note, index}
 				<button
 					class={clsx('block w-full text-left p-4 bg-slate-300 hover:bg-slate-400', {
