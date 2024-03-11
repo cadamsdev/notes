@@ -1,7 +1,7 @@
 <script lang="ts">
 	import clsx from 'clsx';
 	import { onDestroy, onMount } from 'svelte';
-	import { selectedNote } from '../../../store';
+	import { notes, selectedNote } from '../../../store';
 	import { browser } from '$app/environment';
 	import type { PageData } from './$types';
 
@@ -29,6 +29,18 @@
         const id = +data.id;
         const result = await window.electron.updateNote(id, outputString);
         console.log('saved!', result);
+
+				notes.update((items) => {
+					const index = items.findIndex((item) => item.id === id);
+					items[index].content = outputString;
+					return items;
+				});
+
+				// // TODO update stores
+				// selectedNote.update((note) => {
+				// 	note.content = outputString;
+				// 	return note;
+				// });
       }
     }, 750);
   }
