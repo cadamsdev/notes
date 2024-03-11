@@ -12,7 +12,7 @@ const createWindow = () => {
       preload: path.join(dirname, 'scripts/preload.js'),
     },
   });
-  
+
   if (process.env.PROD) {
     win.loadFile('app/build/index.html');
   } else {
@@ -23,25 +23,29 @@ const createWindow = () => {
 const main = async () => {
   const db = await database.connect();
   console.log('connected!');
-
   await app.whenReady();
 
   ipcMain.handle('createNote', async (_, title, content) => {
-    console.log('recieved:', title, content);
     const result = await db.run(
       'INSERT INTO notes (title, content) VALUES (?, ?)',
       title,
       content
     );
-    console.log('result:', result);
     return result.lastID;
   });
 
   ipcMain.handle('getNotes', async () => {
-    console.log('calling getNotes!');
     const result = await db.all('SELECT * FROM notes');
-    console.log(result);
     return result;
+  });
+
+  ipcMain.handle('updateNote', async (_, id, content) => {
+    const result = await db.run(
+      'UPDATE notes SET content = ? WHERE id = ?',
+      content,
+      id,
+    );
+    return result.changes;
   });
 
   createWindow();

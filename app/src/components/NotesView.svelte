@@ -3,17 +3,17 @@
 	import { notes, selectedNote, type Note } from '../store';
 	import clsx from 'clsx';
 	import { get } from 'svelte/store';
+	import { goto } from '$app/navigation';
 
 	function selectNote(note: Note): void {
 		selectedNote.update(() => note);
+		goto(`/note/${note.id}`);
 	}
 
 	async function createNote(): Promise<void> {
-		const lastID = await window.electron.createNote('A title', 'A note');
-		console.log(lastID);
-
+		const lastID = await window.electron.createNote('A title', '');
 		notes.update((items) => {
-			items.push({ id: lastID, title: 'A title', content: 'A note' });
+			items.push({ id: lastID, title: 'A title', content: '' });
 			return items;
 		});
 	}

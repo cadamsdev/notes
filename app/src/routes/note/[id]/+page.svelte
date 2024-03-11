@@ -1,9 +1,37 @@
 <script lang="ts">
 	import clsx from 'clsx';
-	import { selectedNote } from '../store';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
+	import { selectedNote } from '../../../store';
+	import { browser } from '$app/environment';
+	import type { PageData } from './$types';
 
 	let editorRef: any = null;
+  let editor: EditorJS.default;
+  let timer: any;
+  export let data: PageData;
+
+  const unsubscribe = selectedNote.subscribe((note) => {
+    if (!note) {
+      return;
+    }
+    const noteData = JSON.parse(note.content);
+    editor?.render(noteData);
+  });
+
+  function onInputChange(): void {
+    clearTimeout(timer);
+
+    timer = setTimeout(async () => {
+      const outputData = await editor.save();
+      const outputString = JSON.stringify(outputData);
+      
+      if (browser) {
+        const id = +data.id;
+        const result = await window.electron.updateNote(id, outputString);
+        console.log('saved!', result);
+      }
+    }, 750);
+  }
 
 	onMount(async () => {
 		const Header: any = (await import('@editorjs/header')).default;
@@ -14,7 +42,7 @@
 		//@ts-ignore
 		const InlineCode: any = (await import('@editorjs/inline-code')).default;
 		const EditorJS = await import('@editorjs/editorjs');
-		const editor = new EditorJS.default({
+		editor = new EditorJS.default({
 			holder: editorRef,
 			placeholder: 'Type / for commands',
 			inlineToolbar: true,
@@ -37,7 +65,18 @@
 				}
 			}
 		});
+
+    if (browser) {
+      window.addEventListener('input', onInputChange);
+    }
 	});
+
+  onDestroy(() => {
+    if (browser) {
+      window.removeEventListener('input', onInputChange);
+    }
+    unsubscribe();
+  });
 </script>
 
 {#if !$selectedNote}

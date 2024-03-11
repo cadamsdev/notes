@@ -17,6 +17,7 @@ declare global {
 		electron: {
 			createNote: (title: string, content: string) => number;
 			getNotes: () => Promise<Note[]>;
+			updateNote: (id: number, content: string) => number;
 		}
 	}
 }
