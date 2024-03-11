@@ -21,7 +21,7 @@
 	}
 </script>
 
-<div class="bg-slate-200">
+<div class="bg-slate-200 w-[240px] min-w-[240px] max-w-[240px]">
 	<div class="p-4">
 		<div class="flex justify-end">
 			<button on:click={createNote} class="bg-slate-200 hover:bg-slate-300 p-2 rounded mb-4"
