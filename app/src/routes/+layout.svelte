@@ -21,7 +21,7 @@
 
 	<NotesView />
 
-	<div class="flex-grow p-4">
+	<div class="flex-grow p-4 max-h-screen overflow-y-auto">
 		<slot />
 	</div>
 </div>
