@@ -5,49 +5,50 @@
 	import { browser } from '$app/environment';
 	import type { PageData } from './$types';
 	import { get } from 'svelte/store';
+	import Icon from '@iconify/svelte';
 
 	let editorRef: any = null;
-  let editor: EditorJS.default;
-  let timer: any;
-  export let data: PageData;
+	let editor: EditorJS.default;
+	let timer: any;
+	export let data: PageData;
 
-  const unsubscribe = selectedNote.subscribe((note) => {
-    if (!note) {
-      return;
-    }
+	const unsubscribe = selectedNote.subscribe((note) => {
+		if (!note) {
+			return;
+		}
 
 		if (!note.content) {
 			editor?.render({ blocks: [] });
 			return;
 		}
 
-    const noteData = JSON.parse(note.content);
-    editor?.render(noteData);
-  });
+		const noteData = JSON.parse(note.content);
+		editor?.render(noteData);
+	});
 
-  function onInputChange(): void {
-    clearTimeout(timer);
+	function onInputChange(): void {
+		clearTimeout(timer);
 
-    timer = setTimeout(async () => {
-      const outputData = await editor.save();
+		timer = setTimeout(async () => {
+			const outputData = await editor.save();
 			let title: string | undefined;
 			if (outputData.blocks.length > 0) {
 				title = outputData.blocks[0].data['text'];
 			}
 
-      const outputString = JSON.stringify(outputData);
-      
-      if (browser) {
-        const id = +data.id;
+			const outputString = JSON.stringify(outputData);
+
+			if (browser) {
+				const id = +data.id;
 
 				const updatedNote: Note = {
 					id,
 					title: title || 'New note',
-					content: outputString,
-				}
+					content: outputString
+				};
 
-        const result = await window.electron.updateNote(updatedNote);
-        console.log('saved!', result);
+				const result = await window.electron.updateNote(updatedNote);
+				console.log('saved!', result);
 				notes.update((items) => {
 					const index = items.findIndex((item) => item.id === id);
 					const item = items[index];
@@ -55,9 +56,9 @@
 					item.content = updatedNote.content;
 					return items;
 				});
-      }
-    }, 750);
-  }
+			}
+		}, 750);
+	}
 
 	onMount(async () => {
 		const Header: any = (await import('@editorjs/header')).default;
@@ -99,26 +100,37 @@
 					}
 				}
 			},
-			data,
+			data
 		});
 
-    if (browser) {
-      window.addEventListener('input', onInputChange);
-    }
+		if (browser) {
+			window.addEventListener('input', onInputChange);
+		}
 	});
 
-  onDestroy(() => {
-    if (browser) {
-      window.removeEventListener('input', onInputChange);
-    }
-    unsubscribe();
-  });
+	onDestroy(() => {
+		if (browser) {
+			window.removeEventListener('input', onInputChange);
+		}
+		unsubscribe();
+	});
 </script>
 
-{#if !$selectedNote}
-	<div class="flex items-center justify-center h-full">
-		<div>No content</div>
-	</div>
-{/if}
+<div class="relative">
+	<div class="p-4 max-h-screen overflow-y-auto">
+		{#if !$selectedNote}
+			<div class="flex items-center justify-center h-full">
+				<div>No content</div>
+			</div>
+		{/if}
 
-<div bind:this={editorRef} id="editor" class={clsx({ hidden: !$selectedNote })}></div>
+		<div bind:this={editorRef} id="editor" class={clsx({ hidden: !$selectedNote })}></div>
+	</div>
+
+	<div class="fixed bottom-0 p-2 z-10 bg-white w-full">
+		<div class="flex items-center gap-2">
+			<button><Icon icon="fa-solid:tags" /></button>
+			<button class="text-sm">Click to add Tags...</button>
+		</div>
+	</div>
+</div>
