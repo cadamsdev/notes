@@ -6,7 +6,7 @@
 	import { goto } from '$app/navigation';
 
 	function selectNote(note: Note): void {
-		if ($selectedNote.id !== note.id) {
+		if ($selectedNote?.id !== note.id) {
 			selectedNote.update(() => note);
 		}
 		goto(`/note/${note.id}`);

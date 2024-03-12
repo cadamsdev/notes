@@ -7,4 +7,4 @@ export interface Note {
 }
 
 export const notes = writable<Note[]>([]);
-export const selectedNote = writable<Note>();
+export const selectedNote = writable<Note | undefined>();
