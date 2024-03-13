@@ -6,11 +6,14 @@
 	import type { PageData } from './$types';
 	import { get } from 'svelte/store';
 	import Icon from '@iconify/svelte';
+	import Modal from '../../../components/Modal.svelte';
 
 	let editorRef: any = null;
 	let editor: EditorJS.default;
 	let timer: any;
 	export let data: PageData;
+
+	let tagModal: Modal;
 
 	const unsubscribe = selectedNote.subscribe((note) => {
 		if (!note) {
@@ -108,6 +111,10 @@
 		}
 	});
 
+	function openTagModal() {
+		tagModal.showModal();
+	}
+
 	onDestroy(() => {
 		if (browser) {
 			window.removeEventListener('input', onInputChange);
@@ -129,8 +136,15 @@
 
 	<div class="fixed bottom-0 p-2 z-10 bg-white w-full">
 		<div class="flex items-center gap-2">
-			<button><Icon icon="fa-solid:tags" /></button>
-			<button class="text-sm">Click to add Tags...</button>
+			<button on:click={openTagModal}><Icon icon="fa-solid:tags" /></button>
+			<button on:click={openTagModal} class="text-sm">Click to add Tags...</button>
 		</div>
 	</div>
 </div>
+
+<Modal
+	bind:this={tagModal}
+	showHeader
+>
+	<div>Hello world</div>
+</Modal>
