@@ -7,13 +7,39 @@
 	import { get } from 'svelte/store';
 	import Icon from '@iconify/svelte';
 	import Modal from '../../../components/Modal.svelte';
+	import TagCombobox from '../../../components/TagCombobox.svelte';
+	import type { Tag } from '../../../interfaces/Tag';
 
 	let editorRef: any = null;
 	let editor: EditorJS.default;
 	let timer: any;
+	let showTagModal = false;
+	let tempTags: Tag[] = [];
+
 	export let data: PageData;
 
-	let tagModal: Modal;
+		let tags = [
+		{
+			label: 'svelte',
+			value: 1
+		},
+		{
+			label: 'html',
+			value: 2
+		},
+		{
+			label: 'css',
+			value: 3
+		},
+		{
+			label: 'nodejs',
+			value: 4
+		},
+		{
+			label: 'rust',
+			value: 5
+		}
+	];
 
 	const unsubscribe = selectedNote.subscribe((note) => {
 		if (!note) {
@@ -28,6 +54,11 @@
 		const noteData = JSON.parse(note.content);
 		editor?.render(noteData);
 	});
+
+	function handleSelectTag(e: CustomEvent<{ tags: Tag[] }>) {
+		const { tags } = e.detail;
+		tempTags = [...tags];
+	}
 
 	function onInputChange(): void {
 		clearTimeout(timer);
@@ -61,6 +92,18 @@
 				});
 			}
 		}, 750);
+	}
+
+	function handleSaveTags() {
+		const tagIds = tempTags.map((tag) => tag.value);
+		const note = get(selectedNote);
+
+		if (!note) {
+			return;
+		}
+
+		console.log('save tags', tempTags);
+		window.electron.saveNotes(note.id, tagIds);
 	}
 
 	onMount(async () => {
@@ -112,7 +155,7 @@
 	});
 
 	function openTagModal() {
-		tagModal.showModal();
+		showTagModal = true;
 	}
 
 	onDestroy(() => {
@@ -143,8 +186,25 @@
 </div>
 
 <Modal
-	bind:this={tagModal}
+	bind:showModal={showTagModal}
 	showHeader
+	position="center-top"
+	on:closeModal={() => (showTagModal = false)}
 >
-	<div>Hello world</div>
+	<div class="w-[325px] max-w-[325px]">
+		<div>
+			<div class="font-bold mb-4">Tags</div>
+		</div>
+		<div class="mb-4">
+			<TagCombobox tags={tags} on:selectTag={handleSelectTag} />
+		</div>
+
+		<div class="flex justify-end gap-2">
+			<button on:click={handleSaveTags} class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">Save</button>
+			<button
+				on:click={() => (showTagModal = false)}
+				class="bg-gray-300 hover:bg-gray-400 py-2 px-4 rounded">Cancel</button
+			>
+		</div>
+	</div>
 </Modal>

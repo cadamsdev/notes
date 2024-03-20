@@ -1,38 +1,57 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
 	import { teleport } from '../actions/teleport';
+	import clsx from 'clsx';
+	import { createEventDispatcher } from 'svelte';
+
+	type ModalPosition = 'center' | 'center-top';
+
+	export let showModal = false;
 	export let showHeader: boolean;
+	export let position: ModalPosition = 'center';
+
+	const dispatch = createEventDispatcher();
 
 	let modalRef: HTMLDivElement;
-  let show = false;
 
-  export function showModal() {
-    show = true;
-  }
+	function closeModal() {
+		dispatch('closeModal');
+	}
 
-  export function closeModal() {
-    show = false;
-  }
+	function handleCloseModal(e: any) {
+		if (!(modalRef === e.target || modalRef.contains(e.target))) {
+			dispatch('closeModal');
+		}
+	}
 
-  function handleCloseModal(e: any) {
-    if (!modalRef.contains(e.target)) {
-      show = false;
-    }
-  }
+	function getPositionClass(): string {
+		if (position === 'center-top') {
+			return 'justify-center items-baseline pt-8';
+		}
+
+		return 'justify-center items-center';
+	}
 </script>
 
-{#if show}
+{#if showModal}
+	<!-- svelte-ignore a11y-click-events-have-key-events -->
+	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div
-		class="fixed w-full h-full bg-black z-10 inset-0 bg-opacity-25 flex justify-center items-center"
-    use:teleport={'teleport'}
-    on:click={handleCloseModal}
+		class={clsx('fixed w-full h-full bg-black z-10 inset-0 bg-opacity-25 flex', getPositionClass())}
+		use:teleport={'teleport'}
+		on:click={handleCloseModal}
 	>
-		<div bind:this={modalRef} class="rounded bg-white p-3 shadow-lg inline-block z-20">
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<!-- svelte-ignore a11y-no-static-element-interactions -->
+		<div
+			bind:this={modalRef}
+			class="rounded bg-white p-3 shadow-lg inline-block z-20"
+		>
 			<div class="flex justify-end mb-3">
 				{#if showHeader}
 					<button on:click={closeModal} class="hover:text-gray-600 text-black">
 						<Icon icon="fa-solid:times" width="24" height="24" />
-          </button>
+					</button>
 				{/if}
 			</div>
 			<slot />

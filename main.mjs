@@ -52,6 +52,10 @@ const main = async () => {
     return result.changes;
   });
 
+  ipcMain.handle('saveTags', async (_, noteId, tagIds) => {
+
+  });
+
   createWindow();
 
   app.on('activate', () => {

@@ -18,6 +18,7 @@ declare global {
 			createNote: (title: string, content: string) => number;
 			getNotes: () => Promise<Note[]>;
 			updateNote: (note: Note) => number;
+			saveNotes: (noteId: number, tagIds: number[]) => void;
 		}
 	}
 }
