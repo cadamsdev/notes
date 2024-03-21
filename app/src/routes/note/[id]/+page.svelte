@@ -95,7 +95,6 @@
 	}
 
 	function handleSaveTags() {
-		const tagIds = tempTags.map((tag) => tag.value);
 		const note = get(selectedNote);
 
 		if (!note) {
@@ -103,7 +102,7 @@
 		}
 
 		console.log('save tags', tempTags);
-		window.electron.saveNotes(note.id, tagIds);
+		window.electron.saveTags(note.id, tempTags);
 	}
 
 	onMount(async () => {

@@ -52,8 +52,8 @@ const main = async () => {
     return result.changes;
   });
 
-  ipcMain.handle('saveTags', async (_, noteId, tagIds) => {
-
+  ipcMain.handle('saveTags', async (_, noteId, tags) => {
+    console.log(noteId, tags);
   });
 
   createWindow();
