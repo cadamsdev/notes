@@ -14,6 +14,7 @@
 	let componentRef: HTMLDivElement;
 	let searchText = '';
 	let filteredTags: Tag[] = [];
+	let hasMatch = false;
 
 	const dispatch = createEventDispatcher();
 
@@ -34,13 +35,24 @@
 		showPopup = !showPopup;
 	}
 
+	function handleSelectTag(e: Event, tag: Tag) {
+		selectTag(tag);
+	}
+
+	function handleCreateTag(e: Event, tag: Tag) {
+		createTag(tag);
+	}
+
 	function selectTag(tag: Tag) {
 		if (selectedTags.includes(tag)) {
 			return;
 		}
 
+		searchText = '';
 		selectedTags = [...selectedTags, tag];
 		tags = tags.filter((t) => t.value !== tag.value);
+		filteredTags = [...tags];
+		showPopup = false;
 
 		dispatch('selectTag', { tags: selectedTags });
 	}
@@ -52,6 +64,11 @@
 		dispatch('selectTag', { tags: selectedTags });
 	}
 
+	function createTag(tag: Tag) {
+		tags = [...tags, tag];
+		selectTag(tag);
+	}
+
 	function handleRemoveTag(e: Event, tag: Tag) {
 		e.stopPropagation();
 		removeTag(tag);
@@ -59,8 +76,10 @@
 
 	function handleInputChange(e: Event): void {
 		const value = (e.target as HTMLInputElement).value;
+		const valueToLower = value.toLowerCase();
 		searchText = value;
 		filteredTags = tags.filter((tag) => tag.label.includes(value));
+		hasMatch = tags.findIndex((tag) => tag.label.toLowerCase() === valueToLower) !== -1;
 	}
 
 	onMount(() => {
@@ -96,6 +115,7 @@
 				<input
 					bind:this={inputRef}
 					on:input={handleInputChange}
+					value={searchText}
 					class="p-2 mr-2 rounded bg-gray-200 w-full"
 				/>
 			</div>
@@ -107,19 +127,25 @@
 		</div>
 	</div>
 
-	{#if filteredTags.length}
-		<div
-			bind:this={popupRef}
-			class={clsx('absolute top-full left-0 mt-2 w-full bg-gray-200 p-2', {
-				hidden: !showPopup,
-				block: showPopup
-			})}
-		>
+	<div
+		bind:this={popupRef}
+		class={clsx('absolute top-full left-0 mt-2 w-full bg-gray-200 p-2', {
+			hidden: !showPopup,
+			block: showPopup
+		})}
+	>
+		{#if filteredTags.length}
 			{#each filteredTags as tag}
-				<button on:click={() => selectTag(tag)} class="block p-2">
+				<button on:click={(e) => handleSelectTag(e, tag)} class="block p-2">
 					{tag.label}
 				</button>
 			{/each}
-		</div>
-	{/if}
+		{/if}
+
+		{#if !hasMatch && searchText}
+			<button on:click={(e) => handleCreateTag(e, { label: searchText, value: -1 })} class="block p-2">
+				Create "{searchText}"
+			</button>
+		{/if}
+	</div>
 </div>
