@@ -13,13 +13,14 @@
 	const dispatch = createEventDispatcher();
 
 	let modalRef: HTMLDivElement;
+	let overlayRef: HTMLDivElement;
 
 	function closeModal() {
 		dispatch('closeModal');
 	}
 
-	function handleCloseModal(e: any) {
-		if (!(modalRef === e.target || modalRef.contains(e.target))) {
+	function handleCloseModal(e: Event) {
+		if (e.target === overlayRef) {
 			dispatch('closeModal');
 		}
 	}
@@ -37,6 +38,7 @@
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div
+		bind:this={overlayRef}
 		class={clsx('fixed w-full h-full bg-black z-10 inset-0 bg-opacity-25 flex', getPositionClass())}
 		use:teleport={'teleport'}
 		on:click={handleCloseModal}
