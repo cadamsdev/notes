@@ -1,5 +1,7 @@
 // See https://kit.svelte.dev/docs/types#app
 
+import type { Tag } from "./interfaces/Tag";
+import type { TagRecord } from "./interfaces/TagRecord";
 import type { Note } from "./store";
 
 // for information about these interfaces
@@ -19,6 +21,7 @@ declare global {
 			getNotes: () => Promise<Note[]>;
 			updateNote: (note: Note) => number;
 			saveTags: (noteId: number, tags: Tag[]) => void;
+			getAllTags: () => Promise<TagRecord[]>
 		}
 	}
 }

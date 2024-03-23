@@ -1,7 +1,19 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import Icon from '@iconify/svelte';
+	import type { TagRecord } from '../interfaces/TagRecord';
 
-	const tags = ['java', 'python', 'c++'];
+	let tags: TagRecord[] = [];
+
+	async function load(): Promise<void> {
+		if (browser) {
+			const result = await window.electron.getAllTags();
+			tags = [...result];
+		}
+	}
+
+	load();
+
 </script>
 
 <div class="p-6 bg-slate-800">
@@ -12,7 +24,7 @@
 		</div>
 		{#each tags as tag}
 			<div class="pl-4">
-				{tag}<span class="text-gray-400 text-sm">&nbsp;1</span>
+				{tag.name}<span class="text-gray-400 text-sm">&nbsp;{tag.id}</span>
 			</div>
 		{/each}
 	</div>
