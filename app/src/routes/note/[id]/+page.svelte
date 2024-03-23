@@ -1,7 +1,7 @@
 <script lang="ts">
 	import clsx from 'clsx';
 	import { onDestroy, onMount } from 'svelte';
-	import { notes, selectedNote, type Note } from '../../../store';
+	import { notes, selectedNote, type Note, fetchAllTags } from '../../../store';
 	import { browser } from '$app/environment';
 	import type { PageData } from './$types';
 	import { get } from 'svelte/store';
@@ -71,7 +71,7 @@
 		}, 750);
 	}
 
-	function handleSaveTags() {
+	async function handleSaveTags() {
 		const note = get(selectedNote);
 
 		if (!note) {
@@ -80,6 +80,8 @@
 
 		console.log('save tags', tempTags);
 		window.electron.saveTags(note.id, tempTags);
+		await fetchAllTags();
+		showTagModal = false;
 	}
 
 	onMount(async () => {
