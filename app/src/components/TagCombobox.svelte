@@ -80,6 +80,10 @@
 		searchText = value;
 		filteredTags = tags.filter((tag) => tag.label.includes(value));
 		hasMatch = tags.findIndex((tag) => tag.label.toLowerCase() === valueToLower) !== -1;
+
+		if (!hasMatch) {
+			hasMatch = selectedTags.findIndex((tag) => tag.label.toLowerCase() === valueToLower) !== -1;
+		}
 	}
 
 	onMount(() => {
@@ -127,25 +131,28 @@
 		</div>
 	</div>
 
-	<div
-		bind:this={popupRef}
-		class={clsx('absolute top-full left-0 mt-2 w-full bg-gray-200 p-2', {
-			hidden: !showPopup,
-			block: showPopup
-		})}
-	>
-		{#if filteredTags.length}
+	{#if filteredTags.length || (!hasMatch && searchText)}
+		<div
+			bind:this={popupRef}
+			class={clsx('absolute top-full left-0 mt-2 w-full bg-gray-200 p-2', {
+				hidden: !showPopup,
+				block: showPopup
+			})}
+		>
 			{#each filteredTags as tag}
 				<button on:click={(e) => handleSelectTag(e, tag)} class="block p-2">
 					{tag.label}
 				</button>
 			{/each}
-		{/if}
 
-		{#if !hasMatch && searchText}
-			<button on:click={(e) => handleCreateTag(e, { label: searchText, value: -1 })} class="block p-2">
-				Create "{searchText}"
-			</button>
-		{/if}
-	</div>
+			{#if !hasMatch && searchText}
+				<button
+					on:click={(e) => handleCreateTag(e, { label: searchText, value: -1 })}
+					class="block p-2"
+				>
+					Create "{searchText}"
+				</button>
+			{/if}
+		</div>
+	{/if}
 </div>
