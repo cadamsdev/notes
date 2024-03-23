@@ -18,29 +18,6 @@
 
 	export let data: PageData;
 
-		let tags = [
-		{
-			label: 'svelte',
-			value: 1
-		},
-		{
-			label: 'html',
-			value: 2
-		},
-		{
-			label: 'css',
-			value: 3
-		},
-		{
-			label: 'nodejs',
-			value: 4
-		},
-		{
-			label: 'rust',
-			value: 5
-		}
-	];
-
 	const unsubscribe = selectedNote.subscribe((note) => {
 		if (!note) {
 			return;
@@ -195,7 +172,7 @@
 			<div class="font-bold mb-4">Tags</div>
 		</div>
 		<div class="mb-4">
-			<TagCombobox tags={tags} on:selectTag={handleSelectTag} />
+			<TagCombobox tags={[]} on:selectTag={handleSelectTag} />
 		</div>
 
 		<div class="flex justify-end gap-2">
