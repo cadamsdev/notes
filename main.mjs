@@ -53,7 +53,29 @@ const main = async () => {
   });
 
   ipcMain.handle('saveTags', async (_, noteId, tags) => {
-    console.log(noteId, tags);
+    // console.log(noteId, tags);
+    const newTags = tags.filter((tag) => tag.value === -1);
+    console.log('new tags', newTags);
+
+    let query = `
+    INSERT INTO tags (note_id, name)
+      VALUES
+    `;
+
+    const sqlData = [];
+
+    for (let i = 0; i < newTags.length; i++) {
+        query += '(?, ?)';
+        query += i < newTags.length - 1 ? ',' : ';';
+
+        const tag = newTags[i];
+        sqlData.push(noteId);
+        sqlData.push(tag.label);
+    }
+
+    const result = await db.run(query, sqlData);
+    console.log(result.changes)
+    return result.changes;
   });
 
   createWindow();
