@@ -55,14 +55,12 @@ const main = async () => {
   ipcMain.handle('getAllTags', async () => {
     const query = `select id, note_id, name from tags`;
     const result = await db.all(query);
-    console.log(result);
     return result;
   });
 
   ipcMain.handle('saveTags', async (_, noteId, tags) => {
     // console.log(noteId, tags);
     const newTags = tags.filter((tag) => tag.value === -1);
-    console.log('new tags', newTags);
 
     let query = `
     INSERT INTO tags (note_id, name)
@@ -81,7 +79,6 @@ const main = async () => {
     }
 
     const result = await db.run(query, sqlData);
-    console.log(result.changes)
     return result.changes;
   });
 
