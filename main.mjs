@@ -58,6 +58,12 @@ const main = async () => {
     return result;
   });
 
+  ipcMain.handle('getTagsForNote', async (_, noteId) => {
+    const query = `select id, note_id, name from tags where note_id = ?`;
+    const result = await db.all(query, noteId);
+    return result;
+  });
+
   ipcMain.handle('saveTags', async (_, noteId, tags) => {
     // console.log(noteId, tags);
     const newTags = tags.filter((tag) => tag.value === -1);

@@ -158,7 +158,16 @@
 	<div class="fixed bottom-0 p-2 z-10 bg-white w-full">
 		<div class="flex items-center gap-2">
 			<button on:click={openTagModal}><Icon icon="fa-solid:tags" /></button>
-			<button on:click={openTagModal} class="text-sm">Click to add Tags...</button>
+
+			{#if data.tags.length === 0}
+				<button on:click={openTagModal} class="text-sm">Click to add Tags...</button>
+				{:else}
+				<div class="flex gap-2">
+					{#each data.tags as tag}
+						<div>{tag.label}</div>
+					{/each}
+				</div>
+			{/if}
 		</div>
 	</div>
 </div>
@@ -174,7 +183,7 @@
 			<div class="font-bold mb-4">Tags</div>
 		</div>
 		<div class="mb-4">
-			<TagCombobox tags={[]} on:selectTag={handleSelectTag} />
+			<TagCombobox on:selectTag={handleSelectTag} />
 		</div>
 
 		<div class="flex justify-end gap-2">

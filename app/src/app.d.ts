@@ -21,8 +21,9 @@ declare global {
 			getNotes: () => Promise<Note[]>;
 			updateNote: (note: Note) => number;
 			saveTags: (noteId: number, tags: Tag[]) => void;
-			getAllTags: () => Promise<TagRecord[]>
-		}
+			getAllTags: () => Promise<TagRecord[]>;
+			getTagsForNote: (noteId) => Promise<TagRecord[]>;
+		};
 	}
 }
 

@@ -7,4 +7,5 @@ contextBridge.exposeInMainWorld('electron', {
   updateNote: (note) => ipcRenderer.invoke('updateNote', note),
   saveTags: (noteId, tags) => ipcRenderer.invoke('saveTags', noteId, tags),
   getAllTags: () => ipcRenderer.invoke('getAllTags'),
+  getTagsForNote: (noteId) => ipcRenderer.invoke('getTagsForNote', noteId),
 });
