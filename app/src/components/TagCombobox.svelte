@@ -5,7 +5,7 @@
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 	import type { Tag } from '../interfaces/Tag';
 
-	export let tags: Tag[];
+	export let tags: Tag[] = [];
 
 	let selectedTags: Tag[] = [];
 	let showPopup = false;
