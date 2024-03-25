@@ -14,7 +14,7 @@
 	let editor: EditorJS.default;
 	let timer: any;
 	let showTagModal = false;
-	let tempTags: Tag[] = [];
+	let selectedTags: Tag[] = [];
 
 	export let data: PageData;
 
@@ -34,7 +34,7 @@
 
 	function handleSelectTag(e: CustomEvent<{ tags: Tag[] }>) {
 		const { tags } = e.detail;
-		tempTags = [...tags];
+		selectedTags = [...tags];
 	}
 
 	function onInputChange(): void {
@@ -78,8 +78,8 @@
 			return;
 		}
 
-		console.log('save tags', tempTags);
-		window.electron.saveTags(note.id, tempTags);
+		console.log('save tags', selectedTags);
+		window.electron.saveTags(note.id, selectedTags);
 		await fetchAllTags();
 		showTagModal = false;
 	}
@@ -134,6 +134,7 @@
 
 	function openTagModal() {
 		showTagModal = true;
+		selectedTags = [...data.tags];
 	}
 
 	onDestroy(() => {
@@ -183,7 +184,7 @@
 			<div class="font-bold mb-4">Tags</div>
 		</div>
 		<div class="mb-4">
-			<TagCombobox on:selectTag={handleSelectTag} />
+			<TagCombobox selectedTags={selectedTags} on:selectTag={handleSelectTag} />
 		</div>
 
 		<div class="flex justify-end gap-2">

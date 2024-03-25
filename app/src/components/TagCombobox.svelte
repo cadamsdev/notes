@@ -7,8 +7,8 @@
 	import { tags as allTags } from '../store';
 
 	export let tags: Tag[] = $allTags.map((tag) => ({ label: tag.name, value: tag.id }));
+	export let selectedTags: Tag[] = [];
 
-	let selectedTags: Tag[] = [];
 	let showPopup = false;
 	let popupRef: HTMLDivElement;
 	let inputRef: HTMLInputElement;
