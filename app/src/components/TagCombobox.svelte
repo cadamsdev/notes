@@ -4,8 +4,9 @@
 	import clsx from 'clsx';
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 	import type { Tag } from '../interfaces/Tag';
+	import { tags as allTags } from '../store';
 
-	export let tags: Tag[] = [];
+	export let tags: Tag[] = $allTags.map((tag) => ({ label: tag.name, value: tag.id }));
 
 	let selectedTags: Tag[] = [];
 	let showPopup = false;
@@ -139,11 +140,13 @@
 				block: showPopup
 			})}
 		>
-			{#each filteredTags as tag}
-				<button on:click={(e) => handleSelectTag(e, tag)} class="block p-2">
-					{tag.label}
-				</button>
-			{/each}
+			<div class="max-h-[207.95px] overflow-y-scroll">
+				{#each filteredTags as tag}
+					<button on:click={(e) => handleSelectTag(e, tag)} class="block p-2">
+						{tag.label}
+					</button>
+				{/each}
+			</div>
 
 			{#if !hasMatch && searchText}
 				<button
