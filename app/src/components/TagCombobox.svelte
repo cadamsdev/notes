@@ -88,7 +88,7 @@
 	}
 
 	onMount(() => {
-		filteredTags = [...tags];
+		filteredTags = [...tags].filter((tag) => !selectedTags.some((st) => st.value === tag.value))
 
 		if (browser) {
 			window.addEventListener('click', handleClickOutside);
