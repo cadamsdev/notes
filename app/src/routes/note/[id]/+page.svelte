@@ -164,7 +164,7 @@
 				{:else}
 				<div class="flex gap-2">
 					{#each data.tags as tag}
-						<div>{tag.label}</div>
+						<button on:click={openTagModal} class="text-sm">{tag.label}</button>
 					{/each}
 				</div>
 			{/if}
