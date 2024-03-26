@@ -79,7 +79,7 @@
 		const value = (e.target as HTMLInputElement).value;
 		const valueToLower = value.toLowerCase();
 		searchText = value;
-		filteredTags = tags.filter((tag) => tag.label.includes(value));
+		filteredTags = tags.filter((tag) => !selectedTags.some((st) => st.value === tag.value) && tag.label.toLowerCase().includes(valueToLower));
 		hasMatch = tags.findIndex((tag) => tag.label.toLowerCase() === valueToLower) !== -1;
 
 		if (!hasMatch) {
