@@ -10,13 +10,18 @@
 	import TagCombobox from '../../../components/TagCombobox.svelte';
 	import type { Tag } from '../../../interfaces/Tag';
 
+	export let data: PageData;
+
 	let editorRef: any = null;
 	let editor: EditorJS.default;
 	let timer: any;
 	let showTagModal = false;
 	let selectedTags: Tag[] = [];
+	let tempTags: Tag[] = [];
 
-	export let data: PageData;
+	$: {
+		selectedTags = [...data.tags];
+	}
 
 	const unsubscribe = selectedNote.subscribe((note) => {
 		if (!note) {
@@ -34,7 +39,7 @@
 
 	function handleSelectTag(e: CustomEvent<{ tags: Tag[] }>) {
 		const { tags } = e.detail;
-		selectedTags = [...tags];
+		tempTags = [...tags];
 	}
 
 	function onInputChange(): void {
@@ -78,6 +83,7 @@
 			return;
 		}
 
+		selectedTags = [...tempTags];
 		console.log('save tags', selectedTags);
 		window.electron.saveTags(note.id, selectedTags);
 		await fetchAllTags();
@@ -160,11 +166,11 @@
 		<div class="flex items-center gap-2">
 			<button on:click={openTagModal}><Icon icon="fa-solid:tags" /></button>
 
-			{#if data.tags.length === 0}
+			{#if selectedTags.length === 0}
 				<button on:click={openTagModal} class="text-sm">Click to add Tags...</button>
 				{:else}
 				<div class="flex gap-2">
-					{#each data.tags as tag}
+					{#each selectedTags as tag}
 						<button on:click={openTagModal} class="text-sm">{tag.label}</button>
 					{/each}
 				</div>
