@@ -4,6 +4,13 @@
 	import clsx from 'clsx';
 	import { get } from 'svelte/store';
 	import { goto } from '$app/navigation';
+	import { onDestroy } from 'svelte';
+
+	let filteredNotes: Note[] = [];
+
+	const unsubscribe = notes.subscribe((value) => {
+		filteredNotes = [...value];
+	});
 
 	function selectNote(note: Note): void {
 		if ($selectedNote?.id !== note.id) {
@@ -19,6 +26,16 @@
 			return items;
 		});
 	}
+
+	function handleSearch(e: Event) {
+		const searchText = (e.target as HTMLInputElement).value.toLowerCase();
+		filteredNotes = $notes.filter((note) => note.title.toLowerCase().includes(searchText));
+	}
+
+	onDestroy(() => {
+		unsubscribe();
+	});
+
 </script>
 
 <div class="bg-slate-200 w-[240px] min-w-[240px] max-w-[240px]">
@@ -28,9 +45,9 @@
 				><Icon icon="fa-solid:plus" /></button
 			>
 		</div>
-		<input class="p-2 rounded mb-4 w-full" placeholder="Search..." />
+		<input on:input={handleSearch} class="p-2 rounded mb-4 w-full" placeholder="Search..." />
 		<div class="max-h-[434px] overflow-y-auto">
-			{#each $notes as note, index}
+			{#each filteredNotes as note, index}
 				<button
 					class={clsx('block w-full text-left p-4 bg-slate-300 hover:bg-slate-400', {
 						'rounded-t': index === 0,
