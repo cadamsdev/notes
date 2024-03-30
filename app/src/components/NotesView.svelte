@@ -35,27 +35,27 @@
 	onDestroy(() => {
 		unsubscribe();
 	});
-
 </script>
 
 <div class="bg-slate-200 w-[240px] min-w-[240px] max-w-[240px]">
-	<div class="p-4">
-		<div class="flex justify-end">
-			<button on:click={createNote} class="bg-slate-200 hover:bg-slate-300 p-2 rounded mb-4"
-				><Icon icon="fa-solid:plus" /></button
-			>
+	<div>
+		<div class="p-4">
+			<div class="flex justify-end">
+				<button on:click={createNote} class="bg-slate-200 hover:bg-slate-300 p-2 rounded mb-4"
+					><Icon icon="fa-solid:plus" /></button
+				>
+			</div>
+			<input on:input={handleSearch} class="p-2 rounded mb-4 w-full" placeholder="Search..." />
 		</div>
-		<input on:input={handleSearch} class="p-2 rounded mb-4 w-full" placeholder="Search..." />
 		<div class="max-h-[434px] overflow-y-auto">
 			{#each filteredNotes as note, index}
 				<button
-					class={clsx('block w-full text-left p-4 bg-slate-300 hover:bg-slate-400', {
+					class={clsx('block w-full text-left p-4 hover:bg-slate-300', {
 						'rounded-t': index === 0,
 						'rounded-b': index === get(notes).length - 1
 					})}
 					on:click={() => selectNote(note)}
 				>
-					{note.id}
 					{note.title}
 				</button>
 			{/each}
