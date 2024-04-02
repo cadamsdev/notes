@@ -5,8 +5,10 @@
 	import { get } from 'svelte/store';
 	import { goto } from '$app/navigation';
 	import { onDestroy } from 'svelte';
+	import ContextMenu from './ContextMenu.svelte';
 
 	let filteredNotes: Note[] = [];
+	let contextMenus: ContextMenu[] = [];
 
 	const unsubscribe = notes.subscribe((value) => {
 		filteredNotes = [...value];
@@ -32,6 +34,10 @@
 		filteredNotes = $notes.filter((note) => note.title.toLowerCase().includes(searchText));
 	}
 
+	function removeNote(note: Note): void {
+		console.log('remove note', note);
+	}
+
 	onDestroy(() => {
 		unsubscribe();
 	});
@@ -54,9 +60,15 @@
 						'rounded-t': index === 0,
 						'rounded-b': index === get(notes).length - 1
 					})}
+					on:contextmenu={(e) => contextMenus[index].show(e)}
 					on:click={() => selectNote(note)}
 				>
 					{note.title}
+
+					<ContextMenu
+						bind:this={contextMenus[index]}
+						actions={[{ label: 'Remove', action: () => removeNote(note) }]}
+					/>
 				</button>
 			{/each}
 		</div>
