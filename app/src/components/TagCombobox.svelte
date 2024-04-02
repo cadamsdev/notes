@@ -85,12 +85,17 @@
 		if (!hasMatch) {
 			hasMatch = selectedTags.findIndex((tag) => tag.label.toLowerCase() === valueToLower) !== -1;
 		}
+
+		if (filteredTags.length) {
+			showPopup = true;
+		}
 	}
 
 	onMount(() => {
 		filteredTags = [...tags].filter((tag) => !selectedTags.some((st) => st.value === tag.value))
 
 		if (browser) {
+			inputRef.focus();
 			window.addEventListener('click', handleClickOutside);
 		}
 	});
