@@ -88,6 +88,12 @@ const main = async () => {
     return result.changes;
   });
 
+  ipcMain.handle('deleteNote', async (_, noteId) => {
+    const query = 'delete from notes where id = ?';
+    const result = await db.run(query, noteId);
+    return result;
+  });
+
   createWindow();
 
   app.on('activate', () => {

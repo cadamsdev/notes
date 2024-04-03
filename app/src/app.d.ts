@@ -23,6 +23,7 @@ declare global {
 			saveTags: (noteId: number, tags: Tag[]) => void;
 			getAllTags: () => Promise<TagRecord[]>;
 			getTagsForNote: (noteId) => Promise<TagRecord[]>;
+			deleteNote: (noteId) => void;
 		};
 	}
 }

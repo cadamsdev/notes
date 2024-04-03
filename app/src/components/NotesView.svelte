@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { notes, selectedNote, type Note } from '../store';
+	import { notes, selectedNote, type Note, removeNote } from '../store';
 	import clsx from 'clsx';
 	import { get } from 'svelte/store';
 	import { goto } from '$app/navigation';
@@ -32,10 +32,6 @@
 	function handleSearch(e: Event) {
 		const searchText = (e.target as HTMLInputElement).value.toLowerCase();
 		filteredNotes = $notes.filter((note) => note.title.toLowerCase().includes(searchText));
-	}
-
-	function removeNote(note: Note): void {
-		console.log('remove note', note);
 	}
 
 	onDestroy(() => {
