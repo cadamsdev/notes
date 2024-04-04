@@ -6,7 +6,6 @@
 	import { goto } from '$app/navigation';
 	import { onDestroy } from 'svelte';
 	import ContextMenu from './ContextMenu.svelte';
-	import ConfirmationModal from './ConfirmationDialog.svelte';
 	import ConfirmationDialog from './ConfirmationDialog.svelte';
 
 	let filteredNotes: Note[] = [];
@@ -41,8 +40,6 @@
 	function handleRemoveNote(note: Note): void {
 		noteToRemove = note;
 		showConfirmationModal = true;
-
-		console.log('called handleremoveNote', showConfirmationModal)
 	}
 
 	function handleCloseConfirmationDialog() {
