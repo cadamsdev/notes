@@ -11,6 +11,11 @@
 	function handleCloseModal() {
 		dispatch('closeModal');
 	}
+
+	function handleAction() {
+		dispatch('action');
+		dispatch('closeModal');
+	}
 </script>
 
 <Modal {showModal} on:closeModal={handleCloseModal}>
@@ -31,8 +36,8 @@
 			{/if}
 
 			<div class="flex justify-end gap-2">
-				<button class="py-2 px-3 bg-gray-200 hover:bg-gray-300 rounded cursor-pointer">No</button>
-				<buttom class="py-2 px-3 bg-red-700 hover:bg-red-800 text-white rounded cursor-pointer">Yes</buttom>
+				<button on:click={handleCloseModal} class="py-2 px-3 bg-gray-200 hover:bg-gray-300 rounded cursor-pointer">No</button>
+				<buttom on:click={handleAction} class="py-2 px-3 bg-red-700 hover:bg-red-800 text-white rounded cursor-pointer">Yes</buttom>
 			</div>
 		</div>
 	</div>

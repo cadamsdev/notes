@@ -11,7 +11,7 @@
 	let filteredNotes: Note[] = [];
 	let contextMenus: ContextMenu[] = [];
 	let showConfirmationModal = false;
-	let noteToRemove: Note;
+	let noteToRemove: Note | undefined;
 
 	const unsubscribe = notes.subscribe((value) => {
 		filteredNotes = [...value];
@@ -37,9 +37,18 @@
 		filteredNotes = $notes.filter((note) => note.title.toLowerCase().includes(searchText));
 	}
 
-	function handleRemoveNote(note: Note): void {
+	function handleShowRemoveNoteDialog(note: Note): void {
 		noteToRemove = note;
 		showConfirmationModal = true;
+	}
+
+	function handleRemoveNote(): void {
+		if (!noteToRemove) {
+			return;
+		}
+
+		removeNote(noteToRemove);
+		noteToRemove = undefined;
 	}
 
 	function handleCloseConfirmationDialog() {
@@ -75,7 +84,7 @@
 
 					<ContextMenu
 						bind:this={contextMenus[index]}
-						actions={[{ label: 'Remove', action: () => handleRemoveNote(note) }]}
+						actions={[{ label: 'Remove', action: () => handleShowRemoveNoteDialog(note) }]}
 					/>
 				</button>
 			{/each}
@@ -86,4 +95,5 @@
 <ConfirmationDialog
 	showModal={showConfirmationModal}
 	on:closeModal={handleCloseConfirmationDialog}
+	on:action={handleRemoveNote}
 />
