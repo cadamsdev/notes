@@ -6,9 +6,13 @@
 	import { goto } from '$app/navigation';
 	import { onDestroy } from 'svelte';
 	import ContextMenu from './ContextMenu.svelte';
+	import ConfirmationModal from './ConfirmationDialog.svelte';
+	import ConfirmationDialog from './ConfirmationDialog.svelte';
 
 	let filteredNotes: Note[] = [];
 	let contextMenus: ContextMenu[] = [];
+	let showConfirmationModal = false;
+	let noteToRemove: Note;
 
 	const unsubscribe = notes.subscribe((value) => {
 		filteredNotes = [...value];
@@ -32,6 +36,17 @@
 	function handleSearch(e: Event) {
 		const searchText = (e.target as HTMLInputElement).value.toLowerCase();
 		filteredNotes = $notes.filter((note) => note.title.toLowerCase().includes(searchText));
+	}
+
+	function handleRemoveNote(note: Note): void {
+		noteToRemove = note;
+		showConfirmationModal = true;
+
+		console.log('called handleremoveNote', showConfirmationModal)
+	}
+
+	function handleCloseConfirmationDialog() {
+		showConfirmationModal = false;
 	}
 
 	onDestroy(() => {
@@ -63,10 +78,15 @@
 
 					<ContextMenu
 						bind:this={contextMenus[index]}
-						actions={[{ label: 'Remove', action: () => removeNote(note) }]}
+						actions={[{ label: 'Remove', action: () => handleRemoveNote(note) }]}
 					/>
 				</button>
 			{/each}
 		</div>
 	</div>
 </div>
+
+<ConfirmationDialog
+	showModal={showConfirmationModal}
+	on:closeModal={handleCloseConfirmationDialog}
+/>

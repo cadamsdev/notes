@@ -9,6 +9,7 @@
 	import Modal from '../../../components/Modal.svelte';
 	import TagCombobox from '../../../components/TagCombobox.svelte';
 	import type { Tag } from '../../../interfaces/Tag';
+	import Dialog from '../../../components/Dialog.svelte';
 
 	export let data: PageData;
 
@@ -168,7 +169,7 @@
 
 			{#if selectedTags.length === 0}
 				<button on:click={openTagModal} class="text-sm">Click to add Tags...</button>
-				{:else}
+			{:else}
 				<div class="flex gap-2">
 					{#each selectedTags as tag}
 						<button on:click={openTagModal} class="text-sm">{tag.label}</button>
@@ -179,26 +180,24 @@
 	</div>
 </div>
 
-<Modal
-	bind:showModal={showTagModal}
-	showHeader
-	position="center-top"
-	on:closeModal={() => (showTagModal = false)}
->
+<Dialog bind:showModal={showTagModal} on:closeModal={() => (showTagModal = false)}>
 	<div class="w-[325px] max-w-[325px]">
 		<div>
 			<div class="font-bold mb-4">Tags</div>
 		</div>
 		<div class="mb-4">
-			<TagCombobox selectedTags={selectedTags} on:selectTag={handleSelectTag} />
+			<TagCombobox {selectedTags} on:selectTag={handleSelectTag} />
 		</div>
 
 		<div class="flex justify-end gap-2">
-			<button on:click={handleSaveTags} class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">Save</button>
+			<button
+				on:click={handleSaveTags}
+				class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">Save</button
+			>
 			<button
 				on:click={() => (showTagModal = false)}
 				class="bg-gray-300 hover:bg-gray-400 py-2 px-4 rounded">Cancel</button
 			>
 		</div>
 	</div>
-</Modal>
+</Dialog>

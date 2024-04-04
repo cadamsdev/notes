@@ -7,17 +7,11 @@
 	type ModalPosition = 'center' | 'center-top';
 
 	export let showModal = false;
-	export let showHeader: boolean;
-	export let position: ModalPosition = 'center';
+	export let position: ModalPosition = 'center-top';
 
 	const dispatch = createEventDispatcher();
 
-	let modalRef: HTMLDivElement;
 	let overlayRef: HTMLDivElement;
-
-	function closeModal() {
-		dispatch('closeModal');
-	}
 
 	function handleCloseModal(e: Event) {
 		if (e.target === overlayRef) {
@@ -43,20 +37,6 @@
 		use:teleport={'teleport'}
 		on:click={handleCloseModal}
 	>
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<!-- svelte-ignore a11y-no-static-element-interactions -->
-		<div
-			bind:this={modalRef}
-			class="rounded bg-white p-3 shadow-lg inline-block z-20"
-		>
-			<div class="flex justify-end mb-3">
-				{#if showHeader}
-					<button on:click={closeModal} class="hover:text-gray-600 text-black">
-						<Icon icon="fa-solid:times" width="24" height="24" />
-					</button>
-				{/if}
-			</div>
-			<slot />
-		</div>
+		<slot />
 	</div>
 {/if}
