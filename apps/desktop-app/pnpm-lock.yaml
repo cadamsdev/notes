@@ -7,12 +7,6 @@ settings:
 importers:
 
   .:
-    devDependencies:
-      electron:
-        specifier: ^29.2.0
-        version: 29.2.0
-
-  apps/desktop-app:
     dependencies:
       sqlite:
         specifier: ^5.1.1
@@ -20,8 +14,12 @@ importers:
       sqlite3:
         specifier: ^5.1.7
         version: 5.1.7
+    devDependencies:
+      electron:
+        specifier: ^29.1.0
+        version: 29.1.0
 
-  apps/web-app:
+  packages/web-app:
     dependencies:
       '@editorjs/code':
         specifier: ^2.9.0
@@ -783,7 +781,7 @@ packages:
     dependencies:
       '@types/http-cache-semantics': 4.0.4
       '@types/keyv': 3.1.4
-      '@types/node': 20.12.4
+      '@types/node': 20.11.25
       '@types/responselike': 1.0.3
     dev: true
 
@@ -817,11 +815,11 @@ packages:
   /@types/keyv@3.1.4:
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
     dependencies:
-      '@types/node': 20.12.4
+      '@types/node': 20.11.25
     dev: true
 
-  /@types/node@20.12.4:
-    resolution: {integrity: sha512-E+Fa9z3wSQpzgYQdYmme5X3OTuejnnTx88A6p6vkkJosR3KBz+HpE3kqNm98VE6cfLFcISx7zW7MsJkH6KwbTw==}
+  /@types/node@20.11.25:
+    resolution: {integrity: sha512-TBHyJxk2b7HceLVGFcpAUjsa5zIdsPWlR6XHfyGzd0SFu+/NFgQgMAl96MSDZgQDvJAvV6BKsFOrt6zIL09JDw==}
     dependencies:
       undici-types: 5.26.5
     dev: true
@@ -833,7 +831,7 @@ packages:
   /@types/responselike@1.0.3:
     resolution: {integrity: sha512-H/+L+UkTV33uf49PH5pCAUBVPNj2nDBXTN+qS1dOwyyg24l3CcicicCA7ca+HMvJBZcFgl5r8e+RR6elsb4Lyw==}
     dependencies:
-      '@types/node': 20.12.4
+      '@types/node': 20.11.25
     dev: true
 
   /@types/semver@7.5.8:
@@ -844,7 +842,7 @@ packages:
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
     requiresBuild: true
     dependencies:
-      '@types/node': 20.12.4
+      '@types/node': 20.11.25
     dev: true
     optional: true
 
@@ -1509,14 +1507,14 @@ packages:
     resolution: {integrity: sha512-brpv4KTeC4g0Fx2FeIKytLd4UGn1zBQq5Lauy7zEWT9oqkaj5mgsxblEZIAOf1HHLlXxzr6adGViiBy5Z39/CA==}
     dev: true
 
-  /electron@29.2.0:
-    resolution: {integrity: sha512-ALKrCN52RG4g9prx4DriXSPnY5WoiyRUCNp7zEVQuoiNOpHTNqMMpRidQAHzntV4hajF1LMWHVoBkwqIs1jHhg==}
+  /electron@29.1.0:
+    resolution: {integrity: sha512-giJVIm0sWVp+8V1GXrKqKTb+h7no0P3ooYqEd34AD9wMJzGnAeL+usj+R0155/0pdvvP1mgydnA7lcaFA2M9lw==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
     requiresBuild: true
     dependencies:
       '@electron/get': 2.0.3
-      '@types/node': 20.12.4
+      '@types/node': 20.11.25
       extract-zip: 2.0.1
     transitivePeerDependencies:
       - supports-color
@@ -1546,7 +1544,6 @@ packages:
   /env-paths@2.2.1:
     resolution: {integrity: sha512-+h1lkLKhZMTYjog1VEpJNG7NZJWcuc2DDk/qsqSTRRCOXiLjeQ1d1/udrUGhqMxUgAlwKNZ0cf2uqan5GLuS2A==}
     engines: {node: '>=6'}
-    requiresBuild: true
 
   /err-code@2.0.3:
     resolution: {integrity: sha512-2bmlRpNKBxT/CRmPOlyISQpNj+qSeYvcym/uT0Jx2bMOlKLtSy1ZmLuVxSEKKyor/N5yhvp/ZiG1oE3DEYMSFA==}
@@ -2116,7 +2113,6 @@ packages:
 
   /http-cache-semantics@4.1.1:
     resolution: {integrity: sha512-er295DKPVsV82j5kw1Gjt+ADA/XYHsajl82cGNQG2eyoPkvgUhX+nDIyelzhIWbbsXP39EHcI6l5tYs2FYqYXQ==}
-    requiresBuild: true
 
   /http-proxy-agent@4.0.1:
     resolution: {integrity: sha512-k0zdNgqWTGA6aeIRVpvfVob4fL52dTfaehylg0Y4UvSySvOq/Y+BOyPrgpUrA7HylqvU8vIZGsRuXmspskV0Tg==}
@@ -3843,7 +3839,6 @@ packages:
 
   /wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
-    requiresBuild: true
 
   /yallist@4.0.0:
     resolution: {integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==}

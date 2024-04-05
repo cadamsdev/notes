@@ -14,7 +14,7 @@ const createWindow = () => {
   });
 
   if (process.env.PROD) {
-    win.loadFile('app/build/index.html');
+    win.loadFile('../web-app/build/index.html');
   } else {
     win.loadURL('http://localhost:5173');
   }

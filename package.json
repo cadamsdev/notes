@@ -2,20 +2,15 @@
   "name": "notes-app",
   "version": "1.0.0",
   "description": "",
-  "main": "main.mjs",
-  "type": "module",
+  "main": "index.js",
   "scripts": {
-    "start": "electron .",
-    "seed": "node scripts/seed.mjs"
+    "web": "pnpm run --filter='./apps/web-app' dev",
+    "desktop": "pnpm run --filter='./apps/desktop-app' dev"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^29.1.0"
-  },
-  "dependencies": {
-    "sqlite": "^5.1.1",
-    "sqlite3": "^5.1.7"
+    "electron": "^29.2.0"
   }
 }

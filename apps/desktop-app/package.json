@@ -1,0 +1,18 @@
+{
+  "name": "desktop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.mjs",
+  "type": "module",
+  "scripts": {
+    "dev": "electron .",
+    "seed": "node scripts/seed.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7"
+  }
+}
