@@ -6,7 +6,13 @@ create table notes(
 
 create table tags(
   id integer primary key autoincrement not null,
-  note_id integer not null,
-  name text not null,
-  FOREIGN KEY (note_id) REFERENCES notes(id)
+  name text not null
+);
+
+create table note_tags (
+  note_id integer NOT NULL,
+  tag_id integer NOT NULL,
+  primary key (note_id, tag_id),
+  foreign key (note_id) references notes(id),
+  foreign key (tag_id) references tags(id)
 );
