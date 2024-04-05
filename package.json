@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "web": "pnpm run --filter='./apps/web-app' dev",
-    "desktop": "pnpm run --filter='./apps/desktop-app' dev"
+    "web": "pnpm run --filter web dev",
+    "desktop": "pnpm run --filter desktop dev"
   },
   "keywords": [],
   "author": "",
