@@ -6,7 +6,8 @@ create table notes(
 
 create table tags(
   id integer primary key autoincrement not null,
-  name text not null
+  name text not null,
+  UNIQUE (name)
 );
 
 create table note_tags (
