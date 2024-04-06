@@ -12,7 +12,6 @@
 	let showPopup = false;
 	let popupRef: HTMLDivElement;
 	let inputRef: HTMLInputElement;
-	let componentRef: HTMLDivElement;
 	let searchText = '';
 	let filteredTags: Tag[] = [];
 	let hasMatch = false;
@@ -86,9 +85,7 @@
 			hasMatch = selectedTags.findIndex((tag) => tag.label.toLowerCase() === valueToLower) !== -1;
 		}
 
-		if (filteredTags.length) {
-			showPopup = true;
-		}
+		showPopup = (!hasMatch && !!searchText) || !!filteredTags.length;
 	}
 
 	onMount(() => {
@@ -119,7 +116,7 @@
 </div>
 
 <div class="min-w-52 relative">
-	<div bind:this={componentRef} on:click={handleTogglePopup} class="bg-gray-200 p-2 rounded">
+	<div on:click={handleTogglePopup} class="bg-gray-200 p-2 rounded">
 		<div class="flex items-center justify-between">
 			<div class="flex-grow">
 				<input

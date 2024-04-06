@@ -53,7 +53,7 @@ const main = async () => {
   });
 
   ipcMain.handle('getAllTags', async () => {
-    const query = `select id, note_id, name from tags`;
+    const query = `select id, name from tags`;
     const result = await db.all(query);
     return result;
   });
@@ -67,27 +67,28 @@ where nt.note_id = ?`;
   });
 
   ipcMain.handle('saveTags', async (_, noteId, tags) => {
-    // console.log('saveTags')
-    // console.log(noteId, tags);
+    console.log('saveTags')
+    console.log(noteId, tags);
     const newTags = tags.filter((tag) => tag.value === -1);
 
     let query = `
-      INSERT INTO note_tags (note_id, tag_id)
+      INSERT INTO tags (name)
       VALUES
     `;
 
     const sqlData = [];
 
     for (let i = 0; i < newTags.length; i++) {
-        query += '(?, ?)';
+        query += '(?)';
         query += i < newTags.length - 1 ? ',' : ';';
 
         const tag = newTags[i];
-        sqlData.push(noteId);
-        sqlData.push(tag.value);
+        sqlData.push(tag.label);
     }
 
     const result = await db.run(query, sqlData);
+    console.log('changes');
+    console.log(result.changes);
     return result.changes;
   });
 
