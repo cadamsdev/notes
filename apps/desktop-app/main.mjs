@@ -67,8 +67,6 @@ where nt.note_id = ?`;
   });
 
   ipcMain.handle('saveTags', async (_, noteId, tags) => {
-    console.log('saveTags')
-    console.log(noteId, tags);
     const newTags = tags.filter((tag) => tag.value === -1);
 
     let query = `
@@ -76,7 +74,7 @@ where nt.note_id = ?`;
       VALUES
     `;
 
-    const sqlData = [];
+    let sqlData = [];
 
     for (let i = 0; i < newTags.length; i++) {
         query += '(?)';
@@ -87,8 +85,27 @@ where nt.note_id = ?`;
     }
 
     const result = await db.run(query, sqlData);
-    console.log('changes');
-    console.log(result.changes);
+    const { changes, lastID } = result;
+
+    if (changes > 0) {
+      query = `
+        INSERT INTO note_tags (note_id, tag_id)
+        VALUES
+      `;
+
+      sqlData = [];
+
+      const startIndex = lastID - changes;
+      for (let i = startIndex; i < lastID; i++) {
+          query += '(?, ?)';
+          query += i < lastID - 1 ? ',' : ';';
+          sqlData.push(noteId);
+          sqlData.push(i + 1);
+      }
+
+      await db.run(query, sqlData);
+    }
+
     return result.changes;
   });
 
