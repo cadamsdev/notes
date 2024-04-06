@@ -59,17 +59,20 @@ const main = async () => {
   });
 
   ipcMain.handle('getTagsForNote', async (_, noteId) => {
-    const query = `select id, note_id, name from tags where note_id = ?`;
+    const query = `select t.id, t.name from tags as t
+join note_tags as nt on nt.tag_id = t.id
+where nt.note_id = ?`;
     const result = await db.all(query, noteId);
     return result;
   });
 
   ipcMain.handle('saveTags', async (_, noteId, tags) => {
+    // console.log('saveTags')
     // console.log(noteId, tags);
     const newTags = tags.filter((tag) => tag.value === -1);
 
     let query = `
-    INSERT INTO tags (note_id, name)
+      INSERT INTO note_tags (note_id, tag_id)
       VALUES
     `;
 
@@ -81,7 +84,7 @@ const main = async () => {
 
         const tag = newTags[i];
         sqlData.push(noteId);
-        sqlData.push(tag.label);
+        sqlData.push(tag.value);
     }
 
     const result = await db.run(query, sqlData);
