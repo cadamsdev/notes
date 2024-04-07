@@ -18,7 +18,7 @@
 		</div>
 		{#each $tags as tag}
 			<div class="pl-4">
-				{tag.name}<span class="text-gray-400 text-sm">&nbsp;{tag.id}</span>
+				{tag.name}<span class="text-gray-400 text-sm">&nbsp;{tag.count}</span>
 			</div>
 		{/each}
 	</div>

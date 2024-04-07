@@ -53,7 +53,12 @@ const main = async () => {
   });
 
   ipcMain.handle('getAllTags', async () => {
-    const query = `select id, name from tags`;
+    const query = `
+      select t.id, t.name, count(*) as \`count\` from tags as t
+      left join note_tags as nt on nt.tag_id = t.id
+      group by t.id
+      order by \`count\` desc
+    `;
     const result = await db.all(query);
     return result;
   });
