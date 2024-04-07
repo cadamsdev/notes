@@ -133,10 +133,6 @@
 			},
 			data
 		});
-
-		if (browser) {
-			window.addEventListener('input', onInputChange);
-		}
 	});
 
 	function openTagModal() {
@@ -145,9 +141,6 @@
 	}
 
 	onDestroy(() => {
-		if (browser) {
-			window.removeEventListener('input', onInputChange);
-		}
 		unsubscribe();
 	});
 </script>
@@ -160,7 +153,7 @@
 			</div>
 		{/if}
 
-		<div bind:this={editorRef} id="editor" class={clsx({ hidden: !$selectedNote })}></div>
+		<div bind:this={editorRef} on:input={onInputChange} id="editor" class={clsx({ hidden: !$selectedNote })}></div>
 	</div>
 
 	<div class="fixed bottom-0 p-2 z-10 bg-white w-full">
