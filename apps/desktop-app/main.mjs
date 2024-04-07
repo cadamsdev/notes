@@ -6,8 +6,8 @@ import database from './scripts/database.mjs';
 const createWindow = () => {
   const dirname = fileURLToPath(new URL('.', import.meta.url));
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1080,
+    height: 720,
     webPreferences: {
       preload: path.join(dirname, 'scripts/preload.js'),
     },
