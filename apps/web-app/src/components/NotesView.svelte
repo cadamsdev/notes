@@ -12,9 +12,10 @@
 	let contextMenus: ContextMenu[] = [];
 	let showConfirmationModal = false;
 	let noteToRemove: Note | undefined;
+	let searchText = '';
 
 	const unsubscribe = notes.subscribe((value) => {
-		filteredNotes = [...value];
+		filteredNotes = [...value].filter((note) => note.title.toLowerCase().includes(searchText));
 	});
 
 	function selectNote(note: Note): void {
@@ -33,7 +34,7 @@
 	}
 
 	function handleSearch(e: Event) {
-		const searchText = (e.target as HTMLInputElement).value.toLowerCase();
+		searchText = (e.target as HTMLInputElement).value.toLowerCase();
 		filteredNotes = $notes.filter((note) => note.title.toLowerCase().includes(searchText));
 	}
 
