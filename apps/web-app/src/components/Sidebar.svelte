@@ -10,7 +10,7 @@
 
 </script>
 
-<div class="p-6 bg-slate-800">
+<div class="p-6 bg-slate-800 min-w-[200px]">
 	<div class="text-white">
 		<div class="mb-4 text-sm flex items-center gap-2">
 			<Icon icon="fa-solid:tags" />
