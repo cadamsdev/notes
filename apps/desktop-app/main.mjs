@@ -68,45 +68,66 @@ where nt.note_id = ?`;
 
   ipcMain.handle('saveTags', async (_, noteId, tags) => {
     const newTags = tags.filter((tag) => tag.value === -1);
+    const existingTags = tags.filter((tag) => tag.value !== -1);
 
-    let query = `
-      INSERT INTO tags (name)
-      VALUES
-    `;
+    if (newTags.length) {
+      let query = `
+        INSERT INTO tags (name)
+        VALUES
+      `;
 
-    let sqlData = [];
+      let sqlData = [];
 
-    for (let i = 0; i < newTags.length; i++) {
+      for (let i = 0; i < newTags.length; i++) {
         query += '(?)';
         query += i < newTags.length - 1 ? ',' : ';';
 
         const tag = newTags[i];
         sqlData.push(tag.label);
-    }
+      }
 
-    const result = await db.run(query, sqlData);
-    const { changes, lastID } = result;
+      const result = await db.run(query, sqlData);
+      const { changes, lastID } = result;
 
-    if (changes > 0) {
-      query = `
-        INSERT INTO note_tags (note_id, tag_id)
-        VALUES
-      `;
+      if (changes > 0) {
+        query = `
+          INSERT OR IGNORE INTO note_tags (note_id, tag_id)
+          VALUES
+        `;
 
-      sqlData = [];
+        sqlData = [];
 
-      const startIndex = lastID - changes;
-      for (let i = startIndex; i < lastID; i++) {
+        const startIndex = lastID - changes;
+        for (let i = startIndex; i < lastID; i++) {
           query += '(?, ?)';
           query += i < lastID - 1 ? ',' : ';';
           sqlData.push(noteId);
           sqlData.push(i + 1);
+        }
+
+        await db.run(query, sqlData);
+      }
+    }
+
+    if (existingTags.length) {
+      let query = `
+        INSERT OR IGNORE INTO note_tags (note_id, tag_id)
+        VALUES
+      `;
+
+      let sqlData = [];
+
+      for (let i = 0; i < existingTags.length; i++) {
+        query += '(?, ?)';
+        query += i < existingTags.length - 1 ? ',' : ';';
+
+        const tag = existingTags[i];
+        sqlData.push(noteId);
+        sqlData.push(tag.value);
       }
 
       await db.run(query, sqlData);
     }
-
-    return result.changes;
   });
 
   ipcMain.handle('deleteNote', async (_, noteId) => {
