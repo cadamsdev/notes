@@ -17,7 +17,7 @@
 			Tags
 		</div>
 		{#each $tags as tag}
-			<div class="pl-4">
+			<div class="pl-4 pb-1">
 				{tag.name}<span class="text-gray-400 text-sm">&nbsp;{tag.count}</span>
 			</div>
 		{/each}
