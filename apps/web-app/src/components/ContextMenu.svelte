@@ -7,6 +7,7 @@
 	let menu = { w: 0, h: 0, y: 0 };
 	let browser = { w: 0, h: 0, y: 0 };
 	let showMenu = false;
+	let component: HTMLElement;
 
 	export function show(e: MouseEvent) {
 		showMenu = true;
@@ -24,8 +25,14 @@
 		if (browser.w - pos.x < menu.w) pos.x = pos.x - menu.w;
 	}
 
-	function onPageClick(e: Event) {
+	function onPageClick(_: Event) {
 		showMenu = false;
+	}
+
+	function onContextMenu(e: Event) {
+		if (!(e.target as HTMLElement).contains(component)) {
+			showMenu = false;
+		}
 	}
 
 	function getContextMenuDimension(node: HTMLElement) {
@@ -52,7 +59,7 @@
 </script>
 
 {#if showMenu}
-	<nav use:getContextMenuDimension style="position: absolute; top:{pos.y}px; left:{pos.x}px">
+	<nav bind:this={component} use:getContextMenuDimension style="position: absolute; top:{pos.y}px; left:{pos.x}px">
 		<ul class="border bg-slate-50 rounded">
 			{#each actions as action}
 				<li>
@@ -63,4 +70,4 @@
 	</nav>
 {/if}
 
-<svelte:window on:click={onPageClick} />
+<svelte:window on:click={onPageClick} on:contextmenu={onContextMenu} />
