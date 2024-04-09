@@ -29,7 +29,7 @@
 				class="block pl-4 pb-1"
 				on:contextmenu={(e) => contextMenus[index]?.show(e)}
 			>
-				{tag.name}<span class="text-gray-400 text-sm">&nbsp;{tag.count}</span>
+				<span class="text-gray-200 hover:text-gray-50">{tag.name}</span><span class="text-gray-400 text-sm">&nbsp;{tag.count}</span>
 
 				<ContextMenu
 					bind:this={contextMenus[index]}
