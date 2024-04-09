@@ -1,9 +1,17 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { fetchAllTags, tags } from '../store';
+	import { deleteTag, fetchAllTags, tags } from '../store';
+	import ContextMenu from './ContextMenu.svelte';
+	import type { TagRecord } from '../interfaces/TagRecord';
+
+	let contextMenus: ContextMenu[] = [];
 
 	async function load(): Promise<void> {
 		await fetchAllTags();
+	}
+
+	function handleRemoveTag(tag: TagRecord) {
+		deleteTag(tag.id);
 	}
 
 	load();
@@ -16,10 +24,18 @@
 			<Icon icon="fa-solid:tags" />
 			Tags
 		</div>
-		{#each $tags as tag}
-			<div class="pl-4 pb-1">
+		{#each $tags as tag, index}
+			<button
+				class="block pl-4 pb-1"
+				on:contextmenu={(e) => contextMenus[index]?.show(e)}
+			>
 				{tag.name}<span class="text-gray-400 text-sm">&nbsp;{tag.count}</span>
-			</div>
+
+				<ContextMenu
+					bind:this={contextMenus[index]}
+					actions={[{ label: 'Remove', action: () => handleRemoveTag(tag) }]}
+					/>
+			</button>
 		{/each}
 	</div>
 </div>

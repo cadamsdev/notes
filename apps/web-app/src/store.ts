@@ -28,3 +28,10 @@ export async function removeNote(note: Note) {
     console.error(err);
   }
 }
+
+export function deleteTag(tagId: number): void {
+  window.electron.deleteTag(tagId);
+  const tempTags = [...get(tags)];
+ const newTags = tempTags.filter((tag) => tag.id !== tagId);
+ tags.set(newTags);
+}

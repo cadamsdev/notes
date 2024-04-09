@@ -141,6 +141,12 @@ where nt.note_id = ?`;
     return result;
   });
 
+  ipcMain.handle('deleteTag', async (_, tagId) => {
+    const query = 'delete from tags where id = ?';
+    const result = await db.run(query, tagId);
+    return result;
+  });
+
   createWindow();
 
   app.on('activate', () => {

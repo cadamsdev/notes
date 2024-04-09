@@ -63,7 +63,7 @@
 		<ul class="border bg-slate-50 rounded">
 			{#each actions as action}
 				<li>
-					<button class="p-4 hover:bg-slate-100 w-full text-start" on:click={(e) => handleClickAction(e, action)}>{action.label}</button>
+					<button class="p-4 hover:bg-slate-100 w-full text-start text-black" on:click={(e) => handleClickAction(e, action)}>{action.label}</button>
 				</li>
 			{/each}
 		</ul>
