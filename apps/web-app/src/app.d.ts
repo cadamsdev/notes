@@ -25,6 +25,7 @@ declare global {
 			getTagsForNote: (noteId) => Promise<TagRecord[]>;
 			deleteNote: (noteId) => void;
 			deleteTag: (tagId) => void;
+			editTag: (tag: TagRecord) => void;
 		};
 	}
 }

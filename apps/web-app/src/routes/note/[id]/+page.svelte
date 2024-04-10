@@ -85,7 +85,6 @@
 		}
 
 		selectedTags = [...tempTags];
-		console.log('save tags', selectedTags);
 		window.electron.saveTags(note.id, selectedTags);
 		await fetchAllTags();
 		showTagModal = false;

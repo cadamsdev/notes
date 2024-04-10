@@ -147,6 +147,25 @@ where nt.note_id = ?`;
     return result;
   });
 
+  ipcMain.handle('editTag', async (_, tag) => {
+    if (!tag.name) {
+      throw new Error('editTag tag.name does not exist');
+    }
+
+    if (!tag.id || tag.id <= 0) {
+      throw new Error(`editTag invalid tag.id=${tag.id}`);
+    }
+
+    const query = `
+      update tags
+      set name = ?
+      where id = ?;
+    `;
+
+    const result = await db.run(query, tag.name, tag.id);
+    return result;
+  });
+
   createWindow();
 
   app.on('activate', () => {

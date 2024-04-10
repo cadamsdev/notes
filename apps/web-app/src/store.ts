@@ -32,6 +32,17 @@ export async function removeNote(note: Note) {
 export function deleteTag(tagId: number): void {
   window.electron.deleteTag(tagId);
   const tempTags = [...get(tags)];
- const newTags = tempTags.filter((tag) => tag.id !== tagId);
- tags.set(newTags);
+  const newTags = tempTags.filter((tag) => tag.id !== tagId);
+  tags.set(newTags);
+}
+
+export function editTag(tag: TagRecord): void {
+	window.electron.editTag(tag);
+	const tempTags = [...get(tags)];
+  const tempTag = tempTags.find((t) => t.id === tag.id);
+  if (tempTag) {
+    tempTag.name = tag.name;
+  }
+
+	tags.set(tempTags);
 }

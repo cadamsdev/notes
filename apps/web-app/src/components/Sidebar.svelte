@@ -1,10 +1,13 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { deleteTag, fetchAllTags, tags } from '../store';
+	import { deleteTag, editTag, fetchAllTags, tags } from '../store';
 	import ContextMenu from './ContextMenu.svelte';
 	import type { TagRecord } from '../interfaces/TagRecord';
+	import Dialog from './Dialog.svelte';
+	import { browser } from '$app/environment';
 
-	let contextMenus: ContextMenu[] = [];
+	let showRenameModal = false;
+	let currentTag: TagRecord;
 
 	async function load(): Promise<void> {
 		await fetchAllTags();
@@ -14,8 +17,23 @@
 		deleteTag(tag.id);
 	}
 
-	load();
+	function handleRenameTag() {
+		if (browser) {
+			editTag(currentTag);
+		}
+		showRenameModal = false;
+	}
 
+	function handleShowRenameTagModal(tag: TagRecord) {
+		showRenameModal = true;
+		currentTag = tag;
+	}
+
+	function handleChangeTagName(e: Event) {
+		currentTag.name = (e.target as HTMLInputElement).value;
+	}
+
+	load();
 </script>
 
 <div class="p-6 bg-slate-800 min-w-[200px]">
@@ -25,17 +43,43 @@
 			Tags
 		</div>
 		{#each $tags as tag}
-			<button
-				id={`tag-${tag.id}`}
-				class="block pl-4 pb-1"
-			>
-				<span class="text-gray-200 hover:text-gray-50">{tag.name}</span><span class="text-gray-400 text-sm">&nbsp;{tag.count}</span>
+			<button id={`tag-${tag.id}`} class="block pl-4 pb-1">
+				<span class="text-gray-200 hover:text-gray-50">{tag.name}</span><span
+					class="text-gray-400 text-sm">&nbsp;{tag.count}</span
+				>
 
 				<ContextMenu
 					targetId={`tag-${tag.id}`}
-					actions={[{ label: 'Remove', action: () => handleRemoveTag(tag) }]}
-					/>
+					actions={[
+						{ label: 'Rename', action: () => handleShowRenameTagModal(tag) },
+						{ label: 'Remove', action: () => handleRemoveTag(tag) }
+					]}
+				/>
 			</button>
 		{/each}
 	</div>
 </div>
+
+<Dialog showModal={showRenameModal} on:closeModal={() => (showRenameModal = false)}>
+	<div>
+		<div class="mb-4">
+			<label for="tag-name" class="font-bold"> Name: </label>
+
+			<input
+				id="tag-name"
+				class="block p-2 bg-gray-100 rounded"
+				name="name"
+				placeholder="Enter tag name"
+				value={currentTag?.name}
+				on:input={handleChangeTagName}
+			/>
+		</div>
+
+		<div class="flex justify-end">
+			<button
+				on:click={() => handleRenameTag()}
+				class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">Save</button
+			>
+		</div>
+	</div>
+</Dialog>
