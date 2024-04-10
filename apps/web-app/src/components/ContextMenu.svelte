@@ -2,6 +2,7 @@
 	import type { ContextMenuConfig } from '../interfaces/ContextMenu';
 
 	export let actions: ContextMenuConfig[] = [];
+	export let targetId: string;
 
 	let pos = { x: 0, y: 0 };
 	let menu = { w: 0, h: 0, y: 0 };
@@ -9,8 +10,9 @@
 	let showMenu = false;
 	let component: HTMLElement;
 
-	export function show(e: MouseEvent) {
-		showMenu = true;
+	function show(e: MouseEvent) {
+		const targetEl = document.querySelector(`#${targetId}`);
+		showMenu = !!targetEl && e.composedPath().includes(targetEl);
 		browser = {
 			w: window.innerWidth,
 			h: window.innerHeight,
@@ -29,10 +31,8 @@
 		showMenu = false;
 	}
 
-	function onContextMenu(e: Event) {
-		if (!(e.target as HTMLElement).contains(component)) {
-			showMenu = false;
-		}
+	function onContextMenu(e: MouseEvent) {
+		show(e);
 	}
 
 	function getContextMenuDimension(node: HTMLElement) {
@@ -43,10 +43,6 @@
 			w: width,
 			y: 0,
 		};
-	}
-
-	export function hide() {
-		showMenu = false;
 	}
 
 	function handleClickAction(e: Event, config: ContextMenuConfig) {

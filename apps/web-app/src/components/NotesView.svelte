@@ -74,17 +74,17 @@
 		<div class="max-h-[434px] overflow-y-auto">
 			{#each filteredNotes as note, index}
 				<button
+					id={`note-${note.id}`}
 					class={clsx('block w-full text-left p-4 hover:bg-slate-300', {
 						'rounded-t': index === 0,
 						'rounded-b': index === get(notes).length - 1
 					})}
-					on:contextmenu={(e) => contextMenus[index].show(e)}
 					on:click={() => selectNote(note)}
 				>
 					{note.title}
 
 					<ContextMenu
-						bind:this={contextMenus[index]}
+						targetId={`note-${note.id}`}
 						actions={[{ label: 'Remove', action: () => handleShowRemoveNoteDialog(note) }]}
 					/>
 				</button>

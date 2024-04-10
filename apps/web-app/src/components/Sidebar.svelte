@@ -24,15 +24,15 @@
 			<Icon icon="fa-solid:tags" />
 			Tags
 		</div>
-		{#each $tags as tag, index}
+		{#each $tags as tag}
 			<button
+				id={`tag-${tag.id}`}
 				class="block pl-4 pb-1"
-				on:contextmenu={(e) => contextMenus[index]?.show(e)}
 			>
 				<span class="text-gray-200 hover:text-gray-50">{tag.name}</span><span class="text-gray-400 text-sm">&nbsp;{tag.count}</span>
 
 				<ContextMenu
-					bind:this={contextMenus[index]}
+					targetId={`tag-${tag.id}`}
 					actions={[{ label: 'Remove', action: () => handleRemoveTag(tag) }]}
 					/>
 			</button>
