@@ -7,9 +7,9 @@
 	import { onDestroy } from 'svelte';
 	import ContextMenu from './ContextMenu.svelte';
 	import ConfirmationDialog from './ConfirmationDialog.svelte';
+	import Input from './Input.svelte';
 
 	let filteredNotes: Note[] = [];
-	let contextMenus: ContextMenu[] = [];
 	let showConfirmationModal = false;
 	let noteToRemove: Note | undefined;
 	let searchText = '';
@@ -34,6 +34,7 @@
 	}
 
 	function handleSearch(e: Event) {
+		console.log('handle search')
 		searchText = (e.target as HTMLInputElement).value.toLowerCase();
 		filteredNotes = $notes.filter((note) => note.title.toLowerCase().includes(searchText));
 	}
@@ -69,7 +70,7 @@
 					><Icon icon="fa-solid:plus" /></button
 				>
 			</div>
-			<input on:input={handleSearch} class="p-2 rounded mb-4 w-full" placeholder="Search..." />
+			<Input on:input={handleSearch} placeholder="Search..." />
 		</div>
 		<div class="max-h-[434px] overflow-y-auto">
 			{#each filteredNotes as note, index}

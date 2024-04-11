@@ -6,6 +6,7 @@
 	import Dialog from './Dialog.svelte';
 	import { browser } from '$app/environment';
 	import ConfirmationDialog from './ConfirmationDialog.svelte';
+	import Input from './Input.svelte';
 
 	let showRenameModal = false;
 	let currentTag: TagRecord;
@@ -76,9 +77,8 @@
 		<div class="mb-4">
 			<label for="tag-name" class="font-bold"> Name: </label>
 
-			<input
+			<Input
 				id="tag-name"
-				class="block p-2 bg-gray-100 rounded"
 				name="name"
 				placeholder="Enter tag name"
 				value={currentTag?.name}
