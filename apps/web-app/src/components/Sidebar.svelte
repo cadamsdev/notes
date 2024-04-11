@@ -5,16 +5,22 @@
 	import type { TagRecord } from '../interfaces/TagRecord';
 	import Dialog from './Dialog.svelte';
 	import { browser } from '$app/environment';
+	import ConfirmationDialog from './ConfirmationDialog.svelte';
 
 	let showRenameModal = false;
 	let currentTag: TagRecord;
+	let showRemoveTagConfirmationModal = false;
 
 	async function load(): Promise<void> {
 		await fetchAllTags();
 	}
 
-	function handleRemoveTag(tag: TagRecord) {
-		deleteTag(tag.id);
+	function handleRemoveTag() {
+		if (!currentTag) {
+			throw new Error('currentTag should be defined.');
+		}
+
+		deleteTag(currentTag.id);
 	}
 
 	function handleRenameTag() {
@@ -31,6 +37,11 @@
 
 	function handleChangeTagName(e: Event) {
 		currentTag.name = (e.target as HTMLInputElement).value;
+	}
+
+	function handleShowRemoveTagConfirmationModal(tag: TagRecord) {
+		currentTag = tag;
+		showRemoveTagConfirmationModal = true;
 	}
 
 	load();
@@ -52,7 +63,7 @@
 					targetId={`tag-${tag.id}`}
 					actions={[
 						{ label: 'Rename', action: () => handleShowRenameTagModal(tag) },
-						{ label: 'Remove', action: () => handleRemoveTag(tag) }
+						{ label: 'Remove', action: () => handleShowRemoveTagConfirmationModal(tag) }
 					]}
 				/>
 			</button>
@@ -83,3 +94,11 @@
 		</div>
 	</div>
 </Dialog>
+
+<ConfirmationDialog
+	showModal={showRemoveTagConfirmationModal}
+	on:closeModal={() => showRemoveTagConfirmationModal = false}
+	on:action={() => handleRemoveTag()}
+/>
+
+
