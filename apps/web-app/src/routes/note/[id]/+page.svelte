@@ -10,6 +10,7 @@
 	import TagCombobox from '../../../components/TagCombobox.svelte';
 	import type { Tag } from '../../../interfaces/Tag';
 	import Dialog from '../../../components/Dialog.svelte';
+	import Button from '../../../components/Button.svelte';
 
 	export let data: PageData;
 
@@ -152,7 +153,12 @@
 			</div>
 		{/if}
 
-		<div bind:this={editorRef} on:input={onInputChange} id="editor" class={clsx({ hidden: !$selectedNote })}></div>
+		<div
+			bind:this={editorRef}
+			on:input={onInputChange}
+			id="editor"
+			class={clsx({ hidden: !$selectedNote })}
+		></div>
 	</div>
 
 	<div class="fixed bottom-0 p-2 z-10 bg-white w-full">
@@ -182,14 +188,8 @@
 		</div>
 
 		<div class="flex justify-end gap-2">
-			<button
-				on:click={handleSaveTags}
-				class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">Save</button
-			>
-			<button
-				on:click={() => (showTagModal = false)}
-				class="bg-gray-300 hover:bg-gray-400 py-2 px-4 rounded">Cancel</button
-			>
+			<Button on:click={handleSaveTags}>Save</Button>
+			<Button variant="secondary" on:click={() => (showTagModal = false)}>Cancel</Button>
 		</div>
 	</div>
 </Dialog>
