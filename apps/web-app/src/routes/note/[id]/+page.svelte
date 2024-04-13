@@ -92,7 +92,7 @@
 	}
 
 	onMount(async () => {
-		const Header: any = (await import('@editorjs/header')).default;
+		// const Header: any = (await import('@editorjs/header')).default;
 		//@ts-ignore
 		const Code: any = (await import('@editorjs/code')).default;
 		//@ts-ignore
@@ -100,8 +100,7 @@
 		//@ts-ignore
 		const InlineCode: any = (await import('@editorjs/inline-code')).default;
 		const EditorJS = await import('@editorjs/editorjs');
-		// const Header = (await import('../../../../lib/plugins/editorjs/header.mjs'));
-		const { H1 }  = await import('../../../lib/Heading');
+		const { H1, H2, H3 }  = await import('../../../lib/editorjs/plugins/Heading');
 
 		const currentNote = get(selectedNote);
 
@@ -117,13 +116,8 @@
 			inlineToolbar: true,
 			tools: {
 				h1: H1,
-				header: {
-					class: Header,
-					inlineToolbar: true,
-					config: {
-						levels: [1, 2, 3]
-					}
-				},
+				h2: H2,
+				h3: H3,
 				code: { class: Code },
 				inlineCode: { class: InlineCode, inlineToolbar: true },
 				list: {
