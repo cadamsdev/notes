@@ -44,4 +44,10 @@ body {
 	.codex-editor--narrow .ce-toolbar__actions {
 		right: 100%;
 	}
+
+
+	.codex-editor--narrow .ce-settings .ce-popover {
+		left: 0;
+		right: auto;
+	}
 }
