@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "pnpm run -r dev",
+    "dev": "concurrently \"pnpm run web\" \"wait-on http://localhost:5173 && pnpm run desktop\"",
     "web": "pnpm run --filter web dev",
     "desktop": "pnpm run --filter desktop dev"
   },
@@ -12,6 +12,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^29.2.0"
+    "concurrently": "^8.2.2",
+    "electron": "^29.2.0",
+    "wait-on": "^7.2.0"
   }
 }
