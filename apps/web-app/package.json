@@ -37,6 +37,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@codexteam/icons": "^0.3.0",
 		"@editorjs/code": "^2.9.0",
 		"@editorjs/editorjs": "^2.29.0",
 		"@editorjs/header": "^2.8.1",

@@ -6,7 +6,6 @@
 	import type { PageData } from './$types';
 	import { get } from 'svelte/store';
 	import Icon from '@iconify/svelte';
-	import Modal from '../../../components/Modal.svelte';
 	import TagCombobox from '../../../components/TagCombobox.svelte';
 	import type { Tag } from '../../../interfaces/Tag';
 	import Dialog from '../../../components/Dialog.svelte';
@@ -24,6 +23,7 @@
 	$: {
 		selectedTags = [...data.tags];
 	}
+
 
 	const unsubscribe = selectedNote.subscribe((note) => {
 		if (!note) {
@@ -100,6 +100,8 @@
 		//@ts-ignore
 		const InlineCode: any = (await import('@editorjs/inline-code')).default;
 		const EditorJS = await import('@editorjs/editorjs');
+		// const Header = (await import('../../../../lib/plugins/editorjs/header.mjs'));
+		const { H1 }  = await import('../../../lib/Heading');
 
 		const currentNote = get(selectedNote);
 
@@ -114,6 +116,7 @@
 			placeholder: 'Type / for commands',
 			inlineToolbar: true,
 			tools: {
+				h1: H1,
 				header: {
 					class: Header,
 					inlineToolbar: true,
@@ -129,7 +132,7 @@
 					config: {
 						defaultStyle: 'unordered'
 					}
-				}
+				},
 			},
 			data
 		});

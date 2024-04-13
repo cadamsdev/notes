@@ -29,6 +29,9 @@ importers:
 
   apps/web-app:
     dependencies:
+      '@codexteam/icons':
+        specifier: ^0.3.0
+        version: 0.3.0
       '@editorjs/code':
         specifier: ^2.9.0
         version: 2.9.0
@@ -148,6 +151,10 @@ packages:
 
   /@codexteam/icons@0.0.5:
     resolution: {integrity: sha512-s6H2KXhLz2rgbMZSkRm8dsMJvyUNZsEjxobBEg9ztdrb1B2H3pEzY6iTwI4XUPJWJ3c3qRKwV4TrO3J5jUdoQA==}
+    dev: false
+
+  /@codexteam/icons@0.3.0:
+    resolution: {integrity: sha512-fJE9dfFdgq8xU+sbsxjH0Kt8Yeatw9xHBJWb77DhRkEXz3OCoIS6hrRC1ewHEryxzIjxD8IyQrRq2f+Gz3BcmA==}
     dev: false
 
   /@editorjs/code@2.9.0:
@@ -3500,9 +3507,6 @@ packages:
   /sqlite3@5.1.7:
     resolution: {integrity: sha512-GGIyOiFaG+TUra3JIfkI/zGP8yZYLPQ0pl1bH+ODjiX57sPhrLU5sQJn1y9bDKZUFYkX1crlrPfSYt0BKKdkog==}
     requiresBuild: true
-    peerDependenciesMeta:
-      node-gyp:
-        optional: true
     dependencies:
       bindings: 1.5.0
       node-addon-api: 7.1.0
