@@ -30,3 +30,18 @@ body {
 .ce-block__content h3 {
 	font-size: 2.074rem;
 }
+
+.ce-popover__overlay .ce-popover.ce-popover--opened {
+	left: 0;
+}
+
+@media (min-width: 651px) {
+	.codex-editor--narrow .ce-toolbox .ce-popover {
+		left: 0;
+		right: auto;
+	}
+
+	.codex-editor--narrow .ce-toolbar__actions {
+		right: 100%;
+	}
+}

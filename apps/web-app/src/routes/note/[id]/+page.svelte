@@ -146,7 +146,7 @@
 </script>
 
 <div class="relative">
-	<div class="p-4 max-h-screen overflow-y-auto">
+	<div class="py-4 px-16 max-h-screen overflow-y-auto">
 		{#if !$selectedNote}
 			<div class="flex items-center justify-center h-full">
 				<div>No content</div>
