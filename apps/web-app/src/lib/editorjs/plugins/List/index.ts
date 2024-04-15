@@ -1,30 +1,24 @@
-import { IconListBulleted } from "@codexteam/icons";
+import { IconListBulleted, IconListNumbered } from '@codexteam/icons';
 import './index.css';
 
-export interface BulletedListData {
+export interface ListData {
 	items: string[];
 }
 
-export class BulletedList {
+abstract class List {
 	private api: any;
-	private _data: BulletedListData;
+	private _data: ListData;
 
-	constructor({ data, api }: { data: BulletedListData; api: any }) {
+	constructor({ data, api }: { data: ListData; api: any }) {
 		this.api = api;
-		console.log(api);
 		this._data = data;
-	}
-
-	static get toolbox() {
-		return {
-			icon: IconListBulleted,
-			title: 'Bulleted list'
-		};
 	}
 
 	static get enableLineBreaks() {
 		return true;
 	}
+
+	abstract get listType(): 'bulleted' | 'numbered';
 
 	private wrapper?: HTMLElement;
 
@@ -32,7 +26,7 @@ export class BulletedList {
 		this.wrapper = document.createElement('ul');
 		this.wrapper.contentEditable = 'true';
 		this.wrapper.classList.add('be-list');
-		this.wrapper.classList.add('unordered');
+		this.wrapper.classList.add(this.listType === 'bulleted' ? 'unordered' : 'ordered');
 		this.wrapper.addEventListener('keydown', this._handleKeydown.bind(this));
 
 		if (this._data.items?.length > 0) {
@@ -101,11 +95,37 @@ export class BulletedList {
 
 	save(blockContent: HTMLElement) {
 		const items = Array.from(blockContent?.querySelectorAll('li'))
-		.filter((item) => item.innerHTML.replace('<br>', ''))
-		.map((item) => item.textContent);
+			.filter((item) => item.innerHTML.replace('<br>', ''))
+			.map((item) => item.textContent);
 
 		return {
-			items,
-		}
+			items
+		};
+	}
+}
+
+export class BulletedList extends List {
+	override get listType(): 'bulleted' | 'numbered' {
+		return 'bulleted';
+	}
+
+	static get toolbox() {
+		return {
+			icon: IconListBulleted,
+			title: 'Bulleted list'
+		};
+	}
+}
+
+export class NumberedList extends List {
+	override get listType(): 'bulleted' | 'numbered' {
+		return 'numbered';
+	}
+
+	static get toolbox() {
+		return {
+			icon: IconListNumbered,
+			title: 'Numbered list'
+		};
 	}
 }
