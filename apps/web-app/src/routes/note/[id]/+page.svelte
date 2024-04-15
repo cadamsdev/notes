@@ -96,8 +96,6 @@
 		//@ts-ignore
 		const Code: any = (await import('@editorjs/code')).default;
 		//@ts-ignore
-		const List: any = (await import('@editorjs/list')).default;
-		//@ts-ignore
 		const InlineCode: any = (await import('@editorjs/inline-code')).default;
 		const EditorJS = await import('@editorjs/editorjs');
 		const { H1, H2, H3 }  = await import('../../../lib/editorjs/plugins/Heading');
@@ -121,13 +119,6 @@
 				h3: H3,
 				code: { class: Code },
 				inlineCode: { class: InlineCode, inlineToolbar: true },
-				list: {
-					class: List,
-					inlineToolbar: true,
-					config: {
-						defaultStyle: 'unordered'
-					}
-				},
 				ul: BulletedList,
 				ol: NumberedList,
 			},
