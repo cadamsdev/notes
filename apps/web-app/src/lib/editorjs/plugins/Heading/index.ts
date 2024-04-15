@@ -8,7 +8,7 @@ export interface H1Data {
 export class H1 {
 	static get toolbox() {
 		return {
-			title: 'H1',
+			title: 'Heading 1',
 			icon: IconH1,
 		};
 	}
@@ -39,7 +39,7 @@ export class H1 {
 export class H2 {
 	static get toolbox() {
 		return {
-			title: 'H2',
+			title: 'Heading 2',
 			icon: IconH2,
 		};
 	}
@@ -71,7 +71,7 @@ export class H2 {
 export class H3 {
 	static get toolbox() {
 		return {
-			title: 'H3',
+			title: 'Heading 3',
 			icon: IconH3,
 		};
 	}
