@@ -51,7 +51,7 @@
 			const outputData = await editor.save();
 			let title: string | undefined;
 			if (outputData.blocks.length > 0) {
-				title = outputData.blocks[0].data['text'];
+				title = outputData.blocks[0].data?.['text'];
 			}
 
 			const outputString = JSON.stringify(outputData);
@@ -101,6 +101,7 @@
 		const InlineCode: any = (await import('@editorjs/inline-code')).default;
 		const EditorJS = await import('@editorjs/editorjs');
 		const { H1, H2, H3 }  = await import('../../../lib/editorjs/plugins/Heading');
+		const { BulletedList } = await import('../../../lib/editorjs/plugins/List')
 
 		const currentNote = get(selectedNote);
 
@@ -127,6 +128,7 @@
 						defaultStyle: 'unordered'
 					}
 				},
+				ul: BulletedList,
 			},
 			data
 		});
