@@ -4,10 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"pnpm run web\" \"wait-on http://localhost:5173 && pnpm run desktop\"",
-    "web": "pnpm run --filter web dev",
-    "desktop": "pnpm run --filter desktop dev"
+    "dev": "concurrently \"npm run web\" \"wait-on http://localhost:5173 && npm run desktop\"",
+    "web": "npm run -w web dev",
+    "desktop": "npm run -w desktop dev"
   },
+  "workspaces": [
+    "apps/*"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
