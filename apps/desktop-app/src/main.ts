@@ -1,15 +1,14 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'node:path';
-import { fileURLToPath } from 'url';
-import database from './scripts/database.mjs';
+import database from './database';
+import { Tag } from './interfaces/tag';
 
 const createWindow = () => {
-  const dirname = fileURLToPath(new URL('.', import.meta.url));
   const win = new BrowserWindow({
     width: 1080,
     height: 720,
     webPreferences: {
-      preload: path.join(dirname, 'scripts/preload.js'),
+      preload: path.join(__dirname, 'preload.js'),
     },
   });
 
@@ -71,7 +70,7 @@ where nt.note_id = ?`;
     return result;
   });
 
-  ipcMain.handle('saveTags', async (_, noteId, tags) => {
+  ipcMain.handle('saveTags', async (_, noteId: number, tags: Tag[]) => {
     const newTags = tags.filter((tag) => tag.value === -1);
     const existingTags = tags.filter((tag) => tag.value !== -1);
 
@@ -94,7 +93,7 @@ where nt.note_id = ?`;
       const result = await db.run(query, sqlData);
       const { changes, lastID } = result;
 
-      if (changes > 0) {
+      if (changes && lastID) {
         query = `
           INSERT OR IGNORE INTO note_tags (note_id, tag_id)
           VALUES
@@ -120,7 +119,7 @@ where nt.note_id = ?`;
         VALUES
       `;
 
-      let sqlData = [];
+      const sqlData = [];
 
       for (let i = 0; i < existingTags.length; i++) {
         query += '(?, ?)';
