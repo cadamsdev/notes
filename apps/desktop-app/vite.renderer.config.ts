@@ -21,6 +21,5 @@ export default defineConfig((env) => {
       preserveSymlinks: true,
     },
     clearScreen: false,
-    publicDir: './out',
   } as UserConfig;
 });
