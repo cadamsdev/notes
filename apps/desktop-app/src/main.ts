@@ -2,9 +2,14 @@ import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'node:path';
 import database from './database';
 import { Tag } from './interfaces/tag';
+import serve from 'electron-serve';
+
+const loadURL = serve({ directory: 'out' });
+
+let win: BrowserWindow;
 
 const createWindow = () => {
-  const win = new BrowserWindow({
+  win = new BrowserWindow({
     width: 1080,
     height: 720,
     webPreferences: {
@@ -12,11 +17,13 @@ const createWindow = () => {
     },
   });
 
-  if (process.env.PROD) {
-    win.loadFile('../web-app/build/index.html');
-  } else {
-    win.loadURL('http://localhost:5173');
-  }
+  // if (process.env.PROD) {
+  //   win.loadFile('../web-app/build/index.html');
+  // } else {
+  //   win.loadURL('http://localhost:5173');
+  // }
+
+  loadURL(win);
 };
 
 const main = async () => {
