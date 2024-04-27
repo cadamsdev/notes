@@ -10,11 +10,11 @@ export default defineConfig((env) => {
   const name = forgeConfigSelf.name ?? '';
 
   return {
-    root: path.join(root, 'out'),
+    root: path.join(root, '../web-app/build'),
     mode,
-    base: './out',
+    base: './',
     build: {
-      outDir: `../dist/renderer/${name}`,
+      outDir: path.resolve(root,`../desktop-app/dist/renderer/${name}`),
     },
     plugins: [pluginExposeRenderer(name)],
     resolve: {
