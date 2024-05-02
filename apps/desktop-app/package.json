@@ -7,11 +7,13 @@
   "scripts": {
     "dev": "electron .",
     "seed": "node scripts/seed.mjs",
-    "start": "electron-forge start",
+    "start": "npm run build:electron && electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "eslint --ext .ts,.tsx ."
+    "lint": "eslint --ext .ts,.tsx .",
+    "build:electron": "npx tsc",
+    "rebuild": "electron-rebuild -f -w electron-serve"
   },
   "keywords": [],
   "author": {
@@ -33,6 +35,7 @@
     "@electron-forge/plugin-fuses": "^7.4.0",
     "@electron-forge/plugin-vite": "^7.4.0",
     "@electron/fuses": "^1.8.0",
+    "@electron/rebuild": "^3.6.0",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "electron": "30.0.0",
@@ -41,5 +44,6 @@
     "ts-node": "^10.9.2",
     "typescript": "~4.5.4",
     "vite": "^5.2.9"
-  }
+  },
+  "type": "module"
 }

@@ -15,7 +15,7 @@ export default defineConfig((env) => {
         formats: ['cjs'],
       },
       rollupOptions: {
-        external,
+        external: [...external, 'electron-serve'],
       },
     },
     plugins: [pluginHotRestart('restart')],
