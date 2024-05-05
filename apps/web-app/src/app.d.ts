@@ -17,14 +17,6 @@ declare global {
 	interface Window {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		electron: {
-			createNote: (title: string, content: string) => number;
-			getNotes: () => Promise<Note[]>;
-			updateNote: (note: Note) => number;
-			saveTags: (noteId: number, tags: Tag[]) => void;
-			getAllTags: () => Promise<TagRecord[]>;
-			getTagsForNote: (noteId) => Promise<TagRecord[]>;
-			deleteNote: (noteId) => void;
-			deleteTag: (tagId) => void;
 			editTag: (tag: TagRecord) => void;
 		};
 	}

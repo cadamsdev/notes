@@ -26,32 +26,24 @@
 	}
 
 	async function handleCreateNote(): Promise<void> {
-		// const lastID = db.createNote('A title', '');
-		// notes.update((items) => {
-		// 	items.push({ id: lastID as number, title: 'A title', content: '' });
-		// 	return items;
-		// });
-
 		const formData = new FormData();
 		formData.append('title', 'A title');
 		formData.append('content', '');
 
-			fetch('/', {
-				method: 'POST',
-				body: formData
-			})
-				.then((response) => response.json())
-				.then((data) => {
-					console.log('data', data);
-					// notes.update((items) => {
-					// 	items.push(data);
-					// 	return items;
-					// });
-				})
-				.catch((error) => {
-					console.error('Error:', error);
-				});
-
+		fetch('/', {
+			method: 'POST',
+			body: formData
+		})
+		.then((response) => response.json())
+		.then((data) => {
+			notes.update((items) => {
+				items.push(data);
+				return items;
+			});
+		})
+		.catch((error) => {
+			console.error('Error:', error);
+		});
 	}
 
 	function handleSearch(e: Event) {

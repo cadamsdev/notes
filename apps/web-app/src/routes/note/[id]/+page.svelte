@@ -95,8 +95,9 @@
 		}
 
 		selectedTags = [...tempTags];
-		window.electron.saveTags(note.id, selectedTags);
-		await fetchAllTags();
+		// TODO fix saving tags
+		// window.electron.saveTags(note.id, selectedTags);
+		// await fetchAllTags();
 		showTagModal = false;
 	}
 

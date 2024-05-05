@@ -14,30 +14,30 @@ export const tags = writable<TagRecord[]>([]);
 
 export async function fetchAllTags(): Promise<void> {
   if (browser) {
-    const result = await window.electron.getAllTags();
-    tags.set(result);
+    //const result = await window.electron.getAllTags();
+    //tags.set(result);
   }
 }
 
 export async function removeNote(note: Note) {
   try {
-    window.electron.deleteNote(note.id);
-    const filteredNotes = get(notes).filter((n) => n.id !== note.id);
-    notes.set(filteredNotes);
+    // window.electron.deleteNote(note.id);
+    // const filteredNotes = get(notes).filter((n) => n.id !== note.id);
+    // notes.set(filteredNotes);
   } catch (err) {
     console.error(err);
   }
 }
 
 export function deleteTag(tagId: number): void {
-  window.electron.deleteTag(tagId);
+  // window.electron.deleteTag(tagId);
   const tempTags = [...get(tags)];
   const newTags = tempTags.filter((tag) => tag.id !== tagId);
   tags.set(newTags);
 }
 
 export function editTag(tag: TagRecord): void {
-	window.electron.editTag(tag);
+	// window.electron.editTag(tag);
 	const tempTags = [...get(tags)];
   const tempTag = tempTags.find((t) => t.id === tag.id);
   if (tempTag) {
