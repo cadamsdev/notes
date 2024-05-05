@@ -25,16 +25,37 @@
 		goto(`/note/${note.id}`);
 	}
 
-	async function createNote(): Promise<void> {
-		const lastID = await window.electron.createNote('A title', '');
-		notes.update((items) => {
-			items.push({ id: lastID, title: 'A title', content: '' });
-			return items;
-		});
+	async function handleCreateNote(): Promise<void> {
+		// const lastID = db.createNote('A title', '');
+		// notes.update((items) => {
+		// 	items.push({ id: lastID as number, title: 'A title', content: '' });
+		// 	return items;
+		// });
+
+		const formData = new FormData();
+		formData.append('title', 'A title');
+		formData.append('content', '');
+
+			fetch('/', {
+				method: 'POST',
+				body: formData
+			})
+				.then((response) => response.json())
+				.then((data) => {
+					console.log('data', data);
+					// notes.update((items) => {
+					// 	items.push(data);
+					// 	return items;
+					// });
+				})
+				.catch((error) => {
+					console.error('Error:', error);
+				});
+
 	}
 
 	function handleSearch(e: Event) {
-		console.log('handle search')
+		console.log('handle search');
 		searchText = (e.target as HTMLInputElement).value.toLowerCase();
 		filteredNotes = $notes.filter((note) => note.title.toLowerCase().includes(searchText));
 	}
@@ -66,9 +87,8 @@
 	<div>
 		<div class="p-4">
 			<div class="flex justify-end">
-				<button on:click={createNote} class="bg-slate-200 hover:bg-slate-300 p-2 rounded mb-4"
-					><Icon icon="fa-solid:plus" /></button
-				>
+				<button on:click={handleCreateNote} class="bg-slate-200 hover:bg-slate-300 p-2 rounded mb-4"
+					><Icon icon="fa-solid:plus" /></button>
 			</div>
 			<Input on:input={handleSearch} placeholder="Search..." />
 		</div>

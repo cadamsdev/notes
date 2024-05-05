@@ -31,44 +31,6 @@ const main = async () => {
   console.log('connected!');
   await app.whenReady();
 
-  ipcMain.handle('createNote', async (_, title, content) => {
-    const result = await db.run(
-      'INSERT INTO notes (title, content) VALUES (?, ?)',
-      title,
-      content
-    );
-    return result.lastID;
-  });
-
-  ipcMain.handle('getNotes', async () => {
-    const result = await db.all('SELECT * FROM notes');
-    return result;
-  });
-
-  ipcMain.handle('updateNote', async (_, note) => {
-    const id = note.id;
-    const title = note.title || 'New note';
-    const content = note.content;
-    const result = await db.run(
-      'UPDATE notes SET title = ?, content = ? WHERE id = ?',
-      title,
-      content,
-      id,
-    );
-    return result.changes;
-  });
-
-  ipcMain.handle('getAllTags', async () => {
-    const query = `
-      select t.id, t.name, count(*) as \`count\` from tags as t
-      left join note_tags as nt on nt.tag_id = t.id
-      group by t.id
-      order by \`count\` desc
-    `;
-    const result = await db.all(query);
-    return result;
-  });
-
   ipcMain.handle('getTagsForNote', async (_, noteId) => {
     const query = `select t.id, t.name from tags as t
 join note_tags as nt on nt.tag_id = t.id

@@ -65,7 +65,16 @@
 					content: outputString
 				};
 
-				const result = await window.electron.updateNote(updatedNote);
+				const formData = new FormData();
+				formData.append('id', updatedNote.id.toString());
+				formData.append('title', updatedNote.title);
+				formData.append('content', updatedNote.content);
+
+				const result = await fetch(`/note/${id}?/updateNote`, {
+					method: 'POST',
+					body: formData
+				});
+
 				console.log('saved!', result);
 				notes.update((items) => {
 					const index = items.findIndex((item) => item.id === id);

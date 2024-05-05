@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "concurrently \"npm run web\" \"wait-on http://localhost:5173 && npm run desktop\"",
-    "web": "npm run -w web dev",
+    "web:dev": "npm run -w web dev",
     "desktop": "npm run -w desktop start"
   },
   "workspaces": [
@@ -15,6 +15,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/better-sqlite3": "^7.6.10",
     "concurrently": "^8.2.2",
     "electron": "^29.2.0",
     "wait-on": "^7.2.0"

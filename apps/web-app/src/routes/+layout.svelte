@@ -1,19 +1,14 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import '../app.css';
 	import NotesView from '../components/NotesView.svelte';
 	import Sidebar from '../components/Sidebar.svelte';
 	import { notes, selectedNote } from '../store';
+	import type { LayoutData } from './$types';
 
-	async function load(): Promise<void> {
-		if (browser) {
-			const result = await window.electron.getNotes();
-			notes.set(result);
-			selectedNote.set(result[0]);
-		}
-	}
+	export let data: LayoutData;
 
-	load();
+	notes.set(data.notes);
+	selectedNote.set(data.notes[0]);
 </script>
 
 <div class="flex h-full">
