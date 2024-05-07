@@ -1,5 +1,17 @@
-import { saveTags, updateNote } from "$lib/server/db";
+import { getTagsForNote, saveTags, updateNote } from "$lib/server/db";
 import type { Actions } from "@sveltejs/kit";
+
+export async function load({ params }) {
+	const noteId = +params.id;
+
+	const tags = getTagsForNote(noteId)
+	.map((tag) => ({ value: tag.id, label: tag.name }));
+
+	return {
+		id: params.id,
+		tags
+	};
+}
 
 export const actions = {
 	updateNote: async ({ request }) => {

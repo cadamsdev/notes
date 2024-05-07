@@ -87,13 +87,13 @@ export function getAllTags() {
   return result;
 }
 
-export function getTagsForNote(noteId: number) {
+export function getTagsForNote(noteId: number): TagRecord[] {
   const sql = `select t.id, t.name from tags as t
   join note_tags as nt on nt.tag_id = t.id
   where nt.note_id = ?`;
 
   const result = db.prepare(sql).all(noteId); 
-  return result;
+  return result as TagRecord[];
 }
 
 export function saveTags(noteId: number, tags: Tag[]) {
