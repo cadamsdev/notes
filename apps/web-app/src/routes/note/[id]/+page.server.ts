@@ -1,4 +1,4 @@
-import { updateNote } from "$lib/server/db";
+import { saveTags, updateNote } from "$lib/server/db";
 import type { Actions } from "@sveltejs/kit";
 
 export const actions = {
@@ -12,5 +12,15 @@ export const actions = {
 		return {
 			result
 		};
-	}
+	},
+	saveTags: async ({ request }) => {
+		const formData = await request.formData();
+		const noteId = Number(formData.get("noteId"));
+		const tags = JSON.parse(formData.get("tags")?.toString() ?? '[]');
+
+		const result = saveTags(noteId, tags);
+		return {
+			result
+		};
+	},
 } satisfies Actions;

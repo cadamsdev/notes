@@ -14,8 +14,16 @@ export const tags = writable<TagRecord[]>([]);
 
 export async function fetchAllTags(): Promise<void> {
   if (browser) {
-    //const result = await window.electron.getAllTags();
-    //tags.set(result);
+    console.log('calling fetchAllTags')
+    const result = await fetch ('/api/tags', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await result.json();
+    console.log('tags', data)
+    tags.set(data);
   }
 }
 

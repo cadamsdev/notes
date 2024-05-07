@@ -95,10 +95,25 @@
 		}
 
 		selectedTags = [...tempTags];
-		// TODO fix saving tags
-		// window.electron.saveTags(note.id, selectedTags);
-		// await fetchAllTags();
-		showTagModal = false;
+
+		const formData = new FormData();
+		formData.append('noteId', note.id.toString());
+		formData.append('tags', JSON.stringify(selectedTags));
+
+		try {
+			const result = await fetch(`/note/${note.id}?/saveTags`, {
+				method: 'POST',
+				body: formData,
+			});
+
+			if (result.ok) {
+				await fetchAllTags();
+				showTagModal = false;
+			}
+		} catch (err) {
+			console.error(err);
+			console.error('Failed to save tags');
+		}
 	}
 
 	onMount(async () => {
