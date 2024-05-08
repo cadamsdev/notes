@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { notes, selectedNote, type Note, deleteNote } from '../store';
+	import { notes, selectedNote, type Note, deleteNote, createNote } from '../store';
 	import clsx from 'clsx';
 	import { get } from 'svelte/store';
 	import { goto } from '$app/navigation';
@@ -26,24 +26,7 @@
 	}
 
 	async function handleCreateNote(): Promise<void> {
-		const formData = new FormData();
-		formData.append('title', 'A title');
-		formData.append('content', '');
-
-		fetch('/', {
-			method: 'POST',
-			body: formData
-		})
-		.then((response) => response.json())
-		.then((data) => {
-			notes.update((items) => {
-				items.push(data);
-				return items;
-			});
-		})
-		.catch((error) => {
-			console.error('Error:', error);
-		});
+		await createNote();
 	}
 
 	function handleSearch(e: Event) {
@@ -78,7 +61,7 @@
 	<div>
 		<div class="p-4">
 			<div class="flex justify-end">
-				<button on:click={handleCreateNote} class="bg-slate-200 hover:bg-slate-300 p-2 rounded mb-4"
+				<button on:click={async () => await handleCreateNote()} class="bg-slate-200 hover:bg-slate-300 p-2 rounded mb-4"
 					><Icon icon="fa-solid:plus" /></button>
 			</div>
 			<Input on:input={handleSearch} placeholder="Search..." />

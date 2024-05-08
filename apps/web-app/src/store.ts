@@ -25,6 +25,27 @@ export async function fetchTags(): Promise<void> {
   }
 }
 
+export async function createNote(): Promise<void> {
+  const formData = new FormData();
+  formData.append('title', 'A title');
+  formData.append('content', '');
+
+  const response = await fetch('/', {
+    method: 'POST',
+    body: formData
+  });
+
+  if (response.ok) {
+    const obj = await response.json();
+    // TODO fix
+    const data = JSON.parse(obj.data);
+    notes.update((items) => {
+      items.push({ id: Number(data[1]), title: 'A title', content: '' });
+      return items;
+    });
+  }
+}
+
 export async function deleteNote(note: Note): Promise<void> {
   try {
     const formData = new FormData();

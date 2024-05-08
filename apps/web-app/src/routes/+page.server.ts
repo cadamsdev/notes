@@ -5,7 +5,7 @@ export const actions = {
 	default: async () => {
     const result = createNote('A title', '');
     return {
-      result,
+      lastId: result,
     }
 	},
 } satisfies Actions;
