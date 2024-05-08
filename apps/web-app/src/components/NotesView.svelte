@@ -47,7 +47,6 @@
 	}
 
 	function handleSearch(e: Event) {
-		console.log('handle search');
 		searchText = (e.target as HTMLInputElement).value.toLowerCase();
 		filteredNotes = $notes.filter((note) => note.title.toLowerCase().includes(searchText));
 	}

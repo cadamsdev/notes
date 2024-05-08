@@ -14,7 +14,6 @@ export const tags = writable<TagRecord[]>([]);
 
 export async function fetchAllTags(): Promise<void> {
   if (browser) {
-    console.log('calling fetchAllTags')
     const result = await fetch ('/api/tags', {
       method: 'GET',
       headers: {
@@ -22,7 +21,6 @@ export async function fetchAllTags(): Promise<void> {
       }
     });
     const data = await result.json();
-    console.log('tags', data)
     tags.set(data);
   }
 }
