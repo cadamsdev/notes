@@ -1,7 +1,7 @@
 <script lang="ts">
 	import clsx from 'clsx';
 	import { onDestroy, onMount } from 'svelte';
-	import { notes, selectedNote, type Note, fetchAllTags } from '../../../store';
+	import { notes, selectedNote, type Note, fetchTags } from '../../../store';
 	import { browser } from '$app/environment';
 	import type { PageData } from './$types';
 	import { get } from 'svelte/store';
@@ -107,7 +107,7 @@
 			});
 
 			if (result.ok) {
-				await fetchAllTags();
+				await fetchTags();
 				showTagModal = false;
 			}
 		} catch (err) {

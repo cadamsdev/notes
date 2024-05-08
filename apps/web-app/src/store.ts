@@ -12,7 +12,7 @@ export const notes = writable<Note[]>([]);
 export const selectedNote = writable<Note | undefined>();
 export const tags = writable<TagRecord[]>([]);
 
-export async function fetchAllTags(): Promise<void> {
+export async function fetchTags(): Promise<void> {
   if (browser) {
     const result = await fetch ('/api/tags', {
       method: 'GET',
@@ -25,7 +25,7 @@ export async function fetchAllTags(): Promise<void> {
   }
 }
 
-export async function removeNote(note: Note): Promise<void> {
+export async function deleteNote(note: Note): Promise<void> {
   try {
     const formData = new FormData();
     formData.append('id', note.id.toString());
@@ -61,7 +61,7 @@ export async function deleteTag(tagId: number): Promise<void> {
 
 }
 
-export async function editTag(tag: TagRecord): Promise<void> {
+export async function updateTag(tag: TagRecord): Promise<void> {
   const formData = new FormData();
   formData.append('id', tag.id.toString());
   formData.append('name', tag.name);

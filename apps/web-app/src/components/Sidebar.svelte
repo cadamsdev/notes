@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { deleteTag, editTag, fetchAllTags, tags } from '../store';
+	import { deleteTag, updateTag, fetchTags, tags } from '../store';
 	import ContextMenu from './ContextMenu.svelte';
 	import type { TagRecord } from '../interfaces/TagRecord';
 	import Dialog from './Dialog.svelte';
@@ -13,7 +13,7 @@
 	let showRemoveTagConfirmationModal = false;
 
 	async function load(): Promise<void> {
-		await fetchAllTags();
+		await fetchTags();
 	}
 
 	async function handleRemoveTag() {
@@ -26,7 +26,7 @@
 
 	async function handleRenameTag() {
 		if (browser) {
-			await editTag(currentTag);
+			await updateTag(currentTag);
 		}
 		showRenameModal = false;
 	}
