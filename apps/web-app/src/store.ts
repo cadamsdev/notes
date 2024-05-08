@@ -44,13 +44,27 @@ export function deleteTag(tagId: number): void {
   tags.set(newTags);
 }
 
-export function editTag(tag: TagRecord): void {
-	// window.electron.editTag(tag);
-	const tempTags = [...get(tags)];
-  const tempTag = tempTags.find((t) => t.id === tag.id);
-  if (tempTag) {
-    tempTag.name = tag.name;
-  }
+export async function editTag(tag: TagRecord): Promise<void> {
+  const formData = new FormData();
+  formData.append('id', tag.id.toString());
+  formData.append('name', tag.name);
 
-	tags.set(tempTags);
+  try {
+    const response = await fetch(`/tag/${tag.id}?/updateTag`, {
+			method: 'POST',
+			body: formData
+		});
+
+    if (response.ok) {
+      const tempTags = [...get(tags)];
+      const tempTag = tempTags.find((t) => t.id === tag.id);
+      if (tempTag) {
+        tempTag.name = tag.name;
+      }
+
+      tags.set(tempTags);
+    }
+  } catch (err) {
+    console.error(err);
+  }
 }
