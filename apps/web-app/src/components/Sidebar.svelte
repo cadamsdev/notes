@@ -16,12 +16,12 @@
 		await fetchAllTags();
 	}
 
-	function handleRemoveTag() {
+	async function handleRemoveTag() {
 		if (!currentTag) {
 			throw new Error('currentTag should be defined.');
 		}
 
-		deleteTag(currentTag.id);
+		await deleteTag(currentTag.id);
 	}
 
 	async function handleRenameTag() {
@@ -98,7 +98,7 @@
 <ConfirmationDialog
 	showModal={showRemoveTagConfirmationModal}
 	on:closeModal={() => showRemoveTagConfirmationModal = false}
-	on:action={() => handleRemoveTag()}
+	on:action={async () => await handleRemoveTag()}
 />
 
 

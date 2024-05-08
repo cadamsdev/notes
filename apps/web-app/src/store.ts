@@ -27,21 +27,40 @@ export async function fetchAllTags(): Promise<void> {
   }
 }
 
-export async function removeNote(note: Note) {
+export async function removeNote(note: Note): Promise<void> {
   try {
-    // window.electron.deleteNote(note.id);
-    // const filteredNotes = get(notes).filter((n) => n.id !== note.id);
-    // notes.set(filteredNotes);
+    const formData = new FormData();
+    formData.append('id', note.id.toString());
+
+    const response = await fetch(`/note/${note.id}?/deleteNote`, {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (response.ok) {
+      const filteredNotes = get(notes).filter((n) => n.id !== note.id);
+      notes.set(filteredNotes);
+    }
   } catch (err) {
     console.error(err);
   }
 }
 
-export function deleteTag(tagId: number): void {
-  // window.electron.deleteTag(tagId);
-  const tempTags = [...get(tags)];
-  const newTags = tempTags.filter((tag) => tag.id !== tagId);
-  tags.set(newTags);
+export async function deleteTag(tagId: number): Promise<void> {
+  const formData = new FormData();
+  formData.append('id', tagId.toString());
+
+  const response = await fetch(`/tag/${tagId}?/deleteTag`, {
+    method: 'POST',
+    body: formData,
+  });
+
+  if (response.ok) {
+    const tempTags = [...get(tags)];
+    const newTags = tempTags.filter((tag) => tag.id !== tagId);
+    tags.set(newTags);
+  }
+
 }
 
 export async function editTag(tag: TagRecord): Promise<void> {

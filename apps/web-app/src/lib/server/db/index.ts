@@ -35,8 +35,8 @@ function seed() {
       note_id integer NOT NULL,
       tag_id integer NOT NULL,
       primary key (note_id, tag_id),
-      foreign key (note_id) references notes(id),
-      foreign key (tag_id) references tags(id)
+      foreign key (note_id) references notes(id) on delete cascade,
+      foreign key (tag_id) references tags(id) on delete cascade
     );
   `;
 

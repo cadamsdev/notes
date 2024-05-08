@@ -57,12 +57,12 @@
 		showConfirmationModal = true;
 	}
 
-	function handleRemoveNote(): void {
+	async function handleRemoveNote(): Promise<void> {
 		if (!noteToRemove) {
 			return;
 		}
 
-		removeNote(noteToRemove);
+		await removeNote(noteToRemove);
 		noteToRemove = undefined;
 	}
 
@@ -109,5 +109,5 @@
 <ConfirmationDialog
 	showModal={showConfirmationModal}
 	on:closeModal={handleCloseConfirmationDialog}
-	on:action={handleRemoveNote}
+	on:action={async () => await handleRemoveNote()}
 />

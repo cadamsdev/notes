@@ -1,4 +1,4 @@
-import { getTagsForNote, saveTags, updateNote } from "$lib/server/db";
+import { deleteNote, getTagsForNote, saveTags, updateNote } from "$lib/server/db";
 import type { Actions } from "@sveltejs/kit";
 
 export async function load({ params }) {
@@ -15,10 +15,10 @@ export async function load({ params }) {
 
 export const actions = {
 	updateNote: async ({ request }) => {
-    const formData = await request.formData();
-    const noteId = Number(formData.get("id"));
-    const title = formData.get("title")?.toString() ?? '';
-    const content = formData.get("content")?.toString() ?? '';
+		const formData = await request.formData();
+		const noteId = Number(formData.get('id'));
+		const title = formData.get('title')?.toString() ?? '';
+		const content = formData.get('content')?.toString() ?? '';
 
 		const result = updateNote({ id: noteId, title, content });
 		return {
@@ -27,12 +27,20 @@ export const actions = {
 	},
 	saveTags: async ({ request }) => {
 		const formData = await request.formData();
-		const noteId = Number(formData.get("noteId"));
-		const tags = JSON.parse(formData.get("tags")?.toString() ?? '[]');
+		const noteId = Number(formData.get('noteId'));
+		const tags = JSON.parse(formData.get('tags')?.toString() ?? '[]');
 
 		const result = saveTags(noteId, tags);
 		return {
 			result
 		};
 	},
+	deleteNote: async ({ request }) => {
+		const formData = await request.formData();
+		const noteId = Number(formData.get('id'));
+		const result = deleteNote(noteId);
+		return {
+			result
+		};
+	}
 } satisfies Actions;
