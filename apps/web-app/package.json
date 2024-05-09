@@ -9,7 +9,9 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --check . && eslint .",
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"build:docker": "docker build -t notes-app .",
+		"docker": "docker run -p 4173:4173 notes-app"
 	},
 	"devDependencies": {
 		"@iconify/svelte": "^3.1.6",
