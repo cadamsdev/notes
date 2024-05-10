@@ -17,4 +17,5 @@ jobs:
         node-version: '20'
         cache: 'npm'
     - run: npm ci
+    - run: npx ts-node scripts/rename-env.ts
     - run: npm run build:web
