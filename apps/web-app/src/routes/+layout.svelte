@@ -11,6 +11,10 @@
 	selectedNote.set(data.notes[0]);
 </script>
 
+<svelte:head>
+	<title>Block Notes</title>
+</svelte:head>
+
 <div class="flex h-full">
 	<Sidebar />
 
