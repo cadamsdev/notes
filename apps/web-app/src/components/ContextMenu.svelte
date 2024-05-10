@@ -11,6 +11,7 @@
 	let component: HTMLElement;
 
 	function show(e: MouseEvent) {
+		e.preventDefault();
 		const targetEl = document.querySelector(`#${targetId}`);
 		showMenu = !!targetEl && e.composedPath().includes(targetEl);
 		browser = {
