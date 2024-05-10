@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "concurrently \"npm run web\" \"wait-on http://localhost:5173 && npm run desktop\"",
     "web:dev": "npm run -w web dev",
+    "build:web": "npm run -w web build",
     "desktop": "npm run -w desktop start"
   },
   "workspaces": [
