@@ -18,7 +18,16 @@ function renameEnv() {
 }
 
 function createDB() {
-  const dbPath = path.resolve(webAppDir, 'data', 'database.sqlite');
+  // create data folder
+  const dataDir = path.resolve(webAppDir, 'data');
+  if (fs.existsSync(dataDir)) {
+    console.log('data folder already exists. skipping...');
+  } else {
+    fs.mkdirSync(dataDir);
+  }
+
+  // create database.sqlite file
+  const dbPath = path.resolve(dataDir, 'database.sqlite');
   if (fs.existsSync(dbPath)) {
     console.log('database.sqlite file already exists. skipping...');
   } else {
