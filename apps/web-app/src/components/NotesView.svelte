@@ -13,6 +13,9 @@
 	let showConfirmationModal = false;
 	let noteToRemove: Note | undefined;
 	let searchText = '';
+	let searchSection: HTMLDivElement;
+
+	$: searchSectionHeight = searchSection?.clientHeight;
 
 	const unsubscribe = notes.subscribe((value) => {
 		filteredNotes = [...value].filter((note) => note.title.toLowerCase().includes(searchText));
@@ -52,6 +55,7 @@
 		showConfirmationModal = false;
 	}
 
+
 	onDestroy(() => {
 		unsubscribe();
 	});
@@ -59,14 +63,14 @@
 
 <div class="bg-slate-200 w-[240px] min-w-[240px] max-w-[240px]">
 	<div>
-		<div class="p-4">
+		<div bind:this={searchSection} class="p-4">
 			<div class="flex justify-end">
 				<button on:click={async () => await handleCreateNote()} class="bg-slate-200 hover:bg-slate-300 p-2 rounded mb-4"
 					><Icon icon="fa-solid:plus" /></button>
 			</div>
 			<Input on:input={handleSearch} placeholder="Search..." />
 		</div>
-		<div class="max-h-[434px] overflow-y-auto">
+		<div class="overflow-y-auto" style="height: calc(100vh - {searchSectionHeight}px);">
 			{#each filteredNotes as note, index}
 				<button
 					id={`note-${note.id}`}
