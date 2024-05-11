@@ -29,7 +29,11 @@
 	}
 
 	async function handleCreateNote(): Promise<void> {
-		await createNote();
+		const note = await createNote();
+		if (note) {
+			selectedNote.set(note);
+			goto(`/note/${note.id}`);
+		}
 	}
 
 	function handleSearch(e: Event) {
