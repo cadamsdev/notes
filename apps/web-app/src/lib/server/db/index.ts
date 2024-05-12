@@ -10,14 +10,6 @@ db.pragma('journal_mode = WAL');
 seed();
 
 function seed() {
-	db.exec(`
-    CREATE TABLE IF NOT EXISTS notes (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      title TEXT,
-      content TEXT
-    );
-  `);
-
 	const sql = `
     create table if not exists notes(
       id integer primary key autoincrement not null,
