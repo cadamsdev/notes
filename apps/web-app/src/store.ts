@@ -1,16 +1,48 @@
 import { get, writable } from "svelte/store";
-import type { TagRecord } from "./interfaces/TagRecord";
 import { browser } from "$app/environment";
+import type { Tag } from "./interfaces/Tag";
 
 export interface Note {
   id: number;
   title: string;
-  content: string;
+  content?: string;
+  tags?: Tag[];
 }
 
 export const notes = writable<Note[]>([]);
 export const selectedNote = writable<Note | undefined>();
-export const tags = writable<TagRecord[]>([]);
+export const tags = writable<Tag[]>([]);
+
+export async function fetchNotes(): Promise<Note[]> {
+  if (browser) {
+    const result = await fetch('/api/notes', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await result.json();
+    notes.set(data);
+    return data;
+  }
+
+  return [];
+}
+
+// export async function fetchNoteById(id: number): Promise<Note | undefined> {
+//   if (browser) {
+//     const result = await fetch(`/api/note/${id}`, {
+//       method: 'GET',
+//       headers: {
+//         'Content-Type': 'application/json'
+//       }
+//     });
+//     const data = await result.json() as Note;
+//     return data;
+//   }
+
+//   return undefined;
+// }
 
 export async function fetchTags(): Promise<void> {
   if (browser) {
@@ -87,7 +119,7 @@ export async function deleteTag(tagId: number): Promise<void> {
 
 }
 
-export async function updateTag(tag: TagRecord): Promise<void> {
+export async function updateTag(tag: Tag): Promise<void> {
   const formData = new FormData();
   formData.append('id', tag.id.toString());
   formData.append('name', tag.name);

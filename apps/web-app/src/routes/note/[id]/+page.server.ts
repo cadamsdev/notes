@@ -5,7 +5,7 @@ export async function load({ params }) {
 	const noteId = +params.id;
 
 	const tags = getTagsForNote(noteId)
-	.map((tag) => ({ value: tag.id, label: tag.name }));
+	.map((tag) => ({ id: tag.id, name: tag.name }));
 
 	return {
 		id: params.id,

@@ -56,7 +56,7 @@
 		</div>
 		{#each $tags as tag}
 			<button id={`tag-${tag.id}`} class="block pl-4 pb-1">
-				<span class="text-gray-200 hover:text-gray-50">{tag.name}</span><span
+				<span class="text-gray-200 hover:text-gray-50">#{tag.name}</span><span
 					class="text-gray-400 text-sm">&nbsp;{tag.count}</span
 				>
 

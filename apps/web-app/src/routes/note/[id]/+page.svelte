@@ -1,7 +1,7 @@
 <script lang="ts">
 	import clsx from 'clsx';
 	import { onDestroy, onMount } from 'svelte';
-	import { notes, selectedNote, type Note, fetchTags } from '../../../store';
+	import { notes, selectedNote, type Note, fetchTags, fetchNotes } from '../../../store';
 	import { browser } from '$app/environment';
 	import type { PageData } from './$types';
 	import { get } from 'svelte/store';
@@ -17,18 +17,15 @@
 	let editor: EditorJS.default;
 	let timer: any;
 	let showTagModal = false;
-	let selectedTags: Tag[] = [];
 	let tempTags: Tag[] = [];
-
-	$: {
-		selectedTags = [...data.tags];
-	}
-
+	let selectedTags: Tag[] = [...data.tags];
 
 	const unsubscribe = selectedNote.subscribe((note) => {
 		if (!note) {
 			return;
 		}
+
+		selectedTags = [...(note.tags ?? [])];
 
 		if (!note.content) {
 			editor?.render({ blocks: [] });
@@ -41,7 +38,7 @@
 
 	function handleSelectTag(e: CustomEvent<{ tags: Tag[] }>) {
 		const { tags } = e.detail;
-		tempTags = [...tags];
+		selectedTags = [...tags];
 	}
 
 	function onInputChange(): void {
@@ -68,7 +65,9 @@
 				const formData = new FormData();
 				formData.append('id', updatedNote.id.toString());
 				formData.append('title', updatedNote.title);
-				formData.append('content', updatedNote.content);
+				if (updatedNote.content) {
+					formData.append('content', updatedNote.content);
+				}
 
 				const result = await fetch(`/note/${id}?/updateNote`, {
 					method: 'POST',
@@ -94,8 +93,7 @@
 			return;
 		}
 
-		selectedTags = [...tempTags];
-
+		selectedTags = [...selectedTags, ...tempTags];
 		const formData = new FormData();
 		formData.append('noteId', note.id.toString());
 		formData.append('tags', JSON.stringify(selectedTags));
@@ -107,7 +105,11 @@
 			});
 
 			if (result.ok) {
-				await fetchTags();
+				const [_, notes] = await Promise.all([fetchTags(), fetchNotes()]);
+
+				const currentNote = notes.find((n) => n.id === note.id);
+				selectedNote.set(currentNote);
+
 				showTagModal = false;
 			}
 		} catch (err) {
@@ -153,7 +155,6 @@
 
 	function openTagModal() {
 		showTagModal = true;
-		selectedTags = [...data.tags];
 	}
 
 	onDestroy(() => {
@@ -186,7 +187,7 @@
 			{:else}
 				<div class="flex gap-2">
 					{#each selectedTags as tag}
-						<button on:click={openTagModal} class="text-sm">{tag.label}</button>
+						<button on:click={openTagModal} class="text-sm">{tag.name}</button>
 					{/each}
 				</div>
 			{/if}
@@ -199,9 +200,10 @@
 		<div>
 			<div class="font-bold mb-4">Tags</div>
 		</div>
-		<div class="mb-4">
-			<TagCombobox {selectedTags} on:selectTag={handleSelectTag} />
-		</div>
+		<TagCombobox
+			selectedTags={selectedTags}
+			on:selectTag={handleSelectTag}
+		/>
 
 		<div class="flex justify-end gap-2">
 			<Button on:click={handleSaveTags}>Save</Button>

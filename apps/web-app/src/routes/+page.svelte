@@ -6,7 +6,6 @@
   async function handleCreateNote() {
     const note = await createNote();
     if (note) {
-      console.log(note.id);
       selectedNote.set(note);
       goto(`/note/${note.id}`);
     }

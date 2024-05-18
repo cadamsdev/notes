@@ -1,8 +1,7 @@
 import Database from 'better-sqlite3';
 import { DB_PATH } from '$env/static/private';
-import type { Note } from '../../../store';
+import { type Note } from '../../../store';
 import type { Tag } from '../../../interfaces/Tag';
-import type { TagRecord } from '../../../interfaces/TagRecord';
 
 const db = new Database(DB_PATH);
 
@@ -46,13 +45,88 @@ export function createNote(title: string, content: string) {
   return result.lastInsertRowid;
 };
 
-export function getNotes() {
-  const sql = `
-    SELECT * FROM notes
+export function getNotes(): Note[] {
+	const notesQuery = `
+    SELECT
+      n.id,
+      n.title,
+      t.id as tag_id,
+      t.name as tag_name
+    FROM notes as n
+    LEFT JOIN note_tags as nt ON nt.note_id = n.id
+    LEFT JOIN tags as t ON t.id = nt.tag_id
   `;
 
-  const result = db.prepare(sql).all();
-  return result;
+	const notesResult = db.prepare(notesQuery).all() as {
+		id: number;
+		title: string;
+		tag_id: number;
+		tag_name: string;
+    tags?: Tag[];
+	}[];
+
+	const mergedNotes = notesResult.reduce(
+		(acc, curr) => {
+			const existing = acc.find((note) => note.id === curr.id);
+			if (existing) {
+				existing.tags.push({
+					id: curr.tag_id,
+					name: curr.tag_name
+				});
+			} else {
+				acc.push({
+					id: curr.id,
+					title: curr.title,
+					tags: curr.tag_id ? [{ id: curr.tag_id, name: curr.tag_name }] : []
+				});
+			}
+
+			return acc;
+		},
+		[] as {
+			id: number;
+			title: string;
+			tag_id?: number;
+			tag_name?: string;
+			tags: Tag[];
+		}[]
+	);
+
+	return mergedNotes;
+}
+
+export function getNotesForId(id: number): Note | null {
+	const notesQuery = `
+    SELECT
+      n.id,
+      n.title,
+      t.id as tag_id,
+      t.name as tag_name
+    FROM notes as n
+    LEFT JOIN note_tags as nt ON nt.note_id = n.id
+    LEFT JOIN tags as t ON t.id = nt.tag_id
+    WHERE n.id = ?
+  `;
+
+	const notesResult = db.prepare(notesQuery).all(id) as {
+		id: number;
+		title: string;
+		tag_id: number;
+		tag_name: string;
+		tags?: Tag[];
+	}[];
+
+  if (notesResult.length > 0) {
+    const note: Note = {
+      id: notesResult[0].id,
+      title: notesResult[0].title,
+      tags: notesResult.filter((tag) => tag.tag_id).map((tag) => ({ id: tag.tag_id, name: tag.tag_name }))
+    };
+
+    return note;
+  }
+
+  return null;
 }
 
 export function updateNote(note: Note) {
@@ -79,18 +153,20 @@ export function getAllTags() {
   return result;
 }
 
-export function getTagsForNote(noteId: number): TagRecord[] {
+export function getTagsForNote(noteId: number): Tag[] {
   const sql = `select t.id, t.name from tags as t
   join note_tags as nt on nt.tag_id = t.id
   where nt.note_id = ?`;
 
   const result = db.prepare(sql).all(noteId); 
-  return result as TagRecord[];
+  return result as Tag[];
 }
 
 export function saveTags(noteId: number, tags: Tag[]) {
-  const newTags = tags.filter((tag) => tag.value === -1);
-  const existingTags = tags.filter((tag) => tag.value !== -1);
+  const newTags = tags.filter((tag) => tag.id === -1);
+  const tagsToAdd = tags.filter((tag) => tag.id !== -1);
+  const currentTags = getTagsForNote(noteId);
+  const tagsToDelete = currentTags.filter((tag) => !tagsToAdd.find((t) => t.id === tag.id));
 
   if (newTags.length) {
     let query = `
@@ -105,7 +181,7 @@ export function saveTags(noteId: number, tags: Tag[]) {
       query += i < newTags.length - 1 ? ',' : ';';
 
       const tag = newTags[i];
-      sqlData.push(tag.label);
+      sqlData.push(tag.name);
     }
 
     const result = db.prepare(query).run(sqlData);
@@ -132,21 +208,38 @@ export function saveTags(noteId: number, tags: Tag[]) {
     }
   }
 
-  if (existingTags.length) {
-    let query = `
+  if (tagsToAdd.length) {
+		let query = `
       INSERT OR IGNORE INTO note_tags (note_id, tag_id)
       VALUES
     `;
 
+		const sqlData = [];
+
+		for (let i = 0; i < tagsToAdd.length; i++) {
+			query += '(?, ?)';
+			query += i < tagsToAdd.length - 1 ? ',' : ';';
+
+			const tag = tagsToAdd[i];
+			sqlData.push(noteId);
+			sqlData.push(tag.id);
+		}
+
+		db.prepare(query).run(sqlData);
+	}
+
+  if (tagsToDelete.length) {
+    const query = `
+      DELETE FROM note_tags
+      WHERE note_id = ? AND tag_id = ?
+    `;
+
     const sqlData = [];
 
-    for (let i = 0; i < existingTags.length; i++) {
-      query += '(?, ?)';
-      query += i < existingTags.length - 1 ? ',' : ';';
-
-      const tag = existingTags[i];
+    for (let i = 0; i < tagsToDelete.length; i++) {
+      const tag = tagsToDelete[i];
       sqlData.push(noteId);
-      sqlData.push(tag.value);
+      sqlData.push(tag.id);
     }
 
     db.prepare(query).run(sqlData);
@@ -165,7 +258,7 @@ export function deleteTag(tagId: number) {
   return result;
 }
 
-export function updateTag(tag: TagRecord) {
+export function updateTag(tag: Tag) {
   const sql = `update tags set name = ? where id = ?`;
   const result = db.prepare(sql).run(tag.name, tag.id);
   return result;

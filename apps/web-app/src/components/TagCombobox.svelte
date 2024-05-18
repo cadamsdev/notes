@@ -6,7 +6,7 @@
 	import type { Tag } from '../interfaces/Tag';
 	import { tags as allTags } from '../store';
 
-	export let tags: Tag[] = $allTags.map((tag) => ({ label: tag.name, value: tag.id }));
+	export let tags: Tag[] = $allTags;
 	export let selectedTags: Tag[] = [];
 
 	let showPopup = false;
@@ -50,7 +50,7 @@
 
 		searchText = '';
 		selectedTags = [...selectedTags, tag];
-		tags = tags.filter((t) => t.value !== tag.value);
+		tags = tags.filter((t) => t.id !== tag.id);
 		filteredTags = [...tags];
 		showPopup = false;
 
@@ -58,7 +58,7 @@
 	}
 
 	function removeTag(tag: Tag) {
-		selectedTags = selectedTags.filter((t) => t.value !== tag.value);
+		selectedTags = selectedTags.filter((t) => t.id !== tag.id);
 		tags = [...tags, tag];
 
 		dispatch('selectTag', { tags: selectedTags });
@@ -78,18 +78,18 @@
 		const value = (e.target as HTMLInputElement).value;
 		const valueToLower = value.toLowerCase();
 		searchText = value;
-		filteredTags = tags.filter((tag) => !selectedTags.some((st) => st.value === tag.value) && tag.label.toLowerCase().includes(valueToLower));
-		hasMatch = tags.findIndex((tag) => tag.label.toLowerCase() === valueToLower) !== -1;
+		filteredTags = tags.filter((tag) => !selectedTags.some((st) => st.id === tag.id) && tag.name.toLowerCase().includes(valueToLower));
+		hasMatch = tags.findIndex((tag) => tag.name.toLowerCase() === valueToLower) !== -1;
 
 		if (!hasMatch) {
-			hasMatch = selectedTags.findIndex((tag) => tag.label.toLowerCase() === valueToLower) !== -1;
+			hasMatch = selectedTags.findIndex((tag) => tag.name.toLowerCase() === valueToLower) !== -1;
 		}
 
 		showPopup = (!hasMatch && !!searchText) || !!filteredTags.length;
 	}
 
 	onMount(() => {
-		filteredTags = [...tags].filter((tag) => !selectedTags.some((st) => st.value === tag.value))
+		filteredTags = [...tags].filter((tag) => !selectedTags.some((st) => st.id === tag.id));
 
 		if (browser) {
 			inputRef.focus();
@@ -107,7 +107,7 @@
 <div class="flex flex-wrap gap-1 mb-4">
 	{#each selectedTags as tag}
 		<div class="bg-gray-500 text-white p-1 rounded text-xs flex items-center gap-1">
-			<div>{tag.label}</div>
+			<div>{tag.name}</div>
 			<button on:click={(e) => handleRemoveTag(e, tag)} class="p-1 hover:bg-red-500 text-white"
 				>X</button
 			>
@@ -145,14 +145,14 @@
 			<div class="max-h-[207.95px] overflow-y-scroll">
 				{#each filteredTags as tag}
 					<button on:click={(e) => handleSelectTag(e, tag)} class="block p-2">
-						{tag.label}
+						{tag.name}
 					</button>
 				{/each}
 			</div>
 
 			{#if !hasMatch && searchText}
 				<button
-					on:click={(e) => handleCreateTag(e, { label: searchText, value: -1 })}
+					on:click={(e) => handleCreateTag(e, { name: searchText, id: -1 })}
 					class="block p-2"
 				>
 					Create "{searchText}"

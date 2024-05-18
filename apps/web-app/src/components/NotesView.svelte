@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { notes, selectedNote, type Note, deleteNote, createNote } from '../store';
+	import { notes, selectedNote, type Note, deleteNote, createNote, tags } from '../store';
 	import clsx from 'clsx';
 	import { get } from 'svelte/store';
 	import { goto } from '$app/navigation';
@@ -84,8 +84,15 @@
 					})}
 					on:click={() => selectNote(note)}
 				>
-					{note.title}
-
+					<div>{note.title}</div>
+					<div class="flex gap-1">
+						{#each (note.tags ?? []) as tag}
+							<div class="inline-block px-2 py-1 text-xs bg-gray-300 rounded-sm">
+								#{tag.name}
+							</div>
+						{/each}
+					</div>
+					
 					<ContextMenu
 						targetId={`note-${note.id}`}
 						actions={[{ label: 'Remove', action: () => handleShowRemoveNoteDialog(note) }]}
