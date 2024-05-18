@@ -41,11 +41,8 @@
 		selectedTags = [...tags];
 	}
 
-	function onInputChange(): void {
-		clearTimeout(timer);
-
-		timer = setTimeout(async () => {
-			const outputData = await editor.save();
+	async function save() {
+		const outputData = await editor.save();
 			let title: string | undefined;
 			if (outputData.blocks.length > 0) {
 				title = outputData.blocks[0].data?.['text'];
@@ -55,7 +52,6 @@
 
 			if (browser) {
 				const id = +data.id;
-
 				const updatedNote: Note = {
 					id,
 					title: title || 'New note',
@@ -83,7 +79,6 @@
 					return items;
 				});
 			}
-		}, 750);
 	}
 
 	async function handleSaveTags() {
@@ -149,8 +144,14 @@
 				ul: BulletedList,
 				ol: NumberedList,
 			},
-			data
+			data,
+			onChange: async () => {
+				await save();
+			}
 		});
+
+
+
 	});
 
 	function openTagModal() {
@@ -172,7 +173,6 @@
 
 		<div
 			bind:this={editorRef}
-			on:input={onInputChange}
 			id="editor"
 			class={clsx({ hidden: !$selectedNote })}
 		></div>
