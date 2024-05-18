@@ -50,6 +50,7 @@ export function getNotes(): Note[] {
     SELECT
       n.id,
       n.title,
+      n.content,
       t.id as tag_id,
       t.name as tag_name
     FROM notes as n
@@ -60,6 +61,7 @@ export function getNotes(): Note[] {
 	const notesResult = db.prepare(notesQuery).all() as {
 		id: number;
 		title: string;
+    content: string;
 		tag_id: number;
 		tag_name: string;
     tags?: Tag[];
@@ -77,6 +79,7 @@ export function getNotes(): Note[] {
 				acc.push({
 					id: curr.id,
 					title: curr.title,
+          content: curr.content,
 					tags: curr.tag_id ? [{ id: curr.tag_id, name: curr.tag_name }] : []
 				});
 			}
@@ -86,6 +89,7 @@ export function getNotes(): Note[] {
 		[] as {
 			id: number;
 			title: string;
+      content: string,
 			tag_id?: number;
 			tag_name?: string;
 			tags: Tag[];
@@ -111,6 +115,7 @@ export function getNotesForId(id: number): Note | null {
 	const notesResult = db.prepare(notesQuery).all(id) as {
 		id: number;
 		title: string;
+    content: string;
 		tag_id: number;
 		tag_name: string;
 		tags?: Tag[];
@@ -120,6 +125,7 @@ export function getNotesForId(id: number): Note | null {
     const note: Note = {
       id: notesResult[0].id,
       title: notesResult[0].title,
+      content: notesResult[0].content,
       tags: notesResult.filter((tag) => tag.tag_id).map((tag) => ({ id: tag.tag_id, name: tag.tag_name }))
     };
 

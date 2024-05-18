@@ -5,7 +5,7 @@ import type { Tag } from "./interfaces/Tag";
 export interface Note {
   id: number;
   title: string;
-  content?: string;
+  content: string;
   tags?: Tag[];
 }
 
