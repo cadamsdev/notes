@@ -2,7 +2,7 @@
 	import Icon from '@iconify/svelte';
 	import { notes, selectedNote, type Note, deleteNote, createNote, tags } from '../store';
 	import clsx from 'clsx';
-	import { get } from 'svelte/store';
+	import { get, type Unsubscriber } from 'svelte/store';
 	import { goto } from '$app/navigation';
 	import { onDestroy } from 'svelte';
 	import ContextMenu from './ContextMenu.svelte';
@@ -18,8 +18,8 @@
 	$: searchSectionHeight = searchSection?.clientHeight;
 
 	const unsubscribe = notes.subscribe((value) => {
-		filteredNotes = [...value].filter((note) => note.title.toLowerCase().includes(searchText));
-	});
+			filteredNotes = [...value].filter((note) => note.title.toLowerCase().includes(searchText));
+		});
 
 	function selectNote(note: Note): void {
 		if ($selectedNote?.id !== note.id) {
@@ -59,7 +59,6 @@
 		showConfirmationModal = false;
 	}
 
-
 	onDestroy(() => {
 		unsubscribe();
 	});
@@ -80,7 +79,8 @@
 					id={`note-${note.id}`}
 					class={clsx('block w-full text-left p-4 hover:bg-slate-300', {
 						'rounded-t': index === 0,
-						'rounded-b': index === get(notes).length - 1
+						'rounded-b': index === get(notes).length - 1,
+						'bg-slate-300': $selectedNote?.id === note.id,
 					})}
 					on:click={() => selectNote(note)}
 				>
