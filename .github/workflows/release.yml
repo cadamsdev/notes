@@ -2,20 +2,29 @@ name: Manual workflow
 on:
   workflow_dispatch:
     inputs:
-      logLevel:
-        description: 'Log level'     
+      semver:
+        description: 'The semver increment'
         required: true
-        default: 'warning'
-      tags:
-        description: 'Test scenario tags'  
+        default: 'patch'
+        type: choice
+        options:
+          - 'major'
+          - 'minor'
+          - 'patch'
 jobs:
-  build:
+  automation:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Run a one-line script
-      run: echo Hello, world!
-    - name: Run a multi-line script
+    - uses: actions/checkout@v4
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+    - name: Setup git user
       run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+    - name: Install dependencies
+      run: npm install
+    - name: Run automation script
+      run: node scripts/release.js ${{ github.event.inputs.semver }}
