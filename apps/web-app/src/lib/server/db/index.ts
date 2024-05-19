@@ -13,7 +13,9 @@ function seed() {
     create table if not exists notes(
       id integer primary key autoincrement not null,
       title text not null,
-      content text
+      content text,
+      created_at datetime default current_timestamp,
+      updated_at datetime
     );
 
     create table if not exists tags(
@@ -51,11 +53,14 @@ export function getNotes(): Note[] {
       n.id,
       n.title,
       n.content,
+      n.created_at,
+      n.updated_at,
       t.id as tag_id,
       t.name as tag_name
     FROM notes as n
     LEFT JOIN note_tags as nt ON nt.note_id = n.id
     LEFT JOIN tags as t ON t.id = nt.tag_id
+    ORDER BY n.created_at DESC
   `;
 
 	const notesResult = db.prepare(notesQuery).all() as {
