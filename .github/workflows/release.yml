@@ -52,8 +52,8 @@ jobs:
         platforms: linux/amd64,linux/arm64
         push: true
         tags: |
-          cadamsdev/notes-app:${{ steps.version.outputs.formatted_version }}
-          cadamsdev/notes-app:latest
+          cadamsdev/notes:${{ steps.version.outputs.formatted_version }}
+          cadamsdev/notes:latest
 
     - name: Push commits and tags
       run: node scripts/publish.mjs
