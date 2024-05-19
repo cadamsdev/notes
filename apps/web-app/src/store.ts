@@ -58,7 +58,7 @@ export async function createNote(): Promise<Note | null> {
     const data = JSON.parse(obj.data);
     const note: Note = { id: Number(data[1]), title: 'A title', content: '' };
     notes.update((items) => {
-      items.push(note);
+      items.unshift(note);
       return items;
     });
 
