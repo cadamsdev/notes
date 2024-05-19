@@ -55,19 +55,21 @@
 			Tags
 		</div>
 		{#each $tags as tag}
-			<button id={`tag-${tag.id}`} class="block pl-4 pb-1">
-				<span class="text-gray-200 hover:text-gray-50">#{tag.name}</span><span
-					class="text-gray-400 text-sm">&nbsp;{tag.count}</span
-				>
+			{#if (tag.count ?? 0) > 0}
+				<button id={`tag-${tag.id}`} class="block pl-4 pb-1">
+					<span class="text-gray-200 hover:text-gray-50">#{tag.name}</span><span
+						class="text-gray-400 text-sm">&nbsp;{tag.count}</span
+					>
 
-				<ContextMenu
-					targetId={`tag-${tag.id}`}
-					actions={[
-						{ label: 'Rename', action: () => handleShowRenameTagModal(tag) },
-						{ label: 'Remove', action: () => handleShowRemoveTagConfirmationModal(tag) }
-					]}
-				/>
-			</button>
+					<ContextMenu
+						targetId={`tag-${tag.id}`}
+						actions={[
+							{ label: 'Rename', action: () => handleShowRenameTagModal(tag) },
+							{ label: 'Remove', action: () => handleShowRemoveTagConfirmationModal(tag) }
+						]}
+					/>
+				</button>
+			{/if}
 		{/each}
 	</div>
 </div>
