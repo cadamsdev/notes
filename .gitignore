@@ -2,3 +2,4 @@ node_modules
 tmp
 .svelte-kit
 out/
+.DS_Store
