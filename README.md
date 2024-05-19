@@ -14,9 +14,9 @@ npm run web:dev
 ## Self hosting
 1. Pull docker image
 ```
-docker pull cadamsdev/notes-app:latest
+docker pull cadamsdev/notes:latest
 ```
 2. Run docker container
 ```
-docker run -d -p 4173:4173 -v ~/.block-notes:/app/data --name notes-app cadamsdev/notes-app
+docker run -d -p 4173:4173 -v ~/.block-notes:/app/data --name notes cadamsdev/notes
 ```

@@ -1,6 +1,6 @@
 {
 	"name": "web",
-	"version": "0.0.1",
+	"version": "0.0.0",
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
@@ -10,8 +10,8 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
-		"build:docker": "docker build -t cadamsdev/notes-app .",
-		"docker": "docker run -p 4173:4173 notes-app"
+		"build:docker": "docker build -t cadamsdev/notes .",
+		"docker": "docker run -p 4173:4173 notes"
 	},
 	"devDependencies": {
 		"@iconify/svelte": "^3.1.6",

@@ -9,6 +9,13 @@ RUN npm install
 # copy the rest of the files
 COPY . .
 
+# create .env file
+RUN mv .env.example .env
+
+# create database file
+RUN mkdir /app/data
+RUN touch /app/data/database.db
+
 # build the app
 RUN npm run build
 
@@ -20,10 +27,7 @@ COPY --from=base /app/package*.json ./
 COPY --from=base /app/build ./build
 COPY --from=base /app/vite.config.ts ./
 COPY --from=base /app/.svelte-kit ./.svelte-kit
-
-# create file /app/data/database.db
-RUN mkdir /app/data
-RUN touch /app/data/database.db
+COPY --from=base /app/data ./data
 
 # expose the port
 EXPOSE 4173
