@@ -14,7 +14,7 @@ RUN mv .env.example .env
 
 # create database file
 RUN mkdir /app/data
-RUN touch /app/data/database.db
+RUN touch /app/data/database.sqlite
 
 # build the app
 RUN npm run build
