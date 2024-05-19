@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const webAppDir = path.resolve(__dirname, '../', 'apps', 'web-app');
+const webAppDir = path.join(process.cwd(), 'apps', 'web-app');
 
 function renameEnv() {
   const envExampleFilePath = path.resolve(webAppDir, '.env.example');
