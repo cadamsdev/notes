@@ -150,7 +150,7 @@ export function updateNote(note: Note) {
 
 export function getAllTags() {
   const sql = `
-    select t.id, t.name, count(*) as \`count\` from tags as t
+    select t.id, t.name, count(nt.tag_id) as \`count\` from tags as t
     left join note_tags as nt on nt.tag_id = t.id
     group by t.id
     order by \`count\` desc

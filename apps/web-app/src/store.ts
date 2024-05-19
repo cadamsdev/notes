@@ -29,21 +29,6 @@ export async function fetchNotes(): Promise<Note[]> {
   return [];
 }
 
-// export async function fetchNoteById(id: number): Promise<Note | undefined> {
-//   if (browser) {
-//     const result = await fetch(`/api/note/${id}`, {
-//       method: 'GET',
-//       headers: {
-//         'Content-Type': 'application/json'
-//       }
-//     });
-//     const data = await result.json() as Note;
-//     return data;
-//   }
-
-//   return undefined;
-// }
-
 export async function fetchTags(): Promise<void> {
   if (browser) {
     const result = await fetch ('/api/tags', {
