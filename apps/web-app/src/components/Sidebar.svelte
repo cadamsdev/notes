@@ -57,7 +57,7 @@
 		{#each $tags as tag}
 			{#if (tag.count ?? 0) > 0}
 				<button id={`tag-${tag.id}`} class="block pl-4 pb-1">
-					<span class="text-text-secondary hover:text-text-secondary">#{tag.name}</span><span
+					<span class="text-text-secondary hover:text-text-secondary-hover">#{tag.name}</span><span
 						class="text-text-secondary text-sm">&nbsp;{tag.count}</span
 					>
 

@@ -7,6 +7,7 @@ export default {
 				text: '#e2e2e2',
 				'text-primary': 'rgb(230, 230, 230)',
 				'text-secondary': 'rgb(179, 179, 179)',
+				'text-secondary-hover': 'rgb(230, 230, 230)',
 				bg: '#151415',
 				'bg-secondary': '#2d2b2d',
 				'bg-secondary-hover': '#454245',
