@@ -40,13 +40,25 @@ body {
 	@apply text-text-secondary;
 }
 
+.ce-toolbar__plus:hover {
+	@apply bg-bg-secondary;
+}
+
 .ce-toolbar__settings-btn {
 	@apply text-text-secondary;
+}
+
+.ce-toolbar__settings-btn:hover {
+	@apply bg-bg-secondary;
 }
 
 .ce-popover {
 	@apply bg-bg-secondary;
 	@apply border border-bg-secondary;
+}
+
+.ce-popover__items .ce-popover-item:hover {
+	@apply bg-bg-secondary-hover;
 }
 
 .ce-popover-item {
@@ -56,18 +68,25 @@ body {
 .ce-popover-item__icon {
 	@apply text-text-secondary;
 	@apply bg-bg;
-	@apply border-bg;
-}
-
-.ce-popover__items .ce-popover-item:hover {
-	@apply bg-bg-on-secondary;
+	@apply shadow-none;
 }
 
 .cdx-search-field {
 	@apply bg-bg-on-secondary;
 	@apply text-text-secondary;
 	@apply border border-bg-secondary;
+}
 
+.cdx-search-field__icon svg {
+	@apply text-text-secondary;
+}
+
+.cdx-search-field__input::placeholder {
+	@apply text-text-secondary;
+}
+
+.ce-popover__nothing-found-message {
+	@apply text-text-secondary;
 }
 
 /* Code block */

@@ -9,6 +9,7 @@ export default {
 				'text-secondary': 'rgb(179, 179, 179)',
 				bg: '#151415',
 				'bg-secondary': '#2d2b2d',
+				'bg-secondary-hover': '#454245',
 				'bg-on-secondary': '#454245',
 				primary: '#e8942a',
 				secondary: '#a39995',
