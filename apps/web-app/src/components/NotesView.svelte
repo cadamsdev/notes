@@ -86,7 +86,7 @@
 					})}
 					on:click={() => selectNote(note)}
 				>
-					<div>{note.title}</div>
+					<div class="mb-3">{note.title}</div>
 					<div class="flex gap-1 flex-wrap">
 						{#each (note.tags ?? []) as tag}
 							<div class="inline-block px-2 py-1 text-xs bg-bg-on-secondary rounded-sm">
