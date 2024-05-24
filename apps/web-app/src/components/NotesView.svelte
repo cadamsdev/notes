@@ -66,11 +66,11 @@
 	});
 </script>
 
-<div class="bg-slate-200 w-[240px] min-w-[240px] max-w-[240px]">
+<div class="bg-bg w-[240px] min-w-[240px] max-w-[240px] border-r-bg-secondary border-r">
 	<div>
 		<div bind:this={searchSection} class="p-4">
 			<div class="flex justify-end">
-				<button on:click={async () => await handleCreateNote()} class="bg-slate-200 hover:bg-slate-300 p-2 rounded mb-4"
+				<button on:click={async () => await handleCreateNote()} class="bg-bg hover:bg-bg-secondary text-text p-2 rounded mb-4"
 					><Icon icon="fa-solid:plus" /></button>
 			</div>
 			<Input on:input={handleSearch} placeholder="Search..." />
@@ -79,17 +79,17 @@
 			{#each filteredNotes as note, index}
 				<button
 					id={`note-${note.id}`}
-					class={clsx('block w-full text-left p-4 hover:bg-slate-300', {
+					class={clsx('block w-full text-left p-4 hover:bg-bg-secondary text-text border-b border-bg-secondary', {
 						'rounded-t': index === 0,
 						'rounded-b': index === get(notes).length - 1,
-						'bg-slate-300': $selectedNote?.id === note.id,
+						'bg-bg-secondary': $selectedNote?.id === note.id,
 					})}
 					on:click={() => selectNote(note)}
 				>
 					<div>{note.title}</div>
 					<div class="flex gap-1 flex-wrap">
 						{#each (note.tags ?? []) as tag}
-							<div class="inline-block px-2 py-1 text-xs bg-gray-300 rounded-sm">
+							<div class="inline-block px-2 py-1 text-xs bg-bg-on-secondary rounded-sm">
 								#{tag.name}
 							</div>
 						{/each}

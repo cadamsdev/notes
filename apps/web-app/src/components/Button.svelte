@@ -9,8 +9,8 @@
 <button
 	on:click
 	class={clsx('py-2 px-4 rounded', {
-    'bg-blue-600 hover:bg-blue-700 text-white': variant === 'primary',
-		'bg-gray-300 hover:bg-gray-400 text-black': variant === 'secondary'
+    'bg-primary text-black': variant === 'primary',
+		'bg-secondary text-black': variant === 'secondary'
 	})}
 	{...$$props}
 >

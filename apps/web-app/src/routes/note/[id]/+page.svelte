@@ -174,11 +174,11 @@
 		<div
 			bind:this={editorRef}
 			id="editor"
-			class={clsx({ hidden: !$selectedNote })}
+			class={clsx({ hidden: !$selectedNote})}
 		></div>
 	</div>
 
-	<div class="fixed bottom-0 p-2 z-10 bg-white w-full">
+	<div class="fixed bottom-0 p-2 z-10 bg-bg w-full text-text border-t border-t-bg-secondary">
 		<div class="flex items-center gap-2">
 			<button on:click={openTagModal}><Icon icon="fa-solid:tags" /></button>
 
@@ -200,10 +200,12 @@
 		<div>
 			<div class="font-bold mb-4">Tags</div>
 		</div>
-		<TagCombobox
-			selectedTags={selectedTags}
-			on:selectTag={handleSelectTag}
-		/>
+		<div class="mb-4">
+			<TagCombobox
+				selectedTags={selectedTags}
+				on:selectTag={handleSelectTag}
+			/>
+		</div>
 
 		<div class="flex justify-end gap-2">
 			<Button on:click={handleSaveTags}>Save</Button>

@@ -48,8 +48,8 @@
 	load();
 </script>
 
-<div class="p-6 bg-slate-800 min-w-[200px]">
-	<div class="text-white">
+<div class="p-6 bg-bg min-w-[200px] border-r border-bg-secondary">
+	<div class="text-text">
 		<div class="mb-4 text-sm flex items-center gap-2">
 			<Icon icon="fa-solid:tags" />
 			Tags
@@ -57,8 +57,8 @@
 		{#each $tags as tag}
 			{#if (tag.count ?? 0) > 0}
 				<button id={`tag-${tag.id}`} class="block pl-4 pb-1">
-					<span class="text-gray-200 hover:text-gray-50">#{tag.name}</span><span
-						class="text-gray-400 text-sm">&nbsp;{tag.count}</span
+					<span class="text-text hover:text-gray-50">#{tag.name}</span><span
+						class="text-text text-sm">&nbsp;{tag.count}</span
 					>
 
 					<ContextMenu

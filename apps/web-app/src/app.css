@@ -10,6 +10,7 @@ body {
 body {
 	line-height: 1.6;
 	color: #222222;
+	@apply bg-bg;
 }
 
 .ce-block__content h1,
@@ -33,6 +34,47 @@ body {
 
 .ce-popover__overlay .ce-popover.ce-popover--opened {
 	left: 0;
+}
+
+.ce-toolbar__plus { 
+	@apply text-text;
+}
+
+.ce-toolbar__settings-btn {
+	@apply text-text;
+}
+
+.ce-popover {
+	@apply bg-bg-secondary;
+	@apply border border-bg-secondary;
+}
+
+.ce-popover-item {
+	@apply text-text;
+}
+
+.ce-popover-item__icon {
+	@apply text-text;
+	@apply bg-bg;
+	@apply border-bg;
+}
+
+.ce-popover__items .ce-popover-item:hover {
+	@apply bg-bg-on-secondary;
+}
+
+.cdx-search-field {
+	@apply bg-bg-on-secondary;
+	@apply text-text;
+	@apply border border-bg-secondary;
+
+}
+
+/* Code block */
+textarea.ce-code__textarea {
+	@apply bg-bg-secondary;
+	@apply text-text;
+	@apply border border-bg-secondary;
 }
 
 @media (min-width: 651px) {

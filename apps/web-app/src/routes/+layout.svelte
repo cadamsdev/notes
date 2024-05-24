@@ -20,7 +20,7 @@
 
 	<NotesView />
 
-	<div class="flex-grow">
+	<div class="flex-grow bg-bg text-text">
 		<slot />
 	</div>
 </div>
