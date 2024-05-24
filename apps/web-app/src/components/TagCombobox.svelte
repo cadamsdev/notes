@@ -116,14 +116,14 @@
 </div>
 
 <div class="min-w-52 relative">
-	<div on:click={handleTogglePopup} class="bg-gray-200 p-2 rounded">
+	<div on:click={handleTogglePopup} class="bg-bg border border-bg-secondary p-2 rounded">
 		<div class="flex items-center justify-between">
 			<div class="flex-grow">
 				<input
 					bind:this={inputRef}
 					on:input={handleInputChange}
 					value={searchText}
-					class="p-2 mr-2 rounded bg-gray-200 w-full"
+					class="p-2 mr-2 rounded bg-bg outline-none w-full"
 				/>
 			</div>
 			<div on:click|stopPropagation>
@@ -137,14 +137,14 @@
 	{#if filteredTags.length || (!hasMatch && searchText)}
 		<div
 			bind:this={popupRef}
-			class={clsx('absolute top-full left-0 mt-2 w-full bg-gray-200 p-2', {
+			class={clsx('absolute top-full left-0 mt-2 w-full bg-bg-secondary text-text-secondary p-2', {
 				hidden: !showPopup,
 				block: showPopup
 			})}
 		>
 			<div class="max-h-[207.95px] overflow-y-scroll">
 				{#each filteredTags as tag}
-					<button on:click={(e) => handleSelectTag(e, tag)} class="block p-2">
+					<button on:click={(e) => handleSelectTag(e, tag)} class="block p-2 hover:bg-bg-secondary-hover w-full text-left">
 						{tag.name}
 					</button>
 				{/each}
