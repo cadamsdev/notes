@@ -106,9 +106,9 @@
 
 <div class="flex flex-wrap gap-1 mb-4">
 	{#each selectedTags as tag}
-		<div class="bg-gray-500 text-white p-1 rounded text-xs flex items-center gap-1">
+		<div class="bg-bg-on-secondary text-text-secondary p-1 rounded text-xs flex items-center gap-1">
 			<div>{tag.name}</div>
-			<button on:click={(e) => handleRemoveTag(e, tag)} class="p-1 hover:bg-red-500 text-white"
+			<button on:click={(e) => handleRemoveTag(e, tag)} class="p-1 hover:text-text-secondary-hover"
 				>X</button
 			>
 		</div>

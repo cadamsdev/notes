@@ -198,7 +198,7 @@
 <Dialog bind:showModal={showTagModal} on:closeModal={() => (showTagModal = false)}>
 	<div class="w-[325px] max-w-[325px]">
 		<div>
-			<div class="font-bold mb-4">Tags</div>
+			<div class="font-bold mb-4 text-text-primary">Tags</div>
 		</div>
 		<div class="mb-4">
 			<TagCombobox
