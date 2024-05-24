@@ -17,11 +17,11 @@
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div
-      class="rounded bg-bg text-text border-secondary p-3 shadow-lg inline-block z-20"
+      class="rounded bg-bg text-text-secondary border-secondary p-3 shadow-lg inline-block z-20"
     >
       <div class="flex justify-end mb-3">
         {#if showHeader}
-          <button on:click={closeModal} class="bg-bg text-text">
+          <button on:click={closeModal} class="bg-bg text-text-secondary">
             <Icon icon="fa-solid:times" width="24" height="24" />
           </button>
         {/if}

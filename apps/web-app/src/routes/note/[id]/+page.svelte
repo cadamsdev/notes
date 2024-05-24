@@ -178,7 +178,7 @@
 		></div>
 	</div>
 
-	<div class="fixed bottom-0 p-2 z-10 bg-bg w-full text-text border-t border-t-bg-secondary">
+	<div class="fixed bottom-0 p-2 z-10 bg-bg w-full text-text-secondary border-t border-t-bg-secondary">
 		<div class="flex items-center gap-2">
 			<button on:click={openTagModal}><Icon icon="fa-solid:tags" /></button>
 

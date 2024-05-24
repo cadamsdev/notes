@@ -49,7 +49,7 @@
 </script>
 
 <div class="p-6 bg-bg min-w-[200px] border-r border-bg-secondary">
-	<div class="text-text">
+	<div class="text-text-secondary">
 		<div class="mb-4 text-sm flex items-center gap-2">
 			<Icon icon="fa-solid:tags" />
 			Tags
@@ -57,8 +57,8 @@
 		{#each $tags as tag}
 			{#if (tag.count ?? 0) > 0}
 				<button id={`tag-${tag.id}`} class="block pl-4 pb-1">
-					<span class="text-text hover:text-gray-50">#{tag.name}</span><span
-						class="text-text text-sm">&nbsp;{tag.count}</span
+					<span class="text-text-secondary hover:text-text-secondary">#{tag.name}</span><span
+						class="text-text-secondary text-sm">&nbsp;{tag.count}</span
 					>
 
 					<ContextMenu

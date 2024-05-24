@@ -37,11 +37,11 @@ body {
 }
 
 .ce-toolbar__plus { 
-	@apply text-text;
+	@apply text-text-secondary;
 }
 
 .ce-toolbar__settings-btn {
-	@apply text-text;
+	@apply text-text-secondary;
 }
 
 .ce-popover {
@@ -50,11 +50,11 @@ body {
 }
 
 .ce-popover-item {
-	@apply text-text;
+	@apply text-text-secondary;
 }
 
 .ce-popover-item__icon {
-	@apply text-text;
+	@apply text-text-secondary;
 	@apply bg-bg;
 	@apply border-bg;
 }
@@ -65,7 +65,7 @@ body {
 
 .cdx-search-field {
 	@apply bg-bg-on-secondary;
-	@apply text-text;
+	@apply text-text-secondary;
 	@apply border border-bg-secondary;
 
 }
@@ -73,7 +73,7 @@ body {
 /* Code block */
 textarea.ce-code__textarea {
 	@apply bg-bg-secondary;
-	@apply text-text;
+	@apply text-text-secondary;
 	@apply border border-bg-secondary;
 }
 
