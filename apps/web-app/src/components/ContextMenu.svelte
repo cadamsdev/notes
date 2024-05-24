@@ -59,10 +59,10 @@
 
 {#if showMenu}
 	<nav bind:this={component} use:getContextMenuDimension style="position: absolute; top:{pos.y}px; left:{pos.x}px">
-		<ul class="border bg-slate-50 rounded">
+		<ul class="border bg-bg-secondary rounded border-bg-secondary">
 			{#each actions as action}
 				<li>
-					<button class="p-4 hover:bg-slate-100 w-full text-start text-black" on:click={(e) => handleClickAction(e, action)}>{action.label}</button>
+					<button class="p-4 hover:bg-bg-secondary-hover w-full text-start text-text-secondary" on:click={(e) => handleClickAction(e, action)}>{action.label}</button>
 				</li>
 			{/each}
 		</ul>
