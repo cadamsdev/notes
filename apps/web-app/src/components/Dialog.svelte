@@ -19,9 +19,9 @@
     <div
       class="dialog"
     >
-      <div class="flex justify-end mb-3">
+      <div class="dialog-heading">
         {#if showHeader}
-          <button on:click={closeModal} class="text-text-secondary hover:text-text-secondary-hover">
+          <button on:click={closeModal} class="close-btn">
             <Icon icon="fa-solid:times" width="24" height="24" />
           </button>
         {/if}
@@ -40,5 +40,19 @@
     padding: 2.4rem;
     z-index: 20;
     min-width: 30rem;
+  }
+
+  .dialog-heading {
+    display: flex;
+    justify-content: end;
+    margin-bottom: 1.2rem;
+  }
+
+  .close-btn {
+    color: var(--clr-text-secondary);
+  }
+
+  .close-btn:hover {
+    color: var(--clr-text-secondary-hover);
   }
 </style>
