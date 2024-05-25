@@ -104,11 +104,11 @@
 	});
 </script>
 
-<div class="flex flex-wrap gap-1 mb-4">
+<div class="tags-container">
 	{#each selectedTags as tag}
-		<div class="bg-bg-on-secondary text-text-secondary p-1 rounded text-xs flex items-center gap-1">
+		<div class="tag">
 			<div>{tag.name}</div>
-			<button on:click={(e) => handleRemoveTag(e, tag)} class="p-1 hover:text-text-secondary-hover"
+			<button on:click={(e) => handleRemoveTag(e, tag)} class="close-btn"
 				>X</button
 			>
 		</div>
@@ -161,3 +161,27 @@
 		</div>
 	{/if}
 </div>
+
+<style>
+	.tags-container {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem;
+		margin-bottom: 1.6rem;
+	}
+
+	.tag {
+		background: var(--clr-bg-on-secondary);
+		color: var(--clr-text-secondary);
+		padding: 0.2rem 0.4rem;
+		border-radius: 0.4rem;
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+		font-size: 1.2rem;
+	}
+
+	.tag .close-btn {
+		padding: 0.4rem;
+	}
+</style>

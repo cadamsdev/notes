@@ -164,8 +164,8 @@
 	});
 </script>
 
-<div class="relative">
-	<div class="py-4 px-16 max-h-screen overflow-y-auto">
+<div class="page">
+	<div class="page-content">
 		{#if !$selectedNote}
 			<div class="flex items-center justify-center h-full">
 				<div>No content</div>
@@ -198,16 +198,16 @@
 <Dialog bind:showModal={showTagModal} on:closeModal={() => (showTagModal = false)}>
 	<div>
 		<div>
-			<div class="font-bold mb-4 text-text-primary">Tags</div>
+			<div class="dialog-heading">Tags</div>
 		</div>
-		<div class="mb-4">
+		<div class="dialog-tag-combobox-container">
 			<TagCombobox
 				selectedTags={selectedTags}
 				on:selectTag={handleSelectTag}
 			/>
 		</div>
 
-		<div class="flex justify-end gap-2">
+		<div class="dialog-footer">
 			<Button on:click={handleSaveTags}>Save</Button>
 			<Button variant="secondary" on:click={() => (showTagModal = false)}>Cancel</Button>
 		</div>
@@ -215,6 +215,16 @@
 </Dialog>
 
 <style>
+	.page {
+		position: relative;
+	}
+
+	.page-content {
+		padding: 1.6 6.4rem;
+		max-height: 100vh;
+		overflow-y: auto;
+	}
+
 	.bottom-bar {
 		position: fixed;
 		bottom: 0;
@@ -229,6 +239,23 @@
 		gap: 0.8rem;
 		min-height: 50px;
 
+	}
+
+	.dialog-heading {
+		font-weight: 700;
+		margin-bottom: 1.6rem;
+		color: var(--clr-text-primary);
+	}
+
+	.dialog-footer {
+		display: flex;
+		justify-content: flex-end;
+		gap: 0.8rem;
+
+	}
+	
+	.dialog-tag-combobox-container {
+		margin-bottom: 1.6rem;
 	}
 
 	.tags-container {
