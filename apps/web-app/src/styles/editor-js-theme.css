@@ -74,6 +74,21 @@
 	@apply text-text-secondary;
 }
 
+.ce-block--selected .ce-block__content {
+	background: var(--clr-bg);
+}
+
+.ce-inline-toolbar {
+	background: var(--clr-bg);
+	border: 0.1rem solid var(--clr-bg-secondary);
+	color: var(--clr-text-primary);
+}
+
+.ce-inline-toolbar__buttons .ce-inline-tool:hover {
+	background: var(--clr-bg-secondary);
+	
+}
+
 /* Code block */
 textarea.ce-code__textarea {
 	@apply bg-bg-secondary;
