@@ -1,0 +1,13 @@
+:root {
+  --clr-text: #e2e2e2;
+  --clr-text-primary: #e6e6e6;
+  --clr-text-secondary: #b3b3b3;
+  --clr-text-secondary-hover: #b3b3b3;
+  --clr-bg: #151415;
+  --clr-bg-secondary: #2d2b2d;
+  --clr-bg-secondary-hover: #454245;
+  --clr-bg-on-secondary: #454245;
+  --clr-primary: #e8942a;
+  --clr-secondary: #a39995;
+  --clr-accent: #E8942A;
+}

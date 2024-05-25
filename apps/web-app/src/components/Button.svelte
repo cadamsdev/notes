@@ -8,11 +8,23 @@
 
 <button
 	on:click
-	class={clsx('py-2 px-4 rounded', {
-    'bg-primary text-black': variant === 'primary',
-		'bg-secondary text-black': variant === 'secondary'
+	class={clsx({
+		'secondary': variant === 'secondary'
 	})}
 	{...$$props}
 >
 	<slot />
 </button>
+
+<style>
+	button {
+		padding: 0.8rem 1.6rem;
+		border-radius: 0.4rem;
+		background: var(--clr-primary);
+		font-size: 1.6rem;
+	}
+
+	.secondary {
+		background: var(--clr-secondary);
+	}
+</style>

@@ -10,6 +10,7 @@
 	import type { Tag } from '../../../interfaces/Tag';
 	import Dialog from '../../../components/Dialog.svelte';
 	import Button from '../../../components/Button.svelte';
+	import Chip from '../../../components/Chip.svelte';
 
 	export let data: PageData;
 
@@ -178,7 +179,7 @@
 		></div>
 	</div>
 
-	<div class="fixed bottom-0 p-2 z-10 bg-bg w-full text-text-secondary border-t border-t-bg-secondary">
+	<div class="bottom-bar">
 		<div class="flex items-center gap-2">
 			<button on:click={openTagModal}><Icon icon="fa-solid:tags" /></button>
 
@@ -187,7 +188,9 @@
 			{:else}
 				<div class="flex gap-2">
 					{#each selectedTags as tag}
-						<button on:click={openTagModal} class="text-sm">{tag.name}</button>
+						<button on:click={openTagModal} class="text-sm">
+							<Chip text={tag.name} />
+						</button>
 					{/each}
 				</div>
 			{/if}
@@ -213,3 +216,17 @@
 		</div>
 	</div>
 </Dialog>
+
+<style>
+	.bottom-bar {
+		position: fixed;
+		bottom: 0;
+		padding: 1.2rem;
+		background: var(--clr-bg);
+		border-top: 0.1rem solid var(--clr-bg-secondary);
+		color: var(--clr-text-secondary);
+		width: 100%;
+		z-index: 10;
+
+	}
+</style>

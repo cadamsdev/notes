@@ -49,17 +49,16 @@
 	load();
 </script>
 
-<div class="p-6 bg-bg min-w-[200px] border-r border-bg-secondary">
-	<div class="text-text-secondary">
-		<div class="mb-4 text-sm flex items-center gap-2">
+<div class="sidebar">
+		<div class="tag-heading-container">
 			<Icon icon="fa-solid:tags" />
 			Tags
 		</div>
 		{#each $tags as tag}
 			{#if (tag.count ?? 0) > 0}
-				<button id={`tag-${tag.id}`} class="block pl-4 pb-1">
-					<span class="text-text-secondary hover:text-text-secondary-hover">#{tag.name}</span><span
-						class="text-text-secondary text-sm">&nbsp;{tag.count}</span
+				<button id={`tag-${tag.id}`} class="tag">
+					<span class="tag-name">#{tag.name}</span><span
+						class="tag-count">&nbsp;{tag.count}</span
 					>
 
 					<ContextMenu
@@ -72,14 +71,12 @@
 				</button>
 			{/if}
 		{/each}
-	</div>
 </div>
 
 <Dialog showModal={showRenameModal} on:closeModal={() => (showRenameModal = false)}>
 	<div>
-		<div class="mb-4">
-			<label for="tag-name" class="font-bold"> Name: </label>
-
+		<label for="tag-name" class="label">
+				Name:
 			<Input
 				id="tag-name"
 				name="name"
@@ -87,9 +84,9 @@
 				value={currentTag?.name}
 				on:input={handleChangeTagName}
 			/>
-		</div>
+		</label>
 
-		<div class="flex justify-end gap-2">
+		<div class="dialog-footer">
 			<Button on:click={async () => await handleRenameTag()}>Save</Button>
 			<Button variant="secondary" on:click={() => showRenameModal = false}>Cancel</Button>
 		</div>
@@ -101,5 +98,61 @@
 	on:closeModal={() => showRemoveTagConfirmationModal = false}
 	on:action={async () => await handleRemoveTag()}
 />
+
+<style>
+	.sidebar {
+		padding: 2.4rem;
+		background: var(--clr-bg);
+		min-width: 20rem;
+		border-right: 0.1rem solid var(--clr-bg-secondary);
+		color: var(--clr-text-secondary);
+	}
+
+	.tag-heading-container {
+		margin-bottom: 1.6rem;
+		font-size: 1.4rem;
+		display: flex;
+		align-items: center;
+		gap: 0.8rem;
+		color: var(--clr-text-secondary);
+	}
+
+	.tag {
+		display: block;
+		padding-left: 1.6rem;
+		padding-bottom: 0.4rem;
+	}
+
+	.tag:hover {
+		color: var(--clr-text-secondary-hover);
+	}
+
+	.tag-name {
+		font-size: 1.6rem;
+		color: var(--clr-text-secondary);
+	}
+
+	.tag-name:hover {
+		color: var(--clr-text-secondary-hover);
+	}
+
+	.tag-count {
+		color: var(--clr-text-secondary);
+		font-size: 1.4rem;
+	}
+
+	.label {
+		display: block;
+		font-size: 1.6rem;
+		font-weight: 700;
+		margin-bottom: 1.6rem;
+	}
+
+	.dialog-footer {
+		display: flex;
+		justify-content: end;
+		gap: 0.8rem;
+	}
+</style>
 
 
