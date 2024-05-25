@@ -15,15 +15,28 @@
 	<title>Block Notes</title>
 </svelte:head>
 
-<div class="flex h-full">
+<div class="page">
 	<Sidebar />
 
 	<NotesView />
 
-	<div class="flex-grow bg-bg text-text-secondary">
+	<div class="page-content">
 		<slot />
 	</div>
 </div>
 
 <div id="teleport"></div>
+
+<style>
+	.page {
+		display: flex;
+		height: 100%;
+	}
+
+	.page-content {
+		flex-grow: 1;
+		background: var(--clr-bg);
+		color: var(--clr-text-secondary);
+	}
+</style>
 
