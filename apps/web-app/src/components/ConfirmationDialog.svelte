@@ -36,7 +36,7 @@
 				</div>
 			{/if}
 
-			<div class="flex justify-end gap-2">
+			<div class="dialog-footer">
 				<Button on:click={handleAction} variant='primary'>Yes</Button>
 				<Button on:click={handleCloseModal} variant='secondary'>No</Button>
 			</div>
@@ -83,5 +83,11 @@
 		min-width: 25rem;
 		max-width: 35rem;
 		color: var(--clr-text-secondary);
+	}
+
+	.dialog-footer {
+		display: flex;
+		justify-content: flex-end;
+		gap: 0.8rem;
 	}
 </style>
