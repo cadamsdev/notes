@@ -180,21 +180,18 @@
 	</div>
 
 	<div class="bottom-bar">
-		<div class="flex items-center gap-2">
-			<button on:click={openTagModal}><Icon icon="fa-solid:tags" /></button>
-
-			{#if selectedTags.length === 0}
-				<button on:click={openTagModal} class="text-sm">Click to add Tags...</button>
-			{:else}
-				<div class="flex gap-2">
-					{#each selectedTags as tag}
-						<button on:click={openTagModal} class="text-sm">
-							<Chip text={tag.name} />
-						</button>
-					{/each}
-				</div>
-			{/if}
-		</div>
+		<button on:click={openTagModal}><Icon icon="fa-solid:tags" /></button>
+		{#if selectedTags.length === 0}
+			<button on:click={openTagModal} class="new-tag-label">Click to add Tags...</button>
+		{:else}
+			<div class="tags-container">
+				{#each selectedTags as tag}
+					<button on:click={openTagModal}>
+						<Chip text={tag.name} />
+					</button>
+				{/each}
+			</div>
+		{/if}
 	</div>
 </div>
 
@@ -227,6 +224,20 @@
 		color: var(--clr-text-secondary);
 		width: 100%;
 		z-index: 10;
+		display: flex;
+		align-items: center;
+		gap: 0.8rem;
+		min-height: 50px;
 
+	}
+
+	.tags-container {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.8rem;
+	}
+
+	.new-tag-label {
+		font-size: 1.4rem;
 	}
 </style>

@@ -9,7 +9,7 @@
 <style>
   .chip {
 		display: inline-block;
-		padding: 0.4rem 0.8rem;
+		padding: 0.2rem 0.4rem;
 		font-size: 1.2rem;
 		background: var(--clr-bg-on-secondary);
 		color: var(--clr-text-secondary);
