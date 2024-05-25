@@ -115,34 +115,30 @@
 	{/each}
 </div>
 
-<div class="min-w-52 relative">
-	<div on:click={handleTogglePopup} class="bg-bg border border-bg-secondary p-2 rounded">
-		<div class="flex items-center justify-between">
-			<div class="flex-grow">
-				<input
-					bind:this={inputRef}
-					on:input={handleInputChange}
-					value={searchText}
-					class="p-2 mr-2 rounded bg-bg outline-none w-full"
-				/>
-			</div>
-			<div on:click|stopPropagation>
-				<button on:click={handleTogglePopup} class="p-2 flex items-center justify-center">
-					<Icon icon="fa-solid:chevron-down" />
-				</button>
-			</div>
+<div class="search-container">
+	<div on:click={handleTogglePopup} class="popup-trigger">
+		<input
+			bind:this={inputRef}
+			on:input={handleInputChange}
+			value={searchText}
+			class="search-input"
+		/>
+		<div on:click|stopPropagation>
+			<button on:click={handleTogglePopup} class="action-button">
+				<Icon icon="fa-solid:chevron-down" />
+			</button>
 		</div>
 	</div>
 
 	{#if filteredTags.length || (!hasMatch && searchText)}
 		<div
 			bind:this={popupRef}
-			class={clsx('absolute top-full left-0 mt-2 w-full bg-bg-secondary text-text-secondary p-2', {
+			class={clsx('popup', {
 				hidden: !showPopup,
 				block: showPopup
 			})}
 		>
-			<div class="max-h-[207.95px] overflow-y-scroll">
+			<div class="tag-list">
 				{#each filteredTags as tag}
 					<button on:click={(e) => handleSelectTag(e, tag)} class="block p-2 hover:bg-bg-secondary-hover w-full text-left">
 						{tag.name}
@@ -153,7 +149,7 @@
 			{#if !hasMatch && searchText}
 				<button
 					on:click={(e) => handleCreateTag(e, { name: searchText, id: -1 })}
-					class="block p-2"
+					class="create-tag-btn"
 				>
 					Create "{searchText}"
 				</button>
@@ -170,6 +166,16 @@
 		margin-bottom: 1.6rem;
 	}
 
+	.popup-trigger {
+		background: var(--clr-bg);
+		border-radius: 0.4rem;
+		padding: 0.8rem;
+		border: 0.1rem solid var(--clr-bg-secondary);
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
 	.tag {
 		background: var(--clr-bg-on-secondary);
 		color: var(--clr-text-secondary);
@@ -183,5 +189,51 @@
 
 	.tag .close-btn {
 		padding: 0.4rem;
+	}
+
+	.search-container {
+		min-width: 20.8rem;
+		position: relative;
+	}
+
+	.search-input-container {
+		flex-grow: 1;
+	}
+
+	.search-input {
+		padding: 0.8rem;
+		margin-right: 0.8rem;
+		border-radius: 0.4rem;
+		background: var(--clr-bg);
+		outline: 0.2rem solid transparent;
+		width: 100%;
+	}
+
+	.action-button {
+		padding: 0.8rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.popup {
+		position: absolute;
+		top: 100%;
+		left: 0;
+		margin-top: 0.8rem;
+		width: 100%;
+		background: var(--clr-bg-secondary);
+		color: var(--clr-text-secondary);
+		padding: 0.8rem;
+	}
+
+	.popup .tag-list {
+		max-height: 20.7rem;
+		overflow-y: auto;
+	}
+
+	.create-tag-btn {
+		display: block;
+		padding: 0.8rem;
 	}
 </style>
