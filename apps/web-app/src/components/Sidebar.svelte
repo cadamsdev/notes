@@ -7,6 +7,7 @@
 	import { browser } from '$app/environment';
 	import ConfirmationDialog from './ConfirmationDialog.svelte';
 	import Input from './Input.svelte';
+	import Button from './Button.svelte';
 
 	let showRenameModal = false;
 	let currentTag: TagRecord;
@@ -88,11 +89,9 @@
 			/>
 		</div>
 
-		<div class="flex justify-end">
-			<button
-				on:click={async () => await handleRenameTag()}
-				class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">Save</button
-			>
+		<div class="flex justify-end gap-2">
+			<Button on:click={async () => await handleRenameTag()}>Save</Button>
+			<Button variant="secondary" on:click={() => showRenameModal = false}>Cancel</Button>
 		</div>
 	</div>
 </Dialog>

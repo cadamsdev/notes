@@ -127,7 +127,7 @@
 				/>
 			</div>
 			<div on:click|stopPropagation>
-				<button on:click={handleTogglePopup} class="p-2 flex items-center justify-center border-l-2 border-l-gray-400">
+				<button on:click={handleTogglePopup} class="p-2 flex items-center justify-center">
 					<Icon icon="fa-solid:chevron-down" />
 				</button>
 			</div>

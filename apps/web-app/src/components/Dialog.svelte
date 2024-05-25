@@ -17,7 +17,7 @@
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div
-      class="rounded bg-bg-secondary text-text-secondary border-secondary p-3 shadow-lg inline-block z-20"
+      class="rounded bg-bg text-text border border-bg-secondary p-3 shadow-lg inline-block z-20 min-w-[300px]"
     >
       <div class="flex justify-end mb-3">
         {#if showHeader}

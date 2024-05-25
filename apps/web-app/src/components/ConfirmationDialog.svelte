@@ -22,7 +22,7 @@
 <Modal {showModal} on:closeModal={handleCloseModal}>
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
-	<div class="rounded bg-bg-secondary p-3 shadow-lg inline-block z-20">
+	<div class="rounded bg-bg border border-bg-secondary p-3 shadow-lg inline-block z-20 min-w-[300px]">
 		<div class="flex items-center justify-between mb-8">
 			<h2 class="text-xl text-text-primary font-bold text-center">Confirm Action</h2>
 			<button on:click={handleCloseModal} class="hover:text-gray-600 text-text-secondary">
@@ -37,8 +37,8 @@
 			{/if}
 
 			<div class="flex justify-end gap-2">
-				<Button on:click={handleCloseModal} variant='secondary'>No</Button>
 				<Button on:click={handleAction} variant='primary'>Yes</Button>
+				<Button on:click={handleCloseModal} variant='secondary'>No</Button>
 			</div>
 		</div>
 	</div>
