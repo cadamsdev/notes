@@ -10,7 +10,7 @@
   input {
     display: block;
     padding: 0.8rem;
-    background: var(--clr-bg);
+    background: var(--clr-bg-secondary);
     border: 0.1rem solid var(--clr-bg-secondary);
     color: var(--clr-text-secondary);
     border-radius: 0.4rem;

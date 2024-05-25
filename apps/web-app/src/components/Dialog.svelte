@@ -17,7 +17,7 @@
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div
-      class="rounded bg-bg text-text border border-bg-secondary p-3 shadow-lg inline-block z-20 min-w-[300px]"
+      class="dialog"
     >
       <div class="flex justify-end mb-3">
         {#if showHeader}
@@ -29,3 +29,16 @@
       <slot />
     </div>
 </Modal>
+
+<style>
+  .dialog {
+    display: inline-block;
+    border-radius: 0.4rem;
+    background: var(--clr-bg);
+    color: var(--clr-text);
+    border: 0.1rem solid var(--clr-bg-secondary);
+    padding: 2.4rem;
+    z-index: 20;
+    min-width: 30rem;
+  }
+</style>

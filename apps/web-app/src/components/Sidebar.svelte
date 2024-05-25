@@ -76,7 +76,7 @@
 <Dialog showModal={showRenameModal} on:closeModal={() => (showRenameModal = false)}>
 	<div>
 		<label for="tag-name" class="label">
-				Name:
+				<div class="label-text">Name:</div>
 			<Input
 				id="tag-name"
 				name="name"
@@ -145,7 +145,11 @@
 		display: block;
 		font-size: 1.6rem;
 		font-weight: 700;
-		margin-bottom: 1.6rem;
+		margin-bottom: 2.4rem;
+	}
+
+	.label-text {
+		margin-bottom: 0.8rem;
 	}
 
 	.dialog-footer {
