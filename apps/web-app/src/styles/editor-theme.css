@@ -122,6 +122,10 @@ code.inline-code {
 
 }
 
+.ce-block a {
+	color: var(--clr-text-link);
+}
+
 @media (min-width: 651px) {
 	.codex-editor--narrow .ce-toolbox .ce-popover {
 		left: 0;
