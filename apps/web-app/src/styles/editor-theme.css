@@ -116,6 +116,12 @@ textarea.ce-code__textarea {
 	background: var(--clr-bg-secondary);
 }
 
+code.inline-code {
+	background: var(--clr-bg-secondary);
+	color: var(--clr-text-secondary);
+
+}
+
 @media (min-width: 651px) {
 	.codex-editor--narrow .ce-toolbox .ce-popover {
 		left: 0;
