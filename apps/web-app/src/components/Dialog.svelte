@@ -17,11 +17,11 @@
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div
-      class="rounded bg-white p-3 shadow-lg inline-block z-20"
+      class="dialog"
     >
-      <div class="flex justify-end mb-3">
+      <div class="dialog-heading">
         {#if showHeader}
-          <button on:click={closeModal} class="hover:text-gray-600 text-black">
+          <button on:click={closeModal} class="close-btn">
             <Icon icon="fa-solid:times" width="24" height="24" />
           </button>
         {/if}
@@ -29,3 +29,30 @@
       <slot />
     </div>
 </Modal>
+
+<style>
+  .dialog {
+    display: inline-block;
+    border-radius: 0.4rem;
+    background: var(--clr-bg);
+    color: var(--clr-text);
+    border: 0.1rem solid var(--clr-bg-border);
+    padding: 2.4rem;
+    z-index: 20;
+    min-width: 30rem;
+  }
+
+  .dialog-heading {
+    display: flex;
+    justify-content: end;
+    margin-bottom: 1.2rem;
+  }
+
+  .close-btn {
+    color: var(--clr-text-secondary);
+  }
+
+  .close-btn:hover {
+    color: var(--clr-text-secondary-hover);
+  }
+</style>

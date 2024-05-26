@@ -104,47 +104,43 @@
 	});
 </script>
 
-<div class="flex flex-wrap gap-1 mb-4">
+<div class="tags-container">
 	{#each selectedTags as tag}
-		<div class="bg-gray-500 text-white p-1 rounded text-xs flex items-center gap-1">
+		<div class="tag">
 			<div>{tag.name}</div>
-			<button on:click={(e) => handleRemoveTag(e, tag)} class="p-1 hover:bg-red-500 text-white"
+			<button on:click={(e) => handleRemoveTag(e, tag)} class="close-btn"
 				>X</button
 			>
 		</div>
 	{/each}
 </div>
 
-<div class="min-w-52 relative">
-	<div on:click={handleTogglePopup} class="bg-gray-200 p-2 rounded">
-		<div class="flex items-center justify-between">
-			<div class="flex-grow">
-				<input
-					bind:this={inputRef}
-					on:input={handleInputChange}
-					value={searchText}
-					class="p-2 mr-2 rounded bg-gray-200 w-full"
-				/>
-			</div>
-			<div on:click|stopPropagation>
-				<button on:click={handleTogglePopup} class="p-2 flex items-center justify-center border-l-2 border-l-gray-400">
-					<Icon icon="fa-solid:chevron-down" />
-				</button>
-			</div>
+<div class="search-container">
+	<div on:click={handleTogglePopup} class="popup-trigger">
+		<input
+			bind:this={inputRef}
+			on:input={handleInputChange}
+			value={searchText}
+			class="search-input"
+		/>
+		<div on:click|stopPropagation>
+			<button on:click={handleTogglePopup} class="action-button">
+				<Icon icon="fa-solid:chevron-down" />
+			</button>
 		</div>
 	</div>
 
 	{#if filteredTags.length || (!hasMatch && searchText)}
 		<div
 			bind:this={popupRef}
-			class={clsx('absolute top-full left-0 mt-2 w-full bg-gray-200 p-2', {
+			class={clsx('popup', {
 				hidden: !showPopup,
 				block: showPopup
 			})}
 		>
-			<div class="max-h-[207.95px] overflow-y-scroll">
+			<div class="tag-list">
 				{#each filteredTags as tag}
-					<button on:click={(e) => handleSelectTag(e, tag)} class="block p-2">
+					<button on:click={(e) => handleSelectTag(e, tag)} class="tag-button">
 						{tag.name}
 					</button>
 				{/each}
@@ -153,7 +149,7 @@
 			{#if !hasMatch && searchText}
 				<button
 					on:click={(e) => handleCreateTag(e, { name: searchText, id: -1 })}
-					class="block p-2"
+					class="create-tag-btn"
 				>
 					Create "{searchText}"
 				</button>
@@ -161,3 +157,100 @@
 		</div>
 	{/if}
 </div>
+
+<style>
+	.tags-container {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem;
+		margin-bottom: 1.6rem;
+	}
+
+	.popup-trigger {
+		background: var(--clr-bg);
+		border-radius: 0.4rem;
+		padding: 0.8rem;
+		border: 0.1rem solid var(--clr-bg-border);
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.tag {
+		background: var(--clr-bg-on-secondary);
+		color: var(--clr-text-secondary);
+		padding: 0.2rem 0.4rem;
+		border-radius: 0.4rem;
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+		font-size: 1.2rem;
+	}
+
+	.tag .close-btn {
+		padding: 0.4rem;
+	}
+
+	.search-container {
+		min-width: 20.8rem;
+		position: relative;
+	}
+
+	.search-input-container {
+		flex-grow: 1;
+	}
+
+	.search-input {
+		padding: 0.8rem;
+		margin-right: 0.8rem;
+		border-radius: 0.4rem;
+		background: var(--clr-bg);
+		outline: 0.2rem solid transparent;
+		width: 100%;
+		color: var(--clr-text-primary);
+	}
+
+	input::placeholder {
+		color: var(--clr-text-primary);
+	}
+
+	.action-button {
+		padding: 0.8rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: var(--clr-text-primary);
+	}
+
+	.popup {
+		position: absolute;
+		top: 100%;
+		left: 0;
+		margin-top: 0.8rem;
+		width: 100%;
+		background: var(--clr-bg-secondary);
+		color: var(--clr-text-secondary);
+	}
+
+	.popup .tag-list {
+		max-height: 20.7rem;
+		overflow-y: auto;
+	}
+
+	.create-tag-btn {
+		display: block;
+		padding: 1.2rem;
+	}
+
+	.tag-button {
+		display: block;
+		padding: 1.2rem;
+		width: 100%;
+		text-align: left;
+		color: var(--clr-text-secondary);
+	}
+
+	.tag-button:hover {
+		background: var(--clr-bg-secondary-hover);
+	}
+</style>

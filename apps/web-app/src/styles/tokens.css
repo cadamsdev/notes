@@ -1,0 +1,30 @@
+:root {
+  /* Text color */
+  --clr-text: #e2e2e2;
+  --clr-text-primary: #b3b3b3;
+  --clr-text-primary-hover: #d9d9d9;
+  --clr-text-primary-emphasis: #e6e6e6;
+  --clr-text-secondary: #b3b3b3;
+  --clr-text-secondary-hover: #c6c6c6;
+
+  /* Background color */
+  --clr-bg: #151415;
+  --clr-bg-hover: #2d2b2d;
+  --clr-bg-secondary: #2d2b2d;
+  --clr-bg-secondary-hover: #454245;
+  --clr-bg-on-secondary: #454245;
+
+  /* Border colors */
+  --clr-bg-border: #2d2b2d;
+
+  /* Other colors */
+  --clr-primary: #e78e1e;
+  --clr-primary-hover: #eb9f40;
+  --clr-secondary: #a39995;
+  --clr-secondary-hover: #b1a8a5;
+  --clr-accent: #E8942A;
+
+  /* Component tokens */
+  --clr-modal-overlay: rgb(21, 20, 21, 0.75);
+  --clr-btn-text: #151415;
+}

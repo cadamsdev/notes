@@ -13,6 +13,16 @@
 
 </script>
 
-<div class="w-full h-full flex items-center justify-center">
+<div class="create-note-btn">
   <Button on:click={handleCreateNote}>Create a note</Button>
 </div>
+
+<style>
+  .create-note-btn {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>

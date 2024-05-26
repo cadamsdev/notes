@@ -2,12 +2,13 @@
 	import Icon from '@iconify/svelte';
 	import { notes, selectedNote, type Note, deleteNote, createNote, tags, fetchTags } from '../store';
 	import clsx from 'clsx';
-	import { get, type Unsubscriber } from 'svelte/store';
+	import { get } from 'svelte/store';
 	import { goto } from '$app/navigation';
 	import { onDestroy } from 'svelte';
 	import ContextMenu from './ContextMenu.svelte';
 	import ConfirmationDialog from './ConfirmationDialog.svelte';
 	import Input from './Input.svelte';
+	import Chip from './Chip.svelte';
 
 	let filteredNotes: Note[] = [];
 	let showConfirmationModal = false;
@@ -66,32 +67,28 @@
 	});
 </script>
 
-<div class="bg-slate-200 w-[240px] min-w-[240px] max-w-[240px]">
+<div class="notes-view">
 	<div>
-		<div bind:this={searchSection} class="p-4">
+		<div bind:this={searchSection} class="search-container">
 			<div class="flex justify-end">
-				<button on:click={async () => await handleCreateNote()} class="bg-slate-200 hover:bg-slate-300 p-2 rounded mb-4"
+				<button on:click={async () => await handleCreateNote()} class="add-btn"
 					><Icon icon="fa-solid:plus" /></button>
 			</div>
 			<Input on:input={handleSearch} placeholder="Search..." />
 		</div>
-		<div class="overflow-y-auto" style="height: calc(100vh - {searchSectionHeight}px);">
-			{#each filteredNotes as note, index}
+		<div class="scroll-container" style="height: calc(100vh - {searchSectionHeight}px);">
+			{#each filteredNotes as note}
 				<button
 					id={`note-${note.id}`}
-					class={clsx('block w-full text-left p-4 hover:bg-slate-300', {
-						'rounded-t': index === 0,
-						'rounded-b': index === get(notes).length - 1,
-						'bg-slate-300': $selectedNote?.id === note.id,
+					class={clsx('note', {
+						'active': $selectedNote?.id === note.id,
 					})}
 					on:click={() => selectNote(note)}
 				>
-					<div>{note.title}</div>
-					<div class="flex gap-1 flex-wrap">
+					<div class="title">{note.title}</div>
+					<div class="tags-container">
 						{#each (note.tags ?? []) as tag}
-							<div class="inline-block px-2 py-1 text-xs bg-gray-300 rounded-sm">
-								#{tag.name}
-							</div>
+							<Chip text={tag.name} />
 						{/each}
 					</div>
 					
@@ -110,3 +107,59 @@
 	on:closeModal={handleCloseConfirmationDialog}
 	on:action={async () => await handleRemoveNote()}
 />
+
+<style>
+	.notes-view {
+		background: var(--clr-bg);
+		width: 32rem;
+		border-right: 0.1rem solid var(--clr-bg-border);
+	}
+
+	.search-container {
+		padding: 1.6rem;
+	}
+
+	.add-btn {
+		background: var(--clr-bg);
+		color: var(--clr-text-primary);
+		padding: 0.8rem;
+		border-radius: 0.4rem;
+		margin-bottom: 1.6rem;
+	}
+
+	.add-btn:hover {
+		background: var(--clr-bg-hover);
+	}
+
+	.scroll-container {
+		overflow-y: auto;
+	}
+
+	.note {
+		display: block;
+		width: 100%;
+		text-align: left;
+		padding: 1.6rem;
+		border-bottom: 0.1rem solid var(--clr-bg-secondary);
+		font-size: 1.6rem;
+	}
+
+	.note:hover {
+		background: var(--clr-bg-secondary);
+	}
+
+	.note.active {
+		background: var(--clr-bg-secondary);
+	}
+
+	.note .title {
+		margin-bottom: 1.2rem;
+		color: var(--clr-text-primary-emphasis);
+	}
+
+	.tags-container {
+		display: flex;
+		gap: 0.4rem;
+		flex-wrap: wrap;
+	}
+</style>

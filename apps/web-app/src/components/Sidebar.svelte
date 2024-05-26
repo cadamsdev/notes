@@ -7,6 +7,7 @@
 	import { browser } from '$app/environment';
 	import ConfirmationDialog from './ConfirmationDialog.svelte';
 	import Input from './Input.svelte';
+	import Button from './Button.svelte';
 
 	let showRenameModal = false;
 	let currentTag: TagRecord;
@@ -48,17 +49,16 @@
 	load();
 </script>
 
-<div class="p-6 bg-slate-800 min-w-[200px]">
-	<div class="text-white">
-		<div class="mb-4 text-sm flex items-center gap-2">
+<div class="sidebar">
+		<div class="tag-heading-container">
 			<Icon icon="fa-solid:tags" />
 			Tags
 		</div>
 		{#each $tags as tag}
 			{#if (tag.count ?? 0) > 0}
-				<button id={`tag-${tag.id}`} class="block pl-4 pb-1">
-					<span class="text-gray-200 hover:text-gray-50">#{tag.name}</span><span
-						class="text-gray-400 text-sm">&nbsp;{tag.count}</span
+				<button id={`tag-${tag.id}`} class="tag">
+					<span class="tag-name">#{tag.name}</span><span
+						class="tag-count">&nbsp;{tag.count}</span
 					>
 
 					<ContextMenu
@@ -71,14 +71,12 @@
 				</button>
 			{/if}
 		{/each}
-	</div>
 </div>
 
 <Dialog showModal={showRenameModal} on:closeModal={() => (showRenameModal = false)}>
 	<div>
-		<div class="mb-4">
-			<label for="tag-name" class="font-bold"> Name: </label>
-
+		<label for="tag-name" class="label">
+				<div class="label-text">Name:</div>
 			<Input
 				id="tag-name"
 				name="name"
@@ -86,13 +84,11 @@
 				value={currentTag?.name}
 				on:input={handleChangeTagName}
 			/>
-		</div>
+		</label>
 
-		<div class="flex justify-end">
-			<button
-				on:click={async () => await handleRenameTag()}
-				class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">Save</button
-			>
+		<div class="dialog-footer">
+			<Button on:click={async () => await handleRenameTag()}>Save</Button>
+			<Button variant="secondary" on:click={() => showRenameModal = false}>Cancel</Button>
 		</div>
 	</div>
 </Dialog>
@@ -102,5 +98,59 @@
 	on:closeModal={() => showRemoveTagConfirmationModal = false}
 	on:action={async () => await handleRemoveTag()}
 />
+
+<style>
+	.sidebar {
+		padding: 2.4rem;
+		background: var(--clr-bg);
+		min-width: 20rem;
+		border-right: 0.1rem solid var(--clr-bg-border);
+		color: var(--clr-text-primary);
+	}
+
+	.tag-heading-container {
+		margin-bottom: 1.6rem;
+		font-size: 1.4rem;
+		display: flex;
+		align-items: center;
+		gap: 0.8rem;
+		color: var(--clr-text-primary-emphasis);
+	}
+
+	.tag {
+		display: block;
+		padding: 0.4rem 0.8rem;
+	}
+
+	.tag:hover {
+		color: var(--clr-text-primary-hover);
+	}
+
+	.tag-name {
+		font-size: 1.6rem;
+	}
+
+	.tag-count {
+		color: var(--clr-text-primary);
+		font-size: 1.4rem;
+	}
+
+	.label {
+		display: block;
+		font-size: 1.6rem;
+		font-weight: 700;
+		margin-bottom: 2.4rem;
+	}
+
+	.label-text {
+		margin-bottom: 0.8rem;
+	}
+
+	.dialog-footer {
+		display: flex;
+		justify-content: end;
+		gap: 0.8rem;
+	}
+</style>
 
 

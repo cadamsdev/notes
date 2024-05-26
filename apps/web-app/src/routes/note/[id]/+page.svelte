@@ -10,6 +10,7 @@
 	import type { Tag } from '../../../interfaces/Tag';
 	import Dialog from '../../../components/Dialog.svelte';
 	import Button from '../../../components/Button.svelte';
+	import Chip from '../../../components/Chip.svelte';
 
 	export let data: PageData;
 
@@ -163,8 +164,8 @@
 	});
 </script>
 
-<div class="relative">
-	<div class="py-4 px-16 max-h-screen overflow-y-auto">
+<div class="page">
+	<div class="page-content">
 		{#if !$selectedNote}
 			<div class="flex items-center justify-center h-full">
 				<div>No content</div>
@@ -174,40 +175,100 @@
 		<div
 			bind:this={editorRef}
 			id="editor"
-			class={clsx({ hidden: !$selectedNote })}
+			class={clsx({ hidden: !$selectedNote})}
 		></div>
 	</div>
 
-	<div class="fixed bottom-0 p-2 z-10 bg-white w-full">
-		<div class="flex items-center gap-2">
-			<button on:click={openTagModal}><Icon icon="fa-solid:tags" /></button>
-
-			{#if selectedTags.length === 0}
-				<button on:click={openTagModal} class="text-sm">Click to add Tags...</button>
-			{:else}
-				<div class="flex gap-2">
-					{#each selectedTags as tag}
-						<button on:click={openTagModal} class="text-sm">{tag.name}</button>
-					{/each}
-				</div>
-			{/if}
-		</div>
+	<div class="bottom-bar">
+		<button on:click={openTagModal}><Icon icon="fa-solid:tags" /></button>
+		{#if selectedTags.length === 0}
+			<button on:click={openTagModal} class="new-tag-label">Click to add Tags...</button>
+		{:else}
+			<div class="tags-container">
+				{#each selectedTags as tag}
+					<button on:click={openTagModal}>
+						<Chip text={tag.name} />
+					</button>
+				{/each}
+			</div>
+		{/if}
 	</div>
 </div>
 
 <Dialog bind:showModal={showTagModal} on:closeModal={() => (showTagModal = false)}>
-	<div class="w-[325px] max-w-[325px]">
+	<div class="dialog-content">
 		<div>
-			<div class="font-bold mb-4">Tags</div>
+			<div class="dialog-heading">Tags</div>
 		</div>
-		<TagCombobox
-			selectedTags={selectedTags}
-			on:selectTag={handleSelectTag}
-		/>
+		<div class="dialog-tag-combobox-container">
+			<TagCombobox
+				selectedTags={selectedTags}
+				on:selectTag={handleSelectTag}
+			/>
+		</div>
 
-		<div class="flex justify-end gap-2">
+		<div class="dialog-footer">
 			<Button on:click={handleSaveTags}>Save</Button>
 			<Button variant="secondary" on:click={() => (showTagModal = false)}>Cancel</Button>
 		</div>
 	</div>
 </Dialog>
+
+<style>
+	.dialog-content {
+		min-width: 30rem;
+	}
+
+	.page {
+		position: relative;
+	}
+
+	.page-content {
+		padding: 1.6rem 6.4rem;
+		max-height: 100vh;
+		overflow-y: auto;
+	}
+
+	.bottom-bar {
+		position: fixed;
+		bottom: 0;
+		padding: 1.2rem;
+		background: var(--clr-bg);
+		border-top: 0.1rem solid var(--clr-bg-border);
+		color: var(--clr-text-primary);
+		width: 100%;
+		z-index: 10;
+		display: flex;
+		align-items: center;
+		gap: 0.8rem;
+		min-height: 50px;
+
+	}
+
+	.dialog-heading {
+		font-weight: 700;
+		margin-bottom: 1.6rem;
+		color: var(--clr-text-primary);
+	}
+
+	.dialog-footer {
+		display: flex;
+		justify-content: flex-end;
+		gap: 0.8rem;
+
+	}
+	
+	.dialog-tag-combobox-container {
+		margin-bottom: 1.6rem;
+	}
+
+	.tags-container {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.8rem;
+	}
+
+	.new-tag-label {
+		font-size: 1.4rem;
+	}
+</style>

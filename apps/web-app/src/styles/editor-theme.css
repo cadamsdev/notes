@@ -1,0 +1,140 @@
+.ce-block__content h1,
+.ce-block__content h2,
+.ce-block__content h3 {
+	line-height: 1.15;
+	font-weight: 700;
+}
+
+.ce-block__content h1 {
+	font-size: 4.776rem;
+}
+
+.ce-block__content h2 {
+	font-size: 3.9808rem;
+}
+
+.ce-block__content h3 {
+	font-size: 3.3184rem;
+}
+
+.ce-popover__overlay .ce-popover.ce-popover--opened {
+	left: 0;
+}
+
+.ce-toolbar__plus { 
+	color: var(--clr-text-secondary);
+}
+
+.ce-toolbar__plus:hover {
+	background: var(--clr-bg-secondary);
+}
+
+.ce-toolbar__settings-btn {
+	color: var(--clr-text-secondary);
+}
+
+.ce-toolbar__settings-btn:hover {
+	background: var(--clr-bg-secondary);
+}
+
+.ce-popover {
+	background: var(--clr-bg);
+	border: 0.1rem solid var(--clr-bg-border);
+}
+
+.ce-popover__items .ce-popover-item:hover {
+	background: var(--clr-bg-secondary-hover);
+}
+
+.ce-popover-item {
+	color: var(--clr-text-primary);
+}
+
+.ce-popover-item__icon {
+	color: var(--clr-text-primary);
+	background: var(--clr-bg);
+	box-shadow: none;
+}
+
+.cdx-search-field {
+	background: var(--clr-bg-secondary);
+	color: var(--clr-text-secondary);
+	border: 0.1rem solid var(--clr-bg-secondary);
+}
+
+.cdx-search-field__icon svg {
+	color: var(--clr-text-primary);
+}
+
+.cdx-search-field__input {
+	color: var(--clr-text-primary);
+}
+
+.cdx-search-field__input::placeholder {
+	color: var(--clr-text-primary);
+}
+
+.ce-popover__nothing-found-message {
+	color: var(--clr-text-primary);
+}
+
+.ce-block--selected .ce-block__content {
+	background: var(--clr-bg);
+}
+
+.ce-inline-toolbar {
+	background: var(--clr-bg);
+	border: 0.1rem solid var(--clr-bg-border);
+	color: var(--clr-text-primary);
+}
+
+.ce-inline-toolbar__buttons .ce-inline-tool:hover {
+	background: var(--clr-bg-secondary);
+	
+}
+
+.be-list.unordered li {
+	list-style: disc;
+}
+
+.be-list.ordered li {
+	list-style: decimal;
+}
+
+.ce-block__content .ce-paragraph[data-placeholder]:empty:before {
+	color: var(--clr-text-primary);
+}
+
+/* Code block */
+textarea.ce-code__textarea {
+	background: var(--clr-bg-secondary);
+	color: var(--clr-text-secondary);
+	border: 0.1rem solid var(--clr-bg-secondary);
+}
+
+.codex-editor ::selection {
+	background: var(--clr-bg-secondary);
+}
+
+code.inline-code {
+	background: var(--clr-bg-secondary);
+	color: var(--clr-text-secondary);
+
+}
+
+@media (min-width: 651px) {
+	.codex-editor--narrow .ce-toolbox .ce-popover {
+		left: 0;
+		right: auto;
+	}
+
+	.codex-editor--narrow .ce-toolbar__actions {
+		right: 100%;
+	}
+
+
+	.codex-editor--narrow .ce-settings .ce-popover {
+		left: 0;
+		right: auto;
+	}
+}
