@@ -140,7 +140,7 @@
 		>
 			<div class="tag-list">
 				{#each filteredTags as tag}
-					<button on:click={(e) => handleSelectTag(e, tag)} class="block p-2 hover:bg-bg-secondary-hover w-full text-left">
+					<button on:click={(e) => handleSelectTag(e, tag)} class="tag-button">
 						{tag.name}
 					</button>
 				{/each}
@@ -207,6 +207,11 @@
 		background: var(--clr-bg);
 		outline: 0.2rem solid transparent;
 		width: 100%;
+		color: var(--clr-text-secondary);
+	}
+
+	input::placeholder {
+		color: var(--clr-text-secondary);
 	}
 
 	.action-button {
@@ -214,6 +219,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		color: var(--clr-text-secondary);
 	}
 
 	.popup {
@@ -224,7 +230,6 @@
 		width: 100%;
 		background: var(--clr-bg-secondary);
 		color: var(--clr-text-secondary);
-		padding: 0.8rem;
 	}
 
 	.popup .tag-list {
@@ -235,5 +240,17 @@
 	.create-tag-btn {
 		display: block;
 		padding: 0.8rem;
+	}
+
+	.tag-button {
+		display: block;
+		padding: 0.8rem;
+		width: 100%;
+		text-align: left;
+		color: var(--clr-text-secondary);
+	}
+
+	.tag-button:hover {
+		background: var(--clr-bg-secondary-hover);
 	}
 </style>

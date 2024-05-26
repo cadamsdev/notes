@@ -1,5 +1,6 @@
 <script lang="ts">
 	import '../styles/styles.css';
+	import '@fontsource-variable/inter';
 	import NotesView from '../components/NotesView.svelte';
 	import Sidebar from '../components/Sidebar.svelte';
 	import { notes, selectedNote } from '../store';

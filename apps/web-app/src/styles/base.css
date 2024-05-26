@@ -11,5 +11,28 @@ body {
 	font-size: 1.6rem;
 	line-height: 1.6;
 	color: #222222;
-	@apply bg-bg;
+	background: var(--clr-bg);
+  font-family: 'Inter Variable', sans-serif;
 }
+
+button {
+	appearance: none;
+	outline: none;
+	border: none;
+	background: transparent;
+	cursor: pointer;
+	color: inherit;
+}
+
+li {
+	list-style: none;
+}
+
+ul {
+	padding: 0;
+}
+
+input {
+	border: none;
+}
+
