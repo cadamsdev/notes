@@ -112,6 +112,10 @@ textarea.ce-code__textarea {
 	border: 0.1rem solid var(--clr-bg-secondary);
 }
 
+.codex-editor ::selection {
+	background: var(--clr-bg-secondary);
+}
+
 @media (min-width: 651px) {
 	.codex-editor--narrow .ce-toolbox .ce-popover {
 		left: 0;
