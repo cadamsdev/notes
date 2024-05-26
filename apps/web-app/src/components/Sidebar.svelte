@@ -119,8 +119,7 @@
 
 	.tag {
 		display: block;
-		padding-left: 1.6rem;
-		padding-bottom: 0.4rem;
+		padding: 0.4rem 0.8rem;
 	}
 
 	.tag:hover {
@@ -129,11 +128,6 @@
 
 	.tag-name {
 		font-size: 1.6rem;
-		color: var(--clr-text-secondary);
-	}
-
-	.tag-name:hover {
-		color: var(--clr-text-secondary-hover);
 	}
 
 	.tag-count {
