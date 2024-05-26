@@ -9,6 +9,7 @@
 	import ConfirmationDialog from './ConfirmationDialog.svelte';
 	import Input from './Input.svelte';
 	import Chip from './Chip.svelte';
+	import SearchInput from './SearchInput.svelte';
 
 	let filteredNotes: Note[] = [];
 	let showConfirmationModal = false;
@@ -74,7 +75,7 @@
 				<button on:click={async () => await handleCreateNote()} class="add-btn"
 					><Icon icon="fa-solid:plus" /></button>
 			</div>
-			<Input on:input={handleSearch} placeholder="Search..." />
+			<SearchInput on:input={handleSearch} placeholder="Search..." />
 		</div>
 		<div class="scroll-container" style="height: calc(100vh - {searchSectionHeight}px);">
 			{#each filteredNotes as note}
