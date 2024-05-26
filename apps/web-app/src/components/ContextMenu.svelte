@@ -82,10 +82,10 @@
         padding: 1.6rem;
         width: 100%;
         text-align: start;
-        color: var(--clr-text-secondary);
+        color: var(--clr-text-primary);
     }
 
     .menu-item:hover {
-        background-color: var(--clr-bg-secondary-hover);
+        background-color: var(--clr-bg-hover);
     }
 </style>
