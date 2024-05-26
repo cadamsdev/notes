@@ -16,7 +16,6 @@
 
 	let editorRef: any = null;
 	let editor: EditorJS.default;
-	let timer: any;
 	let showTagModal = false;
 	let tempTags: Tag[] = [];
 	let selectedTags: Tag[] = [...data.tags];
@@ -115,7 +114,6 @@
 	}
 
 	onMount(async () => {
-		// const Header: any = (await import('@editorjs/header')).default;
 		//@ts-ignore
 		const Code: any = (await import('@editorjs/code')).default;
 		//@ts-ignore
