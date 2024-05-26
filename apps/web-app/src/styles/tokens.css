@@ -7,8 +7,10 @@
   --clr-bg-secondary: #2d2b2d;
   --clr-bg-secondary-hover: #454245;
   --clr-bg-on-secondary: #454245;
-  --clr-primary: #e8942a;
+  --clr-primary: #e78e1e;
+  --clr-primary-hover: #eb9f40;
   --clr-secondary: #a39995;
+  --clr-secondary-hover: #b1a8a5;
   --clr-accent: #E8942A;
   --clr-modal-overlay: rgb(21, 20, 21, 0.75);
 }

@@ -9,7 +9,8 @@
 <button
 	on:click
 	class={clsx({
-		'secondary': variant === 'secondary'
+		primary: variant === 'primary',
+		secondary: variant === 'secondary'
 	})}
 	{...$$props}
 >
@@ -25,7 +26,15 @@
 		font-size: 1.6rem;
 	}
 
+	.primary:hover {
+		background: var(--clr-primary-hover);
+	}
+
 	.secondary {
 		background: var(--clr-secondary);
 	}
+	
+	.secondary:hover {
+		background: var(--clr-secondary-hover);
+	}	
 </style>
