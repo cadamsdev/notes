@@ -105,7 +105,7 @@
 		background: var(--clr-bg);
 		min-width: 20rem;
 		border-right: 0.1rem solid var(--clr-bg-secondary);
-		color: var(--clr-text-secondary);
+		color: var(--clr-text-primary);
 	}
 
 	.tag-heading-container {
@@ -114,7 +114,7 @@
 		display: flex;
 		align-items: center;
 		gap: 0.8rem;
-		color: var(--clr-text-secondary);
+		color: var(--clr-text-primary-emphasis);
 	}
 
 	.tag {
@@ -123,7 +123,7 @@
 	}
 
 	.tag:hover {
-		color: var(--clr-text-secondary-hover);
+		color: var(--clr-text-primary-hover);
 	}
 
 	.tag-name {
@@ -131,7 +131,7 @@
 	}
 
 	.tag-count {
-		color: var(--clr-text-secondary);
+		color: var(--clr-text-primary);
 		font-size: 1.4rem;
 	}
 
