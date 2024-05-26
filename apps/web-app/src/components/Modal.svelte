@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Icon from '@iconify/svelte';
 	import { teleport } from '../actions/teleport';
 	import clsx from 'clsx';
 	import { createEventDispatcher } from 'svelte';
