@@ -31,7 +31,7 @@
 		</div>
 		<div class="dialog-content">
 			{#if description}
-				<div class="mb-8">
+				<div class="dialog-description">
 					{description}
 				</div>
 			{/if}
@@ -62,6 +62,10 @@
 		align-items: center;
 		justify-content: space-between;
 		margin-bottom: 3.2rem;
+	}
+
+	.dialog-description {
+		margin-bottom: 2.4rem;
 	}
 
 	.heading {
