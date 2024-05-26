@@ -122,6 +122,21 @@ code.inline-code {
 
 }
 
+.ce-block a {
+	color: var(--clr-text-link);
+}
+
+.ce-inline-tool-input {
+	background: var(--clr-bg);
+	color: var(--clr-text-primary);
+	border: 0.1rem solid var(--clr-bg-border);
+
+}
+
+.ce-inline-tool-input::placeholder {
+	color: var(--clr-text-primary);
+}
+
 @media (min-width: 651px) {
 	.codex-editor--narrow .ce-toolbox .ce-popover {
 		left: 0;
