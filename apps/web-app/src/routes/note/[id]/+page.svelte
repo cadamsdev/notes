@@ -224,7 +224,7 @@
 	}
 
 	.page-content {
-		padding: 1.6 6.4rem;
+		padding: 1.6rem 6.4rem;
 		max-height: 100vh;
 		overflow-y: auto;
 	}

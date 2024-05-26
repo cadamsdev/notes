@@ -101,6 +101,10 @@
 	list-style: decimal;
 }
 
+.ce-block__content .ce-paragraph[data-placeholder]:empty:before {
+	color: var(--clr-text-secondary);
+}
+
 /* Code block */
 textarea.ce-code__textarea {
 	background: var(--clr-bg-secondary);
