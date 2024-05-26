@@ -121,7 +121,7 @@
 
 	.add-btn {
 		background: var(--clr-bg);
-		color: var(--clr-text-secondary);
+		color: var(--clr-text-primary);
 		padding: 0.8rem;
 		border-radius: 0.4rem;
 		margin-bottom: 1.6rem;
@@ -140,7 +140,6 @@
 		width: 100%;
 		text-align: left;
 		padding: 1.6rem;
-		color: var(--clr-text-primary);
 		border-bottom: 0.1rem solid var(--clr-bg-secondary);
 		font-size: 1.6rem;
 	}
@@ -155,6 +154,7 @@
 
 	.note .title {
 		margin-bottom: 1.2rem;
+		color: var(--clr-text-primary-emphasis);
 	}
 
 	.tags-container {
