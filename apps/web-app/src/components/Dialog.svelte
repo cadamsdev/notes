@@ -36,7 +36,7 @@
     border-radius: 0.4rem;
     background: var(--clr-bg);
     color: var(--clr-text);
-    border: 0.1rem solid var(--clr-bg-secondary);
+    border: 0.1rem solid var(--clr-bg-border);
     padding: 2.4rem;
     z-index: 20;
     min-width: 30rem;

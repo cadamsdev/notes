@@ -49,7 +49,7 @@
 		display: inline-block;
 		border-radius: 0.4rem;
 		background: var(--clr-bg);
-		border: 0.1rem solid var(--clr-bg-secondary);
+		border: 0.1rem solid var(--clr-bg-border);
 		padding: 1.2rem;
 		color: var(--clr-text-primary);
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);

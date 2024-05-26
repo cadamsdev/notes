@@ -39,7 +39,7 @@
 
 .ce-popover {
 	background: var(--clr-bg);
-	border: 0.1rem solid var(--clr-bg-secondary);
+	border: 0.1rem solid var(--clr-bg-border);
 }
 
 .ce-popover__items .ce-popover-item:hover {
@@ -51,7 +51,7 @@
 }
 
 .ce-popover-item__icon {
-	color: var(--clr-text-secondary);
+	color: var(--clr-text-primary);
 	background: var(--clr-bg);
 	box-shadow: none;
 }
@@ -84,7 +84,7 @@
 
 .ce-inline-toolbar {
 	background: var(--clr-bg);
-	border: 0.1rem solid var(--clr-bg-secondary);
+	border: 0.1rem solid var(--clr-bg-border);
 	color: var(--clr-text-primary);
 }
 

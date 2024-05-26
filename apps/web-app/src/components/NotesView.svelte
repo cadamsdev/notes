@@ -112,7 +112,7 @@
 	.notes-view {
 		background: var(--clr-bg);
 		width: 32rem;
-		border-right: 0.1rem solid var(--clr-bg-secondary);
+		border-right: 0.1rem solid var(--clr-bg-border);
 	}
 
 	.search-container {
@@ -128,7 +128,7 @@
 	}
 
 	.add-btn:hover {
-		background: var(--clr-bg-secondary);
+		background: var(--clr-bg-hover);
 	}
 
 	.scroll-container {

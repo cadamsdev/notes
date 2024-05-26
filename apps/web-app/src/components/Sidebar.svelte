@@ -104,7 +104,7 @@
 		padding: 2.4rem;
 		background: var(--clr-bg);
 		min-width: 20rem;
-		border-right: 0.1rem solid var(--clr-bg-secondary);
+		border-right: 0.1rem solid var(--clr-bg-border);
 		color: var(--clr-text-primary);
 	}
 

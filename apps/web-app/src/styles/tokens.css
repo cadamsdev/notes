@@ -9,9 +9,13 @@
 
   /* Background color */
   --clr-bg: #151415;
+  --clr-bg-hover: #2d2b2d;
   --clr-bg-secondary: #2d2b2d;
   --clr-bg-secondary-hover: #454245;
   --clr-bg-on-secondary: #454245;
+
+  /* Border colors */
+  --clr-bg-border: #2d2b2d;
 
   /* Other colors */
   --clr-primary: #e78e1e;

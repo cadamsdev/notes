@@ -73,7 +73,7 @@
 
 <style>
     .menu-list {
-        border: 0.1rem solid var(--clr-bg-secondary);
+        border: 0.1rem solid var(--clr-bg-border);
         background: var(--clr-bg);
         border-radius: 0.4rem;
     }

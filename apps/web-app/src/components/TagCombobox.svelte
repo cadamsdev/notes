@@ -170,7 +170,7 @@
 		background: var(--clr-bg);
 		border-radius: 0.4rem;
 		padding: 0.8rem;
-		border: 0.1rem solid var(--clr-bg-secondary);
+		border: 0.1rem solid var(--clr-bg-border);
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
@@ -207,11 +207,11 @@
 		background: var(--clr-bg);
 		outline: 0.2rem solid transparent;
 		width: 100%;
-		color: var(--clr-text-secondary);
+		color: var(--clr-text-primary);
 	}
 
 	input::placeholder {
-		color: var(--clr-text-secondary);
+		color: var(--clr-text-primary);
 	}
 
 	.action-button {
@@ -219,7 +219,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		color: var(--clr-text-secondary);
+		color: var(--clr-text-primary);
 	}
 
 	.popup {

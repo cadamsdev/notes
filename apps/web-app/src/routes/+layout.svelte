@@ -37,7 +37,7 @@
 	.page-content {
 		flex-grow: 1;
 		background: var(--clr-bg);
-		color: var(--clr-text-secondary);
+		color: var(--clr-text-primary);
 	}
 </style>
 

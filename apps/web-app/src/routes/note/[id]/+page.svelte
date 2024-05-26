@@ -234,8 +234,8 @@
 		bottom: 0;
 		padding: 1.2rem;
 		background: var(--clr-bg);
-		border-top: 0.1rem solid var(--clr-bg-secondary);
-		color: var(--clr-text-secondary);
+		border-top: 0.1rem solid var(--clr-bg-border);
+		color: var(--clr-text-primary);
 		width: 100%;
 		z-index: 10;
 		display: flex;
