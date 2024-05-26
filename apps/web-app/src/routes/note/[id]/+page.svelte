@@ -196,7 +196,7 @@
 </div>
 
 <Dialog bind:showModal={showTagModal} on:closeModal={() => (showTagModal = false)}>
-	<div>
+	<div class="dialog-content">
 		<div>
 			<div class="dialog-heading">Tags</div>
 		</div>
@@ -215,6 +215,10 @@
 </Dialog>
 
 <style>
+	.dialog-content {
+		min-width: 30rem;
+	}
+
 	.page {
 		position: relative;
 	}
