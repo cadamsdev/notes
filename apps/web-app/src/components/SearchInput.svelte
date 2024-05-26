@@ -4,7 +4,7 @@
 
 <div class="search-container">
   <div class="icon-container">
-    <Icon icon="fa-solid:search" width="24" height="24" />
+    <Icon icon="fa-solid:search" width="20" height="20" />
   </div>
   <input
     on:input
@@ -27,7 +27,7 @@
 
   input {
     display: block;
-    padding: 1.2rem 1.2rem 1.2rem 4.8rem;
+    padding: 1.2rem 1.2rem 1.2rem 4.4rem;
     background: var(--clr-bg-secondary);
     border: none;
     color: var(--clr-text-secondary);
