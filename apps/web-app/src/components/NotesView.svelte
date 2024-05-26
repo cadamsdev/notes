@@ -77,12 +77,10 @@
 			<Input on:input={handleSearch} placeholder="Search..." />
 		</div>
 		<div class="scroll-container" style="height: calc(100vh - {searchSectionHeight}px);">
-			{#each filteredNotes as note, index}
+			{#each filteredNotes as note}
 				<button
 					id={`note-${note.id}`}
 					class={clsx('note', {
-						'rounded-t': index === 0,
-						'rounded-b': index === get(notes).length - 1,
 						'active': $selectedNote?.id === note.id,
 					})}
 					on:click={() => selectNote(note)}
@@ -153,16 +151,6 @@
 
 	.note.active {
 		background: var(--clr-bg-secondary);
-	}
-
-	.note.rounded-t {
-		border-top-left-radius: 0.4rem;
-		border-top-right-radius: 0.4rem;
-	}
-
-	.note.rounded-b {
-		border-bottom-right-radius: 0.25rem;
-		border-bottom-left-radius: 0.25rem;
 	}
 
 	.note .title {
