@@ -239,12 +239,12 @@
 
 	.create-tag-btn {
 		display: block;
-		padding: 0.8rem;
+		padding: 1.2rem;
 	}
 
 	.tag-button {
 		display: block;
-		padding: 0.8rem;
+		padding: 1.2rem;
 		width: 100%;
 		text-align: left;
 		color: var(--clr-text-secondary);
