@@ -6,15 +6,15 @@
 }
 
 .ce-block__content h1 {
-	font-size: 2.986rem;
+	font-size: 4.776rem;
 }
 
 .ce-block__content h2 {
-	font-size: 2.488rem;
+	font-size: 3.9808rem;
 }
 
 .ce-block__content h3 {
-	font-size: 2.074rem;
+	font-size: 3.3184rem;
 }
 
 .ce-popover__overlay .ce-popover.ce-popover--opened {
@@ -22,56 +22,60 @@
 }
 
 .ce-toolbar__plus { 
-	@apply text-text-secondary;
+	color: var(--clr-text-secondary);
 }
 
 .ce-toolbar__plus:hover {
-	@apply bg-bg-secondary;
+	background: var(--clr-bg-secondary);
 }
 
 .ce-toolbar__settings-btn {
-	@apply text-text-secondary;
+	color: var(--clr-text-secondary);
 }
 
 .ce-toolbar__settings-btn:hover {
-	@apply bg-bg-secondary;
+	background: var(--clr-bg-secondary);
 }
 
 .ce-popover {
-	@apply bg-bg-secondary;
-	@apply border border-bg-secondary;
+	background: var(--clr-bg-secondary);
+	border: 0.1rem solid var(--clr-bg-secondary);
 }
 
 .ce-popover__items .ce-popover-item:hover {
-	@apply bg-bg-secondary-hover;
+	background: var(--clr-bg-secondary-hover);
 }
 
 .ce-popover-item {
-	@apply text-text-secondary;
+	color: var(--clr-text-secondary);
 }
 
 .ce-popover-item__icon {
-	@apply text-text-secondary;
-	@apply bg-bg;
-	@apply shadow-none;
+	color: var(--clr-text-secondary);
+	background: var(--clr-bg);
+	box-shadow: none;
 }
 
 .cdx-search-field {
-	@apply bg-bg-on-secondary;
-	@apply text-text-secondary;
-	@apply border border-bg-secondary;
+	background: var(--clr-bg-on-secondary);
+	color: var(--clr-text-secondary);
+	border: 0.1rem solid var(--clr-bg-secondary);
 }
 
 .cdx-search-field__icon svg {
-	@apply text-text-secondary;
+	color: var(--clr-text-secondary);
+}
+
+.cdx-search-field__input {
+	color: var(--clr-text-secondary);
 }
 
 .cdx-search-field__input::placeholder {
-	@apply text-text-secondary;
+	color: var(--clr-text-secondary);
 }
 
 .ce-popover__nothing-found-message {
-	@apply text-text-secondary;
+	color: var(--clr-text-secondary);
 }
 
 .ce-block--selected .ce-block__content {
@@ -89,11 +93,19 @@
 	
 }
 
+.be-list.unordered li {
+	list-style: disc;
+}
+
+.be-list.ordered li {
+	list-style: decimal;
+}
+
 /* Code block */
 textarea.ce-code__textarea {
-	@apply bg-bg-secondary;
-	@apply text-text-secondary;
-	@apply border border-bg-secondary;
+	background: var(--clr-bg-secondary);
+	color: var(--clr-text-secondary);
+	border: 0.1rem solid var(--clr-bg-secondary);
 }
 
 @media (min-width: 651px) {

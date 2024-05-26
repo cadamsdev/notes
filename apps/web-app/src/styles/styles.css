@@ -1,9 +1,5 @@
 @import url('./tokens.css');
 @import url('./reset.css');
 @import url('./base.css');
-@import url('./editor-js-theme.css');
+@import url('./editor-theme.css');
 @import url('./utilities.css');
-
-/* @tailwind base;
-@tailwind components;
-@tailwind utilities; */
