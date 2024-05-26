@@ -28,4 +28,7 @@
   /* Component tokens */
   --clr-modal-overlay: rgb(21, 20, 21, 0.75);
   --clr-btn-text: #151415;
+  --clr-scrollbar-track: #2c2a2c;
+  --clr-scrollbar-thumb: #383538;
+  --clr-scrollbar-thumb-hover: #433f43;
 }

@@ -42,15 +42,15 @@ input {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: var(--clr-bg);
+  background: var(--clr-scrollbar-track);
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: var(--clr-bg-secondary);
+  background: var(--clr-scrollbar-thumb);
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--clr-bg-secondary-hover);
+  background: var(--clr-scrollbar-thumb-hover);
 }
