@@ -1,4 +1,7 @@
 import { IconHtml } from '@codexteam/icons';
+import hljs from 'highlight.js';
+import 'highlight.js/styles/atom-one-dark.min.css';
+
 import './index.css';
 
 export interface CodeBlockData {
@@ -30,12 +33,19 @@ export class CodeBlock {
 		codeDiv.classList.add('ss-code-block');
 		codeDiv.dataset.language = this._data.language || 'plaintext';
 		codeDiv.contentEditable = 'true';
+
+		try {
+			hljs.highlightElement(codeDiv);
+		} catch (err) {
+			console.error(err);
+		}
+
 		return codeDiv;
 	}
 
 	save(blockContent: HTMLElement): CodeBlockData {
 		return {
-			code: blockContent.innerHTML || '',
+			code: blockContent.innerText || '',
 			language: blockContent?.dataset.language || 'plaintext'
 		};
 	}

@@ -1,7 +1,10 @@
 .ss-code-block {
+  display: inline-block;
   background: var(--clr-bg-secondary);
   color: var(--clr-text-secondary);
   padding: 1.6rem;
+  white-space: pre;
+  width: 100%;
 }
 
 .ss-code-block:focus-visible {
