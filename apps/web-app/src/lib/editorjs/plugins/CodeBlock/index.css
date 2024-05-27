@@ -36,6 +36,10 @@
   font-family: 'JetBrains Mono Variable', monospace;
 }
 
+.ss-code-block ::selection {
+	background: var(--clr-bg-on-secondary);
+}
+
 .ss-code-block:focus-visible {
   outline: 2px solid var(--clr-bg-on-secondary);
 }
