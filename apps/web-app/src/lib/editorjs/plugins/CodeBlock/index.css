@@ -22,7 +22,7 @@
   display: inline-block;
   background: var(--clr-bg-secondary);
   color: var(--clr-text-secondary);
-  padding: 1.6rem;
+  padding: 4rem;
   white-space: pre;
   width: 100%;
   font-family: 'JetBrains Mono Variable', monospace;
