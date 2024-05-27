@@ -32,6 +32,36 @@ export class CodeBlock {
 		const codeWrapper = document.createElement('div');
 		codeWrapper.classList.add('ss-code-block-wrapper');
 
+		// language dropdown
+		const languageDropdown = document.createElement('select');
+		languageDropdown.classList.add('ss-code-block-language-dropdown');
+
+		// fill select with languages
+		const languages = hljs.listLanguages();
+		languages.forEach((language) => {
+			const option = document.createElement('option');
+			option.value = language;
+			option.textContent = language;
+
+			if (language === this._data.language) {
+				option.selected = true;
+			}
+
+			languageDropdown.appendChild(option);
+		});
+
+		languageDropdown.onchange = (e) => {
+			const code = codeWrapper.querySelector<HTMLElement>('.ss-code-block');
+			if (code) {
+				code.dataset.language = (e.target as HTMLSelectElement).value;
+				console.log(code.dataset.language);
+				hljs.highlightElement(code);
+			}
+		};
+
+		codeWrapper.appendChild(languageDropdown);
+
+		// copy
 		const copyBtn = document.createElement('button');
 		copyBtn.textContent = 'Copy';
 		copyBtn.classList.add('ss-code-block-copy-btn');

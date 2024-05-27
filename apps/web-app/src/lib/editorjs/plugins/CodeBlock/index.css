@@ -2,6 +2,14 @@
   position: relative;
 }
 
+.ss-code-block-language-dropdown {
+  position: absolute;
+  top: 0.8rem;
+  left: 0.8rem;
+  background: var(--clr-bg);
+  color: var(--clr-text-primary);
+}
+
 .ss-code-block-copy-btn {
   position: absolute;
   top: 0.8rem;
