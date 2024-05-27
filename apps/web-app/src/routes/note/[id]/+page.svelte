@@ -120,6 +120,7 @@
 		const InlineCode: any = (await import('@editorjs/inline-code')).default;
 		const EditorJS = await import('@editorjs/editorjs');
 		const { H1, H2, H3 }  = await import('../../../lib/editorjs/plugins/Heading');
+		const { CodeBlock }  = await import('../../../lib/editorjs/plugins/CodeBlock');
 		const { BulletedList, NumberedList } = await import('../../../lib/editorjs/plugins/List')
 
 		const currentNote = get(selectedNote);
@@ -142,6 +143,7 @@
 				inlineCode: { class: InlineCode, inlineToolbar: true },
 				ul: BulletedList,
 				ol: NumberedList,
+				CodeBlock,
 			},
 			data,
 			onChange: async () => {
