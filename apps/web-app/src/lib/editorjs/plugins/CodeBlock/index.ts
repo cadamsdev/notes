@@ -60,7 +60,10 @@ export class CodeBlock {
 				// remove dataset.highlighted to force highlight.js to re-highlight
 				code.removeAttribute('data-highlighted');
 				code.innerHTML = this._data.code;
-				hljs.highlightElement(code);
+
+				if (code.dataset.language !== defaultLanguage) {
+					hljs.highlightElement(code);
+				}
 			}
 		};
 
@@ -92,7 +95,9 @@ export class CodeBlock {
 		codeDiv.contentEditable = 'true';
 
 		try {
-			hljs.highlightElement(codeDiv);
+			if (this._data.language !== defaultLanguage) {
+				hljs.highlightElement(codeDiv);
+			}
 		} catch (err) {
 			console.error(err);
 		}
