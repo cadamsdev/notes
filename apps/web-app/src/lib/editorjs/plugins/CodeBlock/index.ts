@@ -5,6 +5,8 @@ import '@fontsource-variable/jetbrains-mono';
 
 import './index.css';
 
+const defaultLanguage = 'plaintext';
+
 export interface CodeBlockData {
 	code: string;
 	language: string;
@@ -42,11 +44,12 @@ export class CodeBlock {
 			const option = document.createElement('option');
 			option.value = language;
 			option.textContent = language;
-
-			if (language === this._data.language) {
+			if (
+				(language === defaultLanguage && !this._data.language) ||
+				language === this._data.language
+			) {
 				option.selected = true;
 			}
-
 			languageDropdown.appendChild(option);
 		});
 
@@ -85,7 +88,7 @@ export class CodeBlock {
 		const codeDiv = document.createElement('div');
 		codeDiv.innerHTML = this._data.code || '';
 		codeDiv.classList.add('ss-code-block');
-		codeDiv.dataset.language = this._data.language || 'plaintext';
+		codeDiv.dataset.language = this._data.language || defaultLanguage;
 		codeDiv.contentEditable = 'true';
 
 		try {
@@ -102,7 +105,7 @@ export class CodeBlock {
 		const codeBlockDiv = blockContent.querySelector<HTMLElement>('.ss-code-block');
 		return {
 			code: codeBlockDiv?.innerText || '',
-			language: codeBlockDiv?.dataset.language || 'plaintext'
+			language: codeBlockDiv?.dataset.language || defaultLanguage
 		};
 	}
 }
