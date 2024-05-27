@@ -30,7 +30,7 @@
   display: inline-block;
   background: var(--clr-bg-secondary);
   color: var(--clr-text-secondary);
-  padding: 4rem;
+  padding: 4.8rem 1.6rem 1.6rem 1.6rem;
   white-space: pre;
   width: 100%;
   font-family: 'JetBrains Mono Variable', monospace;

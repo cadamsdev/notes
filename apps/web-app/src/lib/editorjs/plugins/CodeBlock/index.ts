@@ -54,7 +54,9 @@ export class CodeBlock {
 			const code = codeWrapper.querySelector<HTMLElement>('.ss-code-block');
 			if (code) {
 				code.dataset.language = (e.target as HTMLSelectElement).value;
-				console.log(code.dataset.language);
+				// remove dataset.highlighted to force highlight.js to re-highlight
+				code.removeAttribute('data-highlighted');
+				code.innerHTML = this._data.code;
 				hljs.highlightElement(code);
 			}
 		};
