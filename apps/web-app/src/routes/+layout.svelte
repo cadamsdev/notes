@@ -9,7 +9,10 @@
 	export let data: LayoutData;
 
 	notes.set(data.notes);
-	selectedNote.set(data.notes[0]);
+
+	if (data.selectedNote) {
+		selectedNote.set(data.selectedNote);
+	}
 </script>
 
 <svelte:head>
