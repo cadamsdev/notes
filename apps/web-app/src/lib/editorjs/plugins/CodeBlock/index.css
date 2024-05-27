@@ -1,3 +1,22 @@
+.ss-code-block-wrapper {
+  position: relative;
+}
+
+.ss-code-block-copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 2px 8px;
+  background: var(--clr-bg);
+  border: 1px solid var(--clr-bg-border);
+  color: var(--clr-text-primary);
+  font-size: 1.2rem;
+}
+
+.ss-code-block-copy-btn:hover {
+  background: var(--clr-bg-hover);
+}
+
 .ss-code-block {
   display: inline-block;
   background: var(--clr-bg-secondary);
