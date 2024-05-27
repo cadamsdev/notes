@@ -8,6 +8,7 @@
   left: 0.8rem;
   background: var(--clr-bg);
   color: var(--clr-text-primary);
+  border: 0.1rem solid var(--clr-bg-border);
 }
 
 .ss-code-block-copy-btn {
