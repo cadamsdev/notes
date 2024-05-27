@@ -5,6 +5,7 @@
   padding: 1.6rem;
   white-space: pre;
   width: 100%;
+  font-family: 'JetBrains Mono Variable', monospace;
 }
 
 .ss-code-block:focus-visible {

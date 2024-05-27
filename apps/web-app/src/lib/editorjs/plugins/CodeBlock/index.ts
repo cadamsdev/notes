@@ -1,6 +1,7 @@
 import { IconHtml } from '@codexteam/icons';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark.min.css';
+import '@fontsource-variable/jetbrains-mono';
 
 import './index.css';
 
