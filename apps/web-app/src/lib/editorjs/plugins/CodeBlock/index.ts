@@ -56,13 +56,11 @@ export class CodeBlock {
 		languageDropdown.onchange = (e) => {
 			const code = codeWrapper.querySelector<HTMLElement>('.ss-code-block');
 			if (code) {
-				code.dataset.language = (e.target as HTMLSelectElement).value;
-				// remove dataset.highlighted to force highlight.js to re-highlight
-				code.removeAttribute('data-highlighted');
-				code.innerHTML = this._data.code;
-
+				const language = (e.target as HTMLSelectElement).value;
+				code.dataset.language = language;
 				if (code.dataset.language !== defaultLanguage) {
-					hljs.highlightElement(code);
+					const highlightedCode = hljs.highlight(code.innerText, { language: language })
+					code.innerHTML = highlightedCode.value;
 				}
 			}
 		};
