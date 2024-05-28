@@ -59,7 +59,7 @@ export class CodeBlock {
 				const language = (e.target as HTMLSelectElement).value;
 				code.dataset.language = language;
 				if (code.dataset.language !== defaultLanguage) {
-					const highlightedCode = hljs.highlight(code.innerText, { language: language })
+					const highlightedCode = hljs.highlight(code.innerText, { language: language });
 					code.innerHTML = highlightedCode.value;
 				}
 			}
@@ -91,6 +91,7 @@ export class CodeBlock {
 		codeDiv.classList.add('ss-code-block');
 		codeDiv.dataset.language = this._data.language || defaultLanguage;
 		codeDiv.contentEditable = 'true';
+		codeDiv.addEventListener('paste', this._handlePaste);
 
 		try {
 			if (this._data.language !== defaultLanguage) {
@@ -111,4 +112,35 @@ export class CodeBlock {
 			language: codeBlockDiv?.dataset.language || defaultLanguage
 		};
 	}
+
+	private _handlePaste(event: ClipboardEvent) {
+			event.preventDefault();
+			event.stopPropagation();
+
+			const codeDiv = event.currentTarget as HTMLElement;
+			const clipboardData = event.clipboardData;
+			const pastedData = clipboardData?.getData('text') || '';
+
+			if (pastedData) {
+				const selection = window.getSelection();
+				if (selection) {
+					const range = selection.getRangeAt(0);
+					range.deleteContents();
+
+					const highlightedCode = hljs.highlight(pastedData, {
+						language: codeDiv.dataset.language || defaultLanguage
+					});
+
+					const code = document.createElement('div');
+					const highlightedHtml = highlightedCode.value;
+					console.log('code highlight');
+					console.log(highlightedHtml);
+					code.innerHTML = highlightedHtml;
+
+					range.insertNode(code);
+					selection.removeAllRanges();
+				}
+			}
+		}
+
 }
