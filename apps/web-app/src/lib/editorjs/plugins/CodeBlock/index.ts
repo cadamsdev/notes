@@ -31,6 +31,7 @@ export class CodeBlock {
 	}
 
 	render() {
+		//wrapper
 		const codeWrapper = document.createElement('div');
 		codeWrapper.classList.add('ss-code-block-wrapper');
 
@@ -67,7 +68,7 @@ export class CodeBlock {
 
 		codeWrapper.appendChild(languageDropdown);
 
-		// copy
+		// copy button
 		const copyBtn = document.createElement('button');
 		copyBtn.textContent = 'Copy';
 		copyBtn.classList.add('ss-code-block-copy-btn');
@@ -86,6 +87,7 @@ export class CodeBlock {
 
 		codeWrapper.appendChild(copyBtn);
 
+		// code block
 		const codeDiv = document.createElement('div');
 		codeDiv.innerHTML = this._data.code || '';
 		codeDiv.classList.add('ss-code-block');
@@ -121,25 +123,27 @@ export class CodeBlock {
 			const clipboardData = event.clipboardData;
 			const pastedData = clipboardData?.getData('text') || '';
 
-			if (pastedData) {
-				const selection = window.getSelection();
-				if (selection) {
-					const range = selection.getRangeAt(0);
-					range.deleteContents();
+			if (!pastedData) {
+				return;
+			}
 
-					const highlightedCode = hljs.highlight(pastedData, {
-						language: codeDiv.dataset.language || defaultLanguage
-					});
+			const selection = window.getSelection();
+			if (selection) {
+				const range = selection.getRangeAt(0);
+				range.deleteContents();
 
-					const code = document.createElement('div');
-					const highlightedHtml = highlightedCode.value;
-					console.log('code highlight');
-					console.log(highlightedHtml);
-					code.innerHTML = highlightedHtml;
+				const highlightedCode = hljs.highlight(pastedData, {
+					language: codeDiv.dataset.language || defaultLanguage
+				});
 
-					range.insertNode(code);
-					selection.removeAllRanges();
-				}
+				const code = document.createElement('div');
+				const highlightedHtml = highlightedCode.value;
+				console.log('code highlight');
+				console.log(highlightedHtml);
+				code.innerHTML = highlightedHtml;
+
+				range.insertNode(code);
+				selection.removeAllRanges();
 			}
 		}
 
