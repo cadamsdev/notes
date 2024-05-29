@@ -61,9 +61,7 @@
 				const formData = new FormData();
 				formData.append('id', updatedNote.id.toString());
 				formData.append('title', updatedNote.title);
-				if (updatedNote.content) {
-					formData.append('content', updatedNote.content);
-				}
+				formData.append('content', updatedNote.content);
 
 				const result = await fetch(`/note/${id}?/updateNote`, {
 					method: 'POST',
@@ -148,7 +146,7 @@
 			data,
 			onChange: async () => {
 				await save();
-			}
+			},
 		});
 
 

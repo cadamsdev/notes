@@ -4,8 +4,14 @@ import 'highlight.js/styles/atom-one-dark.min.css';
 import '@fontsource-variable/jetbrains-mono';
 
 import './index.css';
+import type { API } from '@editorjs/editorjs';
 
 const defaultLanguage = 'plaintext';
+
+interface CodeBlockProps {
+	data: CodeBlockData;
+	api: API;
+}
 
 export interface CodeBlockData {
 	code: string;
@@ -25,9 +31,11 @@ export class CodeBlock {
 	}
 
 	private _data: CodeBlockData;
+	private _api: API;
 
-	constructor({ data }: { data: CodeBlockData }) {
+	constructor({ data, api }: CodeBlockProps) {
 		this._data = data;
+		this._api = api;
 	}
 
 	render() {
@@ -75,7 +83,6 @@ export class CodeBlock {
 		copyBtn.onclick = () => {
 			const code = codeWrapper.querySelector<HTMLElement>('.ss-code-block');
 			if (code) {
-				console.log(code.innerText);
 				navigator.clipboard.writeText(code.innerText).then(() => {
 					copyBtn.textContent = 'Copied!';
 					setTimeout(() => {
@@ -94,6 +101,7 @@ export class CodeBlock {
 		codeDiv.dataset.language = this._data.language || defaultLanguage;
 		codeDiv.contentEditable = 'true';
 		codeDiv.addEventListener('paste', this._handlePaste);
+		codeDiv.addEventListener('keydown', this._handleKeydown);
 
 		try {
 			if (this._data.language !== defaultLanguage) {
@@ -115,36 +123,68 @@ export class CodeBlock {
 		};
 	}
 
-	private _handlePaste(event: ClipboardEvent) {
-			event.preventDefault();
-			event.stopPropagation();
+	private _handleKeydown = async (event: KeyboardEvent) => {
+		event.stopPropagation();
 
-			const codeDiv = event.currentTarget as HTMLElement;
-			const clipboardData = event.clipboardData;
-			const pastedData = clipboardData?.getData('text') || '';
+		const target = event.currentTarget as HTMLElement;
+		// const selection = document.getSelection();
+		switch (event.key) {
+			case 'Backspace':
+				// event.preventDefault();
+				// save
+				// await this._api.saver.save();
 
-			if (!pastedData) {
-				return;
-			}
+				// delete selected text
+				// if (selection && selection.rangeCount > 1) {
+				// 	const range = selection.getRangeAt(0);
+				// 	range.deleteContents();
+				// } else {
+				// 	// delete last character
+				// 	target.innerText = target.innerText.slice(0, -1);
+				// 	// move cursor to the end
+				// 	const range = document.createRange();
+				// 	range.selectNodeContents(target);
+				// 	range.collapse(false);
+				// }
 
-			const selection = window.getSelection();
-			if (selection) {
-				const range = selection.getRangeAt(0);
-				range.deleteContents();
+				console.log('backspace saved!');
 
-				const highlightedCode = hljs.highlight(pastedData, {
-					language: codeDiv.dataset.language || defaultLanguage
+				setTimeout(async () => {
+					const tt = await this._api.saver.save();
+					document.dispatchEvent(new Event('change'));
+					console.log(tt);
 				});
+				break;
+		}
+	}
 
-				const code = document.createElement('div');
-				const highlightedHtml = highlightedCode.value;
-				console.log('code highlight');
-				console.log(highlightedHtml);
-				code.innerHTML = highlightedHtml;
+	private _handlePaste(event: ClipboardEvent) {
+		event.preventDefault();
+		event.stopPropagation();
 
-				range.insertNode(code);
-				selection.removeAllRanges();
-			}
+		const codeDiv = event.currentTarget as HTMLElement;
+		const clipboardData = event.clipboardData;
+		const pastedData = clipboardData?.getData('text') || '';
+
+		if (!pastedData) {
+			return;
 		}
 
+		const selection = window.getSelection();
+		if (selection) {
+			const range = selection.getRangeAt(0);
+			range.deleteContents();
+
+			const highlightedCode = hljs.highlight(pastedData, {
+				language: codeDiv.dataset.language || defaultLanguage
+			});
+
+			const code = document.createElement('div');
+			const highlightedHtml = highlightedCode.value;
+			code.innerHTML = highlightedHtml;
+
+			range.insertNode(code);
+			selection.removeAllRanges();
+		}
+	}
 }
