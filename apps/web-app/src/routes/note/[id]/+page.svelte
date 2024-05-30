@@ -137,11 +137,10 @@
 				h1: H1,
 				h2: H2,
 				h3: H3,
-				code: { class: Code },
 				inlineCode: { class: InlineCode, inlineToolbar: true },
 				ul: BulletedList,
 				ol: NumberedList,
-				CodeBlock,
+				code: CodeBlock,
 			},
 			data,
 			onChange: async () => {

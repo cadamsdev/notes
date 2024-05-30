@@ -21,7 +21,7 @@ export interface CodeBlockData {
 export class CodeBlock {
 	static get toolbox() {
 		return {
-			title: 'Code Block',
+			title: 'Code',
 			icon: IconCurlyBrackets
 		};
 	}
