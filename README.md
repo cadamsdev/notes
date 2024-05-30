@@ -1,5 +1,5 @@
 # Notes
-[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/chadalen/vscode-jetbrains-icon-theme/issues)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/cadamsdev/notes/issues)
 
 ## Why another note app?
 For taking technical notes I wanted a note taking app that has...
