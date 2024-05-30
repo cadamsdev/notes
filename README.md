@@ -23,6 +23,7 @@ For taking technical notes I wanted a note taking app that has...
 - Settings page
 - AI Integration
 - Password protected notes
+- Graph view (like Obsidian)
 - Plugins (Extensible)
 - Desktop app
 - Mobile app
