@@ -1,4 +1,48 @@
-# Notes app
+# Notes
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/chadalen/vscode-jetbrains-icon-theme/issues)
+
+## Why another note app?
+For taking technical notes I wanted a note taking app that has...
+- Simple like Apple notes (but has code syntax highlighting)
+- Block-based editor like Notion
+- Works offline (Like Obsidian)
+- Uses tags instead of a folder structure
+  - Don't have to worry about categorizing your notes in a hierarchy, just create the note.
+  - To categorize the notes add a tag (Also will help you find it)
+- Works on Windows, Linux or Mac
+- Highly configurable
+- Free and open-source
+
+## Roadmap
+- Search by tags (Improved search)
+- More blocks
+- Light mode (currently only dark mode)
+- Settings page
+- AI Integration
+- Plugins (Extensible)
+- Desktop app
+- Mobile app
+- Support more architectures
+
+## Supported architectures
+| Architecture    | Support |
+| -------- | ------- |
+| x86-64 (AMD64)  | ✅ |
+| ARM64 | ✅ |
+| x86 (32-bit) | ❌ |
+
+## Current Features
+- Create notes
+- Search notes
+- Add tags to notes
+- Delete tags
+- Block editor
+    - Headings (h1, h2, 3)
+    - Paragraphs
+    - Bulleted list
+    - Numbered lists
+    - Inline code 
+    - Code blocks 
 
 ## Local development
 1. Npm install
