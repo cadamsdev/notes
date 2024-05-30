@@ -124,35 +124,18 @@ export class CodeBlock {
 	}
 
 	private _handleKeydown = async (event: KeyboardEvent) => {
-		event.stopPropagation();
-
-		const target = event.currentTarget as HTMLElement;
-		// const selection = document.getSelection();
+		event.stopPropagation(); // prevent editorjs from handling this
 		switch (event.key) {
 			case 'Backspace':
-				// event.preventDefault();
-				// save
-				// await this._api.saver.save();
-
-				// delete selected text
-				// if (selection && selection.rangeCount > 1) {
-				// 	const range = selection.getRangeAt(0);
-				// 	range.deleteContents();
-				// } else {
-				// 	// delete last character
-				// 	target.innerText = target.innerText.slice(0, -1);
-				// 	// move cursor to the end
-				// 	const range = document.createRange();
-				// 	range.selectNodeContents(target);
-				// 	range.collapse(false);
-				// }
-
-				console.log('backspace saved!');
-
+				// we need to wait for the next event loop to check if the code block is empty
 				setTimeout(async () => {
-					const tt = await this._api.saver.save();
-					document.dispatchEvent(new Event('change'));
-					console.log(tt);
+					// check to see if the code block is empty
+					const codeBlock = event.target as HTMLElement;
+					// TODO editorjs does not trigger on change event when deleting all text
+					if (!codeBlock.innerText.trim()) {
+						// TODO find a better way to trigger save
+						window.dispatchEvent(new Event('editor-save', { bubbles: true, composed: true }));
+					}
 				});
 				break;
 		}

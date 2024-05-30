@@ -149,16 +149,25 @@
 			},
 		});
 
-
-
+		if (browser) {
+			window.addEventListener('editor-save', handleSave);
+		}
 	});
 
 	function openTagModal() {
 		showTagModal = true;
 	}
 
+	async function handleSave() {
+		await save();
+	}
+
 	onDestroy(() => {
 		unsubscribe();
+
+		if (browser) {
+			window.removeEventListener('editor-save', handleSave);
+		}
 	});
 </script>
 
