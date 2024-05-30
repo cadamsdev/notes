@@ -1,6 +1,8 @@
 # Notes
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/cadamsdev/notes/issues)
 
+Note: This app is in early alpha. Expect breaking changes and bugs.
+
 ![Screenshot_30-5-2024_05459_chad lan](https://github.com/cadamsdev/notes/assets/12568665/e7c2fcc1-d56c-4413-b257-8337d93db741)
 
 ## Why another note app?
