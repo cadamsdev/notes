@@ -61,9 +61,7 @@
 				const formData = new FormData();
 				formData.append('id', updatedNote.id.toString());
 				formData.append('title', updatedNote.title);
-				if (updatedNote.content) {
-					formData.append('content', updatedNote.content);
-				}
+				formData.append('content', updatedNote.content);
 
 				const result = await fetch(`/note/${id}?/updateNote`, {
 					method: 'POST',
@@ -120,6 +118,7 @@
 		const InlineCode: any = (await import('@editorjs/inline-code')).default;
 		const EditorJS = await import('@editorjs/editorjs');
 		const { H1, H2, H3 }  = await import('../../../lib/editorjs/plugins/Heading');
+		const { CodeBlock }  = await import('../../../lib/editorjs/plugins/CodeBlock');
 		const { BulletedList, NumberedList } = await import('../../../lib/editorjs/plugins/List')
 
 		const currentNote = get(selectedNote);
@@ -138,27 +137,36 @@
 				h1: H1,
 				h2: H2,
 				h3: H3,
-				code: { class: Code },
 				inlineCode: { class: InlineCode, inlineToolbar: true },
 				ul: BulletedList,
 				ol: NumberedList,
+				code: CodeBlock,
 			},
 			data,
 			onChange: async () => {
 				await save();
-			}
+			},
 		});
 
-
-
+		if (browser) {
+			window.addEventListener('editor-save', handleSave);
+		}
 	});
 
 	function openTagModal() {
 		showTagModal = true;
 	}
 
+	async function handleSave() {
+		await save();
+	}
+
 	onDestroy(() => {
 		unsubscribe();
+
+		if (browser) {
+			window.removeEventListener('editor-save', handleSave);
+		}
 	});
 </script>
 
