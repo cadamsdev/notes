@@ -112,11 +112,11 @@
 	}
 
 	onMount(async () => {
-		//@ts-ignore
-		const Code: any = (await import('@editorjs/code')).default;
+		const EditorJS = await import('@editorjs/editorjs');
 		//@ts-ignore
 		const InlineCode: any = (await import('@editorjs/inline-code')).default;
-		const EditorJS = await import('@editorjs/editorjs');
+		//@ts-ignore
+		const Paragraph = (await import('@editorjs/paragraph')).default;
 		const { H1, H2, H3 }  = await import('../../../lib/editorjs/plugins/Heading');
 		const { CodeBlock }  = await import('../../../lib/editorjs/plugins/CodeBlock');
 		const { BulletedList, NumberedList } = await import('../../../lib/editorjs/plugins/List')
@@ -141,6 +141,13 @@
 				ul: BulletedList,
 				ol: NumberedList,
 				code: CodeBlock,
+				paragraph: {
+					class: Paragraph,
+					inlineToolbar: true,
+					config: {
+						preserveBlank: true,
+					}
+				}
 			},
 			data,
 			onChange: async () => {
