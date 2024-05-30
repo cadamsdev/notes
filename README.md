@@ -1,6 +1,8 @@
 # Notes
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/cadamsdev/notes/issues)
 
+![Screenshot_30-5-2024_05459_chad lan](https://github.com/cadamsdev/notes/assets/12568665/e7c2fcc1-d56c-4413-b257-8337d93db741)
+
 ## Why another note app?
 For taking technical notes I wanted a note taking app that has...
 - Simple like Apple notes (but has code syntax highlighting)
