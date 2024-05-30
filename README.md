@@ -10,6 +10,9 @@ For taking technical notes I wanted a note taking app that has...
   - Don't have to worry about categorizing your notes in a hierarchy, just create the note.
   - To categorize the notes add a tag (Also will help you find it)
 - Works on Windows, Linux or Mac
+- Self hostable
+- Privacy respecting (no telemetry, no selling data)
+- Secure
 - Highly configurable
 - Free and open-source
 
@@ -19,6 +22,7 @@ For taking technical notes I wanted a note taking app that has...
 - Light mode (currently only dark mode)
 - Settings page
 - AI Integration
+- Password protected notes
 - Plugins (Extensible)
 - Desktop app
 - Mobile app
@@ -32,6 +36,7 @@ For taking technical notes I wanted a note taking app that has...
 | x86 (32-bit) | ❌ |
 
 ## Current Features
+- Self-hostable
 - Create notes
 - Search notes
 - Add tags to notes
