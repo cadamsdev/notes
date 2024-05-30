@@ -35,6 +35,7 @@
   white-space: pre;
   width: 100%;
   font-family: 'JetBrains Mono Variable', monospace;
+  overflow-x: auto;
 }
 
 .ss-code-block ::selection {
