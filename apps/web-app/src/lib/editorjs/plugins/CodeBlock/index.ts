@@ -96,20 +96,18 @@ export class CodeBlock {
 
 		// code block
 		const codeDiv = document.createElement('div');
-		codeDiv.innerHTML = this._data.code || '';
 		codeDiv.classList.add('ss-code-block');
 		codeDiv.dataset.language = this._data.language || defaultLanguage;
 		codeDiv.contentEditable = 'true';
 		codeDiv.addEventListener('paste', this._handlePaste);
 		codeDiv.addEventListener('keydown', this._handleKeydown);
 
-		try {
-			if (this._data.language !== defaultLanguage) {
-				hljs.highlightElement(codeDiv);
-			}
-		} catch (err) {
-			console.error(err);
-		}
+		const code = this._data.code || '';
+		const highlightedCode = hljs.highlight(code, {
+			language: this._data.language || defaultLanguage,
+		});
+
+		codeDiv.innerHTML = highlightedCode.value;
 
 		codeWrapper.appendChild(codeDiv);
 		return codeWrapper;
