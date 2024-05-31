@@ -1,0 +1,10 @@
+.ss-blockquote {
+  display: flex;
+  padding-left: 16px;
+  padding-right: 16px;
+  border-left: 3px solid var(--clr-secondary);
+}
+
+.ss-blockquote .quote:focus-visible {
+  outline: none;
+}
