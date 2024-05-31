@@ -119,7 +119,8 @@
 		const Paragraph = (await import('@editorjs/paragraph')).default;
 		const { H1, H2, H3 }  = await import('../../../lib/editorjs/plugins/Heading');
 		const { CodeBlock }  = await import('../../../lib/editorjs/plugins/CodeBlock');
-		const { BulletedList, NumberedList } = await import('../../../lib/editorjs/plugins/List')
+		const { BulletedList, NumberedList } = await import('../../../lib/editorjs/plugins/List');
+		const { QuotePlugin } = await import('$lib/editorjs/plugins/Quote');
 
 		const currentNote = get(selectedNote);
 
@@ -141,6 +142,7 @@
 				ul: BulletedList,
 				ol: NumberedList,
 				code: CodeBlock,
+				quote: QuotePlugin,
 				paragraph: {
 					class: Paragraph,
 					inlineToolbar: true,
