@@ -1,5 +1,25 @@
 <script lang="ts">
   import Icon from '@iconify/svelte';
+	import { createEventDispatcher } from 'svelte';
+
+  const dispatch = createEventDispatcher();
+
+  let searchText = '';
+
+  function clearSearch() {
+    searchText = '';
+    dispatch('search', {
+      text: searchText,
+    });
+  }
+
+  function handleInput(e: Event) {
+    searchText = (e.target as HTMLInputElement).value.toLowerCase();
+    dispatch('search', {
+      text: searchText,
+    });
+  }
+
 </script>
 
 <div class="search-container">
@@ -7,12 +27,27 @@
     <Icon icon="fa-solid:search" width="20" height="20" />
   </div>
   <input
-    on:input
     {...$$restProps}
-  />
+    value={searchText}
+    on:input={handleInput}
+  >
+  {#if searchText}
+    <button class="clear-btn" on:click={clearSearch} title="Clear search">
+      <Icon icon="fa-solid:times" width="20" height="20" />
+    </button>
+  {/if}
 </div>
 
 <style>
+  .clear-btn {
+    position: absolute;
+    top: 0;
+    right: 0.8rem;
+    bottom: 0;
+    color: var(--clr-secondary);
+    padding: 0;
+  }
+
   .search-container {
     position: relative;
   }
@@ -27,7 +62,7 @@
 
   input {
     display: block;
-    padding: 1.2rem 1.2rem 1.2rem 4.4rem;
+    padding: 1.2rem 3.2rem 1.2rem 4.4rem;
     background: var(--clr-bg-secondary);
     border: none;
     color: var(--clr-text-secondary);

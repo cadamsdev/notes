@@ -39,7 +39,9 @@
 	}
 
 	function handleSearch(e: Event) {
-		searchText = (e.target as HTMLInputElement).value.toLowerCase();
+		if (e instanceof CustomEvent) {
+			searchText = e.detail.text.toLowerCase();	
+		}
 		filteredNotes = $notes.filter((note) => note.title.toLowerCase().includes(searchText));
 	}
 
@@ -75,7 +77,7 @@
 				<button on:click={async () => await handleCreateNote()} class="add-btn"
 					><Icon icon="fa-solid:plus" /></button>
 			</div>
-			<SearchInput on:input={handleSearch} placeholder="Search..." />
+			<SearchInput on:search={handleSearch} placeholder="Search..." />
 		</div>
 		<div class="scroll-container" style="height: calc(100vh - {searchSectionHeight}px);">
 			{#each filteredNotes as note}
