@@ -1,13 +1,11 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { notes, selectedNote, type Note, deleteNote, createNote, tags, fetchTags } from '../store';
+	import { notes, selectedNote, type Note, deleteNote, createNote, fetchTags } from '../store';
 	import clsx from 'clsx';
-	import { get } from 'svelte/store';
 	import { goto } from '$app/navigation';
 	import { onDestroy } from 'svelte';
 	import ContextMenu from './ContextMenu.svelte';
 	import ConfirmationDialog from './ConfirmationDialog.svelte';
-	import Input from './Input.svelte';
 	import Chip from './Chip.svelte';
 	import SearchInput from './SearchInput.svelte';
 
