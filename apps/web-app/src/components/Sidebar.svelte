@@ -2,15 +2,15 @@
 	import Icon from '@iconify/svelte';
 	import { deleteTag, updateTag, fetchTags, tags } from '../store';
 	import ContextMenu from './ContextMenu.svelte';
-	import type { TagRecord } from '../interfaces/TagRecord';
 	import Dialog from './Dialog.svelte';
 	import { browser } from '$app/environment';
 	import ConfirmationDialog from './ConfirmationDialog.svelte';
 	import Input from './Input.svelte';
 	import Button from './Button.svelte';
+	import type { Tag } from '../interfaces/Tag';
 
 	let showRenameModal = false;
-	let currentTag: TagRecord;
+	let currentTag: Tag;
 	let showRemoveTagConfirmationModal = false;
 
 	async function load(): Promise<void> {
@@ -32,7 +32,7 @@
 		showRenameModal = false;
 	}
 
-	function handleShowRenameTagModal(tag: TagRecord) {
+	function handleShowRenameTagModal(tag: Tag) {
 		showRenameModal = true;
 		currentTag = tag;
 	}
@@ -41,7 +41,7 @@
 		currentTag.name = (e.target as HTMLInputElement).value;
 	}
 
-	function handleShowRemoveTagConfirmationModal(tag: TagRecord) {
+	function handleShowRemoveTagConfirmationModal(tag: Tag) {
 		currentTag = tag;
 		showRemoveTagConfirmationModal = true;
 	}
@@ -54,23 +54,25 @@
 			<Icon icon="fa-solid:tags" />
 			Tags
 		</div>
-		{#each $tags as tag}
-			{#if (tag.count ?? 0) > 0}
-				<button id={`tag-${tag.id}`} class="tag">
-					<span class="tag-name">#{tag.name}</span><span
-						class="tag-count">&nbsp;{tag.count}</span
-					>
+		<div class="scroll-container">
+			{#each $tags as tag}
+				{#if (tag.count ?? 0) > 0}
+					<button id={`tag-${tag.id}`} class="tag">
+						<span class="tag-name">#{tag.name}</span><span
+							class="tag-count">&nbsp;{tag.count}</span
+						>
 
-					<ContextMenu
-						targetId={`tag-${tag.id}`}
-						actions={[
-							{ label: 'Rename', action: () => handleShowRenameTagModal(tag) },
-							{ label: 'Remove', action: () => handleShowRemoveTagConfirmationModal(tag) }
-						]}
-					/>
-				</button>
-			{/if}
-		{/each}
+						<ContextMenu
+							targetId={`tag-${tag.id}`}
+							actions={[
+								{ label: 'Rename', action: () => handleShowRenameTagModal(tag) },
+								{ label: 'Remove', action: () => handleShowRemoveTagConfirmationModal(tag) }
+							]}
+						/>
+					</button>
+				{/if}
+			{/each}
+		</div>
 </div>
 
 <Dialog showModal={showRenameModal} on:closeModal={() => (showRenameModal = false)}>
@@ -100,16 +102,23 @@
 />
 
 <style>
+	.scroll-container {
+		flex-grow: 1;
+    overflow-y: auto;
+	}
+
 	.sidebar {
 		padding: 2.4rem;
 		background: var(--clr-bg);
 		min-width: 20rem;
 		border-right: 0.1rem solid var(--clr-bg-border);
 		color: var(--clr-text-primary);
+		display: flex;
+		flex-direction: column;
+		gap: 1.6rem;
 	}
 
 	.tag-heading-container {
-		margin-bottom: 1.6rem;
 		font-size: 1.4rem;
 		display: flex;
 		align-items: center;
