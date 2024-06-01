@@ -40,6 +40,7 @@
     padding: 2.4rem;
     z-index: 20;
     min-width: 30rem;
+    max-width: 50rem;
   }
 
   .dialog-heading {
