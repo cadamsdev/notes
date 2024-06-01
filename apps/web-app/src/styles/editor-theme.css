@@ -21,6 +21,11 @@
 	left: 0;
 }
 
+.ce-popover .ce-popover__container {
+	background: var(--clr-bg);
+	border: 0.1rem solid var(--clr-bg-border);
+}
+
 .ce-toolbar__plus { 
 	color: var(--clr-text-secondary);
 }
