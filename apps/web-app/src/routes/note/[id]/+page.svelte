@@ -121,6 +121,7 @@
 		const { CodeBlock }  = await import('../../../lib/editorjs/plugins/CodeBlock');
 		const { BulletedList, NumberedList } = await import('../../../lib/editorjs/plugins/List');
 		const { QuotePlugin } = await import('$lib/editorjs/plugins/Quote');
+		const { DividerPlugin } = await import('$lib/editorjs/plugins/Divider');
 
 		const currentNote = get(selectedNote);
 
@@ -143,6 +144,7 @@
 				ol: NumberedList,
 				code: CodeBlock,
 				quote: QuotePlugin,
+				divider: DividerPlugin,
 				paragraph: {
 					class: Paragraph,
 					inlineToolbar: true,

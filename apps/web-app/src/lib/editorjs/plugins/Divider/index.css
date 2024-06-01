@@ -1,0 +1,15 @@
+.ss-divider {
+  display: flex;
+  align-items: center;
+  height: 24px;
+}
+
+.ss-divider .seperator {
+  flex-grow: 1;
+  height: 1px;
+  background-color: var(--clr-secondary);
+  margin: 0;
+  padding: 0;
+  border: none;
+  width: 100%;
+}
