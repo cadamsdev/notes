@@ -31,11 +31,9 @@ export class CodeBlock {
 	}
 
 	private _data: CodeBlockData;
-	private _api: API;
 
-	constructor({ data, api }: CodeBlockProps) {
+	constructor({ data }: CodeBlockProps) {
 		this._data = data;
-		this._api = api;
 	}
 
 	render() {
@@ -48,19 +46,16 @@ export class CodeBlock {
 		languageDropdown.classList.add('ss-code-block-language-dropdown');
 
 		// fill select with languages
-		const languages = hljs.listLanguages()
-			.map((language) => language.toLowerCase())
-			.sort();
+		const languages = this.getLanguages();
 		languages.forEach((language) => {
 			const option = document.createElement('option');
 			option.value = language;
 			option.textContent = language;
-			if (
-				(language === defaultLanguage && !this._data.language) ||
-				language === this._data.language
-			) {
+
+			if ((language === defaultLanguage && !this._data.language) || language === this._data.language) {
 				option.selected = true;
 			}
+
 			languageDropdown.appendChild(option);
 		});
 
@@ -70,7 +65,9 @@ export class CodeBlock {
 				const language = (e.target as HTMLSelectElement).value;
 				code.dataset.language = language;
 				if (code.dataset.language !== defaultLanguage) {
-					const highlightedCode = hljs.highlight(code.innerText, { language: language });
+					const highlightedCode = hljs.highlight(code.innerText, {
+						language: this.getHighlightLanguage(language)
+					});
 					code.innerHTML = highlightedCode.value;
 				}
 			}
@@ -101,12 +98,12 @@ export class CodeBlock {
 		codeDiv.classList.add('ss-code-block');
 		codeDiv.dataset.language = this._data.language || defaultLanguage;
 		codeDiv.contentEditable = 'true';
-		codeDiv.addEventListener('paste', this._handlePaste);
-		codeDiv.addEventListener('keydown', this._handleKeydown);
+		codeDiv.addEventListener('paste', this.handlePaste);
+		codeDiv.addEventListener('keydown', this.handleKeydown);
 
 		const code = this._data.code || '';
 		const highlightedCode = hljs.highlight(code, {
-			language: this._data.language || defaultLanguage,
+			language: this.getHighlightLanguage(this._data.language)
 		});
 
 		codeDiv.innerHTML = highlightedCode.value;
@@ -123,7 +120,7 @@ export class CodeBlock {
 		};
 	}
 
-	private _handleKeydown = async (event: KeyboardEvent) => {
+	private handleKeydown = async (event: KeyboardEvent) => {
 		event.stopPropagation(); // prevent editorjs from handling this
 		switch (event.key) {
 			case 'Backspace':
@@ -141,7 +138,7 @@ export class CodeBlock {
 		}
 	}
 
-	private _handlePaste(event: ClipboardEvent) {
+	private handlePaste(event: ClipboardEvent) {
 		event.preventDefault();
 		event.stopPropagation();
 
@@ -159,7 +156,7 @@ export class CodeBlock {
 			range.deleteContents();
 
 			const highlightedCode = hljs.highlight(pastedData, {
-				language: codeDiv.dataset.language || defaultLanguage
+				language: this.getHighlightLanguage(codeDiv.dataset.language)
 			});
 
 			const code = document.createElement('div');
@@ -170,4 +167,20 @@ export class CodeBlock {
 			selection.removeAllRanges();
 		}
 	}
+
+	private getLanguages(): string[] {
+		let languages = hljs.listLanguages();
+		languages.push('html');
+		languages = languages.map((language) => language.toLowerCase()).sort();
+		return languages;
+	}
+
+	private getHighlightLanguage(language?: string): string {
+		let lang = language || defaultLanguage;
+		if (lang === 'html') {
+			lang = 'xml';
+		}
+		return lang;
+	}
+
 }
