@@ -45,8 +45,7 @@
 		const outputData = await editor.save();
 			let title: string | undefined;
 			if (outputData.blocks.length > 0) {
-				title = outputData.blocks[0].data?.['text'] || '';
-				title = title?.replace(/<a.*?>(.*?)<\/a>/, '$1'); // remove anchor tags
+				title = sanitizeTitle(outputData.blocks[0].data?.['text']);
 			}
 
 			const outputString = JSON.stringify(outputData);
@@ -79,6 +78,15 @@
 				});
 			}
 	}
+
+	function sanitizeTitle(title?: string): string {
+		if (!title) {
+			return '';
+		}
+		title = title.replace(/<a.*?>(.*?)<\/a>/, '$1'); // remove anchor tags
+		title = title.replace(/&nbsp;/g, ' '); // replace space entitiy
+		return title;
+	} 
 
 	async function handleSaveTags() {
 		const note = get(selectedNote);
