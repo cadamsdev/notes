@@ -138,7 +138,7 @@ export class CodeBlock {
 		}
 	}
 
-	private handlePaste(event: ClipboardEvent) {
+	private handlePaste = (event: ClipboardEvent) => {
 		event.preventDefault();
 		event.stopPropagation();
 
