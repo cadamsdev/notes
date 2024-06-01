@@ -45,7 +45,8 @@
 		const outputData = await editor.save();
 			let title: string | undefined;
 			if (outputData.blocks.length > 0) {
-				title = outputData.blocks[0].data?.['text'];
+				title = outputData.blocks[0].data?.['text'] || '';
+				title = title?.replace(/<a.*?>(.*?)<\/a>/, '$1'); // remove anchor tags
 			}
 
 			const outputString = JSON.stringify(outputData);
