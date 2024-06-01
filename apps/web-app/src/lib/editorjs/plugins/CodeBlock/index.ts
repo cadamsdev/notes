@@ -48,7 +48,9 @@ export class CodeBlock {
 		languageDropdown.classList.add('ss-code-block-language-dropdown');
 
 		// fill select with languages
-		const languages = hljs.listLanguages();
+		const languages = hljs.listLanguages()
+			.map((language) => language.toLowerCase())
+			.sort();
 		languages.forEach((language) => {
 			const option = document.createElement('option');
 			option.value = language;
