@@ -68,7 +68,7 @@ export async function createNote(): Promise<Note | null> {
   return null;
 }
 
-export async function deleteNote(note: Note): Promise<void> {
+export async function deleteNote(note: Note, noteToSelect?: Note): Promise<void> {
   try {
     const formData = new FormData();
     formData.append('id', note.id.toString());
@@ -81,6 +81,7 @@ export async function deleteNote(note: Note): Promise<void> {
     if (response.ok) {
       const filteredNotes = get(notes).filter((n) => n.id !== note.id);
       notes.set(filteredNotes);
+      selectedNote.set(noteToSelect);
     }
   } catch (err) {
     console.error(err);
