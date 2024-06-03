@@ -12,6 +12,7 @@
 	let filteredNotes: Note[] = [];
 	let showConfirmationModal = false;
 	let noteToRemove: Note | undefined;
+	let noteToSelect: Note | undefined;
 	let searchText = '';
 	let searchSection: HTMLDivElement;
 
@@ -43,8 +44,9 @@
 		filteredNotes = $notes.filter((note) => note.title.toLowerCase().includes(searchText));
 	}
 
-	function handleShowRemoveNoteDialog(note: Note): void {
+	function handleShowRemoveNoteDialog(note: Note, index: number): void {
 		noteToRemove = note;
+		noteToSelect = filteredNotes[index + 1] ?? filteredNotes[index - 1];
 		showConfirmationModal = true;
 	}
 
@@ -53,7 +55,7 @@
 			return;
 		}
 
-		await deleteNote(noteToRemove);
+		await deleteNote(noteToRemove, noteToSelect);
 		await fetchTags();
 
 		noteToRemove = undefined;
@@ -78,7 +80,7 @@
 			<SearchInput on:search={handleSearch} placeholder="Search..." />
 		</div>
 		<div class="scroll-container" style="height: calc(100vh - {searchSectionHeight}px);">
-			{#each filteredNotes as note}
+			{#each filteredNotes as note, index}
 				<button
 					id={`note-${note.id}`}
 					class={clsx('note', {
@@ -95,7 +97,7 @@
 					
 					<ContextMenu
 						targetId={`note-${note.id}`}
-						actions={[{ label: 'Remove', action: () => handleShowRemoveNoteDialog(note) }]}
+						actions={[{ label: 'Remove', action: () => handleShowRemoveNoteDialog(note, index) }]}
 					/>
 				</button>
 			{/each}
