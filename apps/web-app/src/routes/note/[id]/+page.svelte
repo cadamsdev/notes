@@ -84,6 +84,7 @@
 			return '';
 		}
 		title = title.replace(/<a.*?>(.*?)<\/a>/, '$1'); // remove anchor tags
+		title = title.replace(/<code.*?>(.*?)<\/code>/, '$1'); // remove inline code element
 		title = title.replace(/&nbsp;/g, ' '); // replace space entitiy
 		return title;
 	} 
