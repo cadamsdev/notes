@@ -16,7 +16,7 @@
 </script>
 
 <svelte:head>
-	<title>Block Notes</title>
+	<title>Notes</title>
 </svelte:head>
 
 <div class="page">
