@@ -109,6 +109,9 @@ export async function updateTag(tag: Tag): Promise<void> {
   const formData = new FormData();
   formData.append('id', tag.id.toString());
   formData.append('name', tag.name);
+  if (tag.color) {
+    formData.append('color', tag.color);
+  }
 
   try {
     const response = await fetch(`/tag/${tag.id}?/updateTag`, {

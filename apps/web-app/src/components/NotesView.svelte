@@ -91,7 +91,7 @@
 					<div class="title">{note.title}</div>
 					<div class="tags-container">
 						{#each (note.tags ?? []) as tag}
-							<Chip text={tag.name} />
+							<Chip text={tag.name} color={tag.color} />
 						{/each}
 					</div>
 					

@@ -21,6 +21,7 @@ function seed() {
     create table if not exists tags(
       id integer primary key autoincrement not null,
       name text not null,
+      color TEXT,
       UNIQUE (name)
     );
 
@@ -56,7 +57,8 @@ export function getNotes(): Note[] {
       n.created_at,
       n.updated_at,
       t.id as tag_id,
-      t.name as tag_name
+      t.name as tag_name,
+      t.color as tag_color
     FROM notes as n
     LEFT JOIN note_tags as nt ON nt.note_id = n.id
     LEFT JOIN tags as t ON t.id = nt.tag_id
@@ -69,6 +71,7 @@ export function getNotes(): Note[] {
     content: string;
 		tag_id: number;
 		tag_name: string;
+    tag_color: string;
     tags?: Tag[];
 	}[];
 
@@ -78,14 +81,15 @@ export function getNotes(): Note[] {
 			if (existing) {
 				existing.tags.push({
 					id: curr.tag_id,
-					name: curr.tag_name
+					name: curr.tag_name,
+          color: curr.tag_color
 				});
 			} else {
 				acc.push({
 					id: curr.id,
 					title: curr.title,
           content: curr.content,
-					tags: curr.tag_id ? [{ id: curr.tag_id, name: curr.tag_name }] : []
+					tags: curr.tag_id ? [{ id: curr.tag_id, name: curr.tag_name, color: curr.tag_color }] : []
 				});
 			}
 
@@ -97,6 +101,7 @@ export function getNotes(): Note[] {
       content: string,
 			tag_id?: number;
 			tag_name?: string;
+      tag_color?: string; 
 			tags: Tag[];
 		}[]
 	);
@@ -155,7 +160,7 @@ export function updateNote(note: Note) {
 
 export function getAllTags() {
   const sql = `
-    select t.id, t.name, count(nt.tag_id) as \`count\` from tags as t
+    select t.id, t.name, t.color, count(nt.tag_id) as \`count\` from tags as t
     left join note_tags as nt on nt.tag_id = t.id
     group by t.id
     order by \`count\` desc
@@ -272,7 +277,7 @@ export function deleteTag(tagId: number) {
 }
 
 export function updateTag(tag: Tag) {
-  const sql = `update tags set name = ? where id = ?`;
-  const result = db.prepare(sql).run(tag.name, tag.id);
+  const sql = `update tags set name = ?, color = ? where id = ?`;
+  const result = db.prepare(sql).run(tag.name, tag.color, tag.id);
   return result;
 }

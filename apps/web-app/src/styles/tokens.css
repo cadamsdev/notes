@@ -25,6 +25,33 @@
   --clr-secondary-hover: #b1a8a5;
   --clr-accent: #E8942A;
 
+  /* tag colors */
+  --clr-tag-blue: #004c91;
+  --clr-tag-purple: #4d2b8a;
+  --clr-tag-green: #1f6e32;
+  --clr-tag-red: #a61c2a;
+  --clr-tag-yellow: #c68f00;
+  --clr-tag-orange: #c24a0a;
+  --clr-tag-pink: #b82d6a;
+  --clr-tag-cyan: #0e7d8a;
+  --clr-tag-dark-gray: #24282b;
+  --clr-tag-light-gray: #d4d6d7;
+  --clr-tag-brown: #5e3f34;
+
+  --clr-tag-blue-text: #e2e2e2;
+  --clr-tag-purple-text: #e2e2e2;
+  --clr-tag-green-text: #e2e2e2;
+  --clr-tag-red-text: #ffffff;
+  --clr-tag-yellow-text: #000000;
+  --clr-tag-orange-text: #ffffff;
+  --clr-tag-text-text: #ffffff;
+  --clr-tag-cyan-text: #ffffff;
+  --clr-tag-dark-gray-text: #ffffff;
+  --clr-tag-light-gray-text: #000000;
+  --clr-tag-brown-text: #e2e2e2;
+  --clr-tag-pink-text: #e2e2e2;
+
+
   /* Component tokens */
   --clr-modal-overlay: rgb(21, 20, 21, 0.75);
   --clr-btn-text: #151415;
