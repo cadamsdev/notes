@@ -240,16 +240,18 @@ export function saveTags(noteId: number, tags: Tag[]) {
 	}
 
   if (tagsToDelete.length) {
-    const query = `
+    let query = `
       DELETE FROM note_tags
-      WHERE note_id = ? AND tag_id = ?
+      WHERE note_id = ? AND tag_id IN (
     `;
 
-    const sqlData = [];
+    const sqlData = [noteId];
 
     for (let i = 0; i < tagsToDelete.length; i++) {
+      query += '?';
+      query += i < tagsToDelete.length - 1 ? ',' : ');';
+
       const tag = tagsToDelete[i];
-      sqlData.push(noteId);
       sqlData.push(tag.id);
     }
 
