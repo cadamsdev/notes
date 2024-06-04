@@ -88,6 +88,12 @@
 		showPopup = (!hasMatch && !!searchText) || !!filteredTags.length;
 	}
 
+	function handleKeyDown(e: KeyboardEvent) {
+		if (e.key === 'Enter') {
+			showPopup = !showPopup;
+		}
+	}
+
 	onMount(() => {
 		filteredTags = [...tags].filter((tag) => !selectedTags.some((st) => st.id === tag.id));
 
@@ -120,11 +126,12 @@
 		<input
 			bind:this={inputRef}
 			on:input={handleInputChange}
+			on:keydown={handleKeyDown}
 			value={searchText}
 			class="search-input"
 		/>
 		<div on:click|stopPropagation>
-			<button on:click={handleTogglePopup} class="action-button">
+			<button on:click={handleTogglePopup} class="action-button" tabindex="-1">
 				<Icon icon="fa-solid:chevron-down" />
 			</button>
 		</div>
@@ -199,7 +206,7 @@
 	.search-input-container {
 		flex-grow: 1;
 	}
-
+	
 	.search-input {
 		padding: 0.8rem;
 		margin-right: 0.8rem;
@@ -235,11 +242,14 @@
 	.popup .tag-list {
 		max-height: 20.7rem;
 		overflow-y: auto;
+		padding: 0.4rem;
 	}
 
 	.create-tag-btn {
 		display: block;
 		padding: 1.2rem;
+		width: 100%;
+		text-align: left;
 	}
 
 	.tag-button {
