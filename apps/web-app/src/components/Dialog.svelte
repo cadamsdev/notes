@@ -2,6 +2,7 @@
 	import Icon from '@iconify/svelte';
 	import { createEventDispatcher } from 'svelte';
 	import Modal from './Modal.svelte';
+	import { clickOutside } from '../directives/clickOutside';
 
 	export let showModal = false;
 	export let showHeader= true;
@@ -13,11 +14,12 @@
 	}
 </script>
 
-<Modal {showModal} on:closeModal={closeModal}>
+<Modal {showModal}>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div
       class="dialog"
+      use:clickOutside={closeModal}
     >
       <div class="dialog-heading">
         {#if showHeader}

@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { teleport } from '../actions/teleport';
 	import clsx from 'clsx';
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
+	import { clickOutside } from '../directives/clickOutside';
 
 	type ModalPosition = 'center' | 'center-top';
 
@@ -9,14 +10,7 @@
 	export let position: ModalPosition = 'center-top';
 
 	const dispatch = createEventDispatcher();
-
-	let overlayRef: HTMLDivElement;
-
-	function handleCloseModal(e: Event) {
-		if (e.target === overlayRef) {
-			dispatch('closeModal');
-		}
-	}
+		let overlayRef: HTMLDivElement;
 
 	function getPositionClass(): string {
 		if (position === 'center-top') {
@@ -25,16 +19,23 @@
 
 		return 'modal-center';
 	}
+
+
+	// onMount(() => {
+	// 	window.addEventListener('closeModal', handleCloseModal);
+
+	// 	return () => window.removeEventListener('closeModal', handleCloseModal);
+	// });
+
+
 </script>
 
 {#if showModal}
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div
-		bind:this={overlayRef}
 		class={clsx('modal-overlay', getPositionClass())}
 		use:teleport={'teleport'}
-		on:click={handleCloseModal}
 	>
 		<slot />
 	</div>

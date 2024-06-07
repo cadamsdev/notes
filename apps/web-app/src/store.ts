@@ -124,9 +124,19 @@ export async function updateTag(tag: Tag): Promise<void> {
       const tempTag = tempTags.find((t) => t.id === tag.id);
       if (tempTag) {
         tempTag.name = tag.name;
+        tempTag.color = tag.color;
       }
 
       tags.set(tempTags);
+
+      // invalidate notes
+      const notes = await fetchNotes();
+      
+      // update the selected note
+      const sn = get(selectedNote);
+      if (sn) {
+          selectedNote.set(notes.find((n) => n.id === sn.id));
+      }
     }
   } catch (err) {
     console.error(err);

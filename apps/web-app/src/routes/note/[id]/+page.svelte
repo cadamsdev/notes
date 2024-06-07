@@ -214,7 +214,7 @@
 			<div class="tags-container">
 				{#each selectedTags as tag}
 					<button on:click={openTagModal}>
-						<Chip text={tag.name} />
+						<Chip text={tag.name} color={tag.color} />
 					</button>
 				{/each}
 			</div>

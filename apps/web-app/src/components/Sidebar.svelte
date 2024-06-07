@@ -9,6 +9,7 @@
 	import Button from './Button.svelte';
 	import type { Tag } from '../interfaces/Tag';
 	import clsx from 'clsx';
+	import ColorDot from './ColorDot.svelte';
 
 	let showEditTagModal = false;
 	let currentTag: Tag;
@@ -55,11 +56,11 @@
 
 	function closeEditTagModal() {
 		showEditTagModal = false;
+		selectedColor = '';
 	}
 
 	function selectColor(color: string) {
 		selectedColor = color;
-		console.log(color)
 	}
 
 	load();
@@ -74,16 +75,23 @@
 			{#each $tags as tag}
 				{#if (tag.count ?? 0) > 0}
 					<button id={`tag-${tag.id}`} class="tag">
-						<span class="tag-name">#{tag.name}</span><span
-							class="tag-count">&nbsp;{tag.count}</span
-						>
-
+						<ColorDot color={tag.color} size='small' />
+						<div class="tag-name-count">
+							<span class="tag-name">#{tag.name}</span>
+							<span class="tag-count">&nbsp;{tag.count}</span>
+						</div>
 						<ContextMenu
 							targetId={`tag-${tag.id}`}
-							actions={[
-								{ label: 'Edit', action: () => handleShowEditTagModal(tag) },
-								{ label: 'Remove', action: () => handleShowRemoveTagConfirmationModal(tag) }
-							]}
+							actions={
+								[
+									{
+										label: 'Edit', action: () => handleShowEditTagModal(tag),
+									},
+									{
+										label: 'Remove', action: () => handleShowRemoveTagConfirmationModal(tag),
+									}
+								]
+							}
 						/>
 					</button>
 				{/if}
@@ -94,7 +102,7 @@
 <Dialog showModal={showEditTagModal} on:closeModal={closeEditTagModal}>
 	<div>
 		<label for="tag-name" class="label">
-				<div class="label-text">Name:</div>
+			<div class="label-text">Name:</div>
 			<Input
 				id="tag-name"
 				name="name"
@@ -104,17 +112,22 @@
 			/>
 		</label>
 
-
-		<div class="color-section-title">Colors {selectedColor}</div>
+		<div class="color-section-title">Colors</div>
 		<div class="color-grid">
 			{#each colors as color}
 				<div>
 					<button
 						on:click={() => selectColor(color)}
 						class="color-btn"
-						class:active={currentTag.color === selectedColor || currentTag.color === color}
 					>
-						<div class={clsx('color', {[`${color}`]: true})}></div>
+						<div class={
+							clsx(
+								'color',
+								{[`${color}`]: true},
+								{ active: selectedColor === color || (!selectedColor && currentTag.color === color) }
+							)}
+							>
+						</div>
 						<div class="color-label">{color}</div>
 					</button>
 				</div>
@@ -123,7 +136,7 @@
 
 		<div class="dialog-footer">
 			<Button on:click={async () => await handleUpdateTag()}>Save</Button>
-			<Button variant="secondary" on:click={() => showEditTagModal = false}>Cancel</Button>
+			<Button variant="secondary" on:click={closeEditTagModal}>Cancel</Button>
 		</div>
 	</div>
 </Dialog>
@@ -137,7 +150,6 @@
 <style>
 	.color-section-title {
 		margin-bottom: 0.8rem;
-	
 	}
 
 	.color-grid {
@@ -160,7 +172,7 @@
 		border-radius: 100rem;
 	}
 
-	.color-btn.active {
+	.color.active {
 		outline: 0.2rem solid var(--clr-primary);
 		outline-offset: 0.4rem;
 	}
@@ -230,12 +242,20 @@
 	}
 
 	.tag {
-		display: block;
+		display: flex;
+		align-items: center;
+		gap: 0.8rem;
 		padding: 0.4rem 0.8rem;
 	}
 
 	.tag:hover {
 		color: var(--clr-text-primary-hover);
+	}
+
+	.tag-name-count {
+		display: flex;
+		align-items: center;
+		gap: 0.2rem;
 	}
 
 	.tag-name {
