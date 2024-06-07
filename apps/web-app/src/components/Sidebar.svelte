@@ -16,7 +16,7 @@
 	let showRemoveTagConfirmationModal = false;
 	let selectedColor = '';
 
-	const colors = ['red', 'green', 'blue', 'purple', 'yellow', 'orange', 'pink', 'brown', 'light-gray', 'dark-gray'];
+	const colors = ['red', 'green', 'blue', 'purple', 'yellow', 'orange', 'pink', 'brown', 'light-gray', 'dark-gray', 'none'];
 
 	async function load(): Promise<void> {
 		await fetchTags();
@@ -32,9 +32,14 @@
 
 	async function handleUpdateTag() {
 		if (browser) {
+			let newColor = selectedColor || currentTag.color;
+			if (selectedColor === 'none') {
+				newColor = '';
+			}
+
 			await updateTag({
 				...currentTag,
-				color: selectedColor
+				color: newColor,
 			});
 		}
 		showEditTagModal = false;
@@ -167,6 +172,7 @@
 	}
 
 	.color {
+		background: var(--clr-bg-on-secondary);
 		width: 2.4rem;
 		height: 2.4rem;
 		border-radius: 100rem;
