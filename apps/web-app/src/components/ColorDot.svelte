@@ -4,28 +4,16 @@
   export type ColorDotSize = 'medium' | 'small';
 
   export let color: string | undefined = undefined;
-  export let size : ColorDotSize = 'medium';
 </script>
 
-<div class={clsx('color-dot', { [`${size}`]: true }, { [`${color}`]: true })}></div>
+<div class={clsx('color-dot', { [`${color}`]: true })}></div>
 
 <style>
   .color-dot {
-		width: 2.4rem;
-		height: 2.4rem;
+		width: 1.2rem;
+		height: 1.2rem;
 		border-radius: 100rem;
 	}
-
-  .color-dot.medium {
-    width: 2.4rem;
-    height: 2.4rem;
-  }
-
-  .color-dot.small {
-    width: 1.6rem;
-    height: 1.6rem;
-  
-  }
 
 	.red {
 		background: var(--clr-tag-red);
