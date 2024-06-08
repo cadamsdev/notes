@@ -6,7 +6,8 @@ export const actions = {
 		const formData = await request.formData();
 		const tagId = Number(formData.get('id'));
 		const name = formData.get('name')?.toString() ?? '';
-		const result = updateTag({ id: tagId, name });
+		const color = formData.get('color')?.toString() ?? '';
+		const result = updateTag({ id: tagId, name, color });
 		return {
 			result
 		};

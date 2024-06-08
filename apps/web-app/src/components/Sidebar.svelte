@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { deleteTag, updateTag, fetchTags, tags } from '../store';
+	import { deleteTag, updateTag, fetchTags, tags, closeModal, openModal } from '../store';
 	import ContextMenu from './ContextMenu.svelte';
 	import Dialog from './Dialog.svelte';
 	import { browser } from '$app/environment';
@@ -8,10 +8,14 @@
 	import Input from './Input.svelte';
 	import Button from './Button.svelte';
 	import type { Tag } from '../interfaces/Tag';
+	import clsx from 'clsx';
+	import ColorDot from './ColorDot.svelte';
+	import { MODAL_EDIT_TAG, MODAL_REMOVE_TAG } from '../constants/modal.constants';
 
-	let showRenameModal = false;
 	let currentTag: Tag;
-	let showRemoveTagConfirmationModal = false;
+	let selectedColor = '';
+
+	const colors = ['red', 'green', 'blue', 'purple', 'yellow', 'orange', 'pink', 'brown', 'light-gray', 'dark-gray', 'none'];
 
 	async function load(): Promise<void> {
 		await fetchTags();
@@ -25,16 +29,25 @@
 		await deleteTag(currentTag.id);
 	}
 
-	async function handleRenameTag() {
+	async function handleUpdateTag() {
 		if (browser) {
-			await updateTag(currentTag);
+			let newColor = selectedColor || currentTag.color;
+			if (selectedColor === 'none') {
+				newColor = '';
+			}
+
+			await updateTag({
+				...currentTag,
+				color: newColor,
+			});
 		}
-		showRenameModal = false;
+
+		closeModal();
 	}
 
-	function handleShowRenameTagModal(tag: Tag) {
-		showRenameModal = true;
+	function handleShowEditTagModal(tag: Tag) {
 		currentTag = tag;
+		openModal(MODAL_EDIT_TAG);
 	}
 
 	function handleChangeTagName(e: Event) {
@@ -43,7 +56,16 @@
 
 	function handleShowRemoveTagConfirmationModal(tag: Tag) {
 		currentTag = tag;
-		showRemoveTagConfirmationModal = true;
+		openModal(MODAL_REMOVE_TAG);
+	}
+
+	function handleOnEditTagModalClose() {
+		selectedColor = '';
+		console.log('handleOnEditTagModalClose');
+	}
+
+	function selectColor(color: string) {
+		selectedColor = color;
 	}
 
 	load();
@@ -58,16 +80,23 @@
 			{#each $tags as tag}
 				{#if (tag.count ?? 0) > 0}
 					<button id={`tag-${tag.id}`} class="tag">
-						<span class="tag-name">#{tag.name}</span><span
-							class="tag-count">&nbsp;{tag.count}</span
-						>
-
+						<ColorDot color={tag.color} size='small' />
+						<div class="tag-name-count">
+							<span class="tag-name">#{tag.name}</span>
+							<span class="tag-count">&nbsp;{tag.count}</span>
+						</div>
 						<ContextMenu
 							targetId={`tag-${tag.id}`}
-							actions={[
-								{ label: 'Rename', action: () => handleShowRenameTagModal(tag) },
-								{ label: 'Remove', action: () => handleShowRemoveTagConfirmationModal(tag) }
-							]}
+							actions={
+								[
+									{
+										label: 'Edit', action: () => handleShowEditTagModal(tag),
+									},
+									{
+										label: 'Remove', action: () => handleShowRemoveTagConfirmationModal(tag),
+									}
+								]
+							}
 						/>
 					</button>
 				{/if}
@@ -75,10 +104,10 @@
 		</div>
 </div>
 
-<Dialog showModal={showRenameModal} on:closeModal={() => (showRenameModal = false)}>
+<Dialog id={MODAL_EDIT_TAG} on:closeModal={handleOnEditTagModalClose}>
 	<div>
 		<label for="tag-name" class="label">
-				<div class="label-text">Name:</div>
+			<div class="label-text">Name:</div>
 			<Input
 				id="tag-name"
 				name="name"
@@ -88,20 +117,111 @@
 			/>
 		</label>
 
+		<div class="color-section-title">Colors</div>
+		<div class="color-grid">
+			{#each colors as color}
+				<div>
+					<button
+						on:click={() => selectColor(color)}
+						class="color-btn"
+					>
+						<div class={
+							clsx(
+								'color',
+								{[`${color}`]: true},
+								{ active: selectedColor === color || (!selectedColor && currentTag.color === color) || (!selectedColor && !currentTag.color && color === 'none') }
+							)}
+							>
+						</div>
+						<div class="color-label">{color}</div>
+					</button>
+				</div>
+			{/each}
+		</div>
+
 		<div class="dialog-footer">
-			<Button on:click={async () => await handleRenameTag()}>Save</Button>
-			<Button variant="secondary" on:click={() => showRenameModal = false}>Cancel</Button>
+			<Button on:click={async () => await handleUpdateTag()}>Save</Button>
+			<Button variant="secondary" on:click={() => closeModal()}>Cancel</Button>
 		</div>
 	</div>
 </Dialog>
 
 <ConfirmationDialog
-	showModal={showRemoveTagConfirmationModal}
-	on:closeModal={() => showRemoveTagConfirmationModal = false}
+	id={MODAL_REMOVE_TAG}
 	on:action={async () => await handleRemoveTag()}
 />
 
 <style>
+	.color-section-title {
+		margin-bottom: 0.8rem;
+	}
+
+	.color-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 1.6rem;
+		margin-bottom: 2.4rem;
+	}
+
+	.color-btn {
+		display: flex;
+		align-items: center;
+		gap: 0.8rem;
+		padding: 0;
+	}
+
+	.color {
+		background: var(--clr-bg-on-secondary);
+		width: 2.4rem;
+		height: 2.4rem;
+		border-radius: 100rem;
+	}
+
+	.color.active {
+		outline: 0.2rem solid var(--clr-primary);
+		outline-offset: 0.4rem;
+	}
+
+	.color.red {
+		background: var(--clr-tag-red);
+	}
+
+	.color.green {
+		background: var(--clr-tag-green);
+	}
+
+	.color.blue {
+		background: var(--clr-tag-blue);
+	}	
+
+	.color.purple {
+		background: var(--clr-tag-purple);
+	}
+
+	.color.yellow {
+		background: var(--clr-tag-yellow);
+	}
+
+	.color.orange {
+		background: var(--clr-tag-orange);
+	}
+
+	.color.pink {
+		background: var(--clr-tag-pink);
+	}
+
+	.color.brown {
+		background: var(--clr-tag-brown);
+	}
+
+	.color.light-gray {
+		background: var(--clr-tag-light-gray);
+	}
+
+	.color.dark-gray {
+		background: var(--clr-tag-dark-gray);
+	}
+
 	.scroll-container {
 		flex-grow: 1;
     overflow-y: auto;
@@ -127,12 +247,20 @@
 	}
 
 	.tag {
-		display: block;
+		display: flex;
+		align-items: center;
+		gap: 0.8rem;
 		padding: 0.4rem 0.8rem;
 	}
 
 	.tag:hover {
 		color: var(--clr-text-primary-hover);
+	}
+
+	.tag-name-count {
+		display: flex;
+		align-items: center;
+		gap: 0.2rem;
 	}
 
 	.tag-name {

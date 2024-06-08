@@ -5,6 +5,7 @@
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 	import type { Tag } from '../interfaces/Tag';
 	import { tags as allTags } from '../store';
+	import Chip from './Chip.svelte';
 
 	export let tags: Tag[] = $allTags;
 	export let selectedTags: Tag[] = [];
@@ -69,8 +70,7 @@
 		selectTag(tag);
 	}
 
-	function handleRemoveTag(e: Event, tag: Tag) {
-		e.stopPropagation();
+	function handleRemoveTag(tag: Tag) {
 		removeTag(tag);
 	}
 
@@ -112,12 +112,7 @@
 
 <div class="tags-container">
 	{#each selectedTags as tag}
-		<div class="tag">
-			<div>{tag.name}</div>
-			<button on:click={(e) => handleRemoveTag(e, tag)} class="close-btn"
-				>X</button
-			>
-		</div>
+		<Chip text={tag.name} color={tag.color} hasCloseBtn on:close={() => handleRemoveTag(tag)} />
 	{/each}
 </div>
 
@@ -192,10 +187,6 @@
 		align-items: center;
 		gap: 0.4rem;
 		font-size: 1.2rem;
-	}
-
-	.tag .close-btn {
-		padding: 0.4rem;
 	}
 
 	.search-container {

@@ -3,23 +3,26 @@
 	import Modal from './Modal.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import Button from './Button.svelte';
+	import { closeModal } from '../store';
 
-	export let showModal = false;
+	export let id: string;
 	export let description: string = 'Are you sure you want to this?';
 
 	const dispatch = createEventDispatcher();
 
 	function handleCloseModal() {
 		dispatch('closeModal');
+		closeModal();
 	}
 
 	function handleAction() {
 		dispatch('action');
 		dispatch('closeModal');
+		closeModal();
 	}
 </script>
 
-<Modal {showModal} on:closeModal={handleCloseModal}>
+<Modal {id} on:closeModal={handleCloseModal}>
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div class="dialog">

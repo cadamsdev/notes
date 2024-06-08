@@ -12,6 +12,15 @@ export interface Note {
 export const notes = writable<Note[]>([]);
 export const selectedNote = writable<Note | undefined>();
 export const tags = writable<Tag[]>([]);
+export const currentModal = writable<string>();
+
+export function openModal(modelId: string) {
+  currentModal.set(modelId);
+}
+
+export function closeModal() {
+  currentModal.set('');
+}
 
 export async function fetchNotes(): Promise<Note[]> {
   if (browser) {
@@ -109,6 +118,9 @@ export async function updateTag(tag: Tag): Promise<void> {
   const formData = new FormData();
   formData.append('id', tag.id.toString());
   formData.append('name', tag.name);
+  if (tag.color) {
+    formData.append('color', tag.color);
+  }
 
   try {
     const response = await fetch(`/tag/${tag.id}?/updateTag`, {
@@ -121,9 +133,19 @@ export async function updateTag(tag: Tag): Promise<void> {
       const tempTag = tempTags.find((t) => t.id === tag.id);
       if (tempTag) {
         tempTag.name = tag.name;
+        tempTag.color = tag.color;
       }
 
       tags.set(tempTags);
+
+      // invalidate notes
+      const notes = await fetchNotes();
+      
+      // update the selected note
+      const sn = get(selectedNote);
+      if (sn) {
+          selectedNote.set(notes.find((n) => n.id === sn.id));
+      }
     }
   } catch (err) {
     console.error(err);
