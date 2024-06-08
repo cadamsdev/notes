@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { deleteTag, updateTag, fetchTags, tags } from '../store';
+	import { deleteTag, updateTag, fetchTags, tags, closeModal, openModal } from '../store';
 	import ContextMenu from './ContextMenu.svelte';
 	import Dialog from './Dialog.svelte';
 	import { browser } from '$app/environment';
@@ -10,10 +10,9 @@
 	import type { Tag } from '../interfaces/Tag';
 	import clsx from 'clsx';
 	import ColorDot from './ColorDot.svelte';
+	import { MODAL_EDIT_TAG, MODAL_REMOVE_TAG } from '../constants/modal.constants';
 
-	let showEditTagModal = false;
 	let currentTag: Tag;
-	let showRemoveTagConfirmationModal = false;
 	let selectedColor = '';
 
 	const colors = ['red', 'green', 'blue', 'purple', 'yellow', 'orange', 'pink', 'brown', 'light-gray', 'dark-gray', 'none'];
@@ -42,12 +41,13 @@
 				color: newColor,
 			});
 		}
-		showEditTagModal = false;
+
+		closeModal();
 	}
 
 	function handleShowEditTagModal(tag: Tag) {
-		showEditTagModal = true;
 		currentTag = tag;
+		openModal(MODAL_EDIT_TAG);
 	}
 
 	function handleChangeTagName(e: Event) {
@@ -56,11 +56,10 @@
 
 	function handleShowRemoveTagConfirmationModal(tag: Tag) {
 		currentTag = tag;
-		showRemoveTagConfirmationModal = true;
+		openModal(MODAL_REMOVE_TAG);
 	}
 
-	function closeEditTagModal() {
-		showEditTagModal = false;
+	function handleOnEditTagModalClose() {
 		selectedColor = '';
 	}
 
@@ -104,7 +103,7 @@
 		</div>
 </div>
 
-<Dialog showModal={showEditTagModal} on:closeModal={closeEditTagModal}>
+<Dialog id={MODAL_EDIT_TAG} on:closeModal={handleOnEditTagModalClose}>
 	<div>
 		<label for="tag-name" class="label">
 			<div class="label-text">Name:</div>
@@ -141,14 +140,13 @@
 
 		<div class="dialog-footer">
 			<Button on:click={async () => await handleUpdateTag()}>Save</Button>
-			<Button variant="secondary" on:click={closeEditTagModal}>Cancel</Button>
+			<Button variant="secondary" on:click={() => closeModal()}>Cancel</Button>
 		</div>
 	</div>
 </Dialog>
 
 <ConfirmationDialog
-	showModal={showRemoveTagConfirmationModal}
-	on:closeModal={() => showRemoveTagConfirmationModal = false}
+	id={MODAL_REMOVE_TAG}
 	on:action={async () => await handleRemoveTag()}
 />
 

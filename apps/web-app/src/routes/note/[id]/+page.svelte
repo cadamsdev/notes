@@ -1,7 +1,7 @@
 <script lang="ts">
 	import clsx from 'clsx';
 	import { onDestroy, onMount } from 'svelte';
-	import { notes, selectedNote, type Note, fetchTags, fetchNotes } from '../../../store';
+	import { notes, selectedNote, type Note, fetchTags, fetchNotes, openModal, currentModal, closeModal } from '../../../store';
 	import { browser } from '$app/environment';
 	import type { PageData } from './$types';
 	import { get } from 'svelte/store';
@@ -11,12 +11,12 @@
 	import Dialog from '../../../components/Dialog.svelte';
 	import Button from '../../../components/Button.svelte';
 	import Chip from '../../../components/Chip.svelte';
+	import { MODAL_TAG } from '../../../constants/modal.constants';
 
 	export let data: PageData;
 
 	let editorRef: any = null;
 	let editor: EditorJS.default;
-	let showTagModal = false;
 	let tempTags: Tag[] = [];
 	let selectedTags: Tag[] = [...data.tags];
 
@@ -113,7 +113,7 @@
 				const currentNote = notes.find((n) => n.id === note.id);
 				selectedNote.set(currentNote);
 
-				showTagModal = false;
+				closeModal();
 			}
 		} catch (err) {
 			console.error(err);
@@ -174,14 +174,6 @@
 		}
 	});
 
-	function openTagModal() {
-		showTagModal = true;
-	}
-
-	function handleCloseTagModal() {
-		showTagModal = false;
-	}
-
 	async function handleSave() {
 		await save();
 	}
@@ -211,13 +203,13 @@
 	</div>
 
 	<div class="bottom-bar">
-		<button on:click={openTagModal}><Icon icon="fa-solid:tags" /></button>
+		<button on:click={() => openModal(MODAL_TAG)}><Icon icon="fa-solid:tags" /></button>
 		{#if selectedTags.length === 0}
-			<button on:click={openTagModal} class="new-tag-label">Click to add Tags...</button>
+			<button on:click={() => openModal(MODAL_TAG)} class="new-tag-label">Click to add Tags...</button>
 		{:else}
 			<div class="tags-container">
 				{#each selectedTags as tag}
-					<button on:click={openTagModal}>
+					<button on:click={() => openModal(MODAL_TAG)}>
 						<Chip text={tag.name} color={tag.color} />
 					</button>
 				{/each}
@@ -226,7 +218,7 @@
 	</div>
 </div>
 
-<Dialog bind:showModal={showTagModal} on:closeModal={handleCloseTagModal}>
+<Dialog id={MODAL_TAG}>
 	<div class="dialog-content">
 		<div>
 			<div class="dialog-heading">Tags</div>
@@ -240,7 +232,7 @@
 
 		<div class="dialog-footer">
 			<Button on:click={handleSaveTags}>Save</Button>
-			<Button variant="secondary" on:click={handleCloseTagModal}>Cancel</Button>
+			<Button variant="secondary" on:click={() => closeModal()}>Cancel</Button>
 		</div>
 	</div>
 </Dialog>

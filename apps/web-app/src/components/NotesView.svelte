@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { notes, selectedNote, type Note, deleteNote, createNote, fetchTags } from '../store';
+	import { notes, selectedNote, type Note, deleteNote, createNote, fetchTags, openModal } from '../store';
 	import clsx from 'clsx';
 	import { goto } from '$app/navigation';
 	import { onDestroy } from 'svelte';
@@ -8,9 +8,9 @@
 	import ConfirmationDialog from './ConfirmationDialog.svelte';
 	import Chip from './Chip.svelte';
 	import SearchInput from './SearchInput.svelte';
+	import { MODAL_REMOVE_NOTE } from '../constants/modal.constants';
 
 	let filteredNotes: Note[] = [];
-	let showConfirmationModal = false;
 	let noteToRemove: Note | undefined;
 	let noteToSelect: Note | undefined;
 	let searchText = '';
@@ -47,7 +47,7 @@
 	function handleShowRemoveNoteDialog(note: Note, index: number): void {
 		noteToRemove = note;
 		noteToSelect = filteredNotes[index + 1] ?? filteredNotes[index - 1];
-		showConfirmationModal = true;
+		openModal(MODAL_REMOVE_NOTE);
 	}
 
 	async function handleRemoveNote(): Promise<void> {
@@ -59,10 +59,6 @@
 		await fetchTags();
 
 		noteToRemove = undefined;
-	}
-
-	function handleCloseConfirmationDialog() {
-		showConfirmationModal = false;
 	}
 
 	onDestroy(() => {
@@ -106,8 +102,7 @@
 </div>
 
 <ConfirmationDialog
-	showModal={showConfirmationModal}
-	on:closeModal={handleCloseConfirmationDialog}
+	id={MODAL_REMOVE_NOTE}
 	on:action={async () => await handleRemoveNote()}
 />
 

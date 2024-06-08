@@ -1,7 +1,13 @@
+import { get } from "svelte/store";
+import { closeModal, currentModal } from "../store";
+
 export function clickOutside(element: HTMLElement, onClickOutside: () => void) {
 	function handleClick(event: MouseEvent) {
-		if (!element.contains(event.target as HTMLElement)) {
+		const isModalOpen = get(currentModal);
+		console.log('isModalOpen', isModalOpen);
+		if (!element.contains(event.target as HTMLElement) && isModalOpen) {
 			onClickOutside();
+			closeModal();
 		}
 	}
 

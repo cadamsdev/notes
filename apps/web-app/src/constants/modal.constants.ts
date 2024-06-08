@@ -1,0 +1,4 @@
+export const MODAL_EDIT_TAG = 'MODAL_EDIT_TAG'; 
+export const MODAL_REMOVE_TAG = 'MODAL_REMOVE_TAG';
+export const MODAL_TAG = 'MODAL_TAG';
+export const MODAL_REMOVE_NOTE = 'MODAL_REMOVE_NOTE';

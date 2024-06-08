@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { teleport } from '../actions/teleport';
 	import clsx from 'clsx';
+	import { currentModal } from '../store';
 
 	type ModalPosition = 'center' | 'center-top';
 
-	export let showModal = false;
+	export let id: string;
 	export let position: ModalPosition = 'center-top';
 
 	function getPositionClass(): string {
@@ -16,7 +17,7 @@
 	}
 </script>
 
-{#if showModal}
+{#if $currentModal === id}
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div

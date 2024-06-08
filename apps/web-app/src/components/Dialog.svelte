@@ -3,27 +3,29 @@
 	import { createEventDispatcher } from 'svelte';
 	import Modal from './Modal.svelte';
 	import { clickOutside } from '../directives/clickOutside';
+	import { closeModal } from '../store';
 
-	export let showModal = false;
+  export let id: string;
 	export let showHeader= true;
 
 	const dispatch = createEventDispatcher();
 
-	function closeModal() {
+	function handleCloseModal() {
 		dispatch('closeModal');
+    closeModal();
 	}
 </script>
 
-<Modal {showModal}>
+<Modal {id}>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div
       class="dialog"
-      use:clickOutside={closeModal}
+      use:clickOutside={handleCloseModal}
     >
       <div class="dialog-heading">
         {#if showHeader}
-          <button on:click={closeModal} class="close-btn">
+          <button on:click={handleCloseModal} class="close-btn">
             <Icon icon="fa-solid:times" width="24" height="24" />
           </button>
         {/if}

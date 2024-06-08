@@ -12,6 +12,17 @@ export interface Note {
 export const notes = writable<Note[]>([]);
 export const selectedNote = writable<Note | undefined>();
 export const tags = writable<Tag[]>([]);
+export const currentModal = writable<string>();
+
+export function openModal(modelId: string) {
+  setTimeout(() => {
+    currentModal.set(modelId);
+  });
+}
+
+export function closeModal() {
+  currentModal.set('');
+}
 
 export async function fetchNotes(): Promise<Note[]> {
   if (browser) {
