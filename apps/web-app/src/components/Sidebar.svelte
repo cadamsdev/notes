@@ -82,7 +82,7 @@
 					<button id={`tag-${tag.id}`} class="tag">
 						<ColorDot color={tag.color} />
 						<div class="tag-name-count">
-							<span class="tag-name">#{tag.name}</span>
+							<span class="tag-name">{tag.name}</span>
 							<span class="tag-count">&nbsp;{tag.count}</span>
 						</div>
 						<ContextMenu

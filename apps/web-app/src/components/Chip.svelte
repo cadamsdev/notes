@@ -14,7 +14,7 @@
 	{#if color}
 		<div class={clsx({ "color": true }, { [`${color}`]: true })}></div>
 	{/if}
-	<div>#{text}</div>
+	<div>{text}</div>
 	{#if hasCloseBtn}
 		<button on:click={() => dispatch('close')} class="close-btn">
 			<Icon icon="fa-solid:times" width="12" height="12" />
