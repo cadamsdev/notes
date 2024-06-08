@@ -15,9 +15,7 @@ export const tags = writable<Tag[]>([]);
 export const currentModal = writable<string>();
 
 export function openModal(modelId: string) {
-  setTimeout(() => {
-    currentModal.set(modelId);
-  });
+  currentModal.set(modelId);
 }
 
 export function closeModal() {
