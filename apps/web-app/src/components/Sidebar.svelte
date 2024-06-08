@@ -129,7 +129,7 @@
 							clsx(
 								'color',
 								{[`${color}`]: true},
-								{ active: selectedColor === color || (!selectedColor && currentTag.color === color) }
+								{ active: selectedColor === color || (!selectedColor && currentTag.color === color) || (!selectedColor && !currentTag.color && color === 'none') }
 							)}
 							>
 						</div>
