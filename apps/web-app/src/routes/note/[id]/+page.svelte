@@ -178,6 +178,10 @@
 		showTagModal = true;
 	}
 
+	function handleCloseTagModal() {
+		showTagModal = false;
+	}
+
 	async function handleSave() {
 		await save();
 	}
@@ -222,7 +226,7 @@
 	</div>
 </div>
 
-<Dialog bind:showModal={showTagModal} on:closeModal={() => (showTagModal = false)}>
+<Dialog bind:showModal={showTagModal} on:closeModal={handleCloseTagModal}>
 	<div class="dialog-content">
 		<div>
 			<div class="dialog-heading">Tags</div>
@@ -236,7 +240,7 @@
 
 		<div class="dialog-footer">
 			<Button on:click={handleSaveTags}>Save</Button>
-			<Button variant="secondary" on:click={() => (showTagModal = false)}>Cancel</Button>
+			<Button variant="secondary" on:click={handleCloseTagModal}>Cancel</Button>
 		</div>
 	</div>
 </Dialog>

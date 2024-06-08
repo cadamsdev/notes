@@ -1,16 +1,11 @@
 <script lang="ts">
 	import { teleport } from '../actions/teleport';
 	import clsx from 'clsx';
-	import { createEventDispatcher, onMount } from 'svelte';
-	import { clickOutside } from '../directives/clickOutside';
 
 	type ModalPosition = 'center' | 'center-top';
 
 	export let showModal = false;
 	export let position: ModalPosition = 'center-top';
-
-	const dispatch = createEventDispatcher();
-		let overlayRef: HTMLDivElement;
 
 	function getPositionClass(): string {
 		if (position === 'center-top') {
@@ -19,15 +14,6 @@
 
 		return 'modal-center';
 	}
-
-
-	// onMount(() => {
-	// 	window.addEventListener('closeModal', handleCloseModal);
-
-	// 	return () => window.removeEventListener('closeModal', handleCloseModal);
-	// });
-
-
 </script>
 
 {#if showModal}
