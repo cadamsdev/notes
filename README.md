@@ -3,7 +3,7 @@
 
 Note: This app is in early alpha. Expect breaking changes and bugs.
 
-![Screenshot_30-5-2024_05459_chad lan](https://github.com/cadamsdev/notes/assets/12568665/e7c2fcc1-d56c-4413-b257-8337d93db741)
+![Screenshot_8-6-2024_135854_chad lan](https://github.com/cadamsdev/notes/assets/12568665/c9797014-a246-4e1a-b9a6-a50f67a16928)
 
 ## Why another note app?
 For taking technical notes I wanted a note taking app that has...
@@ -43,16 +43,20 @@ For taking technical notes I wanted a note taking app that has...
 ## Current Features
 - Self-hostable
 - Create notes
+- Edit notes
 - Search notes
 - Add tags to notes
+- Edit tags (tag name, color)
 - Delete tags
 - Block editor
-    - Headings (h1, h2, 3)
+    - Headings (h1, h2, h3)
     - Paragraphs
     - Bulleted list
     - Numbered lists
     - Inline code 
-    - Code blocks 
+    - Code blocks
+    - Divider
+    - Quote
 
 ## Local development
 1. Npm install
