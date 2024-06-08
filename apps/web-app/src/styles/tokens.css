@@ -41,15 +41,16 @@
   --clr-tag-blue-text: #e2e2e2;
   --clr-tag-purple-text: #e2e2e2;
   --clr-tag-green-text: #e2e2e2;
-  --clr-tag-red-text: #ffffff;
-  --clr-tag-yellow-text: #000000;
-  --clr-tag-orange-text: #ffffff;
-  --clr-tag-text-text: #ffffff;
-  --clr-tag-cyan-text: #ffffff;
-  --clr-tag-dark-gray-text: #ffffff;
+  --clr-tag-red-text: #e2e2e2;
+  --clr-tag-yellow-text: #e2e2e2;
+  --clr-tag-orange-text: #e2e2e2;
+  --clr-tag-text-text: #e2e2e2;
+  --clr-tag-cyan-text: #e2e2e2;
+  --clr-tag-dark-gray-text: #e2e2e2;
   --clr-tag-light-gray-text: #000000;
   --clr-tag-brown-text: #e2e2e2;
   --clr-tag-pink-text: #e2e2e2;
+  --clr-tag-default-text: #e2e2e2;
 
 
   /* Component tokens */

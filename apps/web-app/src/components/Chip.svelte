@@ -24,7 +24,7 @@
 		padding: 0.2rem 0.4rem;
 		font-size: 1.2rem;
 		background: var(--clr-bg-on-secondary);
-		color: var(--clr-text-secondary);
+		color: var(--clr-tag-default-text);
 		border-radius: 0.2rem;
 	}
 
