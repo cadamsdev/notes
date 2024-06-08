@@ -2,7 +2,6 @@
 	import Icon from '@iconify/svelte';
 	import { createEventDispatcher } from 'svelte';
 	import Modal from './Modal.svelte';
-	import { clickOutside } from '../directives/clickOutside';
 	import { closeModal } from '../store';
 
   export let id: string;
@@ -16,12 +15,11 @@
 	}
 </script>
 
-<Modal {id}>
+<Modal {id} on:closeModal={handleCloseModal}>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div
       class="dialog"
-      use:clickOutside={handleCloseModal}
     >
       <div class="dialog-heading">
         {#if showHeader}

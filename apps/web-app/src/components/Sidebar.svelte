@@ -61,6 +61,7 @@
 
 	function handleOnEditTagModalClose() {
 		selectedColor = '';
+		console.log('handleOnEditTagModalClose');
 	}
 
 	function selectColor(color: string) {

@@ -1,23 +1,20 @@
-import { get } from "svelte/store";
-import { closeModal, currentModal } from "../store";
+import { closeModal } from "../store";
 
 export function clickOutside(element: HTMLElement, onClickOutside: () => void) {
 	function handleClick(event: MouseEvent) {
-		const isModalOpen = get(currentModal);
-		console.log('isModalOpen', isModalOpen);
-		if (!element.contains(event.target as HTMLElement) && isModalOpen) {
+		if ((event.target as HTMLElement).classList.contains('modal-overlay')) {
 			onClickOutside();
 			closeModal();
 		}
 	}
 
-	window.addEventListener('click', handleClick);
+	element.addEventListener('click', handleClick);
 	return {
 		update(newCallbackFunction: () => void) {
 			onClickOutside = newCallbackFunction;
 		},
 		destroy() {
-			window.removeEventListener('click', handleClick);
+			element.removeEventListener('click', handleClick);
 		}
 	};
 }

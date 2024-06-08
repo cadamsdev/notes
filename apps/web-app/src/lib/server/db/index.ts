@@ -170,7 +170,7 @@ export function getAllTags() {
 }
 
 export function getTagsForNote(noteId: number): Tag[] {
-  const sql = `select t.id, t.name from tags as t
+  const sql = `select t.id, t.name, t.color from tags as t
   join note_tags as nt on nt.tag_id = t.id
   where nt.note_id = ?`;
 

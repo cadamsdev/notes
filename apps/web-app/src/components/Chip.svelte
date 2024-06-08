@@ -1,17 +1,26 @@
 <script lang="ts">
 	import clsx from "clsx";
+	import { createEventDispatcher } from "svelte";
 
   export let text: string;
 	export let color = '';
+	export let hasCloseBtn = false;
+
+	const dispatch = createEventDispatcher();
 </script>
 
 <div class={clsx("chip", { [`${color}`]: true })}>
-  #{text}
+ <div>#{text}</div>
+	{#if hasCloseBtn}
+		<button on:click={() => dispatch('close')} class="close-btn">X</button>
+	{/if}
 </div>
 
 <style>
   .chip {
-		display: inline-block;
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
 		padding: 0.2rem 0.4rem;
 		font-size: 1.2rem;
 		background: var(--clr-bg-on-secondary);
@@ -19,6 +28,9 @@
 		border-radius: 0.2rem;
 	}
 
+	.close-btn {
+		padding: 0.4rem;
+	}
 
 	.red {
 		background: var(--clr-tag-red);
