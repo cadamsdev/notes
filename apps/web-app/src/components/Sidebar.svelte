@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { deleteTag, updateTag, fetchTags, tags, closeModal, openModal } from '../store';
+	import { deleteTag, updateTag, fetchTags, tags, closeModal, openModal, sortTagsByName, sortTagsByCount } from '../store';
 	import ContextMenu from './ContextMenu.svelte';
 	import Dialog from './Dialog.svelte';
 	import { browser } from '$app/environment';
@@ -14,6 +14,7 @@
 
 	let currentTag: Tag;
 	let selectedColor = '';
+	let tagSortMode: 'name' | 'count' = 'count';
 
 	const colors = ['red', 'green', 'blue', 'purple', 'yellow', 'orange', 'pink', 'brown', 'light-gray', 'dark-gray', 'none'];
 
@@ -61,20 +62,38 @@
 
 	function handleOnEditTagModalClose() {
 		selectedColor = '';
-		console.log('handleOnEditTagModalClose');
 	}
 
 	function selectColor(color: string) {
 		selectedColor = color;
 	}
 
+	function toggleSortTags() {
+		tagSortMode = tagSortMode === 'name' ? 'count' : 'name';
+		if (tagSortMode === 'name') {
+			sortTagsByName();
+		} else {
+			sortTagsByCount();
+		}
+	}
+
 	load();
 </script>
 
 <div class="sidebar">
-		<div class="tag-heading-container">
-			<Icon icon="fa-solid:tags" />
-			Tags
+		<div class="top">
+			<div class="tag-heading-container">
+				<Icon icon="fa-solid:tags" />
+				Tags
+			</div>
+			<button on:click={toggleSortTags}>
+				{#if tagSortMode === 'count'}
+					<Icon icon="mingcute:numbers-90-sort-descending-line" width="24" height="24" />
+				{/if}
+				{#if tagSortMode === 'name'}
+					<Icon icon="mingcute:az-sort-ascending-letters-line" width="24" height="24" />
+				{/if}
+			</button>
 		</div>
 		<div class="scroll-container">
 			{#each $tags as tag}
@@ -238,12 +257,19 @@
 		gap: 1.6rem;
 	}
 
-	.tag-heading-container {
+	.top {
 		font-size: 1.4rem;
 		display: flex;
 		align-items: center;
+		justify-content: space-between;
 		gap: 0.8rem;
 		color: var(--clr-text-primary-emphasis);
+	}
+
+	.tag-heading-container {
+		display: flex;
+		align-items: center;
+		gap: 0.8rem;
 	}
 
 	.tag {

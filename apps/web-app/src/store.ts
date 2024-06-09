@@ -151,3 +151,36 @@ export async function updateTag(tag: Tag): Promise<void> {
     console.error(err);
   }
 }
+
+export function sortTagsByName(): void {
+  tags.update((items) => {
+    items.sort((a, b) => {
+      if (a.name < b.name) {
+        return -1;
+      }
+      if (a.name > b.name) {
+        return 1;
+      }
+
+      return 0;
+    });
+    return items;
+  });
+}
+
+export function sortTagsByCount(): void {
+  tags.update((items) => {
+    items.sort((a, b) => {
+      const aCount = a.count ?? 0;
+      const bCount = b.count ?? 0;
+      if (aCount < bCount) {
+        return 1;
+      }
+      if (aCount > bCount) {
+        return -1;
+      }
+      return 0;
+    });
+    return items;
+  });
+}
