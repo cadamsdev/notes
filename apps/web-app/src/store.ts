@@ -152,35 +152,16 @@ export async function updateTag(tag: Tag): Promise<void> {
   }
 }
 
-export function sortTagsByName(): void {
-  tags.update((items) => {
-    items.sort((a, b) => {
-      if (a.name < b.name) {
-        return -1;
-      }
-      if (a.name > b.name) {
-        return 1;
-      }
+export async function updateTagSort(tagSort: number): Promise<void> {
+	const formData = new FormData();
+	formData.append('tagSort', tagSort.toString());
 
-      return 0;
-    });
-    return items;
-  });
-}
+	const response = await fetch(`/settings?/updateTagSort`, {
+		method: 'POST',
+		body: formData
+	});
 
-export function sortTagsByCount(): void {
-  tags.update((items) => {
-    items.sort((a, b) => {
-      const aCount = a.count ?? 0;
-      const bCount = b.count ?? 0;
-      if (aCount < bCount) {
-        return 1;
-      }
-      if (aCount > bCount) {
-        return -1;
-      }
-      return 0;
-    });
-    return items;
-  });
+	if (response.ok) {
+    await fetchTags();
+	}
 }

@@ -2,6 +2,7 @@ import Database from 'better-sqlite3';
 import { DB_PATH } from '$env/static/private';
 import { type Note } from '../../../store';
 import type { Tag } from '../../../interfaces/Tag';
+import { TAG_SORT_COUNT, TAG_SORT_NAME } from '../../../constants/settings.constants';
 
 const db = new Database(DB_PATH);
 
@@ -38,6 +39,10 @@ function seed() {
       name text unique,
       value integer default 0
     );
+
+    insert into settings(name, value)
+    values('tag_sort', 0)
+    on conflict(name) do nothing;
   `;
 
 	db.exec(sql);
@@ -164,13 +169,40 @@ export function updateNote(note: Note) {
   return result;
 }
 
-export function getAllTags() {
+export function updateTagSort(tagSort: number) {
+	const sql = `
+    UPDATE settings SET value = ? WHERE name = 'tag_sort'
+  `;
+
+	const result = db.prepare(sql).run(tagSort);
+	return result;
+}
+
+// get tag sort
+export function getTagSort() {
   const sql = `
+    SELECT value FROM settings WHERE name = 'tag_sort';
+  `;
+
+  const result = db.prepare<{ value: number }[], { value: number }>(sql).get();
+  return result?.value ?? 0;
+}
+
+export function getAllTags() {
+  const sortMode = getTagSort();
+
+  let sql = `
     select t.id, t.name, t.color, count(nt.tag_id) as \`count\` from tags as t
     left join note_tags as nt on nt.tag_id = t.id
     group by t.id
-    order by \`count\` desc
   `;
+
+  if (sortMode === TAG_SORT_COUNT) {
+    sql += `order by \`count\` desc`;
+  } else if (sortMode === TAG_SORT_NAME) {
+    sql += `order by t.name asc`;
+  }
+
   const result = db.prepare(sql).all();
   return result;
 }

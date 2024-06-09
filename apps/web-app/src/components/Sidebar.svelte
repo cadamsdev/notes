@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { deleteTag, updateTag, fetchTags, tags, closeModal, openModal, sortTagsByName, sortTagsByCount } from '../store';
+	import { deleteTag, updateTag, fetchTags, tags, closeModal, openModal, updateTagSort } from '../store';
 	import ContextMenu from './ContextMenu.svelte';
 	import Dialog from './Dialog.svelte';
 	import { browser } from '$app/environment';
@@ -11,10 +11,11 @@
 	import clsx from 'clsx';
 	import ColorDot from './ColorDot.svelte';
 	import { MODAL_EDIT_TAG, MODAL_REMOVE_TAG } from '../constants/modal.constants';
+	import { TAG_SORT_NAME, TAG_SORT_COUNT } from '../constants/settings.constants';
 
 	let currentTag: Tag;
 	let selectedColor = '';
-	let tagSortMode: 'name' | 'count' = 'count';
+	let tagSort: number = TAG_SORT_COUNT;
 
 	const colors = ['red', 'green', 'blue', 'purple', 'yellow', 'orange', 'pink', 'brown', 'light-gray', 'dark-gray', 'none'];
 
@@ -68,13 +69,9 @@
 		selectedColor = color;
 	}
 
-	function toggleSortTags() {
-		tagSortMode = tagSortMode === 'name' ? 'count' : 'name';
-		if (tagSortMode === 'name') {
-			sortTagsByName();
-		} else {
-			sortTagsByCount();
-		}
+	async function toggleSortTags() {
+		tagSort = tagSort === TAG_SORT_NAME ? TAG_SORT_COUNT : TAG_SORT_NAME;
+		await updateTagSort(tagSort);
 	}
 
 	load();
@@ -87,10 +84,10 @@
 				Tags
 			</div>
 			<button on:click={toggleSortTags}>
-				{#if tagSortMode === 'count'}
+				{#if tagSort === TAG_SORT_COUNT}
 					<Icon icon="mingcute:numbers-90-sort-descending-line" width="24" height="24" />
 				{/if}
-				{#if tagSortMode === 'name'}
+				{#if tagSort === TAG_SORT_NAME}
 					<Icon icon="mingcute:az-sort-ascending-letters-line" width="24" height="24" />
 				{/if}
 			</button>
