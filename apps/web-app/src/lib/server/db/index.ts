@@ -32,6 +32,12 @@ function seed() {
       foreign key (note_id) references notes(id) on delete cascade,
       foreign key (tag_id) references tags(id) on delete cascade
     );
+
+    create table if not exists settings (
+      id integer primary key autoincrement,
+      name text unique,
+      value integer default 0
+    );
   `;
 
 	db.exec(sql);
