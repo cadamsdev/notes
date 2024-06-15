@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { deleteTag, updateTag, fetchTags, tags, closeModal, openModal, updateTagSort, filteredTags } from '../store';
+	import { deleteTag, updateTag, fetchTags, tags, closeModal, openModal, updateTagSort, selectedTags } from '../store';
 	import ContextMenu from './ContextMenu.svelte';
 	import Dialog from './Dialog.svelte';
 	import { browser } from '$app/environment';
@@ -75,7 +75,7 @@
 	}
 
 	function selectTag(tag: Tag) {
-		filteredTags.update((tags) => {
+		selectedTags.update((tags) => {
 			const index = tags.findIndex((t) => t.id === tag.id);
 			if (index === -1) {
 				tags.push(tag);

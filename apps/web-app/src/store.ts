@@ -14,7 +14,7 @@ export const filteredNotes = writable<Note[]>([]);
 export const selectedNote = writable<Note | undefined>();
 export const tags = writable<Tag[]>([]);
 export const currentModal = writable<string>();
-export const filteredTags = writable<Tag[]>([]);
+export const selectedTags = writable<Tag[]>([]);
 
 export function openModal(modelId: string) {
   currentModal.set(modelId);
@@ -169,7 +169,7 @@ export async function updateTagSort(tagSort: number): Promise<void> {
 }
 
 export function searchNotes(searchTerm: string): void {
-  const tags = get(filteredTags);
+  const tags = get(selectedTags);
 
   const filtered = get(notes).filter((note) => {
     return note.title.toLowerCase().includes(searchTerm.toLowerCase())

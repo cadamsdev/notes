@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { notes, selectedNote, type Note, deleteNote, createNote, fetchTags, openModal, filteredTags, searchNotes, filteredNotes } from '../store';
+	import { notes, selectedNote, type Note, deleteNote, createNote, fetchTags, openModal, selectedTags, searchNotes, filteredNotes } from '../store';
 	import clsx from 'clsx';
 	import { goto } from '$app/navigation';
 	import { onDestroy } from 'svelte';
@@ -21,7 +21,7 @@
 		searchNotes(searchText);
 	});
 
-	filteredTags.subscribe(() => {
+	selectedTags.subscribe(() => {
 		searchNotes(searchText);
 	});
 
@@ -80,12 +80,12 @@
 			<SearchInput on:search={handleSearch} placeholder="Search..." />
 
 			<div class="filter-tag-container">
-				{#each $filteredTags as filteredTag}
+				{#each $selectedTags as filteredTag}
 					<Chip
 						text={filteredTag.name}
 						color={filteredTag.color}
 						hasCloseBtn
-						on:close={() => filteredTags.update((tags) => tags.filter((tag) => tag.id !== filteredTag.id))}
+						on:close={() => selectedTags.update((tags) => tags.filter((tag) => tag.id !== filteredTag.id))}
 					/>
 				{/each}
 			</div>
