@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { notes, selectedNote, type Note, deleteNote, createNote, fetchTags, openModal } from '../store';
+	import { notes, selectedNote, type Note, deleteNote, createNote, fetchTags, openModal, filteredTags } from '../store';
 	import clsx from 'clsx';
 	import { goto } from '$app/navigation';
 	import { onDestroy } from 'svelte';
@@ -74,6 +74,17 @@
 					><Icon icon="fa-solid:plus" /></button>
 			</div>
 			<SearchInput on:search={handleSearch} placeholder="Search..." />
+
+			<div class="filter-tag-container">
+				{#each $filteredTags as filteredTag}
+					<Chip
+						text={filteredTag.name}
+						color={filteredTag.color}
+						hasCloseBtn
+						on:close={() => filteredTags.update((tags) => tags.filter((tag) => tag.id !== filteredTag.id))}
+					/>
+				{/each}
+			</div>
 		</div>
 		<div class="scroll-container" style="height: calc(100vh - {searchSectionHeight}px);">
 			{#each filteredNotes as note, index}
@@ -107,6 +118,13 @@
 />
 
 <style>
+	.filter-tag-container {
+		margin-top: 0.8rem;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem;
+	}
+
 	.notes-view {
 		background: var(--clr-bg);
 		width: 32rem;

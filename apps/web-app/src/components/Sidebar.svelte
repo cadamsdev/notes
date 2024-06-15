@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { deleteTag, updateTag, fetchTags, tags, closeModal, openModal, updateTagSort } from '../store';
+	import { deleteTag, updateTag, fetchTags, tags, closeModal, openModal, updateTagSort, filteredTags } from '../store';
 	import ContextMenu from './ContextMenu.svelte';
 	import Dialog from './Dialog.svelte';
 	import { browser } from '$app/environment';
@@ -74,6 +74,17 @@
 		await updateTagSort(tagSort);
 	}
 
+	function selectTag(tag: Tag) {
+		filteredTags.update((tags) => {
+			const index = tags.findIndex((t) => t.id === tag.id);
+			if (index === -1) {
+				tags.push(tag);
+			}
+
+			return tags;
+		});
+	}
+
 	load();
 </script>
 
@@ -95,7 +106,7 @@
 		<div class="scroll-container">
 			{#each $tags as tag}
 				{#if (tag.count ?? 0) > 0}
-					<button id={`tag-${tag.id}`} class="tag">
+					<button id={`tag-${tag.id}`} class="tag" on:click={() => selectTag(tag)}>
 						<ColorDot color={tag.color} />
 						<div class="tag-name-count">
 							<span class="tag-name">{tag.name}</span>

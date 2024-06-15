@@ -13,6 +13,7 @@ export const notes = writable<Note[]>([]);
 export const selectedNote = writable<Note | undefined>();
 export const tags = writable<Tag[]>([]);
 export const currentModal = writable<string>();
+export const filteredTags = writable<Tag[]>([]);
 
 export function openModal(modelId: string) {
   currentModal.set(modelId);
