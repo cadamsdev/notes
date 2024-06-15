@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { deleteTag, updateTag, fetchTags, tags, closeModal, openModal } from '../store';
+	import { deleteTag, updateTag, fetchTags, tags, closeModal, openModal, updateTagSort } from '../store';
 	import ContextMenu from './ContextMenu.svelte';
 	import Dialog from './Dialog.svelte';
 	import { browser } from '$app/environment';
@@ -11,9 +11,11 @@
 	import clsx from 'clsx';
 	import ColorDot from './ColorDot.svelte';
 	import { MODAL_EDIT_TAG, MODAL_REMOVE_TAG } from '../constants/modal.constants';
+	import { TAG_SORT_NAME, TAG_SORT_COUNT } from '../constants/settings.constants';
 
 	let currentTag: Tag;
 	let selectedColor = '';
+	export let tagSort: number;
 
 	const colors = ['red', 'green', 'blue', 'purple', 'yellow', 'orange', 'pink', 'brown', 'light-gray', 'dark-gray', 'none'];
 
@@ -61,20 +63,34 @@
 
 	function handleOnEditTagModalClose() {
 		selectedColor = '';
-		console.log('handleOnEditTagModalClose');
 	}
 
 	function selectColor(color: string) {
 		selectedColor = color;
 	}
 
+	async function toggleSortTags() {
+		tagSort = tagSort === TAG_SORT_NAME ? TAG_SORT_COUNT : TAG_SORT_NAME;
+		await updateTagSort(tagSort);
+	}
+
 	load();
 </script>
 
 <div class="sidebar">
-		<div class="tag-heading-container">
-			<Icon icon="fa-solid:tags" />
-			Tags
+		<div class="top">
+			<div class="tag-heading-container">
+				<Icon icon="fa-solid:tags" />
+				Tags
+			</div>
+			<button on:click={toggleSortTags}>
+				{#if tagSort === TAG_SORT_COUNT}
+					<Icon icon="mingcute:numbers-90-sort-descending-line" width="24" height="24" />
+				{/if}
+				{#if tagSort === TAG_SORT_NAME}
+					<Icon icon="mingcute:az-sort-ascending-letters-line" width="24" height="24" />
+				{/if}
+			</button>
 		</div>
 		<div class="scroll-container">
 			{#each $tags as tag}
@@ -238,12 +254,19 @@
 		gap: 1.6rem;
 	}
 
-	.tag-heading-container {
+	.top {
 		font-size: 1.4rem;
 		display: flex;
 		align-items: center;
+		justify-content: space-between;
 		gap: 0.8rem;
 		color: var(--clr-text-primary-emphasis);
+	}
+
+	.tag-heading-container {
+		display: flex;
+		align-items: center;
+		gap: 0.8rem;
 	}
 
 	.tag {

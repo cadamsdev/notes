@@ -20,7 +20,7 @@
 </svelte:head>
 
 <div class="page">
-	<Sidebar />
+	<Sidebar tagSort={data.tagSort} />
 
 	<NotesView />
 

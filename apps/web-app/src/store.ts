@@ -151,3 +151,17 @@ export async function updateTag(tag: Tag): Promise<void> {
     console.error(err);
   }
 }
+
+export async function updateTagSort(tagSort: number): Promise<void> {
+	const formData = new FormData();
+	formData.append('tagSort', tagSort.toString());
+
+	const response = await fetch(`/settings?/updateTagSort`, {
+		method: 'POST',
+		body: formData
+	});
+
+	if (response.ok) {
+    await fetchTags();
+	}
+}

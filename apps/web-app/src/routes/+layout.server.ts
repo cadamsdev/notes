@@ -1,9 +1,10 @@
-import { getNotes } from "$lib/server/db";
+import { getNotes, getTagSort } from "$lib/server/db";
 import type { Note } from "../store";
 import type { LayoutServerLoad } from './$types';
 
 export const load: LayoutServerLoad = async ({ params }) => {
 	const notes = getNotes();
+	const tagSort = getTagSort();
 	let selectedNote: Note | undefined = undefined;
 	if (params.id && notes.length) {
 		const id = +params.id;
@@ -12,5 +13,6 @@ export const load: LayoutServerLoad = async ({ params }) => {
 	return {
 		notes,
 		selectedNote,
+		tagSort,
 	};
 };
