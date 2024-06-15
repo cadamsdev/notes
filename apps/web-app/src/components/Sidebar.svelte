@@ -15,7 +15,7 @@
 
 	let currentTag: Tag;
 	let selectedColor = '';
-	let tagSort: number = TAG_SORT_COUNT;
+	export let tagSort: number;
 
 	const colors = ['red', 'green', 'blue', 'purple', 'yellow', 'orange', 'pink', 'brown', 'light-gray', 'dark-gray', 'none'];
 
