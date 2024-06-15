@@ -10,6 +10,7 @@ export interface Note {
 }
 
 export const notes = writable<Note[]>([]);
+export const filteredNotes = writable<Note[]>([]);  
 export const selectedNote = writable<Note | undefined>();
 export const tags = writable<Tag[]>([]);
 export const currentModal = writable<string>();
@@ -165,4 +166,14 @@ export async function updateTagSort(tagSort: number): Promise<void> {
 	if (response.ok) {
     await fetchTags();
 	}
+}
+
+export function searchNotes(searchTerm: string): void {
+  const tags = get(filteredTags);
+
+  const filtered = get(notes).filter((note) => {
+    return note.title.toLowerCase().includes(searchTerm.toLowerCase())
+    && tags.every((tag) => note.tags?.some((t) => t.id === tag.id) ?? false);
+  });
+  filteredNotes.set(filtered);
 }
