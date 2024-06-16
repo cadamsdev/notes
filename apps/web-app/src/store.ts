@@ -175,18 +175,36 @@ export async function updateTagSort(tagSort: number): Promise<void> {
 export function searchNotes(searchTerm: string): void {
   const sTags = get(selectedTags);
 
-  const filtered = get(notes).filter((note) => {
+  const newFilteredNoets = get(notes).filter((note) => {
     return (
 			note.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
 			sTags.every((tag) => note.tags?.some((t) => t.id === tag.id) ?? false)
 		);
   });
 
-  filteredNotes.set(filtered);
+  const noteTags = newFilteredNoets.flatMap((note) => note.tags ?? []);
+  const uniqueTags = Array.from(new Set(noteTags.map((tag) => tag.id)));
 
-  const noteTags = filtered.flatMap((note) => note.tags ?? []);
-  const uniqueNoteTags = Array.from(new Set(noteTags.map((tag) => tag.id)));
+  const map = new Map<number, Tag>();
+  const newFilteredTags = get(tags).filter((tag) => uniqueTags.includes(tag.id));
+  newFilteredTags.forEach((tag) => {
+    tag.count = 0;
+    map.set(tag.id, tag);
+  });
 
-  const newTags = get(tags).filter((tag) => uniqueNoteTags.includes(tag.id));
+
+  // set the count of each tag
+  noteTags.forEach((tag) => {
+    if (map.has(tag.id)) {
+      const t = map.get(tag.id);
+      if (t && t.count !== undefined) {
+        t.count += 1;
+      }
+    }
+  });
+
+
+  const newTags = [...map.values()];
   filteredTags.set(newTags);
+  filteredNotes.set(newFilteredNoets);
 }
