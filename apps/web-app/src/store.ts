@@ -52,8 +52,6 @@ export async function fetchTags(): Promise<void> {
     const data = await result.json();
     tags.set(data);
     filteredTags.set(data);
-
-    console.log(data)
   }
 }
 
