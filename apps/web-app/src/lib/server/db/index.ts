@@ -194,7 +194,6 @@ export function getAllTags() {
   let sql = `
     select t.id, t.name, t.color, count(nt.tag_id) as \`count\` from tags as t
     left join note_tags as nt on nt.tag_id = t.id
-    where nt.note_id is not null
     group by t.id
   `;
 
