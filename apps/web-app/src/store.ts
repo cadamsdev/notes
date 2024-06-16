@@ -1,6 +1,7 @@
 import { get, writable } from "svelte/store";
 import { browser } from "$app/environment";
 import type { Tag } from "./interfaces/Tag";
+import { TAG_SORT_COUNT, TAG_SORT_NAME } from "./constants/settings.constants";
 
 export interface Note {
   id: number;
@@ -49,9 +50,10 @@ export async function fetchTags(): Promise<void> {
         'Content-Type': 'application/json'
       }
     });
-    const data = await result.json();
-    tags.set(data);
-    filteredTags.set(data);
+    const data = await result.json() as { tags: Tag[]; tagSort: number; };
+    tags.set(data.tags);
+    filteredTags.set(data.tags);
+    sortTags(data.tagSort);
   }
 }
 
@@ -165,8 +167,32 @@ export async function updateTagSort(tagSort: number): Promise<void> {
 		body: formData
 	});
 
-	if (response.ok) {
-    await fetchTags();
+	if (!response.ok) {
+    return;
+	}
+
+  sortTags(tagSort);
+}
+
+export function sortTags(tagSort: number): void {
+	if (tagSort === TAG_SORT_COUNT) {
+		filteredTags.update((tags) => {
+			return tags.sort((a, b) => {
+				const aCount = a.count ?? 0;
+				const bCount = b.count ?? 0;
+
+				const result = bCount - aCount;
+				if (result === 0) {
+					return a.name.localeCompare(b.name);
+				}
+
+				return result;
+			});
+		});
+	} else if (tagSort === TAG_SORT_NAME) {
+		filteredTags.update((tags) => {
+			return tags.sort((a, b) => a.name.localeCompare(b.name));
+		});
 	}
 }
 
