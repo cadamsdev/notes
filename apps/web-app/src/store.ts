@@ -173,16 +173,20 @@ export async function updateTagSort(tagSort: number): Promise<void> {
 }
 
 export function searchNotes(searchTerm: string): void {
-  const tags = get(selectedTags);
+  const sTags = get(selectedTags);
 
   const filtered = get(notes).filter((note) => {
-    return note.title.toLowerCase().includes(searchTerm.toLowerCase())
-    && tags.every((tag) => note.tags?.some((t) => t.id === tag.id) ?? false);
+    return (
+			note.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+			sTags.every((tag) => note.tags?.some((t) => t.id === tag.id) ?? false)
+		);
   });
 
   filteredNotes.set(filtered);
 
-  const newTags = filtered.map((note) => note.tags).flat().filter((tag) => tag !== undefined) as Tag[];
-  const uniqueTags = newTags.filter((tag, index, self) => self.findIndex((t) => t.id === tag.id) === index);
-  filteredTags.set(uniqueTags);
+  const noteTags = filtered.flatMap((note) => note.tags ?? []);
+  const uniqueNoteTags = Array.from(new Set(noteTags.map((tag) => tag.id)));
+
+  const newTags = get(tags).filter((tag) => uniqueNoteTags.includes(tag.id));
+  filteredTags.set(newTags);
 }
