@@ -13,6 +13,7 @@ export const notes = writable<Note[]>([]);
 export const filteredNotes = writable<Note[]>([]);  
 export const selectedNote = writable<Note | undefined>();
 export const tags = writable<Tag[]>([]);
+export const filteredTags = writable<Tag[]>([]);
 export const currentModal = writable<string>();
 export const selectedTags = writable<Tag[]>([]);
 
@@ -50,6 +51,9 @@ export async function fetchTags(): Promise<void> {
     });
     const data = await result.json();
     tags.set(data);
+    filteredTags.set(data);
+
+    console.log(data)
   }
 }
 
@@ -109,9 +113,9 @@ export async function deleteTag(tagId: number): Promise<void> {
   });
 
   if (response.ok) {
-    const tempTags = [...get(tags)];
+    const tempTags = [...get(filteredTags)];
     const newTags = tempTags.filter((tag) => tag.id !== tagId);
-    tags.set(newTags);
+    filteredTags.set(newTags);
   }
 
 }
@@ -131,14 +135,14 @@ export async function updateTag(tag: Tag): Promise<void> {
 		});
 
     if (response.ok) {
-      const tempTags = [...get(tags)];
+      const tempTags = [...get(filteredTags)];
       const tempTag = tempTags.find((t) => t.id === tag.id);
       if (tempTag) {
         tempTag.name = tag.name;
         tempTag.color = tag.color;
       }
 
-      tags.set(tempTags);
+      filteredTags.set(tempTags);
 
       // invalidate notes
       const notes = await fetchNotes();
@@ -175,5 +179,10 @@ export function searchNotes(searchTerm: string): void {
     return note.title.toLowerCase().includes(searchTerm.toLowerCase())
     && tags.every((tag) => note.tags?.some((t) => t.id === tag.id) ?? false);
   });
+
   filteredNotes.set(filtered);
+
+  const newTags = filtered.map((note) => note.tags).flat().filter((tag) => tag !== undefined) as Tag[];
+  const uniqueTags = newTags.filter((tag, index, self) => self.findIndex((t) => t.id === tag.id) === index);
+  filteredTags.set(uniqueTags);
 }

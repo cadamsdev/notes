@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { deleteTag, updateTag, fetchTags, tags, closeModal, openModal, updateTagSort, selectedTags } from '../store';
+	import { deleteTag, updateTag, fetchTags, tags, closeModal, openModal, updateTagSort, selectedTags, filteredTags } from '../store';
 	import ContextMenu from './ContextMenu.svelte';
 	import Dialog from './Dialog.svelte';
 	import { browser } from '$app/environment';
@@ -104,13 +104,14 @@
 			</button>
 		</div>
 		<div class="scroll-container">
-			{#each $tags as tag}
-				{#if (tag.count ?? 0) > 0}
+			{#each $filteredTags as tag}
 					<button id={`tag-${tag.id}`} class="tag" on:click={() => selectTag(tag)}>
 						<ColorDot color={tag.color} />
 						<div class="tag-name-count">
 							<span class="tag-name">{tag.name}</span>
-							<span class="tag-count">&nbsp;{tag.count}</span>
+							{#if tag.count ?? 0 > 0}
+								<span class="tag-count">&nbsp;{tag.count}</span>
+							{/if}
 						</div>
 						<ContextMenu
 							targetId={`tag-${tag.id}`}
@@ -126,7 +127,6 @@
 							}
 						/>
 					</button>
-				{/if}
 			{/each}
 		</div>
 </div>
