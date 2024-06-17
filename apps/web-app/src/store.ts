@@ -78,6 +78,11 @@ export async function createNote(): Promise<Note | null> {
     // TODO fix
     const data = JSON.parse(obj.data);
     const note: Note = { id: Number(data[1]), title: 'A title', content: '' };
+
+    if (tempTags.length > 0) {
+      note.tags = [...tempTags];
+    }
+
     notes.update((items) => {
       items.unshift(note);
       return items;
