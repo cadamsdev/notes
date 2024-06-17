@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { notes, selectedNote, type Note, deleteNote, createNote, fetchTags, openModal } from '../store';
+	import { notes, selectedNote, type Note, deleteNote, createNote, fetchTags, openModal, selectedTags, searchNotes, filteredNotes } from '../store';
 	import clsx from 'clsx';
 	import { goto } from '$app/navigation';
 	import { onDestroy } from 'svelte';
@@ -10,7 +10,6 @@
 	import SearchInput from './SearchInput.svelte';
 	import { MODAL_REMOVE_NOTE } from '../constants/modal.constants';
 
-	let filteredNotes: Note[] = [];
 	let noteToRemove: Note | undefined;
 	let noteToSelect: Note | undefined;
 	let searchText = '';
@@ -18,9 +17,13 @@
 
 	$: searchSectionHeight = searchSection?.clientHeight;
 
-	const unsubscribe = notes.subscribe((value) => {
-			filteredNotes = [...value].filter((note) => note.title.toLowerCase().includes(searchText));
-		});
+	const unsubscribe = notes.subscribe(() => {
+		searchNotes(searchText);
+	});
+
+	selectedTags.subscribe(() => {
+		searchNotes(searchText);
+	});
 
 	function selectNote(note: Note): void {
 		if ($selectedNote?.id !== note.id) {
@@ -41,12 +44,13 @@
 		if (e instanceof CustomEvent) {
 			searchText = e.detail.text.toLowerCase();	
 		}
-		filteredNotes = $notes.filter((note) => note.title.toLowerCase().includes(searchText));
+
+		searchNotes(searchText);
 	}
 
 	function handleShowRemoveNoteDialog(note: Note, index: number): void {
 		noteToRemove = note;
-		noteToSelect = filteredNotes[index + 1] ?? filteredNotes[index - 1];
+		noteToSelect = $filteredNotes[index + 1] ?? $filteredNotes[index - 1];
 		openModal(MODAL_REMOVE_NOTE);
 	}
 
@@ -57,6 +61,7 @@
 
 		await deleteNote(noteToRemove, noteToSelect);
 		await fetchTags();
+		searchNotes(searchText);
 
 		noteToRemove = undefined;
 	}
@@ -74,9 +79,20 @@
 					><Icon icon="fa-solid:plus" /></button>
 			</div>
 			<SearchInput on:search={handleSearch} placeholder="Search..." />
+
+			<div class="filter-tag-container">
+				{#each $selectedTags as filteredTag}
+					<Chip
+						text={filteredTag.name}
+						color={filteredTag.color}
+						hasCloseBtn
+						on:close={() => selectedTags.update((tags) => tags.filter((tag) => tag.id !== filteredTag.id))}
+					/>
+				{/each}
+			</div>
 		</div>
 		<div class="scroll-container" style="height: calc(100vh - {searchSectionHeight}px);">
-			{#each filteredNotes as note, index}
+			{#each $filteredNotes as note, index}
 				<button
 					id={`note-${note.id}`}
 					class={clsx('note', {
@@ -107,6 +123,13 @@
 />
 
 <style>
+	.filter-tag-container {
+		margin-top: 0.8rem;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem;
+	}
+
 	.notes-view {
 		background: var(--clr-bg);
 		width: 32rem;

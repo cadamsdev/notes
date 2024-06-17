@@ -2,7 +2,6 @@ import Database from 'better-sqlite3';
 import { DB_PATH } from '$env/static/private';
 import { type Note } from '../../../store';
 import type { Tag } from '../../../interfaces/Tag';
-import { TAG_SORT_COUNT, TAG_SORT_NAME } from '../../../constants/settings.constants';
 
 const db = new Database(DB_PATH);
 
@@ -189,19 +188,11 @@ export function getTagSort() {
 }
 
 export function getAllTags() {
-  const sortMode = getTagSort();
-
-  let sql = `
+  const sql = `
     select t.id, t.name, t.color, count(nt.tag_id) as \`count\` from tags as t
     left join note_tags as nt on nt.tag_id = t.id
     group by t.id
   `;
-
-  if (sortMode === TAG_SORT_COUNT) {
-    sql += `order by \`count\` desc`;
-  } else if (sortMode === TAG_SORT_NAME) {
-    sql += `order by t.name asc`;
-  }
 
   const result = db.prepare(sql).all();
   return result;
