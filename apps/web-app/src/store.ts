@@ -61,12 +61,6 @@ export async function createNote(): Promise<Note | null> {
   const formData = new FormData();
   formData.append('title', 'A title');
   formData.append('content', '');
-  const tempTags = get(selectedTags);
-  if (tempTags.length > 0) {
-    tempTags.forEach((tag) => {
-      formData.append('tags', tag.id.toString());
-    });
-  }
 
   const response = await fetch('/', {
     method: 'POST',
@@ -79,15 +73,12 @@ export async function createNote(): Promise<Note | null> {
     const data = JSON.parse(obj.data);
     const note: Note = { id: Number(data[1]), title: 'A title', content: '' };
 
-    if (tempTags.length > 0) {
-      note.tags = [...tempTags];
-    }
-
     notes.update((items) => {
       items.unshift(note);
       return items;
     });
 
+    selectedTags.set([]);
     return note;
   }
 

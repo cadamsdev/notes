@@ -61,6 +61,7 @@
 
 		await deleteNote(noteToRemove, noteToSelect);
 		await fetchTags();
+		searchNotes(searchText);
 
 		noteToRemove = undefined;
 	}

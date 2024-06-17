@@ -12,10 +12,8 @@ export async function load() {
 }
 
 export const actions = {
-	default: async ({ request }) => {
-    const formData = await request.formData();
-    const tagIds = formData.getAll('tags').map((tagId) => Number(tagId));
-    const result = createNote('A title', '', tagIds);
+	default: async () => {
+    const result = createNote('A title', '');
     return {
       lastId: result,
     }
