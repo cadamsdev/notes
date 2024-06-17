@@ -118,6 +118,33 @@ export async function deleteTag(tagId: number): Promise<void> {
     const tempTags = [...get(filteredTags)];
     const newTags = tempTags.filter((tag) => tag.id !== tagId);
     filteredTags.set(newTags);
+
+    // remove from all tags
+    const allTags = get(tags);
+    const newAllTags = allTags.filter((tag) => tag.id !== tagId);
+    tags.set(newAllTags);
+
+    // delete from selectedTags
+    const sTags = get(selectedTags);
+    const newSelectedTags = sTags.filter((tag) => tag.id !== tagId);
+    selectedTags.set(newSelectedTags);
+
+    // remove tag from selected note
+    const sn = get(selectedNote);
+    if (sn) {
+      const newNoteTags = sn.tags?.filter((tag) => tag.id !== tagId);
+      sn.tags = newNoteTags;
+      selectedNote.set(sn);
+    }
+
+    // remove tag from notes
+    const notes = get(filteredNotes);
+    notes.forEach((note) => {
+      if (note.tags) {
+        const newNoteTags = note.tags.filter((tag) => tag.id !== tagId);
+        note.tags = newNoteTags;
+      }
+    });
   }
 
 }
