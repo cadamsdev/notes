@@ -61,6 +61,12 @@ export async function createNote(): Promise<Note | null> {
   const formData = new FormData();
   formData.append('title', 'A title');
   formData.append('content', '');
+  const tempTags = get(selectedTags);
+  if (tempTags.length > 0) {
+    tempTags.forEach((tag) => {
+      formData.append('tags', tag.id.toString());
+    });
+  }
 
   const response = await fetch('/', {
     method: 'POST',

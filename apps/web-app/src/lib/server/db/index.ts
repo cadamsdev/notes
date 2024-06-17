@@ -47,13 +47,27 @@ function seed() {
 	db.exec(sql);
 }
 
-export function createNote(title: string, content: string) {
-  const sql = `
+export function createNote(title: string, content: string, tagIds: number[] = []) {
+  let sql = `
     INSERT INTO notes (title, content) VALUES (?, ?)
   `;
 
   const result = db.prepare(sql)
   .run(title, content);
+
+  if (tagIds.length) {
+    sql = `
+      INSERT INTO note_tags (note_id, tag_id) VALUES
+    `;
+
+    for (let i = 0; i < tagIds.length; i++) {
+      sql += '(?, ?)';
+      sql += i < tagIds.length - 1 ? ',' : ';';
+    }
+
+    const sqlData = tagIds.map((tagId) => [result.lastInsertRowid, tagId]).flat();
+    db.prepare(sql).run(sqlData);
+  }
 
   return result.lastInsertRowid;
 };
