@@ -226,11 +226,13 @@ export function sortTags(tagSort: number): void {
 }
 
 export function searchNotes(searchTerm: string): void {
+  const searchTerms = searchTerm.toLowerCase().split(' ');
   const sTags = get(selectedTags);
 
   const newFilteredNoets = get(notes).filter((note) => {
+    const titleTerms = note.title.toLowerCase().split(' ');
     return (
-			note.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+			searchTerms.every((term) => titleTerms.some((t) => t.includes(term))) &&
 			sTags.every((tag) => note.tags?.some((t) => t.id === tag.id) ?? false)
 		);
   });
