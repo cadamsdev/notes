@@ -12,6 +12,7 @@
 	import Button from '../../../components/Button.svelte';
 	import Chip from '../../../components/Chip.svelte';
 	import { MODAL_TAG } from '../../../constants/modal.constants';
+	import { page } from '$app/stores';
 
 	export let data: PageData;
 
@@ -19,6 +20,13 @@
 	let editor: EditorJS.default;
 	let tempTags: Tag[] = [];
 	let selectedTags: Tag[] = [...data.tags];
+
+	page.subscribe((page) => {
+		const pageId = page.params.id;
+		if (browser) {
+			setupEditor();
+		}
+	});
 
 	const unsubscribe = selectedNote.subscribe((note) => {
 		if (!note) {
@@ -61,7 +69,7 @@
 				const formData = new FormData();
 				formData.append('id', updatedNote.id.toString());
 				formData.append('title', updatedNote.title);
-				formData.append('content', updatedNote.content);
+				formData.append('content', updatedNote.content ?? '');
 
 				const result = await fetch(`/note/${id}?/updateNote`, {
 					method: 'POST',
@@ -121,7 +129,7 @@
 		}
 	}
 
-	onMount(async () => {
+	async function setupEditor() {
 		const EditorJS = await import('@editorjs/editorjs');
 		//@ts-ignore
 		const InlineCode: any = (await import('@editorjs/inline-code')).default;
@@ -133,14 +141,13 @@
 		const { QuotePlugin } = await import('$lib/editorjs/plugins/Quote');
 		const { DividerPlugin } = await import('$lib/editorjs/plugins/Divider');
 
-		const currentNote = get(selectedNote);
+		let pageContent = undefined;
 
-		let data = undefined;
-
-		if (currentNote?.content) {
-			data = JSON.parse(currentNote.content);
+		if (data.note?.content) {
+			pageContent = JSON.parse(data.note.content);
 		}
 
+		editor?.destroy();
 		editor = new EditorJS.default({
 			holder: editorRef,
 			placeholder: 'Type / for commands',
@@ -163,12 +170,16 @@
 					}
 				}
 			},
-			data,
+			data: pageContent,
 			onChange: async () => {
 				await save();
 			},
 		});
+	}
 
+	onMount(async () => {
+		// setupEditor();
+	
 		if (browser) {
 			window.addEventListener('editor-save', handleSave);
 		}

@@ -6,7 +6,7 @@ import { TAG_SORT_COUNT, TAG_SORT_NAME } from "./constants/settings.constants";
 export interface Note {
   id: number;
   title: string;
-  content: string;
+  content?: string;
   tags?: Tag[];
 }
 
