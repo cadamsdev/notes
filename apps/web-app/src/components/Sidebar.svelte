@@ -257,7 +257,8 @@
 	.sidebar {
 		padding: 2.4rem;
 		background: var(--clr-bg);
-		min-width: 20rem;
+		min-width: 27.5rem;
+		width: 27.5rem;
 		border-right: 0.1rem solid var(--clr-bg-border);
 		color: var(--clr-text-primary);
 		display: flex;
