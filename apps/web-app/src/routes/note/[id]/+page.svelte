@@ -4,7 +4,7 @@
 	import { notes, selectedNote, type Note, fetchTags, fetchNotes, openModal, currentModal, closeModal } from '../../../store';
 	import { browser } from '$app/environment';
 	import type { PageData } from './$types';
-	import { get } from 'svelte/store';
+	import { get, type Unsubscriber } from 'svelte/store';
 	import Icon from '@iconify/svelte';
 	import TagCombobox from '../../../components/TagCombobox.svelte';
 	import type { Tag } from '../../../interfaces/Tag';
@@ -20,29 +20,33 @@
 	let editor: EditorJS.default;
 	let tempTags: Tag[] = [];
 	let selectedTags: Tag[] = [...data.tags];
+	let subscriptions: Unsubscriber[] = [];
 
-	page.subscribe((page) => {
-		const pageId = page.params.id;
-		if (browser) {
-			setupEditor();
-		}
-	});
+	subscriptions.push(
+		page.subscribe(() => {
+			if (browser) {
+				setupEditor();
+			}
+		}),
+	);
 
-	const unsubscribe = selectedNote.subscribe((note) => {
-		if (!note) {
-			return;
-		}
+	subscriptions.push(
+		selectedNote.subscribe((note) => {
+			if (!note) {
+				return;
+			}
 
-		selectedTags = [...(note.tags ?? [])];
+			selectedTags = [...(note.tags ?? [])];
 
-		if (!note.content) {
-			editor?.render({ blocks: [] });
-			return;
-		}
+			if (!note.content) {
+				editor?.render({ blocks: [] });
+				return;
+			}
 
-		const noteData = JSON.parse(note.content);
-		editor?.render(noteData);
-	});
+			const noteData = JSON.parse(note.content);
+			editor?.render(noteData);
+		}),
+	);
 
 	function handleSelectTag(e: CustomEvent<{ tags: Tag[] }>) {
 		const { tags } = e.detail;
@@ -190,7 +194,8 @@
 	}
 
 	onDestroy(() => {
-		unsubscribe();
+		subscriptions.forEach((unsub) => unsub());
+		subscriptions = [];
 
 		if (browser) {
 			window.removeEventListener('editor-save', handleSave);
