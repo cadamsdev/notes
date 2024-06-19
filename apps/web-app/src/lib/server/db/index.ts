@@ -63,7 +63,6 @@ export function getNotes(): Note[] {
     SELECT
       n.id,
       n.title,
-      n.content,
       n.created_at,
       n.updated_at,
       t.id as tag_id,
@@ -78,7 +77,6 @@ export function getNotes(): Note[] {
 	const notesResult = db.prepare(notesQuery).all() as {
 		id: number;
 		title: string;
-    content: string;
 		tag_id: number;
 		tag_name: string;
     tag_color: string;
@@ -98,7 +96,6 @@ export function getNotes(): Note[] {
 				acc.push({
 					id: curr.id,
 					title: curr.title,
-          content: curr.content,
 					tags: curr.tag_id ? [{ id: curr.tag_id, name: curr.tag_name, color: curr.tag_color }] : []
 				});
 			}
@@ -108,7 +105,6 @@ export function getNotes(): Note[] {
 		[] as {
 			id: number;
 			title: string;
-      content: string,
 			tag_id?: number;
 			tag_name?: string;
       tag_color?: string; 
@@ -119,11 +115,12 @@ export function getNotes(): Note[] {
 	return mergedNotes;
 }
 
-export function getNotesForId(id: number): Note | null {
+export function getNoteForId(id: number): Note | null {
 	const notesQuery = `
     SELECT
       n.id,
       n.title,
+      n.content,
       t.id as tag_id,
       t.name as tag_name
     FROM notes as n

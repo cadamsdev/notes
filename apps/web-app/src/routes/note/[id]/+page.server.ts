@@ -1,14 +1,15 @@
-import { deleteNote, getTagsForNote, saveTags, updateNote } from "$lib/server/db";
+import { deleteNote, getNoteForId, getTagsForNote, saveTags, updateNote } from "$lib/server/db";
 import type { Actions } from "@sveltejs/kit";
 
 export async function load({ params }) {
 	const noteId = +params.id;
-
+	const note = getNoteForId(noteId);
 	const tags = getTagsForNote(noteId)
 	.map((tag) => ({ id: tag.id, name: tag.name, color: tag.color }));
 
 	return {
 		id: params.id,
+		note,
 		tags
 	};
 }

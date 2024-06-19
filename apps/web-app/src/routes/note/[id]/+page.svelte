@@ -4,7 +4,7 @@
 	import { notes, selectedNote, type Note, fetchTags, fetchNotes, openModal, currentModal, closeModal } from '../../../store';
 	import { browser } from '$app/environment';
 	import type { PageData } from './$types';
-	import { get } from 'svelte/store';
+	import { get, type Unsubscriber } from 'svelte/store';
 	import Icon from '@iconify/svelte';
 	import TagCombobox from '../../../components/TagCombobox.svelte';
 	import type { Tag } from '../../../interfaces/Tag';
@@ -12,6 +12,7 @@
 	import Button from '../../../components/Button.svelte';
 	import Chip from '../../../components/Chip.svelte';
 	import { MODAL_TAG } from '../../../constants/modal.constants';
+	import { page } from '$app/stores';
 
 	export let data: PageData;
 
@@ -19,22 +20,33 @@
 	let editor: EditorJS.default;
 	let tempTags: Tag[] = [];
 	let selectedTags: Tag[] = [...data.tags];
+	let subscriptions: Unsubscriber[] = [];
 
-	const unsubscribe = selectedNote.subscribe((note) => {
-		if (!note) {
-			return;
-		}
+	subscriptions.push(
+		page.subscribe(() => {
+			if (browser) {
+				setupEditor();
+			}
+		}),
+	);
 
-		selectedTags = [...(note.tags ?? [])];
+	subscriptions.push(
+		selectedNote.subscribe((note) => {
+			if (!note) {
+				return;
+			}
 
-		if (!note.content) {
-			editor?.render({ blocks: [] });
-			return;
-		}
+			selectedTags = [...(note.tags ?? [])];
 
-		const noteData = JSON.parse(note.content);
-		editor?.render(noteData);
-	});
+			if (!note.content) {
+				editor?.render({ blocks: [] });
+				return;
+			}
+
+			const noteData = JSON.parse(note.content);
+			editor?.render(noteData);
+		}),
+	);
 
 	function handleSelectTag(e: CustomEvent<{ tags: Tag[] }>) {
 		const { tags } = e.detail;
@@ -61,7 +73,7 @@
 				const formData = new FormData();
 				formData.append('id', updatedNote.id.toString());
 				formData.append('title', updatedNote.title);
-				formData.append('content', updatedNote.content);
+				formData.append('content', updatedNote.content ?? '');
 
 				const result = await fetch(`/note/${id}?/updateNote`, {
 					method: 'POST',
@@ -121,7 +133,7 @@
 		}
 	}
 
-	onMount(async () => {
+	async function setupEditor() {
 		const EditorJS = await import('@editorjs/editorjs');
 		//@ts-ignore
 		const InlineCode: any = (await import('@editorjs/inline-code')).default;
@@ -133,14 +145,13 @@
 		const { QuotePlugin } = await import('$lib/editorjs/plugins/Quote');
 		const { DividerPlugin } = await import('$lib/editorjs/plugins/Divider');
 
-		const currentNote = get(selectedNote);
+		let pageContent = undefined;
 
-		let data = undefined;
-
-		if (currentNote?.content) {
-			data = JSON.parse(currentNote.content);
+		if (data.note?.content) {
+			pageContent = JSON.parse(data.note.content);
 		}
 
+		editor?.destroy();
 		editor = new EditorJS.default({
 			holder: editorRef,
 			placeholder: 'Type / for commands',
@@ -163,12 +174,16 @@
 					}
 				}
 			},
-			data,
+			data: pageContent,
 			onChange: async () => {
 				await save();
 			},
 		});
+	}
 
+	onMount(async () => {
+		// setupEditor();
+	
 		if (browser) {
 			window.addEventListener('editor-save', handleSave);
 		}
@@ -179,7 +194,8 @@
 	}
 
 	onDestroy(() => {
-		unsubscribe();
+		subscriptions.forEach((unsub) => unsub());
+		subscriptions = [];
 
 		if (browser) {
 			window.removeEventListener('editor-save', handleSave);
