@@ -252,6 +252,7 @@
 	.scroll-container {
 		flex-grow: 1;
     overflow-y: auto;
+		padding-left: 0.4rem;
 	}
 
 	.sidebar {

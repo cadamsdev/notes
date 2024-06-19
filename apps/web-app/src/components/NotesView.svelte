@@ -154,6 +154,7 @@
 
 	.scroll-container {
 		overflow-y: auto;
+		padding-top: 0.4rem;
 	}
 
 	.note {

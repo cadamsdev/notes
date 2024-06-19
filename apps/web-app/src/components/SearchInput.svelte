@@ -77,6 +77,7 @@
   }
 
   input:focus-visible {
-    outline: 0.2rem solid var(--clr-bg-secondary-hover);
+    outline: 0.2rem solid var(--clr-focus);
+    outline-offset: 0.2rem;
   }
 </style>
