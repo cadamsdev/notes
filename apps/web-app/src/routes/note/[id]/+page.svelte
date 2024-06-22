@@ -1,7 +1,7 @@
 <script lang="ts">
 	import clsx from 'clsx';
 	import { onDestroy, onMount } from 'svelte';
-	import { notes, selectedNote, type Note, fetchTags, fetchNotes, openModal, currentModal, closeModal } from '../../../store';
+	import { notes, selectedNote, type Note, fetchTags, fetchNotes, openModal, closeModal } from '../../../store';
 	import { browser } from '$app/environment';
 	import type { PageData } from './$types';
 	import { get, type Unsubscriber } from 'svelte/store';
@@ -27,24 +27,6 @@
 			if (browser) {
 				setupEditor();
 			}
-		}),
-	);
-
-	subscriptions.push(
-		selectedNote.subscribe((note) => {
-			if (!note) {
-				return;
-			}
-
-			selectedTags = [...(note.tags ?? [])];
-
-			if (!note.content) {
-				editor?.render({ blocks: [] });
-				return;
-			}
-
-			const noteData = JSON.parse(note.content);
-			editor?.render(noteData);
 		}),
 	);
 
@@ -181,9 +163,7 @@
 		});
 	}
 
-	onMount(async () => {
-		// setupEditor();
-	
+	onMount(async () => {	
 		if (browser) {
 			window.addEventListener('editor-save', handleSave);
 		}
