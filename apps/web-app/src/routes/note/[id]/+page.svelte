@@ -30,6 +30,14 @@
 		}),
 	);
 
+	subscriptions.push(
+		selectedNote.subscribe((note) => {
+			if (note) {
+				selectedTags = [...note.tags || []];
+			}
+		}),
+	);
+
 	function handleSelectTag(e: CustomEvent<{ tags: Tag[] }>) {
 		const { tags } = e.detail;
 		selectedTags = [...tags];
