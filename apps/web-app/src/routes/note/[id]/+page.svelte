@@ -144,7 +144,7 @@
 		editor?.destroy();
 		editor = new EditorJS.default({
 			holder: editorRef,
-			placeholder: 'Type / for commands',
+			placeholder: 'Write something or type \'/\' for commands.',
 			inlineToolbar: true,
 			tools: {
 				h1: H1,

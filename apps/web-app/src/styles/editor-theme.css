@@ -135,7 +135,6 @@ code.inline-code {
 	background: var(--clr-bg);
 	color: var(--clr-text-primary);
 	border: 0.1rem solid var(--clr-bg-border);
-
 }
 
 .ce-inline-tool-input::placeholder {
@@ -147,6 +146,18 @@ code.inline-code {
 	background: var(--clr-bg);
 	border: 0.1rem solid var(--clr-bg-border);
 	border-radius: 0.6rem;
+}
+
+.codex-editor [data-placeholder-active]:empty:before, .codex-editor [data-placeholder-active][data-empty=true]:before {
+	color: var(--clr-text-secondary);
+}
+
+.ce-popover-item-separator__line {
+	background: var(--clr-bg-border);
+}
+
+.ce-popover__items .ce-popover-item--focused:not(.ce-popover-item--no-focus) {
+	background: var(--clr-bg-secondary-hover) !important;
 }
 
 
