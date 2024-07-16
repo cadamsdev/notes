@@ -1,12 +1,12 @@
 import { IconCurlyBrackets } from '@codexteam/icons';
-import hljs from 'highlight.js';
-import 'highlight.js/styles/atom-one-dark.min.css';
+import { codeToHtml, bundledLanguages, type BundledTheme, type BundledLanguage } from 'shiki';
 import '@fontsource-variable/jetbrains-mono';
 
 import './index.css';
 import type { API } from '@editorjs/editorjs';
 
-const defaultLanguage = 'plaintext';
+const defaultLanguage: BundledLanguage | 'text' = 'text';
+const defaultTheme: BundledTheme = 'one-dark-pro';
 
 interface CodeBlockProps {
 	data: CodeBlockData;
@@ -59,16 +59,17 @@ export class CodeBlock {
 			languageDropdown.appendChild(option);
 		});
 
-		languageDropdown.onchange = (e) => {
+		languageDropdown.onchange = async (e) => {
 			const code = codeWrapper.querySelector<HTMLElement>('.ss-code-block');
 			if (code) {
 				const language = (e.target as HTMLSelectElement).value;
 				code.dataset.language = language;
 				if (code.dataset.language !== defaultLanguage) {
-					const highlightedCode = hljs.highlight(code.innerText, {
-						language: this.getHighlightLanguage(language)
+					const highlightedCode = await codeToHtml(code.innerText, {
+						lang: language,
+						theme: defaultTheme
 					});
-					code.innerHTML = highlightedCode.value;
+					code.innerHTML = highlightedCode;
 				}
 			}
 		};
@@ -102,13 +103,15 @@ export class CodeBlock {
 		codeDiv.addEventListener('keydown', this.handleKeydown);
 
 		const code = this._data.code || '';
-		const highlightedCode = hljs.highlight(code, {
-			language: this.getHighlightLanguage(this._data.language)
+		const highlightedCode = codeToHtml(code, {
+			lang: this._data.language,
+			theme: defaultTheme,
 		});
 
-		codeDiv.innerHTML = highlightedCode.value;
-
-		codeWrapper.appendChild(codeDiv);
+		highlightedCode.then((value) => {
+			codeDiv.innerHTML = value;
+			codeWrapper.appendChild(codeDiv);
+		});
 		return codeWrapper;
 	}
 
@@ -138,7 +141,7 @@ export class CodeBlock {
 		}
 	}
 
-	private handlePaste = (event: ClipboardEvent) => {
+	private handlePaste = async (event: ClipboardEvent) => {
 		event.preventDefault();
 		event.stopPropagation();
 
@@ -155,12 +158,13 @@ export class CodeBlock {
 			const range = selection.getRangeAt(0);
 			range.deleteContents();
 
-			const highlightedCode = hljs.highlight(pastedData, {
-				language: this.getHighlightLanguage(codeDiv.dataset.language)
+			const highlightedCode = await codeToHtml(pastedData, {
+				lang: codeDiv.dataset.language || defaultLanguage,
+				theme: defaultTheme,
 			});
 
 			const code = document.createElement('div');
-			const highlightedHtml = highlightedCode.value;
+			const highlightedHtml = highlightedCode;
 			code.innerHTML = highlightedHtml;
 
 			range.insertNode(code);
@@ -169,18 +173,9 @@ export class CodeBlock {
 	}
 
 	private getLanguages(): string[] {
-		let languages = hljs.listLanguages();
-		languages.push('html');
-		languages = languages.map((language) => language.toLowerCase()).sort();
-		return languages;
-	}
-
-	private getHighlightLanguage(language?: string): string {
-		let lang = language || defaultLanguage;
-		if (lang === 'html') {
-			lang = 'xml';
-		}
-		return lang;
+		const languages = Object.keys(bundledLanguages).map((language) => language);
+		languages.push('text');
+		return languages.map((language) => language.toLowerCase()).sort();
 	}
 
 }
