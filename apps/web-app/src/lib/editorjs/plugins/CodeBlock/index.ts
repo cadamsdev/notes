@@ -81,9 +81,9 @@ export class CodeBlock {
 		copyBtn.textContent = 'Copy';
 		copyBtn.classList.add('ss-code-block-copy-btn');
 		copyBtn.onclick = () => {
-			const code = codeWrapper.querySelector<HTMLElement>('.ss-code-block');
-			if (code) {
-				navigator.clipboard.writeText(code.innerText).then(() => {
+			const textareaEl = codeWrapper.querySelector<HTMLTextAreaElement>('textarea');
+			if (textareaEl) {
+				navigator.clipboard.writeText(textareaEl.value).then(() => {
 					copyBtn.textContent = 'Copied!';
 					setTimeout(() => {
 						copyBtn.textContent = 'Copy';
@@ -98,9 +98,6 @@ export class CodeBlock {
 		const codeDiv = document.createElement('div');
 		codeDiv.classList.add('ss-code-block');
 		codeDiv.dataset.language = this._data.language || defaultLanguage;
-		codeDiv.contentEditable = 'true';
-		codeDiv.addEventListener('paste', this.handlePaste);
-		codeDiv.addEventListener('keydown', this.handleKeydown);
 
 		const code = this._data.code || '';
 		const highlightedCode = codeToHtml(code, {
@@ -111,14 +108,31 @@ export class CodeBlock {
 		highlightedCode.then((value) => {
 			codeDiv.innerHTML = value;
 			codeWrapper.appendChild(codeDiv);
+
+			// create textarea
+			const textareaEl = document.createElement('textarea');
+			textareaEl.value = this._data.code;
+			textareaEl.oninput = async (e: Event) => {
+				const newValue = (e.target as HTMLTextAreaElement).value;
+				const hc = await codeToHtml(newValue, {
+					lang: this._data.language,
+					theme: defaultTheme
+				});
+
+				codeDiv.innerHTML = hc;
+			}
+			codeWrapper.appendChild(textareaEl);
 		});
+
+
 		return codeWrapper;
 	}
 
 	save(blockContent: HTMLElement): CodeBlockData {
 		const codeBlockDiv = blockContent.querySelector<HTMLElement>('.ss-code-block');
+		const textareaEl = blockContent.querySelector('textarea');
 		return {
-			code: codeBlockDiv?.innerText || '',
+			code: textareaEl?.value || '',
 			language: codeBlockDiv?.dataset.language || defaultLanguage
 		};
 	}
