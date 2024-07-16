@@ -61,8 +61,8 @@
   tab-size: 2;
 }
 
-.ss-code-block ::selection {
-	background: var(--clr-bg-on-secondary);
+.ss-code-block-wrapper textarea::selection {
+  color: rgb(255, 255, 255, 0.75);
 }
 
 .ss-code-block:focus-visible {
