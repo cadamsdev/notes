@@ -115,7 +115,7 @@ export class CodeBlock {
 			textareaEl.setAttribute('autocorrect', 'off');
 			textareaEl.setAttribute('autocapitalize', 'off');
 			textareaEl.setAttribute('spellcheck', 'false');
-			textareaEl.value = this._data.code;
+			textareaEl.value = code;
 			textareaEl.oninput = async (e: Event) => {
 				const newValue = (e.target as HTMLTextAreaElement).value;
 				const hc = await codeToHtml(newValue, {
