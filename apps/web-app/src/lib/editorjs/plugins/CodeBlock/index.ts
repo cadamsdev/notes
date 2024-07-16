@@ -111,6 +111,10 @@ export class CodeBlock {
 
 			// create textarea
 			const textareaEl = document.createElement('textarea');
+			textareaEl.setAttribute('autocomplete', 'off');
+			textareaEl.setAttribute('autocorrect', 'off');
+			textareaEl.setAttribute('autocapitalize', 'off');
+			textareaEl.setAttribute('spellcheck', 'false');
 			textareaEl.value = this._data.code;
 			textareaEl.oninput = async (e: Event) => {
 				const newValue = (e.target as HTMLTextAreaElement).value;
