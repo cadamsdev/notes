@@ -17,6 +17,7 @@
   min-height: 250px;
   caret-color: white;
   resize: none;
+  overflow: hidden;
 }
 
 .ss-code-block-wrapper textarea:focus-visible {
