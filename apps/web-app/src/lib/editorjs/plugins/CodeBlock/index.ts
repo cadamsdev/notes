@@ -31,6 +31,7 @@ export class CodeBlock {
 	}
 
 	private _data: CodeBlockData;
+	private _codeBlockDiv!: HTMLDivElement;
 
 	constructor({ data }: CodeBlockProps) {
 		this._data = data;
@@ -52,7 +53,10 @@ export class CodeBlock {
 			option.value = language;
 			option.textContent = language;
 
-			if ((language === defaultLanguage && !this._data.language) || language === this._data.language) {
+			if (
+				(language === defaultLanguage && !this._data.language) ||
+				language === this._data.language
+			) {
 				option.selected = true;
 			}
 
@@ -95,22 +99,23 @@ export class CodeBlock {
 		codeWrapper.appendChild(copyBtn);
 
 		// code block
-		const codeDiv = document.createElement('div');
-		codeDiv.classList.add('ss-code-block');
-		codeDiv.dataset.language = this._data.language || defaultLanguage;
+		this._codeBlockDiv = document.createElement('div');
+		this._codeBlockDiv.classList.add('ss-code-block');
+		this._codeBlockDiv.dataset.language = this._data.language || defaultLanguage;
 
 		const code = this._data.code || '';
 		const highlightedCode = codeToHtml(code, {
 			lang: this._data.language,
-			theme: defaultTheme,
+			theme: defaultTheme
 		});
 
 		highlightedCode.then((value) => {
-			codeDiv.innerHTML = value;
-			codeWrapper.appendChild(codeDiv);
+			this._codeBlockDiv.innerHTML = value;
+			codeWrapper.appendChild(this._codeBlockDiv);
 
 			// create textarea
 			const textareaEl = document.createElement('textarea');
+			textareaEl.onpaste = this.handlePaste;
 			textareaEl.setAttribute('autocomplete', 'off');
 			textareaEl.setAttribute('autocorrect', 'off');
 			textareaEl.setAttribute('autocapitalize', 'off');
@@ -123,11 +128,10 @@ export class CodeBlock {
 					theme: defaultTheme
 				});
 
-				codeDiv.innerHTML = hc;
-			}
+				this._codeBlockDiv.innerHTML = hc;
+			};
 			codeWrapper.appendChild(textareaEl);
 		});
-
 
 		return codeWrapper;
 	}
@@ -141,29 +145,11 @@ export class CodeBlock {
 		};
 	}
 
-	private handleKeydown = async (event: KeyboardEvent) => {
-		event.stopPropagation(); // prevent editorjs from handling this
-		switch (event.key) {
-			case 'Backspace':
-				// we need to wait for the next event loop to check if the code block is empty
-				setTimeout(async () => {
-					// check to see if the code block is empty
-					const codeBlock = event.target as HTMLElement;
-					// TODO editorjs does not trigger on change event when deleting all text
-					if (!codeBlock.innerText.trim()) {
-						// TODO find a better way to trigger save
-						window.dispatchEvent(new Event('editor-save', { bubbles: true, composed: true }));
-					}
-				});
-				break;
-		}
-	}
-
 	private handlePaste = async (event: ClipboardEvent) => {
 		event.preventDefault();
 		event.stopPropagation();
 
-		const codeDiv = event.currentTarget as HTMLElement;
+		const textareaEl = event.currentTarget as HTMLTextAreaElement;
 		const clipboardData = event.clipboardData;
 		const pastedData = clipboardData?.getData('text') || '';
 
@@ -171,29 +157,32 @@ export class CodeBlock {
 			return;
 		}
 
-		const selection = window.getSelection();
-		if (selection) {
-			const range = selection.getRangeAt(0);
-			range.deleteContents();
+		// Get the current selection start and end positions
+		const start = textareaEl.selectionStart;
+		const end = textareaEl.selectionEnd;
 
-			const highlightedCode = await codeToHtml(pastedData, {
-				lang: codeDiv.dataset.language || defaultLanguage,
-				theme: defaultTheme,
-			});
+		// Insert the pasted text at the cursor's position
+		const before = textareaEl.value.substring(0, start);
+		const after = textareaEl.value.substring(end);
 
-			const code = document.createElement('div');
-			const highlightedHtml = highlightedCode;
-			code.innerHTML = highlightedHtml;
+		const newValue = before + pastedData + after;
+		textareaEl.value = newValue;
 
-			range.insertNode(code);
-			selection.removeAllRanges();
-		}
-	}
+		// Set the cursor position after the pasted text
+		textareaEl.selectionStart = textareaEl.selectionEnd = start + pastedData.length;
+
+		const highlightedCode = await codeToHtml(newValue, {
+			lang: this._codeBlockDiv.dataset.language || defaultLanguage,
+			theme: defaultTheme
+		});
+
+		// Update the code block with highlighted code
+		this._codeBlockDiv.innerHTML = highlightedCode;
+	};
 
 	private getLanguages(): string[] {
 		const languages = Object.keys(bundledLanguages).map((language) => language);
 		languages.push('text');
 		return languages.map((language) => language.toLowerCase()).sort();
 	}
-
 }
