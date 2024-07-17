@@ -14,7 +14,6 @@
   color: transparent;
   border: none;
   padding: 4.8rem 1.6rem 1.6rem 1.6rem;
-  min-height: 250px;
   caret-color: white;
   resize: none;
   overflow: hidden;
@@ -60,7 +59,7 @@
   font-family: monospace;
   font-size: 1.6rem;
   line-height: 1.6;
-  min-height: 150px;
+  min-height: 100px;
   tab-size: 2;
 }
 
