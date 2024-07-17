@@ -104,33 +104,36 @@ export class CodeBlock {
 		this._codeBlockDiv.dataset.language = this._data.language || defaultLanguage;
 
 		const code = this._data.code || '';
-		const highlightedCode = codeToHtml(code, {
-			lang: this._data.language,
-			theme: defaultTheme
-		});
 
-		highlightedCode.then((value) => {
-			this._codeBlockDiv.innerHTML = value;
+		// create textarea
+		const textareaEl = document.createElement('textarea');
+		textareaEl.onpaste = this.handlePaste;
+		textareaEl.setAttribute('autocomplete', 'off');
+		textareaEl.setAttribute('autocorrect', 'off');
+		textareaEl.setAttribute('autocapitalize', 'off');
+		textareaEl.setAttribute('spellcheck', 'false');
+		textareaEl.value = code;
+		textareaEl.oninput = async (e: Event) => {
+			const newValue = (e.target as HTMLTextAreaElement).value;
+			const hc = await codeToHtml(newValue, {
+				lang: this._codeBlockDiv.dataset.language || defaultLanguage,
+				theme: defaultTheme
+			});
+
+			this._codeBlockDiv.innerHTML = hc;
+		};
+		codeWrapper.appendChild(textareaEl);
+
+		// since the render function doesn't support async
+		// we highlight the code on the next cycle
+		setTimeout(async () => {
+			const highlightedCode = await codeToHtml(code, {
+				lang: this._data.language,
+				theme: defaultTheme
+			});
+
+			this._codeBlockDiv.innerHTML = highlightedCode;
 			codeWrapper.appendChild(this._codeBlockDiv);
-
-			// create textarea
-			const textareaEl = document.createElement('textarea');
-			textareaEl.onpaste = this.handlePaste;
-			textareaEl.setAttribute('autocomplete', 'off');
-			textareaEl.setAttribute('autocorrect', 'off');
-			textareaEl.setAttribute('autocapitalize', 'off');
-			textareaEl.setAttribute('spellcheck', 'false');
-			textareaEl.value = code;
-			textareaEl.oninput = async (e: Event) => {
-				const newValue = (e.target as HTMLTextAreaElement).value;
-				const hc = await codeToHtml(newValue, {
-					lang: this._data.language,
-					theme: defaultTheme
-				});
-
-				this._codeBlockDiv.innerHTML = hc;
-			};
-			codeWrapper.appendChild(textareaEl);
 		});
 
 		return codeWrapper;
