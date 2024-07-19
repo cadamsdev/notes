@@ -93,9 +93,16 @@
 	color: var(--clr-text-primary);
 }
 
-.ce-inline-toolbar__buttons .ce-inline-tool:hover {
-	background: var(--clr-bg-secondary);
-	
+.ce-inline-tool:hover {
+    background: var(--clr-bg-secondary-hover);
+}
+
+.ce-inline-tool {
+	color: var(--clr-text-secondary);
+}
+
+.ce-inline-tool.ce-inline-tool--link:hover {
+	background: var(--clr-bg-secondary-hover);
 }
 
 .be-list.unordered li {
