@@ -17,6 +17,7 @@
   caret-color: white;
   resize: none;
   overflow: hidden;
+  resize: none;
 }
 
 .ss-code-block-wrapper textarea:focus-visible {
