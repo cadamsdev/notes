@@ -122,6 +122,16 @@ export class CodeBlock {
 
 			this._codeBlockDiv.innerHTML = hc;
 		};
+		textareaEl.onscroll = async (e: Event) => {
+			const textareaEl = (e.currentTarget as HTMLTextAreaElement);
+			const preEl = this._codeBlockDiv.querySelector('pre');
+			if (!preEl) {
+				return;
+			}
+
+			preEl.scrollTop = textareaEl.scrollTop;
+			preEl.scrollLeft = textareaEl.scrollLeft;
+		}
 		codeWrapper.appendChild(textareaEl);
 
 		// since the render function doesn't support async
