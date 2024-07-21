@@ -3,6 +3,23 @@
   line-height: 0;
 }
 
+/* Textarea and Pre need to be the same */
+
+.ss-code-block-wrapper textarea, .ss-code-block-wrapper pre {
+  margin: 0;
+  padding: 4.8rem 1.6rem 1.6rem 1.6rem;
+  border: none;
+  font-family: monospace;
+  font-size: 1.6rem;
+  line-height: 1.6;
+  min-height: 91px;
+  tab-size: 2;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+/* Textarea */
+
 .ss-code-block-wrapper textarea {
   position: absolute;
   top: 0;
@@ -12,16 +29,22 @@
   z-index: 1;
   background: transparent;
   color: transparent;
-  border: none;
-  padding: 4.8rem 1.6rem 1.6rem 1.6rem;
   caret-color: white;
-  resize: none;
   resize: none;
 }
 
 .ss-code-block-wrapper textarea:focus-visible {
   outline: none;
 }
+
+/* Textarea highlight */
+
+.ss-code-block-wrapper textarea::selection {
+  color: rgb(255, 255, 255, 0.75);
+}
+
+
+/* Dropdown */
 
 .ss-code-block-language-dropdown {
   position: absolute;
@@ -32,6 +55,8 @@
   border: 0.1rem solid var(--clr-bg-border);
   z-index: 2;
 }
+
+/* Copy button */
 
 .ss-code-block-copy-btn {
   position: absolute;
@@ -44,38 +69,4 @@
   font-size: 1.2rem;
   line-height: 1.5;
   z-index: 2;
-}
-
-.ss-code-block {
-  display: inline-block;
-  color: var(--clr-text-secondary);
-  white-space: pre;
-  width: 100%;
-  border-radius: 0.6rem;
-}
-
-.ss-code-block pre, .ss-code-block-wrapper textarea {
-  font-family: monospace;
-  font-size: 1.6rem;
-  line-height: 1.6;
-  min-height: 91px;
-  tab-size: 2;
-  overflow: auto;
-  white-space: nowrap;
-}
-
-.ss-code-block-wrapper textarea::selection {
-  color: rgb(255, 255, 255, 0.75);
-}
-
-.ss-code-block:focus-visible {
-  outline: none;
-}
-
-pre.shiki {
-  padding: 4.8rem 1.6rem 1.6rem 1.6rem;
-}
-
-pre.shiki:focus-visible {
-  outline: none;
 }
