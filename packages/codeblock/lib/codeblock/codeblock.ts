@@ -12,7 +12,13 @@ export class DSCodeBlock extends LitElement {
 
   override render() {
     return html`
-      <textarea>${this.text}</textarea>
+      <div class="container">
+        <textarea>${this.text}</textarea>
+        <pre>
+          <code>
+          </code>
+      </pre>
+      </div>
     `;
   }
 }
