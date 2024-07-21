@@ -3,3 +3,4 @@ tmp
 .svelte-kit
 out/
 .DS_Store
+dist

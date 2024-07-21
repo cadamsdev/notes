@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "target": "ES2021",
+    "module": "ES2015",
+    "lib": ["ES2021", "DOM"],
+    "declaration": true,
+    "declarationMap": true,
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false,
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "Node",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitOverride": true
+  },
+  "include": ["lib"]
+}

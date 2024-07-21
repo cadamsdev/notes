@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ES2021",
+    "module": "ES2015",
+    "lib": ["ES2021", "DOM"],
+    "declaration": true,
+    "declarationMap": true,
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false,
+    "skipLibCheck": true,
+    "moduleResolution": "Node",
+    "sourceMap": true,
+
+    "resolveJsonModule": true,
+    "noImplicitOverride": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "outDir": "dist"
+  },
+  "exclude": ["node_modules", "dist", "**/*.stories.ts"],
+  "include": ["lib", "./package.json"]
+}
