@@ -115,6 +115,7 @@ export class CodeBlock {
 		textareaEl.value = code;
 		textareaEl.oninput = async (e: Event) => {
 			const textareaEl = e.target as HTMLTextAreaElement;
+			const scrollTop = textareaEl.scrollTop;
 			const scrollLeft = textareaEl.scrollLeft;
 			let text = textareaEl.value;
 
@@ -128,6 +129,7 @@ export class CodeBlock {
 			});
 
 			this._codeBlockDiv.innerHTML = hc;
+			textareaEl.scrollTop = scrollTop;
 			textareaEl.scrollLeft = scrollLeft;
 
 			const preEl = this._codeBlockDiv.querySelector('pre');
@@ -135,6 +137,7 @@ export class CodeBlock {
 				return;
 			}
 
+			preEl.scrollTop = scrollTop;
 			preEl.scrollLeft = scrollLeft;
 		};
 		textareaEl.onscroll = async (e: Event) => {
