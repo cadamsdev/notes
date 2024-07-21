@@ -114,7 +114,9 @@ export class CodeBlock {
 		textareaEl.setAttribute('spellcheck', 'false');
 		textareaEl.value = code;
 		textareaEl.oninput = async (e: Event) => {
-			let text = (e.target as HTMLTextAreaElement).value;
+			const textareaEl = e.target as HTMLTextAreaElement;
+			const scrollLeft = textareaEl.scrollLeft;
+			let text = textareaEl.value;
 
 			if (text[text.length - 1] === '\n') {
 				text += ' ';
@@ -126,6 +128,14 @@ export class CodeBlock {
 			});
 
 			this._codeBlockDiv.innerHTML = hc;
+			textareaEl.scrollLeft = scrollLeft;
+
+			const preEl = this._codeBlockDiv.querySelector('pre');
+			if (!preEl) {
+				return;
+			}
+
+			preEl.scrollLeft = scrollLeft;
 		};
 		textareaEl.onscroll = async (e: Event) => {
 			const textareaEl = (e.currentTarget as HTMLTextAreaElement);
