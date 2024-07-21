@@ -114,8 +114,13 @@ export class CodeBlock {
 		textareaEl.setAttribute('spellcheck', 'false');
 		textareaEl.value = code;
 		textareaEl.oninput = async (e: Event) => {
-			const newValue = (e.target as HTMLTextAreaElement).value;
-			const hc = await codeToHtml(newValue, {
+			let text = (e.target as HTMLTextAreaElement).value;
+
+			if (text[text.length - 1] === '\n') {
+				text += ' ';
+			}
+
+			const hc = await codeToHtml(text, {
 				lang: this._codeBlockDiv.dataset.language || defaultLanguage,
 				theme: defaultTheme
 			});
