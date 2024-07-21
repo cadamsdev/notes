@@ -43,6 +43,10 @@
   color: rgb(255, 255, 255, 0.75);
 }
 
+.ss-code-block-wrapper code {
+  white-space: pre;
+}
+
 
 /* Dropdown */
 
