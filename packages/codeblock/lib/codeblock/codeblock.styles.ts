@@ -59,11 +59,11 @@ export const styles = css`
 
   .dropdown {
     position: absolute;
-    top: 0.8rem;
-    left: 0.8rem;
+    top: 8px;
+    left: 8px;
     background: var(--clr-bg, #151415);
     color: var(--clr-text-primary, #b3b3b3);
-    border: 0.1rem solid var(--clr-bg-border, #2d2b2d);
+    border: 1px solid var(--clr-bg-border, #2d2b2d);
     z-index: 2;
   }
 
@@ -71,13 +71,13 @@ export const styles = css`
 
   .copy-btn {
     position: absolute;
-    top: 0.8rem;
-    right: 0.8rem;
-    padding: 0.2rem 0.8rem;
+    top: 8px;
+    right: 8px;
+    padding: 2px 8px;
     background: var(--clr-bg, #151415);
-    border: 0.1rem solid var(--clr-bg-border, #2d2b2d);
+    border: 1px solid var(--clr-bg-border, #2d2b2d);
     color: var(--clr-text-primary, #b3b3b3);
-    font-size: 1.2rem;
+    font-size: 12px;
     line-height: 1.5;
     z-index: 2;
   }
