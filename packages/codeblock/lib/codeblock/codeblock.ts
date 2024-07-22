@@ -1,4 +1,4 @@
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { html, LitElement } from 'lit';
 import { Task } from '@lit/task';
@@ -17,19 +17,29 @@ export class DSCodeBlock extends LitElement {
   @property()
   language: BundledLanguage | 'text' = 'text';
 
-  private _shikiRef = createRef();
+  @state()
+  private _copyBtnText = 'Copy';
+
+  private _textareaRef = createRef<HTMLTextAreaElement>();
+  private _shikiRef = createRef<HTMLDivElement>();
 
   override render() {
     return html`
       <div class="container">
-        <select
-          class="dropdown"
-          @change=${this._handleChangeLangauge}
-        >
+        <select class="dropdown" @change=${this._handleChangeLangauge}>
           ${this._getLanguages().map((language) => {
-            return html`<option .selected=${language === 'text'} .value=${language}>${language}</option>`;
+            return html`<option
+              .selected=${language === 'text'}
+              .value=${language}
+            >
+              ${language}
+            </option>`;
           })}
         </select>
+
+        <button class="copy-btn" @click=${this._handleClickCopyBtn}>
+          ${this._copyBtnText}
+        </button>
 
         <textarea
           autocomplete="off"
@@ -37,7 +47,10 @@ export class DSCodeBlock extends LitElement {
           autocapitalize="off"
           spellcheck="false"
           @input=${this._onInput}
-        >${this.text}</textarea>
+          ${ref(this._textareaRef)}
+        >
+${this.text}</textarea
+        >
 
         ${this._highlightTask.render({
           pending: () => html``,
@@ -92,6 +105,20 @@ export class DSCodeBlock extends LitElement {
       if (this._shikiRef.value) {
         this._shikiRef.value.innerHTML = hc;
       }
+  }
+
+  private _handleClickCopyBtn() {
+    if (!this._textareaRef.value) {
+      return;
+    }
+
+    const text = this._textareaRef.value.value || '';
+    navigator.clipboard.writeText(text).then(() => {
+      this._copyBtnText = 'Copied!';
+      setTimeout(() => {
+        this._copyBtnText = 'Copy';
+      }, 1000);
+    });
   }
 
   private _getLanguages(): string[] {
