@@ -2,7 +2,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { html, LitElement } from 'lit';
 import { Task } from '@lit/task';
-import { BundledTheme, codeToHtml, type BundledLanguage } from 'shiki';
+import { bundledLanguages, BundledTheme, codeToHtml, type BundledLanguage } from 'shiki';
 import { styles } from './codeblock.styles';
 
 const defaultTheme: BundledTheme = 'one-dark-pro';
@@ -22,6 +22,15 @@ export class DSCodeBlock extends LitElement {
   override render() {
     return html`
       <div class="container">
+        <select
+          class="dropdown"
+          @change=${this._handleChangeLangauge}
+        >
+          ${this._getLanguages().map((language) => {
+            return html`<option .selected=${language === 'text'} .value=${language}>${language}</option>`;
+          })}
+        </select>
+
         <textarea
           autocomplete="off"
           autocorrect="off"
@@ -33,11 +42,11 @@ export class DSCodeBlock extends LitElement {
         ${this._highlightTask.render({
           pending: () => html``,
           complete: (code) => html`
-          <div
-            class="shiki-container"
-            .innerHTML=${code}
-            ${ref(this._shikiRef)}
-          ></div>
+            <div
+              class="shiki-container"
+              .innerHTML=${code}
+              ${ref(this._shikiRef)}
+            ></div>
           `,
           error: () => html``,
         })}
@@ -73,4 +82,21 @@ export class DSCodeBlock extends LitElement {
     }
   }
 
+  private async _handleChangeLangauge(e: Event) {
+    const language = (e.target as HTMLSelectElement).value;
+      const hc = await codeToHtml(this.text, {
+        lang: language,
+        theme: defaultTheme,
+      });
+
+      if (this._shikiRef.value) {
+        this._shikiRef.value.innerHTML = hc;
+      }
+  }
+
+  private _getLanguages(): string[] {
+    const languages = Object.keys(bundledLanguages).map((language) => language);
+    languages.push('text');
+    return languages.map((language) => language.toLowerCase()).sort();
+  }
 }
