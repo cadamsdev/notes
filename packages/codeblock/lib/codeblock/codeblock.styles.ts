@@ -10,7 +10,7 @@ export const styles = css`
   pre {
     box-sizing: border-box;
     margin: 0;
-    padding: 4.8rem 1.6rem 1.6rem 1.6rem;
+    padding: 48px 16px 16px 16px;
     border: none;
     min-height: 91px;
     overflow: auto;
@@ -25,7 +25,7 @@ export const styles = css`
   textarea,
   pre,
   pre * {
-    font-size: 1.6rem;
+    font-size: 16px;
     font-family: monospace;
     line-height: 1.6;
     tab-size: 2;
