@@ -28,6 +28,6 @@ type Story = StoryObj<CodeBlockProps>;
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Primary: Story = {
   args: {
-    text: 'Hello world!'
+    text: 'console.log("hello world!");',
   },
 };
