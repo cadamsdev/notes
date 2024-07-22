@@ -8,6 +8,7 @@ export const styles = css`
 
   textarea,
   pre {
+    box-sizing: border-box;
     margin: 0;
     padding: 4.8rem 1.6rem 1.6rem 1.6rem;
     border: none;
@@ -52,5 +53,32 @@ export const styles = css`
 
   code {
     white-space: pre;
+  }
+
+  /* Dropdown */
+
+  .dropdown {
+    position: absolute;
+    top: 0.8rem;
+    left: 0.8rem;
+    background: var(--clr-bg, #151415);
+    color: var(--clr-text-primary, #b3b3b3);
+    border: 0.1rem solid var(--clr-bg-border, #2d2b2d);
+    z-index: 2;
+  }
+
+  /* Copy button */
+
+  .copy-btn {
+    position: absolute;
+    top: 0.8rem;
+    right: 0.8rem;
+    padding: 0.2rem 0.8rem;
+    background: var(--clr-bg, #151415);
+    border: 0.1rem solid var(--clr-bg-border, #2d2b2d);
+    color: var(--clr-text-primary, #b3b3b3);
+    font-size: 1.2rem;
+    line-height: 1.5;
+    z-index: 2;
   }
 `;

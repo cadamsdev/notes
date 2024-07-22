@@ -57,7 +57,11 @@ export class DSCodeBlock extends LitElement {
   });
 
   private async _onInput(e: Event) {
-    const text = (e.currentTarget as HTMLTextAreaElement).value;
+    let text = (e.currentTarget as HTMLTextAreaElement).value;
+
+    if (text[text.length - 1] === '\n') {
+      text += ' ';
+    }
 
     const hc = await codeToHtml(text, {
       lang: 'javascript',
