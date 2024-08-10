@@ -6,7 +6,7 @@ Note: This app is in early alpha. Expect breaking changes and bugs.
 ![Screenshot_8-6-2024_135854_chad lan](https://github.com/cadamsdev/notes/assets/12568665/c9797014-a246-4e1a-b9a6-a50f67a16928)
 
 ## Why another note app?
-For taking technical notes I wanted a note taking app that has...
+For taking technical notes I wanted a note taking app that is...
 - Simple like Apple notes (but has code syntax highlighting)
 - Block-based editor like Notion
 - Works offline (Like Obsidian)
@@ -21,7 +21,6 @@ For taking technical notes I wanted a note taking app that has...
 - Free and open-source
 
 ## Roadmap
-- Search by tags (Improved search)
 - More blocks
 - Light mode (currently only dark mode)
 - Settings page
