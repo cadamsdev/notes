@@ -5,6 +5,7 @@
 	import Sidebar from '../components/Sidebar.svelte';
 	import { notes, selectedNote } from '../store';
 	import type { LayoutData } from './$types';
+	import "../app.css";
 
 	export let data: LayoutData;
 
