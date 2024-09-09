@@ -1,8 +1,6 @@
 <script lang="ts">
 	import clsx from "clsx";
 
-  export type ColorDotSize = 'medium' | 'small';
-
   export let color: string | undefined = undefined;
 </script>
 
