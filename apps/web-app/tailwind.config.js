@@ -11,6 +11,7 @@ export default {
 				'bg-secondary': '#211f21',
 				'bg-secondary-hover': '#454245',
 				'bg-on-secondary': '#2d2b2d',
+				'text-primary': '#b3b3b3',
 				'text-secondary': '#b3b3b3',
 				'btn-text': '#151415',
 				'tag-default-text': '#e2e2e2',
@@ -24,6 +25,8 @@ export default {
 				'tag-brown': '#5e3f34',
 				'tag-light-gray': '#d4d6d7',
 				'tag-dark-gray': '#24282b',
+				bg: '#151415',
+				'bg-border': '#2d2b2d',
 			}
 		}
 	},

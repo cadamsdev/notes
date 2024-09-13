@@ -1,6 +1,16 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { deleteTag, updateTag, fetchTags, tags, closeModal, openModal, updateTagSort, selectedTags, filteredTags } from '../store';
+	import {
+		deleteTag,
+		updateTag,
+		fetchTags,
+		tags,
+		closeModal,
+		openModal,
+		updateTagSort,
+		selectedTags,
+		filteredTags
+	} from '../store';
 	import ContextMenu from './ContextMenu.svelte';
 	import Dialog from './Dialog.svelte';
 	import { browser } from '$app/environment';
@@ -17,7 +27,19 @@
 	let selectedColor = '';
 	export let tagSort: number;
 
-	const colors = ['red', 'green', 'blue', 'purple', 'yellow', 'orange', 'pink', 'brown', 'light-gray', 'dark-gray', 'none'];
+	const colors = [
+		'red',
+		'green',
+		'blue',
+		'purple',
+		'yellow',
+		'orange',
+		'pink',
+		'brown',
+		'light-gray',
+		'dark-gray',
+		'none'
+	];
 
 	async function load(): Promise<void> {
 		await fetchTags();
@@ -40,7 +62,7 @@
 
 			await updateTag({
 				...currentTag,
-				color: newColor,
+				color: newColor
 			});
 		}
 
@@ -88,47 +110,47 @@
 	load();
 </script>
 
-<div class="sidebar">
-		<div class="top">
-			<div class="tag-heading-container">
-				<Icon icon="fa-solid:tags" />
-				Tags
-			</div>
-			<button on:click={toggleSortTags}>
-				{#if tagSort === TAG_SORT_COUNT}
-					<Icon icon="mingcute:numbers-90-sort-descending-line" width="24" height="24" />
-				{/if}
-				{#if tagSort === TAG_SORT_NAME}
-					<Icon icon="mingcute:az-sort-ascending-letters-line" width="24" height="24" />
-				{/if}
-			</button>
+<div class="w-[275px] min-w-[275px] p-6 bg-bg flex flex-col gap-4 text-text-primary border-r border-solid border-bg-border">
+	<div class="top">
+		<div class="tag-heading-container">
+			<Icon icon="fa-solid:tags" />
+			Tags
 		</div>
-		<div class="scroll-container">
-			{#each $filteredTags as tag}
-				{#if tag.count ?? 0 > 0}
-					<button id={`tag-${tag.id}`} class="tag" on:click={() => selectTag(tag)}>
-						<ColorDot color={tag.color} />
-						<div class="tag-name-count">
-							<span class="tag-name">{tag.name}</span>
-							<span class="tag-count">&nbsp;{tag.count}</span>
-						</div>
-						<ContextMenu
-							targetId={`tag-${tag.id}`}
-							actions={
-								[
-									{
-										label: 'Edit', action: () => handleShowEditTagModal(tag),
-									},
-									{
-										label: 'Remove', action: () => handleShowRemoveTagConfirmationModal(tag),
-									}
-								]
+		<button on:click={toggleSortTags}>
+			{#if tagSort === TAG_SORT_COUNT}
+				<Icon icon="mingcute:numbers-90-sort-descending-line" width="24" height="24" />
+			{/if}
+			{#if tagSort === TAG_SORT_NAME}
+				<Icon icon="mingcute:az-sort-ascending-letters-line" width="24" height="24" />
+			{/if}
+		</button>
+	</div>
+	<div class="scroll-container">
+		{#each $filteredTags as tag}
+			{#if tag.count ?? 0 > 0}
+				<button id={`tag-${tag.id}`} class="tag" on:click={() => selectTag(tag)}>
+					<ColorDot color={tag.color} />
+					<div class="tag-name-count">
+						<span class="tag-name">{tag.name}</span>
+						<span class="tag-count">&nbsp;{tag.count}</span>
+					</div>
+					<ContextMenu
+						targetId={`tag-${tag.id}`}
+						actions={[
+							{
+								label: 'Edit',
+								action: () => handleShowEditTagModal(tag)
+							},
+							{
+								label: 'Remove',
+								action: () => handleShowRemoveTagConfirmationModal(tag)
 							}
-						/>
-					</button>
-				{/if}
-			{/each}
-		</div>
+						]}
+					/>
+				</button>
+			{/if}
+		{/each}
+	</div>
 </div>
 
 <Dialog id={MODAL_EDIT_TAG} on:closeModal={handleOnEditTagModalClose}>
@@ -144,22 +166,35 @@
 			/>
 		</label>
 
-		<div class="color-section-title">Colors</div>
+		<div class="mb-2">Colors</div>
 		<div class="color-grid">
 			{#each colors as color}
 				<div>
-					<button
-						on:click={() => selectColor(color)}
-						class="color-btn"
-					>
-						<div class={
-							clsx(
-								'color',
-								{[`${color}`]: true},
-								{ active: selectedColor === color || (!selectedColor && currentTag.color === color) || (!selectedColor && !currentTag.color && color === 'none') }
+					<button on:click={() => selectColor(color)} class="flex items-center gap-2 p-0">
+						<div
+							class={clsx(
+								'w-6 h-6 rounded-full',
+								{
+									'bg-tag-red': color === 'red',
+									'bg-tag-green': color === 'green',
+									'bg-tag-blue': color === 'blue',
+									'bg-tag-purple': color === 'purple',
+									'bg-tag-yellow': color === 'yellow',
+									'bg-tag-orange': color === 'orange',
+									'bg-tag-pink': color === 'pink',
+									'bg-tag-brown': color === 'brown',
+									'bg-tag-light-gray': color === 'light-gray',
+									'bg-tag-dark-gray': color === 'dark-gray',
+									'bg-bg-on-secondary': !color,
+								},
+								{
+									'outline outline-2 outline-primary outline-offset-4':
+										selectedColor === color ||
+										(!selectedColor && currentTag.color === color) ||
+										(!selectedColor && !currentTag.color && color === 'none')
+								}
 							)}
-							>
-						</div>
+						></div>
 						<div class="color-label">{color}</div>
 					</button>
 				</div>
@@ -173,16 +208,9 @@
 	</div>
 </Dialog>
 
-<ConfirmationDialog
-	id={MODAL_REMOVE_TAG}
-	on:action={async () => await handleRemoveTag()}
-/>
+<ConfirmationDialog id={MODAL_REMOVE_TAG} on:action={async () => await handleRemoveTag()} />
 
 <style>
-	.color-section-title {
-		margin-bottom: 0.8rem;
-	}
-
 	.color-grid {
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
@@ -190,81 +218,10 @@
 		margin-bottom: 2.4rem;
 	}
 
-	.color-btn {
-		display: flex;
-		align-items: center;
-		gap: 0.8rem;
-		padding: 0;
-	}
-
-	.color {
-		background: var(--clr-bg-on-secondary);
-		width: 2.4rem;
-		height: 2.4rem;
-		border-radius: 100rem;
-	}
-
-	.color.active {
-		outline: 0.2rem solid var(--clr-primary);
-		outline-offset: 0.4rem;
-	}
-
-	.color.red {
-		background: var(--clr-tag-red);
-	}
-
-	.color.green {
-		background: var(--clr-tag-green);
-	}
-
-	.color.blue {
-		background: var(--clr-tag-blue);
-	}	
-
-	.color.purple {
-		background: var(--clr-tag-purple);
-	}
-
-	.color.yellow {
-		background: var(--clr-tag-yellow);
-	}
-
-	.color.orange {
-		background: var(--clr-tag-orange);
-	}
-
-	.color.pink {
-		background: var(--clr-tag-pink);
-	}
-
-	.color.brown {
-		background: var(--clr-tag-brown);
-	}
-
-	.color.light-gray {
-		background: var(--clr-tag-light-gray);
-	}
-
-	.color.dark-gray {
-		background: var(--clr-tag-dark-gray);
-	}
-
 	.scroll-container {
 		flex-grow: 1;
-    overflow-y: auto;
+		overflow-y: auto;
 		padding-left: 0.4rem;
-	}
-
-	.sidebar {
-		padding: 2.4rem;
-		background: var(--clr-bg);
-		min-width: 27.5rem;
-		width: 27.5rem;
-		border-right: 0.1rem solid var(--clr-bg-border);
-		color: var(--clr-text-primary);
-		display: flex;
-		flex-direction: column;
-		gap: 1.6rem;
 	}
 
 	.top {
@@ -325,5 +282,3 @@
 		gap: 0.8rem;
 	}
 </style>
-
-
