@@ -12,6 +12,8 @@ export default {
 				'bg-secondary-hover': '#454245',
 				'bg-on-secondary': '#2d2b2d',
 				'text-primary': '#b3b3b3',
+				'text-primary-hover': '#d9d9d9',
+				'text-primary-emphasis': '#e6e6e6',
 				'text-secondary': '#b3b3b3',
 				'btn-text': '#151415',
 				'tag-default-text': '#e2e2e2',

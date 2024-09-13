@@ -111,8 +111,8 @@
 </script>
 
 <div class="w-[275px] min-w-[275px] p-6 bg-bg flex flex-col gap-4 text-text-primary border-r border-solid border-bg-border">
-	<div class="top">
-		<div class="tag-heading-container">
+	<div class="flex items-center justify-between gap-2 text-text-primary-emphasis text-sm">
+		<div class="flex items-center gap-2">
 			<Icon icon="fa-solid:tags" />
 			Tags
 		</div>
@@ -125,14 +125,14 @@
 			{/if}
 		</button>
 	</div>
-	<div class="scroll-container">
+	<div class="flex-grow overflow-y-auto pl-1">
 		{#each $filteredTags as tag}
 			{#if tag.count ?? 0 > 0}
-				<button id={`tag-${tag.id}`} class="tag" on:click={() => selectTag(tag)}>
+				<button id={`tag-${tag.id}`} class="flex items-center gap-2 py-1 px-2 hover:text-text-primary-hover" on:click={() => selectTag(tag)}>
 					<ColorDot color={tag.color} />
-					<div class="tag-name-count">
-						<span class="tag-name">{tag.name}</span>
-						<span class="tag-count">&nbsp;{tag.count}</span>
+					<div class="flex items-center gap-[2px]">
+						<span class="text-base">{tag.name}</span>
+						<span class="text-text-primary text-sm">&nbsp;{tag.count}</span>
 					</div>
 					<ContextMenu
 						targetId={`tag-${tag.id}`}
@@ -155,8 +155,8 @@
 
 <Dialog id={MODAL_EDIT_TAG} on:closeModal={handleOnEditTagModalClose}>
 	<div>
-		<label for="tag-name" class="label">
-			<div class="label-text">Name:</div>
+		<label for="tag-name" class="block text-base font-bold mb-6">
+			<div class="mb-2">Name:</div>
 			<Input
 				id="tag-name"
 				name="name"
@@ -167,7 +167,7 @@
 		</label>
 
 		<div class="mb-2">Colors</div>
-		<div class="color-grid">
+		<div class="grid gap-4 mb-6 grid-cols-3">
 			{#each colors as color}
 				<div>
 					<button on:click={() => selectColor(color)} class="flex items-center gap-2 p-0">
@@ -201,7 +201,7 @@
 			{/each}
 		</div>
 
-		<div class="dialog-footer">
+		<div class="flex justify-end gap-2">
 			<Button on:click={async () => await handleUpdateTag()}>Save</Button>
 			<Button variant="secondary" on:click={() => closeModal()}>Cancel</Button>
 		</div>
@@ -209,76 +209,3 @@
 </Dialog>
 
 <ConfirmationDialog id={MODAL_REMOVE_TAG} on:action={async () => await handleRemoveTag()} />
-
-<style>
-	.color-grid {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: 1.6rem;
-		margin-bottom: 2.4rem;
-	}
-
-	.scroll-container {
-		flex-grow: 1;
-		overflow-y: auto;
-		padding-left: 0.4rem;
-	}
-
-	.top {
-		font-size: 1.4rem;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 0.8rem;
-		color: var(--clr-text-primary-emphasis);
-	}
-
-	.tag-heading-container {
-		display: flex;
-		align-items: center;
-		gap: 0.8rem;
-	}
-
-	.tag {
-		display: flex;
-		align-items: center;
-		gap: 0.8rem;
-		padding: 0.4rem 0.8rem;
-	}
-
-	.tag:hover {
-		color: var(--clr-text-primary-hover);
-	}
-
-	.tag-name-count {
-		display: flex;
-		align-items: center;
-		gap: 0.2rem;
-	}
-
-	.tag-name {
-		font-size: 1.6rem;
-	}
-
-	.tag-count {
-		color: var(--clr-text-primary);
-		font-size: 1.4rem;
-	}
-
-	.label {
-		display: block;
-		font-size: 1.6rem;
-		font-weight: 700;
-		margin-bottom: 2.4rem;
-	}
-
-	.label-text {
-		margin-bottom: 0.8rem;
-	}
-
-	.dialog-footer {
-		display: flex;
-		justify-content: end;
-		gap: 0.8rem;
-	}
-</style>
