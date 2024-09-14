@@ -1,3 +1,21 @@
-@import url('./tokens.css');
-@import url('./base.css');
 @import url('./editor-theme.css');
+
+/* width */
+::-webkit-scrollbar {
+  width: 0.75rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  @apply bg-scrollbar-track;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  @apply bg-scrollbar-thumb;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-scrollbar-thumb-hover;
+}
