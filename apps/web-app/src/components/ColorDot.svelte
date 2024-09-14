@@ -1,57 +1,20 @@
 <script lang="ts">
-	import clsx from "clsx";
+	import clsx from 'clsx';
 
-  export type ColorDotSize = 'medium' | 'small';
-
-  export let color: string | undefined = undefined;
+	export let color: string | undefined = undefined;
 </script>
 
-<div class={clsx('color-dot', { [`${color}`]: true })}></div>
-
-<style>
-  .color-dot {
-		width: 1.2rem;
-		height: 1.2rem;
-		border-radius: 100rem;
-	}
-
-	.red {
-		background: var(--clr-tag-red);
-	}
-
-	.green {
-		background: var(--clr-tag-green);
-	}
-
-	.blue {
-		background: var(--clr-tag-blue);
-	}	
-
-	.purple {
-		background: var(--clr-tag-purple);
-	}
-
-	.yellow {
-		background: var(--clr-tag-yellow);
-	}
-
-	.orange {
-		background: var(--clr-tag-orange);
-	}
-
-	.pink {
-		background: var(--clr-tag-pink);
-	}
-
-	.brown {
-		background: var(--clr-tag-brown);
-	}
-
-	.light-gray {
-		background: var(--clr-tag-light-gray);
-	}
-
-	.dark-gray {
-		background: var(--clr-tag-dark-gray);
-	}
-</style>
+<div
+	class={clsx('w-3 h-3 rounded-full', {
+		'bg-tag-red': color === 'red',
+		'bg-tag-green': color === 'green',
+		'bg-tag-blue': color === 'blue',
+		'bg-tag-purple': color === 'purple',
+		'bg-tag-yellow': color === 'yellow',
+		'bg-tag-orange': color === 'orange',
+		'bg-tag-pink': color === 'pink',
+		'bg-tag-brown': color === 'brown',
+		'bg-tag-light-gray': color === 'light-gray',
+		'bg-tag-dark-gray': color === 'dark-gray'
+	})}
+></div>

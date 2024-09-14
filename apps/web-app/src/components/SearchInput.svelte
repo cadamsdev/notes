@@ -22,62 +22,23 @@
 
 </script>
 
-<div class="search-container">
-  <div class="icon-container">
+<div class="relative">
+  <div class="absolute text-text-primary top-1/2 -translate-y-1/2 left-3">
     <Icon icon="fa-solid:search" width="20" height="20" />
   </div>
   <input
     {...$$restProps}
+    class="block w-full py-3 pl-11 pr-8 bg-bg-secondary text-text-secondary rounded text-base leading-normal placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-focus focus:ring-offset-2 focus:ring-offset-bg"
     value={searchText}
     on:input={handleInput}
   >
   {#if searchText}
-    <button class="clear-btn" on:click={clearSearch} title="Clear search">
+    <button 
+      class="absolute top-0 right-2 bottom-0 text-secondary p-0"
+      on:click={clearSearch} 
+      title="Clear search"
+    >
       <Icon icon="fa-solid:times" width="20" height="20" />
     </button>
   {/if}
 </div>
-
-<style>
-  .clear-btn {
-    position: absolute;
-    top: 0;
-    right: 0.8rem;
-    bottom: 0;
-    color: var(--clr-secondary);
-    padding: 0;
-  }
-
-  .search-container {
-    position: relative;
-  }
-  
-  .icon-container {
-    position: absolute;
-    color: var(--clr-text-primary);
-    top: 50%;
-    transform: translateY(-50%);
-    left: 1.2rem;
-  }
-
-  input {
-    display: block;
-    padding: 1.2rem 3.2rem 1.2rem 4.4rem;
-    background: var(--clr-bg-secondary);
-    border: none;
-    color: var(--clr-text-secondary);
-    border-radius: 0.4rem;
-    width: 100%;
-    font-size: 1.6rem;
-    line-height: 1.5;
-  }
-
-  input::placeholder {
-    color: var(--clr-text-secondary);
-  }
-
-  input:focus-visible {
-    outline: 0.2rem solid var(--clr-focus);
-    outline-offset: 0.2rem;
-  }
-</style>

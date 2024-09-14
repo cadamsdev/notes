@@ -8,33 +8,14 @@
 
 <button
 	on:click
-	class={clsx({
-		primary: variant === 'primary',
-		secondary: variant === 'secondary'
-	})}
+	class={
+		clsx({
+			'bg-primary hover:bg-primary-hover': variant === 'primary',
+			'bg-secondary hover:bg-secondary-hover': variant === 'secondary',
+		}, 'py-2 px-4 text-btn-text text-base',
+		''
+	)}
 	{...$$props}
 >
 	<slot />
 </button>
-
-<style>
-	button {
-		padding: 0.8rem 1.6rem;
-		border-radius: 0.4rem;
-		background: var(--clr-primary);
-		color: var(--clr-btn-text);
-		font-size: 1.6rem;
-	}
-
-	.primary:hover {
-		background: var(--clr-primary-hover);
-	}
-
-	.secondary {
-		background: var(--clr-secondary);
-	}
-	
-	.secondary:hover {
-		background: var(--clr-secondary-hover);
-	}	
-</style>

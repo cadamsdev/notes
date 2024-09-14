@@ -1,0 +1,36 @@
+@import url('./styles/styles.css');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body {
+    @apply h-full;
+  }
+
+  body {
+    @apply leading-relaxed bg-bg font-['Inter_Variable',sans-serif];
+  }
+
+  button {
+    @apply appearance-none outline-none border-0 bg-transparent cursor-pointer text-inherit;
+  }
+
+  li {
+    @apply list-none;
+  }
+
+  ul {
+    @apply p-0;
+  }
+
+  input {
+    @apply border-0;
+  }
+
+  button:focus-visible {
+    @apply outline outline-1 outline-focus outline-offset-2;
+  }
+}

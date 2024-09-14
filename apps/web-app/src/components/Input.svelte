@@ -1,28 +1,15 @@
 <script lang="ts">
+	import clsx from 'clsx';
 </script>
 
 <input
-  on:input
-  {...$$restProps}
+	on:input
+	class={clsx(
+		'block w-full p-2 text-text-secondary rounded text-base bg-bg-secondary',
+		'placeholder:text-text-secondary',
+		'border-solid border-bg-secondary border',
+    'focus-visible:outline-2 focus-visible:outline focus-visible:outline-bg-secondary-hover'
+	)}
+	{...$$restProps}
 />
 
-<style>
-  input {
-    display: block;
-    padding: 0.8rem;
-    background: var(--clr-bg-secondary);
-    border: 0.1rem solid var(--clr-bg-secondary);
-    color: var(--clr-text-secondary);
-    border-radius: 0.4rem;
-    width: 100%;
-    font-size: 1.6rem;
-  }
-
-  input::placeholder {
-    color: var(--clr-text-secondary);
-  }
-
-  input:focus-visible {
-    outline: 0.2rem solid var(--clr-bg-secondary-hover);
-  }
-</style>
