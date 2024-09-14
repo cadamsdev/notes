@@ -1,7 +1,7 @@
 import Fastify, { FastifyInstance } from 'fastify';
 import * as dotenv from 'dotenv';
 dotenv.config();
-import { createNote, deleteNote, deleteTag, getAllTags, getNoteForId, getNotes, updateNote, updateTag } from './db';
+import { createNote, deleteNote, deleteTag, getAllTags, getNoteForId, getNotes, saveTags, updateNote, updateTag } from './db';
 import { Note } from './models/note';
 import { Tag } from './models/tag';
 
@@ -57,6 +57,15 @@ server.delete('/tags/:id', async (request, reply) => {
   const { id } = request.params as { id: number };
   const tag = await deleteTag(id);
   return tag;
+});
+
+server.put('/notes/:id/tags', async (request, reply) => {
+  const { id } = request.params as { id: number };
+  const tags = request.body as Tag[];
+
+  await saveTags(id, tags);
+  const updatedNote = await getNoteForId(id);
+  return updatedNote;
 });
 
 const start = async () => {
