@@ -1,11 +1,15 @@
 import Fastify, { FastifyInstance } from 'fastify';
+import * as dotenv from 'dotenv';
+dotenv.config();
+import { getNotes } from './db';
 
 const server: FastifyInstance = Fastify({
   logger: true,
 });
 
 server.get('/', async (request, reply) => {
-  return { hello: 'world' };
+  const notes = await getNotes();
+  return notes;
 });
 
 const start = async () => {
