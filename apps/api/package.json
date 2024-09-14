@@ -11,6 +11,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "better-sqlite3": "^11.3.0",
     "fastify": "^4.17.0"
   },
   "devDependencies": {
