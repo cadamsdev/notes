@@ -1,17 +1,16 @@
 .ce-header {
-  padding: 0.6em 0 3px;
   line-height: 1.25em;
   outline: none;
 }
 
 h1.ce-header {
-  margin: 0px 0px 3.2rem 0px;
+  margin: 2rem 0px 2rem 0px;
 }
 
 h2.ce-header {
-  margin: 0px 0px 2.4rem 0px;
+  margin: 2rem 0px 1.5rem 0px;
 }
 
 h3.ce-header {
-  margin: 0px 0px 1.6rem 0px;
+  margin: 2rem 0px 1rem 0px;
 }
