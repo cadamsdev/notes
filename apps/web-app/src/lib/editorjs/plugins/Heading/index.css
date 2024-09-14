@@ -1,16 +1,15 @@
 .ce-header {
-  line-height: 1.25em;
-  outline: none;
+  @apply leading-tight outline-none;
 }
 
 h1.ce-header {
-  margin: 2rem 0px 2rem 0px;
+  @apply my-8;
 }
 
 h2.ce-header {
-  margin: 2rem 0px 1.5rem 0px;
+  @apply mt-8 mb-6;
 }
 
 h3.ce-header {
-  margin: 2rem 0px 1rem 0px;
+  @apply mt-8 mb-4;
 }
