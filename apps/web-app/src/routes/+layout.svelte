@@ -20,28 +20,15 @@
 	<title>Notes</title>
 </svelte:head>
 
-<div class="page">
+<div class="flex h-full">
 	<Sidebar tagSort={data.tagSort} />
 
 	<NotesView />
 
-	<div class="page-content">
+	<div class="flex-grow bg-bg text-text-primary">
 		<slot />
 	</div>
 </div>
 
 <div id="teleport"></div>
-
-<style>
-	.page {
-		display: flex;
-		height: 100%;
-	}
-
-	.page-content {
-		flex-grow: 1;
-		background: var(--clr-bg);
-		color: var(--clr-text-primary);
-	}
-</style>
 
