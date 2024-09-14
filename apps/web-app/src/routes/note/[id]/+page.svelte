@@ -191,8 +191,8 @@
 	});
 </script>
 
-<div class="page">
-	<div class="page-content">
+<div class="relative">
+	<div class="px-16 py-4 max-h-screen overflow-y-auto">
 		{#if !$selectedNote}
 			<div class="flex items-center justify-center h-full">
 				<div>No content</div>
@@ -202,16 +202,16 @@
 		<div
 			bind:this={editorRef}
 			id="editor"
-			class={clsx({ hidden: !$selectedNote})}
+			class={clsx({ hidden: !$selectedNote, 'block': $selectedNote })}
 		></div>
 	</div>
 
-	<div class="bottom-bar">
+	<div class="fixed bottom-0 p-3 bg-bg border-t border-bg-border text-text-primary w-full z-10 flex items-center gap-2 min-h-[50px]">
 		<button on:click={() => openModal(MODAL_TAG)}><Icon icon="fa-solid:tags" /></button>
 		{#if selectedTags.length === 0}
-			<button on:click={() => openModal(MODAL_TAG)} class="new-tag-label">Click to add Tags...</button>
+			<button on:click={() => openModal(MODAL_TAG)} class="text-sm">Click to add Tags...</button>
 		{:else}
-			<div class="tags-container">
+			<div class="flex flex-wrap gap-2">
 				{#each selectedTags as tag}
 					<button on:click={() => openModal(MODAL_TAG)}>
 						<Chip text={tag.name} color={tag.color} />
@@ -223,79 +223,20 @@
 </div>
 
 <Dialog id={MODAL_TAG}>
-	<div class="dialog-content">
+	<div class="min-w-[300px]">
 		<div>
-			<div class="dialog-heading">Tags</div>
+			<div class="font-bold mb-4 text-text-primary">Tags</div>
 		</div>
-		<div class="dialog-tag-combobox-container">
+		<div class="mb-4">
 			<TagCombobox
 				selectedTags={selectedTags}
 				on:selectTag={handleSelectTag}
 			/>
 		</div>
 
-		<div class="dialog-footer">
+		<div class="flex justify-end gap-2">
 			<Button on:click={handleSaveTags}>Save</Button>
 			<Button variant="secondary" on:click={() => closeModal()}>Cancel</Button>
 		</div>
 	</div>
 </Dialog>
-
-<style>
-	.dialog-content {
-		min-width: 30rem;
-	}
-
-	.page {
-		position: relative;
-	}
-
-	.page-content {
-		padding: 1.6rem 6.4rem;
-		max-height: 100vh;
-		overflow-y: auto;
-	}
-
-	.bottom-bar {
-		position: fixed;
-		bottom: 0;
-		padding: 1.2rem;
-		background: var(--clr-bg);
-		border-top: 0.1rem solid var(--clr-bg-border);
-		color: var(--clr-text-primary);
-		width: 100%;
-		z-index: 10;
-		display: flex;
-		align-items: center;
-		gap: 0.8rem;
-		min-height: 50px;
-
-	}
-
-	.dialog-heading {
-		font-weight: 700;
-		margin-bottom: 1.6rem;
-		color: var(--clr-text-primary);
-	}
-
-	.dialog-footer {
-		display: flex;
-		justify-content: flex-end;
-		gap: 0.8rem;
-
-	}
-	
-	.dialog-tag-combobox-container {
-		margin-bottom: 1.6rem;
-	}
-
-	.tags-container {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.8rem;
-	}
-
-	.new-tag-label {
-		font-size: 1.4rem;
-	}
-</style>
