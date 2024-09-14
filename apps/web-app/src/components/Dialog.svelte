@@ -4,58 +4,28 @@
 	import Modal from './Modal.svelte';
 	import { closeModal } from '../store';
 
-  export let id: string;
-	export let showHeader= true;
+	export let id: string;
+	export let showHeader = true;
 
 	const dispatch = createEventDispatcher();
 
 	function handleCloseModal() {
 		dispatch('closeModal');
-    closeModal();
+		closeModal();
 	}
 </script>
 
 <Modal {id} on:closeModal={handleCloseModal}>
-  <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <div
-      class="dialog"
-    >
-      <div class="dialog-heading">
-        {#if showHeader}
-          <button on:click={handleCloseModal} class="close-btn">
-            <Icon icon="fa-solid:times" width="24" height="24" />
-          </button>
-        {/if}
-      </div>
-      <slot />
-    </div>
+	<!-- svelte-ignore a11y-click-events-have-key-events -->
+	<!-- svelte-ignore a11y-no-static-element-interactions -->
+	<div class="inline-block rounded bg-bg text-text border border-bg-border p-6 z-20 min-w-[18.75rem] max-w-[31.25rem]">
+		<div class="flex justify-end mb-3">
+			{#if showHeader}
+				<button on:click={handleCloseModal} class="text-text-secondary hover:text-text-secondary-hover">
+					<Icon icon="fa-solid:times" width="24" height="24" />
+				</button>
+			{/if}
+		</div>
+		<slot />
+	</div>
 </Modal>
-
-<style>
-  .dialog {
-    display: inline-block;
-    border-radius: 0.4rem;
-    background: var(--clr-bg);
-    color: var(--clr-text);
-    border: 0.1rem solid var(--clr-bg-border);
-    padding: 2.4rem;
-    z-index: 20;
-    min-width: 30rem;
-    max-width: 50rem;
-  }
-
-  .dialog-heading {
-    display: flex;
-    justify-content: end;
-    margin-bottom: 1.2rem;
-  }
-
-  .close-btn {
-    color: var(--clr-text-secondary);
-  }
-
-  .close-btn:hover {
-    color: var(--clr-text-secondary-hover);
-  }
-</style>
