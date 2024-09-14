@@ -58,11 +58,11 @@
 </script>
 
 {#if showMenu}
-    <nav bind:this={component} use:getContextMenuDimension style="position: absolute; top:{pos.y}px; left:{pos.x}px">
-        <ul class="menu-list">
+    <nav bind:this={component} use:getContextMenuDimension class="absolute" style="top:{pos.y}px; left:{pos.x}px">
+        <ul class="border border-bg-border bg-bg rounded-md">
             {#each actions as action}
                 <li>
-                    <button class="menu-item" on:click={(e) => handleClickAction(e, action)}>{action.label}</button>
+                    <button class="py-4 px-6 w-full text-left text-text-primary hover:bg-bg-hover" on:click={(e) => handleClickAction(e, action)}>{action.label}</button>
                 </li>
             {/each}
         </ul>
@@ -70,22 +70,3 @@
 {/if}
 
 <svelte:window on:click={onPageClick} on:contextmenu={onContextMenu} />
-
-<style>
-    .menu-list {
-        border: 0.1rem solid var(--clr-bg-border);
-        background: var(--clr-bg);
-        border-radius: 0.4rem;
-    }
-
-    .menu-item {
-        padding: 1.6rem;
-        width: 100%;
-        text-align: start;
-        color: var(--clr-text-primary);
-    }
-
-    .menu-item:hover {
-        background-color: var(--clr-bg-hover);
-    }
-</style>
