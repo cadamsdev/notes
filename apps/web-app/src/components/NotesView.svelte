@@ -99,7 +99,7 @@
                     class={clsx('block w-full text-left p-4 border-b border-bg-secondary text-base', {
                         'bg-bg-secondary': $selectedNote?.id === note.id,
                         'hover:bg-bg-secondary': $selectedNote?.id !== note.id,
-                    })}
+									})}
                     on:click={() => selectNote(note)}
                 >
                     <div class="mb-3 text-text-primary-emphasis">{note.title}</div>

@@ -12,7 +12,7 @@
 		clsx({
 			'bg-primary hover:bg-primary-hover': variant === 'primary',
 			'bg-secondary hover:bg-secondary-hover': variant === 'secondary',
-		}, 'py-2 px-4 border-4 bg-primary text-btn-text text-base',
+		}, 'py-2 px-4 text-btn-text text-base',
 		''
 	)}
 	{...$$props}
