@@ -16,14 +16,6 @@
 		dispatcher('closeModal');
 	}
 
-	function getPositionClass(): string {
-		if (position === 'center-top') {
-			return 'modal-center-top';
-		}
-
-		return 'modal-center';
-	}
-
 	const unsubscribe = currentModal.subscribe((value) => {
 		if (!value) {
 			handleCloseModal();
@@ -40,34 +32,13 @@
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div
-		class={clsx('modal-overlay', getPositionClass())}
+		class={clsx(
+			'fixed inset-0 w-full h-full z-10 bg-modal-overlay flex',
+			position === 'center-top' ? 'pt-8 justify-center items-baseline' : 'justify-center items-center'
+		)}
 		use:teleport={'teleport'}
 		use:clickOutside={handleCloseModal}
 	>
 		<slot />
 	</div>
 {/if}
-
-<style>
-	.modal-center-top {
-		padding-top: 3.2rem;
-		justify-content: center;
-		align-items: baseline;
-	}
-
-	.modal-center {
-		justify-content: center;
-		align-items: center;
-	
-	}
-
-	.modal-overlay {
-		display: flex;
-		position: fixed;
-		width: 100%;
-		height: 100%;
-		background: var(--clr-modal-overlay);
-		z-index: 10;
-		inset: 0px;
-	}
-</style>
