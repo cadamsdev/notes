@@ -71,7 +71,7 @@
 	});
 </script>
 
-<div class="bg-bg w-[32rem] border-r border-bg-border">
+<div class="bg-bg w-[20rem] border-r border-bg-border">
     <div>
         <div bind:this={searchSection} class="p-4">
             <div class="flex justify-end">
