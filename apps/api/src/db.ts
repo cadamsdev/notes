@@ -54,7 +54,6 @@ export function createNote(title: string, content: string) {
   `;
 
   const result = db.prepare(sql).run(title, content);
-
   return result.lastInsertRowid;
 }
 
