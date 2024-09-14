@@ -1,5 +1,5 @@
 .ss-blockquote {
-  @apply flex px-4 border-l-3 border-secondary;
+  @apply flex px-4 border-l-[3px] border-secondary;
 }
 
 .ss-blockquote .quote:focus-visible {
