@@ -9,6 +9,7 @@
 	import Chip from './Chip.svelte';
 	import SearchInput from './SearchInput.svelte';
 	import { MODAL_REMOVE_NOTE } from '../constants/modal.constants';
+	import { page } from '$app/stores';
 
 	let noteToRemove: Note | undefined;
 	let noteToSelect: Note | undefined;
@@ -97,8 +98,8 @@
                 <button
                     id={`note-${note.id}`}
                     class={clsx('block w-full text-left p-4 border-b border-bg-secondary text-base', {
-                        'bg-bg-secondary': $selectedNote?.id === note.id,
-                        'hover:bg-bg-secondary': $selectedNote?.id !== note.id,
+                        'bg-bg-secondary': +$page.params.id === note.id,
+                        'hover:bg-bg-secondary': +$page.params.id !== note.id,
 									})}
                     on:click={() => selectNote(note)}
                 >
