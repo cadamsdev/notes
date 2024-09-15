@@ -62,13 +62,8 @@ server.get('/tags', async (request, reply) => {
 
 server.put('/tags/:id', async (request, reply) => {
   const { id } = request.params as { id: number };
-
-  console.log(request.body)
-
-  const tag = request.body as Tag;
-
-
-  tag.id = id;
+  const tag = JSON.parse(request.body as string) as Tag;
+  tag.id = +id;
   const result = await updateTag(tag);
   return result;
 });

@@ -52,11 +52,11 @@ export async function fetchTags(): Promise<Tag[]> {
 
 export async function updateTag(tag: Tag): Promise<Response | null> {
 	try {
-    console.log(tag);
 		const response = await fetch(`${PUBLIC_API_URL}/tags/${tag.id}`, {
 			method: 'PUT',
 			body: JSON.stringify(tag)
 		});
+    console.log(response.statusText)
     return response;
 	} catch (err) {
 		console.error(err);

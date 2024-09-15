@@ -10,7 +10,6 @@
 	} from '../store';
 	import ContextMenu from './ContextMenu.svelte';
 	import Dialog from './Dialog.svelte';
-	import { browser } from '$app/environment';
 	import ConfirmationDialog from './ConfirmationDialog.svelte';
 	import Input from './Input.svelte';
 	import Button from './Button.svelte';
@@ -57,10 +56,16 @@
 			newColor = '';
 		}
 
-		await updateTag({
+		const response = await updateTag({
 			...currentTag,
 			color: newColor
 		});
+
+		if (response?.ok) {
+			await fetchTags();
+		} else {
+			alert(response?.statusText)
+		}
 
 		closeModal();
 	}
