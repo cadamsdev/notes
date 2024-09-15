@@ -65,19 +65,19 @@
 				formData.append('title', updatedNote.title);
 				formData.append('content', updatedNote.content ?? '');
 
-				const result = await fetch(`/note/${id}?/updateNote`, {
-					method: 'POST',
-					body: formData
-				});
+				// const result = await fetch(`/note/${id}?/updateNote`, {
+				// 	method: 'POST',
+				// 	body: formData
+				// });
 
-				console.log('saved!', result);
-				notes.update((items) => {
-					const index = items.findIndex((item) => item.id === id);
-					const item = items[index];
-					item.title = updatedNote.title;
-					item.content = updatedNote.content;
-					return items;
-				});
+				// console.log('saved!', result);
+				// notes.update((items) => {
+				// 	const index = items.findIndex((item) => item.id === id);
+				// 	const item = items[index];
+				// 	item.title = updatedNote.title;
+				// 	item.content = updatedNote.content;
+				// 	return items;
+				// });
 			}
 	}
 
@@ -103,24 +103,24 @@
 		formData.append('noteId', note.id.toString());
 		formData.append('tags', JSON.stringify(selectedTags));
 
-		try {
-			const result = await fetch(`/note/${note.id}?/saveTags`, {
-				method: 'POST',
-				body: formData,
-			});
+		// try {
+		// 	const result = await fetch(`/note/${note.id}?/saveTags`, {
+		// 		method: 'POST',
+		// 		body: formData,
+		// 	});
 
-			if (result.ok) {
-				const [_, notes] = await Promise.all([fetchTags(), fetchNotes()]);
+		// 	if (result.ok) {
+		// 		const [_, notes] = await Promise.all([fetchTags(), fetchNotes()]);
 
-				const currentNote = notes.find((n) => n.id === note.id);
-				selectedNote.set(currentNote);
+		// 		const currentNote = notes.find((n) => n.id === note.id);
+		// 		selectedNote.set(currentNote);
 
-				closeModal();
-			}
-		} catch (err) {
-			console.error(err);
-			console.error('Failed to save tags');
-		}
+		// 		closeModal();
+		// 	}
+		// } catch (err) {
+		// 	console.error(err);
+		// 	console.error('Failed to save tags');
+		// }
 	}
 
 	async function setupEditor() {

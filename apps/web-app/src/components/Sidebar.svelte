@@ -1,13 +1,10 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
 	import {
-		deleteTag,
-		updateTag,
 		fetchTags,
 		tags,
 		closeModal,
 		openModal,
-		updateTagSort,
 		selectedTags,
 		filteredTags
 	} from '../store';
@@ -50,7 +47,7 @@
 			throw new Error('currentTag should be defined.');
 		}
 
-		await deleteTag(currentTag.id);
+		// await deleteTag(currentTag.id);
 	}
 
 	async function handleUpdateTag() {
@@ -60,10 +57,10 @@
 				newColor = '';
 			}
 
-			await updateTag({
-				...currentTag,
-				color: newColor
-			});
+			// await updateTag({
+			// 	...currentTag,
+			// 	color: newColor
+			// });
 		}
 
 		closeModal();
@@ -93,7 +90,7 @@
 
 	async function toggleSortTags() {
 		tagSort = tagSort === TAG_SORT_NAME ? TAG_SORT_COUNT : TAG_SORT_NAME;
-		await updateTagSort(tagSort);
+		// await updateTagSort(tagSort);
 	}
 
 	function selectTag(tag: Tag) {
