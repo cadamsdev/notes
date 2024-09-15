@@ -1,4 +1,5 @@
-import { fetchNotes, fetchTagSort } from '../store.js';
+import { fetchNotes } from '../store.js';
+import * as api from '../lib/api';
 
 export const load = async ({ fetch }) => {
 	const notes = await fetchNotes();
@@ -7,7 +8,7 @@ export const load = async ({ fetch }) => {
 	// 	redirect(307, `/note/${notes[0].id}`);
 	// }
 
-	const tagSort = await fetchTagSort();
+	const tagSort = await api.fetchTagSort();
 
 		// let selectedNote: Note | undefined = undefined;
 		// if (params.id && notes.length) {

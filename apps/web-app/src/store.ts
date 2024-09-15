@@ -1,8 +1,8 @@
 import { get, writable } from "svelte/store";
-import { browser } from "$app/environment";
 import type { Tag } from "./interfaces/Tag";
 import { TAG_SORT_COUNT, TAG_SORT_NAME } from "./constants/settings.constants";
 import { PUBLIC_API_URL } from '$env/static/public';
+import * as api from './lib/api';
 
 export interface Note {
   id: number;
@@ -40,36 +40,12 @@ export async function fetchNotes(): Promise<Note[]> {
 		return data;
 }
 
-export async function fetchTagSort(): Promise<number> {
-  if (browser) {
-    const result = await fetch(`${PUBLIC_API_URL}/tag-sort`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
-    const data = await result.json();
-    return data.tagSort;
-  }
-
-  return 0;
-}
-
 export async function fetchTags(): Promise<void> {
-    const result = await fetch(`${PUBLIC_API_URL}/tags`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
-
-    if (result.ok) {
-      const data = (await result.json()) as Tag[];
-      console.log(data);
-      tags.set(data);
-      filteredTags.set(data);
-      // sortTags(data.tagSort);
-    }
+	const tagsData = await api.fetchTags();
+  const tagSort = await api.fetchTagSort();
+	tags.set(tagsData);
+	filteredTags.set(tagsData);
+	sortTags(tagSort);
 }
 
 export async function createNote(): Promise<Note | null> {
