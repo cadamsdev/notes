@@ -28,16 +28,9 @@ export function closeModal() {
 }
 
 export async function fetchNotes(): Promise<Note[]> {
-		const result = await fetch(`${PUBLIC_API_URL}/notes`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
-    
-		const data = await result.json();
-		notes.set(data);
-		return data;
+  const data = await api.fetchNotes();
+  notes.set(data);
+  return data;
 }
 
 export async function fetchTags(): Promise<void> {
