@@ -19,6 +19,7 @@
 	import ColorDot from './ColorDot.svelte';
 	import { MODAL_EDIT_TAG, MODAL_REMOVE_TAG } from '../constants/modal.constants';
 	import { TAG_SORT_NAME, TAG_SORT_COUNT } from '../constants/settings.constants';
+	import { updateTag } from '$lib/api';
 
 	let currentTag: Tag;
 	let selectedColor = '';
@@ -51,17 +52,15 @@
 	}
 
 	async function handleUpdateTag() {
-		if (browser) {
-			let newColor = selectedColor || currentTag.color;
-			if (selectedColor === 'none') {
-				newColor = '';
-			}
-
-			// await updateTag({
-			// 	...currentTag,
-			// 	color: newColor
-			// });
+		let newColor = selectedColor || currentTag.color;
+		if (selectedColor === 'none') {
+			newColor = '';
 		}
+
+		await updateTag({
+			...currentTag,
+			color: newColor
+		});
 
 		closeModal();
 	}

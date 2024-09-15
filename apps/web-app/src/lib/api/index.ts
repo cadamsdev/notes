@@ -50,6 +50,21 @@ export async function fetchTags(): Promise<Tag[]> {
   return [];
 }
 
+export async function updateTag(tag: Tag): Promise<Response | null> {
+	try {
+    console.log(tag);
+		const response = await fetch(`${PUBLIC_API_URL}/tags/${tag.id}`, {
+			method: 'PUT',
+			body: JSON.stringify(tag)
+		});
+    return response;
+	} catch (err) {
+		console.error(err);
+	}
+
+  return null;
+}
+
 export async function fetchTagSort(): Promise<number> {
     const result = await fetch(`${PUBLIC_API_URL}/tag-sort`, {
 			method: 'GET',

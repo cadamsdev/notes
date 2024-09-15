@@ -133,41 +133,26 @@ export async function deleteTag(tagId: number): Promise<void> {
 }
 
 export async function updateTag(tag: Tag): Promise<void> {
-  const formData = new FormData();
-  formData.append('id', tag.id.toString());
-  formData.append('name', tag.name);
-  if (tag.color) {
-    formData.append('color', tag.color);
-  }
+    const response = await api.updateTag(tag);
+    if (response?.ok) {
+			const tempTags = [...get(filteredTags)];
+			const tempTag = tempTags.find((t) => t.id === tag.id);
+			if (tempTag) {
+				tempTag.name = tag.name;
+				tempTag.color = tag.color;
+			}
 
-  try {
-    const response = await fetch(`/tag/${tag.id}?/updateTag`, {
-			method: 'POST',
-			body: formData
-		});
+			filteredTags.set(tempTags);
 
-    if (response.ok) {
-      const tempTags = [...get(filteredTags)];
-      const tempTag = tempTags.find((t) => t.id === tag.id);
-      if (tempTag) {
-        tempTag.name = tag.name;
-        tempTag.color = tag.color;
-      }
+			// invalidate notes
+			const notes = await fetchNotes();
 
-      filteredTags.set(tempTags);
-
-      // invalidate notes
-      const notes = await fetchNotes();
-      
-      // update the selected note
-      const sn = get(selectedNote);
-      if (sn) {
-          selectedNote.set(notes.find((n) => n.id === sn.id));
-      }
+			// update the selected note
+			const sn = get(selectedNote);
+			if (sn) {
+				selectedNote.set(notes.find((n) => n.id === sn.id));
+			}
     }
-  } catch (err) {
-    console.error(err);
-  }
 }
 
 // export async function updateTagSort(tagSort: number): Promise<void> {
