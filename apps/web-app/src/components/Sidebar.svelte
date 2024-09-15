@@ -39,7 +39,7 @@
 	];
 
 	async function load(): Promise<void> {
-		await fetchTags();
+		// await fetchTags();
 	}
 
 	async function handleRemoveTag() {

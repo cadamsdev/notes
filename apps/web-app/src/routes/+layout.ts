@@ -1,14 +1,11 @@
-import { redirect } from '@sveltejs/kit';
 import { fetchNotes, fetchTagSort } from '../store.js';
-
-export const ssr = false;
 
 export const load = async ({ fetch }) => {
 	const notes = await fetchNotes();
 
-  if (notes.length) {
-		redirect(307, `/note/${notes[0].id}`);
-	}
+  // if (notes.length) {
+	// 	redirect(307, `/note/${notes[0].id}`);
+	// }
 
 	const tagSort = await fetchTagSort();
 

@@ -28,25 +28,21 @@ export function closeModal() {
 }
 
 export async function fetchNotes(): Promise<Note[]> {
-  if (browser) {
-    console.log(`PUBLIC_API_URL=${PUBLIC_API_URL}`); 
-    const result = await fetch(`${PUBLIC_API_URL}/api/notes`, {
+		const result = await fetch(`${PUBLIC_API_URL}/notes`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json'
 			}
 		});
-    const data = await result.json();
-    notes.set(data);
-    return data;
-  }
-
-  return [];
+    
+		const data = await result.json();
+		notes.set(data);
+		return data;
 }
 
 export async function fetchTagSort(): Promise<number> {
   if (browser) {
-    const result = await fetch(`${PUBLIC_API_URL}/api/tag-sort`, {
+    const result = await fetch(`${PUBLIC_API_URL}/tag-sort`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json'

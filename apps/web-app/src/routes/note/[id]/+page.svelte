@@ -1,7 +1,7 @@
 <script lang="ts">
 	import clsx from 'clsx';
 	import { onDestroy, onMount } from 'svelte';
-	import { notes, selectedNote, type Note, fetchTags, fetchNotes, openModal, closeModal } from '../../../store';
+	import { notes, selectedNote, type Note, openModal, closeModal } from '../../../store';
 	import { browser } from '$app/environment';
 	import type { PageData } from './$types';
 	import { get, type Unsubscriber } from 'svelte/store';
