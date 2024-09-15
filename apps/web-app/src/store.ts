@@ -56,18 +56,20 @@ export async function fetchTagSort(): Promise<number> {
 }
 
 export async function fetchTags(): Promise<void> {
-  if (browser) {
-    const result = await fetch ('/api/tags', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    const data = await result.json() as { tags: Tag[]; tagSort: number; };
-    tags.set(data.tags);
-    filteredTags.set(data.tags);
-    sortTags(data.tagSort);
-  }
+    const result = await fetch(`${PUBLIC_API_URL}/tags`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+
+    if (result.ok) {
+      const data = (await result.json()) as Tag[];
+      console.log(data);
+      tags.set(data);
+      filteredTags.set(data);
+      // sortTags(data.tagSort);
+    }
 }
 
 export async function createNote(): Promise<Note | null> {
