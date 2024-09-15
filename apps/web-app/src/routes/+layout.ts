@@ -1,5 +1,6 @@
 import { fetchNotes } from '../store.js';
 import * as api from '../lib/api';
+// import { redirect } from '@sveltejs/kit';
 
 export const load = async ({ fetch }) => {
 	const notes = await fetchNotes();

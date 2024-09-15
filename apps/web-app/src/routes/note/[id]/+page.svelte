@@ -19,7 +19,7 @@
 	let editorRef: any = null;
 	let editor: EditorJS.default;
 	let tempTags: Tag[] = [];
-	let selectedTags: Tag[] = [...data.tags];
+	let selectedTags: Tag[] = [...data.note?.tags || []];
 	let subscriptions: Unsubscriber[] = [];
 
 	subscriptions.push(

@@ -18,6 +18,22 @@ export async function fetchNotes(): Promise<Note[]> {
   return [];
 }
 
+export async function fetchNote(id: string): Promise<Note | null> {
+  const result = await fetch(`${PUBLIC_API_URL}/notes/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  if (result.ok) {
+    const note = (await result.json()) as Note;
+    return note;
+  }
+
+  return null;
+}
+
 export async function fetchTags(): Promise<Tag[]> {
     const result = await fetch(`${PUBLIC_API_URL}/tags`, {
     method: 'GET',

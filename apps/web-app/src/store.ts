@@ -1,7 +1,6 @@
 import { get, writable } from "svelte/store";
 import type { Tag } from "./interfaces/Tag";
 import { TAG_SORT_COUNT, TAG_SORT_NAME } from "./constants/settings.constants";
-import { PUBLIC_API_URL } from '$env/static/public';
 import * as api from './lib/api';
 
 export interface Note {

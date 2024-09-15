@@ -1,7 +1,7 @@
 import Fastify, { FastifyInstance } from 'fastify';
 import * as dotenv from 'dotenv';
 dotenv.config();
-import { createNote, deleteNote, deleteTag, getAllTags, getNoteForId, getNotes, getTagSort, saveTags, updateNote, updateTag } from './db';
+import { createNote, deleteNote, deleteTag, getAllTags, getNoteForId, getNotes, getTagsForNote, getTagSort, saveTags, updateNote, updateTag } from './db';
 import { Note } from './models/note';
 import { Tag } from './models/tag';
 import cors from '@fastify/cors';
@@ -28,6 +28,10 @@ server.get('/notes', async (request, reply) => {
 server.get('/notes/:id', async (request, reply) => {
   const { id } = request.params as { id: number };
   const note = await getNoteForId(id);
+  const tags = await getTagsForNote(id);
+  if (note) {
+    note.tags = tags;
+  }
   return note;
 });
 
