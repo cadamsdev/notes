@@ -23,14 +23,6 @@
 	let subscriptions: Unsubscriber[] = [];
 
 	subscriptions.push(
-		page.subscribe(() => {
-			if (browser) {
-				setupEditor();
-			}
-		}),
-	);
-
-	subscriptions.push(
 		selectedNote.subscribe((note) => {
 			if (note) {
 				selectedTags = [...note.tags || []];
@@ -171,15 +163,19 @@
 		});
 	}
 
-	onMount(async () => {	
-		if (browser) {
-			window.addEventListener('editor-save', handleSave);
-		}
-	});
-
 	async function handleSave() {
 		await save();
 	}
+
+	onMount(async () => {	
+		subscriptions.push(
+			page.subscribe(() => {
+				setupEditor();
+			})
+		);
+
+		window.addEventListener('editor-save', handleSave);
+	});
 
 	onDestroy(() => {
 		subscriptions.forEach((unsub) => unsub());
@@ -193,7 +189,7 @@
 
 <div class="relative">
 	<div class="px-16 py-4 max-h-screen overflow-y-auto">
-		{#if !$selectedNote}
+		{#if !data.note}
 			<div class="flex items-center justify-center h-full">
 				<div>No content</div>
 			</div>
@@ -202,7 +198,7 @@
 		<div
 			bind:this={editorRef}
 			id="editor"
-			class={clsx({ hidden: !$selectedNote, 'block': $selectedNote })}
+			class={clsx({ hidden: !data.note, 'block': data.note })}
 		></div>
 	</div>
 
