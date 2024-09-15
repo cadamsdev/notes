@@ -4,10 +4,21 @@ dotenv.config();
 import { createNote, deleteNote, deleteTag, getAllTags, getNoteForId, getNotes, getTagSort, saveTags, updateNote, updateTag } from './db';
 import { Note } from './models/note';
 import { Tag } from './models/tag';
+import cors from '@fastify/cors';
 
 const server: FastifyInstance = Fastify({
   logger: true,
 });
+
+server.register(cors, {
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+});
+
+server.get('/health-check', async (request, reply) => {
+  return { status: 'ok' };
+});
+
 
 server.get('/notes', async (request, reply) => {
   const notes = await getNotes();
