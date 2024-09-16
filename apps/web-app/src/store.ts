@@ -66,18 +66,12 @@ export async function createNote(): Promise<Note | null> {
   return null;
 }
 
-export async function deleteNote(note: Note, noteToSelect?: Note): Promise<void> {
+export async function deleteNote(noteId: number, noteToSelect?: Note): Promise<void> {
   try {
-    const formData = new FormData();
-    formData.append('id', note.id.toString());
-
-    const response = await fetch(`/note/${note.id}?/deleteNote`, {
-      method: 'POST',
-      body: formData,
-    });
+    const response = await api.deleteNote(noteId);
 
     if (response.ok) {
-      const filteredNotes = get(notes).filter((n) => n.id !== note.id);
+      const filteredNotes = get(notes).filter((n) => n.id !== noteId);
       notes.set(filteredNotes);
       selectedNote.set(noteToSelect);
     }

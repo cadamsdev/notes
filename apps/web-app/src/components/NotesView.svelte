@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { notes, selectedNote, type Note, createNote, openModal, selectedTags, searchNotes, filteredNotes } from '../store';
+	import { notes, selectedNote, type Note, createNote, openModal, selectedTags, searchNotes, filteredNotes, deleteNote, fetchTags } from '../store';
 	import clsx from 'clsx';
 	import { goto } from '$app/navigation';
 	import { onDestroy } from 'svelte';
@@ -60,11 +60,11 @@
 			return;
 		}
 
-		// await deleteNote(noteToRemove, noteToSelect);
-		// await fetchTags();
+		await deleteNote(noteToRemove.id, noteToSelect);
+		await fetchTags();
 		// searchNotes(searchText);
 
-		// noteToRemove = undefined;
+		noteToRemove = undefined;
 	}
 
 	onDestroy(() => {
