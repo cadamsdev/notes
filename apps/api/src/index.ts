@@ -36,7 +36,15 @@ server.get('/notes/:id', async (request, reply) => {
 });
 
 server.post('/notes', async (request, reply) => {
-  const { title, content } = request.body as { title: string; content: string };
+  if (!request.body) {
+    reply.code(400).send({ error: 'Request body is missing' });
+    return;
+  }
+
+  const { title, content } = JSON.parse(request.body as string) as {
+    title: string;
+    content: string;
+  };
   const note = await createNote(title, content);
   return note;
 });

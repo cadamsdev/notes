@@ -41,28 +41,26 @@ export async function fetchTags(): Promise<void> {
 }
 
 export async function createNote(): Promise<Note | null> {
-  const formData = new FormData();
-  formData.append('title', 'A title');
-  formData.append('content', '');
+  const newNote: Note = {
+    id: -1,
+    title: 'A title',
+    content: '',
+  }
 
-  const response = await fetch('/', {
-    method: 'POST',
-    body: formData
-  });
+  const response = await api.createNote(newNote);
 
   if (response.ok) {
-    const obj = await response.json();
-    // TODO fix
-    const data = JSON.parse(obj.data);
-    const note: Note = { id: Number(data[1]), title: 'A title', content: '' };
+    const id = await response.json();
+    console.log(id);
+    newNote.id = id;
 
     notes.update((items) => {
-      items.unshift(note);
+      items.unshift(newNote);
       return items;
     });
 
     selectedTags.set([]);
-    return note;
+    return newNote;
   }
 
   return null;

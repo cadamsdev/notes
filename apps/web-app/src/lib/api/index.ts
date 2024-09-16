@@ -34,6 +34,15 @@ export async function fetchNote(id: string): Promise<Note | null> {
   return null;
 }
 
+export async function createNote(note: Note): Promise<Response> {
+  const response = await fetch(`${PUBLIC_API_URL}/notes`, {
+    method: 'POST',
+    body: JSON.stringify(note)
+  });
+
+  return response;
+}
+
 export async function fetchTags(): Promise<Tag[]> {
     const result = await fetch(`${PUBLIC_API_URL}/tags`, {
     method: 'GET',
