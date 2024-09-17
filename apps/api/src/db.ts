@@ -177,6 +177,15 @@ export function updateTagSort(tagSort: number) {
   return result;
 }
 
+export function updateSettings(name: string, value: any) {
+    const sql = `
+    UPDATE settings SET value = ? WHERE name = ?
+  `;
+
+    const result = db.prepare(sql).run(value, name);
+    return result;
+}
+
 // get tag sort
 export function getTagSort() {
   const sql = `

@@ -2,6 +2,7 @@ import { get, writable } from "svelte/store";
 import type { Tag } from "./interfaces/Tag";
 import { TAG_SORT_COUNT, TAG_SORT_NAME } from "./constants/settings.constants";
 import * as api from './lib/api';
+import { PUBLIC_API_URL } from "$env/static/public";
 
 export interface Note {
   id: number;
@@ -140,21 +141,15 @@ export async function updateTag(tag: Tag): Promise<void> {
     }
 }
 
-// export async function updateTagSort(tagSort: number): Promise<void> {
-// 	const formData = new FormData();
-// 	formData.append('tagSort', tagSort.toString());
+export async function updateTagSort(tagSort: number): Promise<void> {
+  const response = await api.updateTagSort({ value: tagSort });
+	if (!response.ok) {
+    console.error('failed to update tag sort');
+    return;
+	}
 
-// 	const response = await fetch(`/settings?/updateTagSort`, {
-// 		method: 'POST',
-// 		body: formData
-// 	});
-
-// 	if (!response.ok) {
-//     return;
-// 	}
-
-//   sortTags(tagSort);
-// }
+  sortTags(tagSort);
+}
 
 export function sortTags(tagSort: number): void {
 	if (tagSort === TAG_SORT_COUNT) {

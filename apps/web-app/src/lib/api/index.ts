@@ -104,6 +104,18 @@ export async function fetchTagSort(): Promise<number> {
   return 0;
 }
 
+export interface UpdateTagSortConfig {
+  value: number;
+}
+
+export async function updateTagSort(config: UpdateTagSortConfig): Promise<Response> {
+  const response = await fetch(`${PUBLIC_API_URL}/settings/tag_sort`, {
+    method: 'PUT',
+    body: JSON.stringify(config),
+  });
+  return response;
+}
+
 export async function saveTags(noteId: number, tags: Tag[]): Promise<Response> {
   const response = await fetch(`${PUBLIC_API_URL}/notes/${noteId}/tags`, {
 		method: 'POST',

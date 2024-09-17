@@ -1,7 +1,7 @@
 import Fastify, { FastifyInstance } from 'fastify';
 import * as dotenv from 'dotenv';
 dotenv.config();
-import { createNote, deleteNote, deleteTag, getAllTags, getNoteForId, getNotes, getTagsForNote, getTagSort, saveTags, updateNote, updateTag } from './db';
+import { createNote, deleteNote, deleteTag, getAllTags, getNoteForId, getNotes, getTagsForNote, getTagSort, saveTags, updateNote, updateSettings, updateTag } from './db';
 import { Note } from './models/note';
 import { Tag } from './models/tag';
 import cors from '@fastify/cors';
@@ -120,6 +120,23 @@ server.post('/notes/:id/tags', async (request, reply) => {
 server.get('/tag-sort', async (request, reply) => {
   const tagSort = await getTagSort();
   return { tagSort };
+});
+
+server.put('/settings/:name', async (request, reply) => {
+  const { name } = request.params as { name: string };
+  if (!name) {
+    reply.code(400).send({ error: 'Invalid name param' });
+    return;
+  }
+
+  if (!request.body) {
+    reply.code(400).send({ error: 'Request body is missing' });
+    return;
+  }
+
+  const data = JSON.parse(request.body as string) as { value: number };
+  const result = await updateSettings(name, data.value);
+  return result;
 });
 
 const start = async () => {

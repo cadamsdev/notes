@@ -10,7 +10,10 @@
 
 		fetchNotes,
 
-		deleteTag
+		deleteTag,
+
+		updateTagSort
+
 
 
 	} from '../store';
@@ -100,7 +103,7 @@
 
 	async function toggleSortTags() {
 		tagSort = tagSort === TAG_SORT_NAME ? TAG_SORT_COUNT : TAG_SORT_NAME;
-		// await updateTagSort(tagSort);
+		await updateTagSort(tagSort);
 	}
 
 	function selectTag(tag: Tag) {
