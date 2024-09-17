@@ -73,19 +73,19 @@ export async function fetchTags(): Promise<Tag[]> {
   return [];
 }
 
-export async function updateTag(tag: Tag): Promise<Response | null> {
-	try {
-		const response = await fetch(`${PUBLIC_API_URL}/tags/${tag.id}`, {
-			method: 'PUT',
-			body: JSON.stringify(tag)
-		});
-    console.log(response.statusText)
-    return response;
-	} catch (err) {
-		console.error(err);
-	}
+export async function updateTag(tag: Tag): Promise<Response> {
+  const response = await fetch(`${PUBLIC_API_URL}/tags/${tag.id}`, {
+    method: 'PUT',
+    body: JSON.stringify(tag)
+  });
+  return response;
+}
 
-  return null;
+export async function deleteTag(tagId: number): Promise<Response> {
+  const response = await fetch(`${PUBLIC_API_URL}/tags/${tagId}`, {
+		method: 'DELETE',
+	});
+  return response;
 }
 
 export async function fetchTagSort(): Promise<number> {

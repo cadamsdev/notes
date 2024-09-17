@@ -81,14 +81,7 @@ export async function deleteNote(noteId: number, noteToSelect?: Note): Promise<v
 }
 
 export async function deleteTag(tagId: number): Promise<void> {
-  const formData = new FormData();
-  formData.append('id', tagId.toString());
-
-  const response = await fetch(`/tag/${tagId}?/deleteTag`, {
-    method: 'POST',
-    body: formData,
-  });
-
+  const response = await api.deleteTag(tagId);
   if (response.ok) {
     const tempTags = [...get(filteredTags)];
     const newTags = tempTags.filter((tag) => tag.id !== tagId);

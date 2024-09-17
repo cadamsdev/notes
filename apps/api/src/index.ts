@@ -89,6 +89,11 @@ server.put('/tags/:id', async (request, reply) => {
 
 server.delete('/tags/:id', async (request, reply) => {
   const { id } = request.params as { id: number };
+  if (!id) {
+    reply.code(400).send({ error: 'Invalid tag id' });
+    return;
+  }
+
   const tag = await deleteTag(id);
   return tag;
 });

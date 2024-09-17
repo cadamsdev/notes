@@ -8,7 +8,10 @@
 		selectedTags,
 		filteredTags,
 
-		fetchNotes
+		fetchNotes,
+
+		deleteTag
+
 
 	} from '../store';
 	import ContextMenu from './ContextMenu.svelte';
@@ -50,7 +53,7 @@
 			throw new Error('currentTag should be defined.');
 		}
 
-		// await deleteTag(currentTag.id);
+		await deleteTag(currentTag.id);
 	}
 
 	async function handleUpdateTag() {
