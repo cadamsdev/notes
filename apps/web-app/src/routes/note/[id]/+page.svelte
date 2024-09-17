@@ -99,7 +99,7 @@
 			return;
 		}
 
-		await fetchTags();
+		await Promise.all([fetchTags(), fetchNotes()])
 		closeModal();
 	}
 
