@@ -19,7 +19,6 @@ server.get('/health-check', async (request, reply) => {
   return { status: 'ok' };
 });
 
-
 server.get('/notes', async (request, reply) => {
   const notes = await getNotes();
   return notes;
