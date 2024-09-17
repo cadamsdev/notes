@@ -79,25 +79,27 @@
 	} 
 
 	async function handleSaveTags() {
-		const note = get(selectedNote);
+		const currentPage = get(page);
 
-		if (!note) {
+		if (!currentPage) {
+			return;
+		}
+
+		const noteId = +currentPage.params.id;
+
+		if (!noteId) {
 			return;
 		}
 
 		selectedTags = [...selectedTags, ...tempTags];
-		const response = await saveTags(note.id, selectedTags);
+		const response = await saveTags(noteId, selectedTags);
 
 		if (!response.ok) {
 			console.error('failed to save tags');
 			return;
 		}
 
-		const [_, notes] = await Promise.all([fetchTags(), fetchNotes()]);
-
-		const currentNote = notes.find((n) => n.id === note.id);
-		selectedNote.set(currentNote);
-
+		await fetchTags();
 		closeModal();
 	}
 
