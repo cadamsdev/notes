@@ -93,10 +93,20 @@ server.delete('/tags/:id', async (request, reply) => {
   return tag;
 });
 
-server.put('/notes/:id/tags', async (request, reply) => {
+server.post('/notes/:id/tags', async (request, reply) => {
   const { id } = request.params as { id: number };
-  const tags = request.body as Tag[];
 
+  if (!id) {
+    reply.code(400).send({ error: 'Invalid note id' });
+    return;
+  }
+
+  if (!request.body) {
+    reply.code(400).send({ error: 'Request body is missing' });
+    return;
+  }
+
+  const tags = JSON.parse(request.body as string) as Tag[];
   await saveTags(id, tags);
   const updatedNote = await getNoteForId(id);
   return updatedNote;

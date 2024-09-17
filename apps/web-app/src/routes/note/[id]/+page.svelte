@@ -1,7 +1,7 @@
 <script lang="ts">
 	import clsx from 'clsx';
 	import { onDestroy, onMount } from 'svelte';
-	import { notes, selectedNote, type Note, openModal, closeModal } from '../../../store';
+	import { notes, selectedNote, type Note, openModal, closeModal, fetchTags, fetchNotes } from '../../../store';
 	import { browser } from '$app/environment';
 	import type { PageData } from './$types';
 	import { get, type Unsubscriber } from 'svelte/store';
@@ -13,7 +13,7 @@
 	import Chip from '../../../components/Chip.svelte';
 	import { MODAL_TAG } from '../../../constants/modal.constants';
 	import { page } from '$app/stores';
-	import { updateNote } from '$lib/api';
+	import { saveTags, updateNote } from '$lib/api';
 
 	export let data: PageData;
 
@@ -86,28 +86,19 @@
 		}
 
 		selectedTags = [...selectedTags, ...tempTags];
-		const formData = new FormData();
-		formData.append('noteId', note.id.toString());
-		formData.append('tags', JSON.stringify(selectedTags));
+		const response = await saveTags(note.id, selectedTags);
 
-		// try {
-		// 	const result = await fetch(`/note/${note.id}?/saveTags`, {
-		// 		method: 'POST',
-		// 		body: formData,
-		// 	});
+		if (!response.ok) {
+			console.error('failed to save tags');
+			return;
+		}
 
-		// 	if (result.ok) {
-		// 		const [_, notes] = await Promise.all([fetchTags(), fetchNotes()]);
+		const [_, notes] = await Promise.all([fetchTags(), fetchNotes()]);
 
-		// 		const currentNote = notes.find((n) => n.id === note.id);
-		// 		selectedNote.set(currentNote);
+		const currentNote = notes.find((n) => n.id === note.id);
+		selectedNote.set(currentNote);
 
-		// 		closeModal();
-		// 	}
-		// } catch (err) {
-		// 	console.error(err);
-		// 	console.error('Failed to save tags');
-		// }
+		closeModal();
 	}
 
 	async function setupEditor() {

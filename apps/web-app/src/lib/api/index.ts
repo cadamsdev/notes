@@ -103,3 +103,11 @@ export async function fetchTagSort(): Promise<number> {
 
   return 0;
 }
+
+export async function saveTags(noteId: number, tags: Tag[]): Promise<Response> {
+  const response = await fetch(`${PUBLIC_API_URL}/notes/${noteId}/tags`, {
+		method: 'POST',
+		body: JSON.stringify(tags)
+	});
+	return response;
+}
