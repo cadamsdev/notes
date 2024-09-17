@@ -39,7 +39,14 @@ export async function createNote(note: Note): Promise<Response> {
     method: 'POST',
     body: JSON.stringify(note)
   });
+  return response;
+}
 
+export async function updateNote(note: Note): Promise<Response> {
+  const response = await fetch(`${PUBLIC_API_URL}/notes/${note.id}`, {
+		method: 'PUT',
+		body: JSON.stringify(note),
+	});
   return response;
 }
 

@@ -51,7 +51,18 @@ server.post('/notes', async (request, reply) => {
 
 server.put('/notes/:id', async (request, reply) => {
   const { id } = request.params as { id: number };
-  const newNote = request.body as Note;
+
+  if (!id) {
+    reply.code(400).send({ error: 'Invalid note id' });
+    return;
+  }
+
+  if (!request.body) {
+    reply.code(400).send({ error: 'Request body is missing' });
+    return;
+  }
+
+  const newNote = JSON.parse(request.body as string) as Note;
   newNote.id = id;
   const note = await updateNote(newNote);
   return note;

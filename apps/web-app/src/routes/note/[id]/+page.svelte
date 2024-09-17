@@ -13,6 +13,7 @@
 	import Chip from '../../../components/Chip.svelte';
 	import { MODAL_TAG } from '../../../constants/modal.constants';
 	import { page } from '$app/stores';
+	import { updateNote } from '$lib/api';
 
 	export let data: PageData;
 
@@ -37,40 +38,34 @@
 
 	async function save() {
 		const outputData = await editor.save();
-			let title: string | undefined;
-			if (outputData.blocks.length > 0) {
-				title = sanitizeTitle(outputData.blocks[0].data?.['text']);
-			}
+		let title: string | undefined;
+		if (outputData.blocks.length > 0) {
+			title = sanitizeTitle(outputData.blocks[0].data?.['text']);
+		}
 
-			const outputString = JSON.stringify(outputData);
+		const outputString = JSON.stringify(outputData);
+		const id = +data.id;
+		const updatedNote: Note = {
+			id,
+			title: title ?? 'New note',
+			content: outputString ?? ''
+		};
 
-			if (browser) {
-				const id = +data.id;
-				const updatedNote: Note = {
-					id,
-					title: title || 'New note',
-					content: outputString
-				};
+		const response = await updateNote(updatedNote);
 
-				const formData = new FormData();
-				formData.append('id', updatedNote.id.toString());
-				formData.append('title', updatedNote.title);
-				formData.append('content', updatedNote.content ?? '');
+		if (!response.ok) {
+			console.error('failed to save');
+			return;
+		}
 
-				// const result = await fetch(`/note/${id}?/updateNote`, {
-				// 	method: 'POST',
-				// 	body: formData
-				// });
-
-				// console.log('saved!', result);
-				// notes.update((items) => {
-				// 	const index = items.findIndex((item) => item.id === id);
-				// 	const item = items[index];
-				// 	item.title = updatedNote.title;
-				// 	item.content = updatedNote.content;
-				// 	return items;
-				// });
-			}
+		console.log('saved!');
+		notes.update((items) => {
+			const index = items.findIndex((item) => item.id === id);
+			const item = items[index];
+			item.title = updatedNote.title;
+			item.content = updatedNote.content;
+			return items;
+		});
 	}
 
 	function sanitizeTitle(title?: string): string {
