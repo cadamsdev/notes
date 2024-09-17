@@ -1,7 +1,7 @@
 <script lang="ts">
 	import clsx from 'clsx';
 	import { onDestroy, onMount } from 'svelte';
-	import { notes, selectedNote, type Note, fetchTags, fetchNotes, openModal, closeModal } from '../../../store';
+	import { notes, selectedNote, type Note, openModal, closeModal, fetchTags, fetchNotes } from '../../../store';
 	import { browser } from '$app/environment';
 	import type { PageData } from './$types';
 	import { get, type Unsubscriber } from 'svelte/store';
@@ -13,22 +13,15 @@
 	import Chip from '../../../components/Chip.svelte';
 	import { MODAL_TAG } from '../../../constants/modal.constants';
 	import { page } from '$app/stores';
+	import { saveTags, updateNote } from '$lib/api';
 
 	export let data: PageData;
 
 	let editorRef: any = null;
 	let editor: EditorJS.default;
 	let tempTags: Tag[] = [];
-	let selectedTags: Tag[] = [...data.tags];
+	let selectedTags: Tag[] = [...data.note?.tags || []];
 	let subscriptions: Unsubscriber[] = [];
-
-	subscriptions.push(
-		page.subscribe(() => {
-			if (browser) {
-				setupEditor();
-			}
-		}),
-	);
 
 	subscriptions.push(
 		selectedNote.subscribe((note) => {
@@ -45,40 +38,34 @@
 
 	async function save() {
 		const outputData = await editor.save();
-			let title: string | undefined;
-			if (outputData.blocks.length > 0) {
-				title = sanitizeTitle(outputData.blocks[0].data?.['text']);
-			}
+		let title: string | undefined;
+		if (outputData.blocks.length > 0) {
+			title = sanitizeTitle(outputData.blocks[0].data?.['text']);
+		}
 
-			const outputString = JSON.stringify(outputData);
+		const outputString = JSON.stringify(outputData);
+		const id = +data.id;
+		const updatedNote: Note = {
+			id,
+			title: title ?? 'New note',
+			content: outputString ?? ''
+		};
 
-			if (browser) {
-				const id = +data.id;
-				const updatedNote: Note = {
-					id,
-					title: title || 'New note',
-					content: outputString
-				};
+		const response = await updateNote(updatedNote);
 
-				const formData = new FormData();
-				formData.append('id', updatedNote.id.toString());
-				formData.append('title', updatedNote.title);
-				formData.append('content', updatedNote.content ?? '');
+		if (!response.ok) {
+			console.error('failed to save');
+			return;
+		}
 
-				const result = await fetch(`/note/${id}?/updateNote`, {
-					method: 'POST',
-					body: formData
-				});
-
-				console.log('saved!', result);
-				notes.update((items) => {
-					const index = items.findIndex((item) => item.id === id);
-					const item = items[index];
-					item.title = updatedNote.title;
-					item.content = updatedNote.content;
-					return items;
-				});
-			}
+		console.log('saved!');
+		notes.update((items) => {
+			const index = items.findIndex((item) => item.id === id);
+			const item = items[index];
+			item.title = updatedNote.title;
+			item.content = updatedNote.content;
+			return items;
+		});
 	}
 
 	function sanitizeTitle(title?: string): string {
@@ -92,35 +79,28 @@
 	} 
 
 	async function handleSaveTags() {
-		const note = get(selectedNote);
+		const currentPage = get(page);
 
-		if (!note) {
+		if (!currentPage) {
+			return;
+		}
+
+		const noteId = +currentPage.params.id;
+
+		if (!noteId) {
 			return;
 		}
 
 		selectedTags = [...selectedTags, ...tempTags];
-		const formData = new FormData();
-		formData.append('noteId', note.id.toString());
-		formData.append('tags', JSON.stringify(selectedTags));
+		const response = await saveTags(noteId, selectedTags);
 
-		try {
-			const result = await fetch(`/note/${note.id}?/saveTags`, {
-				method: 'POST',
-				body: formData,
-			});
-
-			if (result.ok) {
-				const [_, notes] = await Promise.all([fetchTags(), fetchNotes()]);
-
-				const currentNote = notes.find((n) => n.id === note.id);
-				selectedNote.set(currentNote);
-
-				closeModal();
-			}
-		} catch (err) {
-			console.error(err);
-			console.error('Failed to save tags');
+		if (!response.ok) {
+			console.error('failed to save tags');
+			return;
 		}
+
+		await Promise.all([fetchTags(), fetchNotes()])
+		closeModal();
 	}
 
 	async function setupEditor() {
@@ -171,15 +151,19 @@
 		});
 	}
 
-	onMount(async () => {	
-		if (browser) {
-			window.addEventListener('editor-save', handleSave);
-		}
-	});
-
 	async function handleSave() {
 		await save();
 	}
+
+	onMount(async () => {	
+		subscriptions.push(
+			page.subscribe(() => {
+				setupEditor();
+			})
+		);
+
+		window.addEventListener('editor-save', handleSave);
+	});
 
 	onDestroy(() => {
 		subscriptions.forEach((unsub) => unsub());
@@ -193,7 +177,7 @@
 
 <div class="relative">
 	<div class="px-16 py-4 max-h-screen overflow-y-auto">
-		{#if !$selectedNote}
+		{#if !data.note}
 			<div class="flex items-center justify-center h-full">
 				<div>No content</div>
 			</div>
@@ -202,7 +186,7 @@
 		<div
 			bind:this={editorRef}
 			id="editor"
-			class={clsx({ hidden: !$selectedNote, 'block': $selectedNote })}
+			class={clsx({ hidden: !data.note, 'block': data.note })}
 		></div>
 	</div>
 

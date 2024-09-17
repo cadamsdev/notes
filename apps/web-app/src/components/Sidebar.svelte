@@ -1,19 +1,24 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
 	import {
-		deleteTag,
-		updateTag,
 		fetchTags,
 		tags,
 		closeModal,
 		openModal,
-		updateTagSort,
 		selectedTags,
-		filteredTags
+		filteredTags,
+
+		fetchNotes,
+
+		deleteTag,
+
+		updateTagSort
+
+
+
 	} from '../store';
 	import ContextMenu from './ContextMenu.svelte';
 	import Dialog from './Dialog.svelte';
-	import { browser } from '$app/environment';
 	import ConfirmationDialog from './ConfirmationDialog.svelte';
 	import Input from './Input.svelte';
 	import Button from './Button.svelte';
@@ -22,6 +27,7 @@
 	import ColorDot from './ColorDot.svelte';
 	import { MODAL_EDIT_TAG, MODAL_REMOVE_TAG } from '../constants/modal.constants';
 	import { TAG_SORT_NAME, TAG_SORT_COUNT } from '../constants/settings.constants';
+	import { updateTag } from '$lib/api';
 
 	let currentTag: Tag;
 	let selectedColor = '';
@@ -54,16 +60,20 @@
 	}
 
 	async function handleUpdateTag() {
-		if (browser) {
-			let newColor = selectedColor || currentTag.color;
-			if (selectedColor === 'none') {
-				newColor = '';
-			}
+		let newColor = selectedColor || currentTag.color;
+		if (selectedColor === 'none') {
+			newColor = '';
+		}
 
-			await updateTag({
-				...currentTag,
-				color: newColor
-			});
+		const response = await updateTag({
+			...currentTag,
+			color: newColor
+		});
+
+		if (response?.ok) {
+			await Promise.all([fetchTags(), fetchNotes()]);
+		} else {
+			alert(response?.statusText)
 		}
 
 		closeModal();

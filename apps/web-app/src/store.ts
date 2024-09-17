@@ -1,7 +1,7 @@
 import { get, writable } from "svelte/store";
-import { browser } from "$app/environment";
 import type { Tag } from "./interfaces/Tag";
 import { TAG_SORT_COUNT, TAG_SORT_NAME } from "./constants/settings.constants";
+import * as api from './lib/api';
 
 export interface Note {
   id: number;
@@ -27,76 +27,51 @@ export function closeModal() {
 }
 
 export async function fetchNotes(): Promise<Note[]> {
-  if (browser) {
-    const result = await fetch('/api/notes', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    const data = await result.json();
-    notes.set(data);
-    return data;
-  }
-
-  return [];
+  const data = await api.fetchNotes();
+  notes.set(data);
+  return data;
 }
 
 export async function fetchTags(): Promise<void> {
-  if (browser) {
-    const result = await fetch ('/api/tags', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    const data = await result.json() as { tags: Tag[]; tagSort: number; };
-    tags.set(data.tags);
-    filteredTags.set(data.tags);
-    sortTags(data.tagSort);
-  }
+	const tagsData = await api.fetchTags();
+  const tagSort = await api.fetchTagSort();
+	tags.set(tagsData);
+	filteredTags.set(tagsData);
+	sortTags(tagSort);
 }
 
 export async function createNote(): Promise<Note | null> {
-  const formData = new FormData();
-  formData.append('title', 'A title');
-  formData.append('content', '');
+  const newNote: Note = {
+    id: -1,
+    title: 'A title',
+    content: '',
+  }
 
-  const response = await fetch('/', {
-    method: 'POST',
-    body: formData
-  });
+  const response = await api.createNote(newNote);
 
   if (response.ok) {
-    const obj = await response.json();
-    // TODO fix
-    const data = JSON.parse(obj.data);
-    const note: Note = { id: Number(data[1]), title: 'A title', content: '' };
+    const id = await response.json();
+    console.log(id);
+    newNote.id = id;
 
     notes.update((items) => {
-      items.unshift(note);
+      items.unshift(newNote);
       return items;
     });
 
     selectedTags.set([]);
-    return note;
+    return newNote;
   }
 
   return null;
 }
 
-export async function deleteNote(note: Note, noteToSelect?: Note): Promise<void> {
+export async function deleteNote(noteId: number, noteToSelect?: Note): Promise<void> {
   try {
-    const formData = new FormData();
-    formData.append('id', note.id.toString());
-
-    const response = await fetch(`/note/${note.id}?/deleteNote`, {
-      method: 'POST',
-      body: formData,
-    });
+    const response = await api.deleteNote(noteId);
 
     if (response.ok) {
-      const filteredNotes = get(notes).filter((n) => n.id !== note.id);
+      const filteredNotes = get(notes).filter((n) => n.id !== noteId);
       notes.set(filteredNotes);
       selectedNote.set(noteToSelect);
     }
@@ -106,14 +81,7 @@ export async function deleteNote(note: Note, noteToSelect?: Note): Promise<void>
 }
 
 export async function deleteTag(tagId: number): Promise<void> {
-  const formData = new FormData();
-  formData.append('id', tagId.toString());
-
-  const response = await fetch(`/tag/${tagId}?/deleteTag`, {
-    method: 'POST',
-    body: formData,
-  });
-
+  const response = await api.deleteTag(tagId);
   if (response.ok) {
     const tempTags = [...get(filteredTags)];
     const newTags = tempTags.filter((tag) => tag.id !== tagId);
@@ -150,53 +118,32 @@ export async function deleteTag(tagId: number): Promise<void> {
 }
 
 export async function updateTag(tag: Tag): Promise<void> {
-  const formData = new FormData();
-  formData.append('id', tag.id.toString());
-  formData.append('name', tag.name);
-  if (tag.color) {
-    formData.append('color', tag.color);
-  }
+    const response = await api.updateTag(tag);
+    if (response?.ok) {
+			const tempTags = [...get(filteredTags)];
+			const tempTag = tempTags.find((t) => t.id === tag.id);
+			if (tempTag) {
+				tempTag.name = tag.name;
+				tempTag.color = tag.color;
+			}
 
-  try {
-    const response = await fetch(`/tag/${tag.id}?/updateTag`, {
-			method: 'POST',
-			body: formData
-		});
+			filteredTags.set(tempTags);
 
-    if (response.ok) {
-      const tempTags = [...get(filteredTags)];
-      const tempTag = tempTags.find((t) => t.id === tag.id);
-      if (tempTag) {
-        tempTag.name = tag.name;
-        tempTag.color = tag.color;
-      }
+			// invalidate notes
+			const notes = await fetchNotes();
 
-      filteredTags.set(tempTags);
-
-      // invalidate notes
-      const notes = await fetchNotes();
-      
-      // update the selected note
-      const sn = get(selectedNote);
-      if (sn) {
-          selectedNote.set(notes.find((n) => n.id === sn.id));
-      }
+			// update the selected note
+			const sn = get(selectedNote);
+			if (sn) {
+				selectedNote.set(notes.find((n) => n.id === sn.id));
+			}
     }
-  } catch (err) {
-    console.error(err);
-  }
 }
 
 export async function updateTagSort(tagSort: number): Promise<void> {
-	const formData = new FormData();
-	formData.append('tagSort', tagSort.toString());
-
-	const response = await fetch(`/settings?/updateTagSort`, {
-		method: 'POST',
-		body: formData
-	});
-
+  const response = await api.updateTagSort({ value: tagSort });
 	if (!response.ok) {
+    console.error('failed to update tag sort');
     return;
 	}
 

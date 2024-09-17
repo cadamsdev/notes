@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { notes, selectedNote, type Note, deleteNote, createNote, fetchTags, openModal, selectedTags, searchNotes, filteredNotes } from '../store';
+	import { notes, selectedNote, type Note, createNote, openModal, selectedTags, searchNotes, filteredNotes, deleteNote, fetchTags } from '../store';
 	import clsx from 'clsx';
 	import { goto } from '$app/navigation';
 	import { onDestroy } from 'svelte';
@@ -9,6 +9,7 @@
 	import Chip from './Chip.svelte';
 	import SearchInput from './SearchInput.svelte';
 	import { MODAL_REMOVE_NOTE } from '../constants/modal.constants';
+	import { page } from '$app/stores';
 
 	let noteToRemove: Note | undefined;
 	let noteToSelect: Note | undefined;
@@ -59,9 +60,9 @@
 			return;
 		}
 
-		await deleteNote(noteToRemove, noteToSelect);
+		await deleteNote(noteToRemove.id, noteToSelect);
 		await fetchTags();
-		searchNotes(searchText);
+		// searchNotes(searchText);
 
 		noteToRemove = undefined;
 	}
@@ -97,8 +98,8 @@
                 <button
                     id={`note-${note.id}`}
                     class={clsx('block w-full text-left p-4 border-b border-bg-secondary text-base', {
-                        'bg-bg-secondary': $selectedNote?.id === note.id,
-                        'hover:bg-bg-secondary': $selectedNote?.id !== note.id,
+                        'bg-bg-secondary': +$page.params.id === note.id,
+                        'hover:bg-bg-secondary': +$page.params.id !== note.id,
 									})}
                     on:click={() => selectNote(note)}
                 >
