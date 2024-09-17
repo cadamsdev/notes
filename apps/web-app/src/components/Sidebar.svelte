@@ -6,7 +6,10 @@
 		closeModal,
 		openModal,
 		selectedTags,
-		filteredTags
+		filteredTags,
+
+		fetchNotes
+
 	} from '../store';
 	import ContextMenu from './ContextMenu.svelte';
 	import Dialog from './Dialog.svelte';
@@ -62,7 +65,7 @@
 		});
 
 		if (response?.ok) {
-			await fetchTags();
+			await Promise.all([fetchTags(), fetchNotes()]);
 		} else {
 			alert(response?.statusText)
 		}
