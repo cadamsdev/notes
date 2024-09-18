@@ -6,6 +6,7 @@
   "frontend:build": "npm run build",
   "frontend:dev:watcher": "npm run dev",
   "frontend:dev:serverUrl": "auto",
+  "frontend:dir": "../web-app",
   "author": {
     "name": "cadamsdev",
     "email": "cadamsdev@outlook.com"
