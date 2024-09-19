@@ -24,3 +24,5 @@ jobs:
 
     - run: npm run build:web
       name: Build web
+      env:
+        PUBLIC_API_URL: ${{ vars.PUBLIC_API_URL }}
