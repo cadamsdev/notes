@@ -2,6 +2,7 @@ import { get, writable } from "svelte/store";
 import type { Tag } from "./interfaces/Tag";
 import { TAG_SORT_COUNT, TAG_SORT_NAME } from "./constants/settings.constants";
 import * as api from './lib/api';
+import Fuse from 'fuse.js';
 
 export interface Note {
   id: number;
@@ -173,18 +174,27 @@ export function sortTags(tagSort: number): void {
 }
 
 export function searchNotes(searchTerm: string): void {
-  const searchTerms = searchTerm.toLowerCase().split(' ');
   const sTags = get(selectedTags);
 
-  const newFilteredNoets = get(notes).filter((note) => {
-    const titleTerms = note.title.toLowerCase().split(' ');
-    return (
-			searchTerms.every((term) => titleTerms.some((t) => t.includes(term))) &&
-			sTags.every((tag) => note.tags?.some((t) => t.id === tag.id) ?? false)
-		);
-  });
+  let newFilteredNotes = get(notes);
 
-  const noteTags = newFilteredNoets.flatMap((note) => note.tags ?? []);
+  if (sTags.length) {
+    newFilteredNotes = newFilteredNotes.filter((note) => {
+			return sTags.every((tag) => note.tags?.some((t) => t.id === tag.id) ?? false);
+		});
+  }
+
+  const fuse = new Fuse(newFilteredNotes, {
+		keys: ['title']
+	});
+
+  let tempFilteredNotes = fuse.search(searchTerm).map((result) => result.item);
+
+  if (!tempFilteredNotes.length) {
+		tempFilteredNotes = newFilteredNotes;
+	}
+
+  const noteTags = tempFilteredNotes.flatMap((note) => note.tags ?? []);
   const uniqueTags = Array.from(new Set(noteTags.map((tag) => tag.id)));
 
   const map = new Map<number, Tag>();
@@ -208,5 +218,5 @@ export function searchNotes(searchTerm: string): void {
 
   const newTags = [...map.values()];
   filteredTags.set(newTags);
-  filteredNotes.set(newFilteredNoets);
+  filteredNotes.set(tempFilteredNotes);
 }
