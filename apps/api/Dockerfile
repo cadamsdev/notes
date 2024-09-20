@@ -14,7 +14,9 @@ COPY . .
 # create .env file
 RUN mv .env.example .env
 
-# build the app
+# create database file
+RUN mkdir -p /app/data && touch /app/data/database.sqlite
+
 RUN npm run build
 
 # release
@@ -22,10 +24,9 @@ FROM node:20-alpine as release
 WORKDIR /app
 COPY --from=base /app/node_modules ./node_modules
 COPY --from=base /app/package*.json ./
-COPY --from=base /app/build ./build
-COPY --from=base /app/vite.config.ts ./
-COPY --from=base /app/.svelte-kit ./.svelte-kit
+COPY --from=base /app/dist ./dist
+COPY --from=base /app/data ./data
 
-EXPOSE 4173
+EXPOSE 3001
 
-CMD ["npm", "run", "preview", "--host"]
+CMD ["npm", "start"]
