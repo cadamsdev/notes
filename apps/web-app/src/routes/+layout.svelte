@@ -16,7 +16,7 @@
 </script>
 
 <svelte:head>
-	<title>Notes</title>
+	<title>Dev Notes</title>
 </svelte:head>
 
 <div class="flex h-full">
