@@ -8,6 +8,7 @@
     "web:dev": "npm run -w web dev",
     "api:dev": "npm run -w api dev",
     "build:web": "npm run -w web build",
+    "build:api": "npm run -w api build",
     "desktop": "npm run -w desktop start"
   },
   "workspaces": [
