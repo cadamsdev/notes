@@ -45,7 +45,17 @@ jobs:
       id: version
       run: node scripts/bump-version.mjs ${{ github.event.inputs.semver }}
 
-    - name: Build and push
+    - name: Build and push api
+      uses: docker/build-push-action@v5
+      with:
+        context: "{{defaultContext}}:apps/api"
+        platforms: linux/amd64,linux/arm64
+        push: true
+        tags: |
+          cadamsdev/notes-api:${{ steps.version.outputs.formatted_version }}
+          cadamsdev/notes-api:latest
+
+    - name: Build and push web-app
       uses: docker/build-push-action@v5
       with:
         context: "{{defaultContext}}:apps/web-app"
