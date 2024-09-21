@@ -20,6 +20,3 @@ services:
       - api
     env_file:
       - ./apps/web-app/.env
-
-volumes:
-  api-data:
