@@ -22,7 +22,6 @@ FROM node:20-alpine as release
 WORKDIR /app
 COPY --from=base /app/node_modules ./node_modules
 COPY --from=base /app/package*.json ./
-COPY --from=base /app/build ./build
 COPY --from=base /app/vite.config.ts ./
 COPY --from=base /app/.svelte-kit ./.svelte-kit
 

@@ -1,0 +1,27 @@
+services:
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./apps/api/data:/app/data
+    environment:
+      - NODE_ENV=production
+      - DB_PATH=./data/database.sqlite
+
+  web-app:
+    build:
+      context: ./apps/web-app
+      dockerfile: Dockerfile
+    ports:
+      - "4173:4173"
+    depends_on:
+      - api
+    environment:
+      - NODE_ENV=production
+      - PUBLIC_API_URL="http://localhost:3001"
+
+volumes:
+  api-data:
