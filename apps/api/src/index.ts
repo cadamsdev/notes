@@ -6,6 +6,8 @@ import { Note } from './models/note';
 import { Tag } from './models/tag';
 import cors from '@fastify/cors';
 
+const { PORT = '3001', ADDRESS = 'localhost' } = process.env;
+
 const server: FastifyInstance = Fastify({
   logger: true,
 });
@@ -140,7 +142,7 @@ server.put('/settings/:name', async (request, reply) => {
 
 const start = async () => {
   try {
-    await server.listen({ port: 3001 });
+    await server.listen({ host: ADDRESS, port: +PORT });
   } catch (err) {
     server.log.error(err);
     process.exit(1);
