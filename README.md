@@ -58,22 +58,43 @@ For taking technical notes I wanted a note taking app that is...
     - Quote
 
 ## Local development
-1. Npm install
+1. Install dependencies
 ```
 npm install
 ```
-2. Start web-app
+2. Start the development server
 ```
-npm run web:dev
+npm run dev
 ```
 3. Navigate to http://localhost:5173/
 
 ## Self hosting with Docker
-1. Pull docker image
+
+Docker compose is the easiest way to get started.
+
+Create a `docker-compose.yml` file with the following:
+```yaml
+services:
+  api:
+    image: cadamsdev/notes-api:latest
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./apps/api/data:/app/data
+    environment:
+      - DB_PATH=./data/database.sqlite
+      - ADDRESS=0.0.0.0
+      - PORT=3001
+  web-app:
+    image: cadamsdev/notes-api:latest
+    ports:
+      - "4173:4173"
+    depends_on:
+      - api
+    environment:
+      - PUBLIC_API_URL=http://localhost:3001
 ```
-docker pull cadamsdev/notes:latest
-```
-2. Run docker container
-```
-docker run -d -p 4173:4173 -v ~/.notes:/app/data --name notes cadamsdev/notes
-```
+
+Run `docker compose up`
+
+Navigate to http://localhost:4173/
