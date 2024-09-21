@@ -1,9 +1,9 @@
-import { PUBLIC_API_URL } from "$env/static/public";
+import { env } from "$env/dynamic/public";
 import type { Tag } from "../../interfaces/Tag";
 import type { Note } from "../../store";
 
 export async function fetchNotes(): Promise<Note[]> {
-  const result = await fetch(`${PUBLIC_API_URL}/notes`, {
+  const result = await fetch(`${env.PUBLIC_API_URL}/notes`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -19,7 +19,7 @@ export async function fetchNotes(): Promise<Note[]> {
 }
 
 export async function fetchNote(id: string): Promise<Note | null> {
-  const result = await fetch(`${PUBLIC_API_URL}/notes/${id}`, {
+  const result = await fetch(`${env.PUBLIC_API_URL}/notes/${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -35,7 +35,7 @@ export async function fetchNote(id: string): Promise<Note | null> {
 }
 
 export async function createNote(note: Note): Promise<Response> {
-  const response = await fetch(`${PUBLIC_API_URL}/notes`, {
+  const response = await fetch(`${env.PUBLIC_API_URL}/notes`, {
     method: 'POST',
     body: JSON.stringify(note)
   });
@@ -43,7 +43,7 @@ export async function createNote(note: Note): Promise<Response> {
 }
 
 export async function updateNote(note: Note): Promise<Response> {
-  const response = await fetch(`${PUBLIC_API_URL}/notes/${note.id}`, {
+  const response = await fetch(`${env.PUBLIC_API_URL}/notes/${note.id}`, {
 		method: 'PUT',
 		body: JSON.stringify(note),
 	});
@@ -51,14 +51,14 @@ export async function updateNote(note: Note): Promise<Response> {
 }
 
 export async function deleteNote(noteId: number): Promise<Response> {
-  const response = await fetch(`${PUBLIC_API_URL}/notes/${noteId}`, {
+  const response = await fetch(`${env.PUBLIC_API_URL}/notes/${noteId}`, {
     method: 'DELETE',
   });
   return response;
 }
 
 export async function fetchTags(): Promise<Tag[]> {
-    const result = await fetch(`${PUBLIC_API_URL}/tags`, {
+    const result = await fetch(`${env.PUBLIC_API_URL}/tags`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -74,7 +74,7 @@ export async function fetchTags(): Promise<Tag[]> {
 }
 
 export async function updateTag(tag: Tag): Promise<Response> {
-  const response = await fetch(`${PUBLIC_API_URL}/tags/${tag.id}`, {
+  const response = await fetch(`${env.PUBLIC_API_URL}/tags/${tag.id}`, {
     method: 'PUT',
     body: JSON.stringify(tag)
   });
@@ -82,14 +82,14 @@ export async function updateTag(tag: Tag): Promise<Response> {
 }
 
 export async function deleteTag(tagId: number): Promise<Response> {
-  const response = await fetch(`${PUBLIC_API_URL}/tags/${tagId}`, {
+  const response = await fetch(`${env.PUBLIC_API_URL}/tags/${tagId}`, {
 		method: 'DELETE',
 	});
   return response;
 }
 
 export async function fetchTagSort(): Promise<number> {
-  const result = await fetch(`${PUBLIC_API_URL}/tag-sort`, {
+  const result = await fetch(`${env.PUBLIC_API_URL}/tag-sort`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -109,7 +109,7 @@ export interface UpdateTagSortConfig {
 }
 
 export async function updateTagSort(config: UpdateTagSortConfig): Promise<Response> {
-  const response = await fetch(`${PUBLIC_API_URL}/settings/tag_sort`, {
+  const response = await fetch(`${env.PUBLIC_API_URL}/settings/tag_sort`, {
     method: 'PUT',
     body: JSON.stringify(config),
   });
@@ -117,7 +117,7 @@ export async function updateTagSort(config: UpdateTagSortConfig): Promise<Respon
 }
 
 export async function saveTags(noteId: number, tags: Tag[]): Promise<Response> {
-  const response = await fetch(`${PUBLIC_API_URL}/notes/${noteId}/tags`, {
+  const response = await fetch(`${env.PUBLIC_API_URL}/notes/${noteId}/tags`, {
 		method: 'POST',
 		body: JSON.stringify(tags)
 	});

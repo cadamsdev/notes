@@ -11,15 +11,13 @@ RUN npm install
 # copy the rest of the files
 COPY . .
 
-# create .env file
-RUN mv .env.example .env
-
 # build the app
 RUN npm run build
 
 # release
 FROM node:20-alpine as release
 WORKDIR /app
+
 COPY --from=base /app/node_modules ./node_modules
 COPY --from=base /app/package*.json ./
 COPY --from=base /app/vite.config.ts ./
