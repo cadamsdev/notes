@@ -31,6 +31,8 @@
     class="block w-full py-3 pl-11 pr-8 bg-bg-secondary text-text-secondary rounded text-base leading-normal placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-focus focus:ring-offset-2 focus:ring-offset-bg"
     value={searchText}
     on:input={handleInput}
+    autocomplete="off"
+    spellcheck="false"
   >
   {#if searchText}
     <button 
