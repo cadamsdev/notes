@@ -84,7 +84,7 @@ services:
     environment:
       - PORT=3001
   web-app:
-    image: cadamsdev/notes-api:latest
+    image: cadamsdev/notes:latest
     ports:
       - "4173:4173"
     depends_on:
