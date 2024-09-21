@@ -82,8 +82,6 @@ services:
     volumes:
       - ./apps/api/data:/app/data
     environment:
-      - DB_PATH=./data/database.sqlite
-      - ADDRESS=0.0.0.0
       - PORT=3001
   web-app:
     image: cadamsdev/notes-api:latest

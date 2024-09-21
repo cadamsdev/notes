@@ -2,7 +2,7 @@ import Database from 'better-sqlite3';
 import { Note } from './models/note';
 import { Tag } from './models/tag';
 
-const db = new Database(process.env.DB_PATH);
+const db = new Database('./data/database.sqlite');
 
 db.pragma('journal_mode = WAL');
 seed();
