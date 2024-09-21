@@ -7,9 +7,8 @@ services:
       - "3001:3001"
     volumes:
       - ./apps/api/data:/app/data
-    environment:
-      - NODE_ENV=production
-      - DB_PATH=./data/database.sqlite
+    env_file:
+      - ./apps/api/.env
 
   web-app:
     build:
@@ -19,9 +18,8 @@ services:
       - "4173:4173"
     depends_on:
       - api
-    environment:
-      - NODE_ENV=production
-      - PUBLIC_API_URL="http://localhost:3001"
+    env_file:
+      - ./apps/web-app/.env
 
 volumes:
   api-data:
