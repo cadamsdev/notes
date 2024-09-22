@@ -12,6 +12,7 @@
 
   body {
     @apply leading-relaxed bg-bg font-['Inter_Variable',sans-serif];
+    overscroll-behavior: none;
   }
 
   button {
