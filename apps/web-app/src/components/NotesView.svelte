@@ -75,25 +75,27 @@
 <div class="bg-bg w-[20rem] border-r border-bg-border">
     <div>
         <div bind:this={searchSection} class="p-4">
-            <div class="flex justify-end">
-                <button on:click={async () => await handleCreateNote()} class="bg-bg text-text-primary p-2 rounded hover:bg-bg-hover mb-4">
+            <div class="flex justify-end mb-4">
+                <button on:click={async () => await handleCreateNote()} class="bg-bg text-text-primary p-2 rounded hover:bg-bg-hover">
                     <Icon icon="fa-solid:plus" />
                 </button>
             </div>
             <SearchInput on:search={handleSearch} placeholder="Search..." />
 
-            <div class="mt-2 flex flex-wrap gap-1">
-                {#each $selectedTags as filteredTag}
-                    <Chip
-                        text={filteredTag.name}
-                        color={filteredTag.color}
-                        hasCloseBtn
-                        on:close={() => selectedTags.update((tags) => tags.filter((tag) => tag.id !== filteredTag.id))}
-                    />
-                {/each}
-            </div>
+						{#if $selectedTags.length}
+							<div class="mt-2 flex flex-wrap gap-1">
+									{#each $selectedTags as filteredTag}
+											<Chip
+													text={filteredTag.name}
+													color={filteredTag.color}
+													hasCloseBtn
+													on:close={() => selectedTags.update((tags) => tags.filter((tag) => tag.id !== filteredTag.id))}
+											/>
+									{/each}
+							</div>
+						{/if}
         </div>
-        <div class="overflow-y-auto pt-1" style="height: calc(100vh - {searchSectionHeight}px);">
+        <div class="overflow-y-auto" style="height: calc(100vh - {searchSectionHeight}px);">
             {#each $filteredNotes as note, index}
                 <button
                     id={`note-${note.id}`}
