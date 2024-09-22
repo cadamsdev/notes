@@ -81,8 +81,6 @@ services:
       - "3001:3001"
     volumes:
       - ./apps/api/data:/app/data
-    environment:
-      - PORT=3001
   web-app:
     image: cadamsdev/notes:latest
     ports:
