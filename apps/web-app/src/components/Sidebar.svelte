@@ -25,9 +25,10 @@
 	import type { Tag } from '../interfaces/Tag';
 	import clsx from 'clsx';
 	import ColorDot from './ColorDot.svelte';
-	import { MODAL_EDIT_TAG, MODAL_REMOVE_TAG } from '../constants/modal.constants';
+	import { MODAL_EDIT_TAG, MODAL_REMOVE_TAG, MODAL_SETTINGS } from '../constants/modal.constants';
 	import { TAG_SORT_NAME, TAG_SORT_COUNT } from '../constants/settings.constants';
-	import { updateTag } from '$lib/api';
+	import * as api from '$lib/api';
+	import { env } from '$env/dynamic/public';
 
 	let currentTag: Tag;
 	let selectedColor = '';
@@ -65,7 +66,7 @@
 			newColor = '';
 		}
 
-		const response = await updateTag({
+		const response = await api.updateTag({
 			...currentTag,
 			color: newColor
 		});
@@ -121,6 +122,12 @@
 </script>
 
 <div class="w-[275px] min-w-[275px] p-6 bg-bg flex flex-col gap-4 text-text-primary border-r border-solid border-bg-border">
+	<button class="flex items-center gap-2 hover:bg-bg-hover p-2 rounded" on:click={() => openModal(MODAL_SETTINGS)}>
+		<Icon icon="fluent:settings-20-filled" width="20" height="20" />
+		Settings
+	</button>
+
+
 	<div class="flex items-center justify-between gap-2 text-text-primary-emphasis text-sm">
 		<div class="flex items-center gap-2">
 			<Icon icon="fa-solid:tags" />
@@ -216,6 +223,11 @@
 			<Button variant="secondary" on:click={() => closeModal()}>Cancel</Button>
 		</div>
 	</div>
+</Dialog>
+
+<Dialog id={MODAL_SETTINGS}>
+	<h2 class="text-xl mb-8">Settings</h2>
+	<Button variant="secondary" href={`${env.PUBLIC_API_URL}/export/data`}>Export data</Button>
 </Dialog>
 
 <ConfirmationDialog id={MODAL_REMOVE_TAG} on:action={async () => await handleRemoveTag()} />

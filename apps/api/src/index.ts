@@ -5,6 +5,8 @@ import { createNote, deleteNote, deleteTag, getAllTags, getNoteForId, getNotes, 
 import { Note } from './models/note';
 import { Tag } from './models/tag';
 import cors from '@fastify/cors';
+import { join } from 'path';
+import archiver from 'archiver';
 
 const { PORT = '3001', ADDRESS = 'localhost' } = process.env;
 
@@ -138,6 +140,45 @@ server.put('/settings/:name', async (request, reply) => {
   const data = JSON.parse(request.body as string) as { value: number };
   const result = await updateSettings(name, data.value);
   return result;
+});
+
+server.get('/export/data', async (req, reply) => {
+  const workspaceDir = process.cwd();
+  const databaseFileNames = [
+    'database.sqlite',
+    'database.sqlite-shm',
+    'database.sqlite-wal',
+  ];
+
+  const files = databaseFileNames.map((fileName) => {
+    return {
+      path: join(workspaceDir, 'data', fileName),
+      name: fileName,
+    }
+  });
+
+  reply.header('Content-Type', 'application/zip');
+  reply.header('Content-Disposition', 'attachment; filename=database.zip');
+
+  const archive = archiver('zip', {
+    zlib: { level: 9 }, // Sets the compression level
+  });
+
+  archive.on('error', (err) => {
+    reply.log.error(err);
+    reply.code(500).send({ error: 'Failed to create archive' });
+  });
+
+  // Pipe archive data to the reply
+  archive.pipe(reply.raw);
+
+  // Add files to the archive
+  for (const file of files) {
+    archive.file(file.path, { name: file.name });
+  }
+
+  // Finalize the archive (ie we are done appending files but streams have to finish yet)
+  await archive.finalize();
 });
 
 const start = async () => {
