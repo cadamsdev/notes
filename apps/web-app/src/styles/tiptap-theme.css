@@ -1,11 +1,22 @@
 .editor h1 {
   @apply text-2xl;
+  @apply my-8;
 }
 
 .editor h2 {
   @apply text-xl;
+  @apply mt-8 mb-6;
+}
+
+.editor h3 {
+  @apply text-lg;
+  @apply mt-8 mb-4;
 }
 
 .editor p {
   @apply text-base;
+}
+
+.editor h1, .editor h2, .editor h3 {
+  @apply font-bold;
 }
