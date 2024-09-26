@@ -2,15 +2,15 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { Editor, type JSONContent } from '@tiptap/core';
 	import StarterKit from '@tiptap/starter-kit';
-	import { notes, type Note } from '../store';
 	import { updateNote } from '$lib/api';
-
-	export let note: Note;
+	import { get } from 'svelte/store';
+	import { notes, selectedNote, type Note } from '$lib/stores/notes';
 
 	let element: HTMLElement;
 	let editor: Editor;
 
 	async function save() {
+		const note = get(selectedNote);
 		if (!note) {
 			console.error('Invalid note');
 			return;
@@ -55,23 +55,26 @@
 		return 'New note';
 	}
 
-	onMount(() => {
-		if (note?.content) {
-		console.log(JSON.parse(note.content))
-		}
-
+	function initEditor() {
+		const note = get(selectedNote);
+		editor?.destroy();
 		editor = new Editor({
 			element: element,
 			extensions: [StarterKit],
-			content: note?.content ? JSON.parse(note.content) : 'Hello world!',
+			content: note?.content ? JSON.parse(note.content) : '',
 			onTransaction: () => {
-				console.log('on transaction')
 				// force re-render so `editor.isActive` works as expected
 				editor = editor;
 			},
 			onUpdate: async () => {
 				await save();	
 			}
+		});
+	}
+
+	onMount(() => {
+		selectedNote.subscribe((note) => {
+			initEditor();
 		});
 	});
 

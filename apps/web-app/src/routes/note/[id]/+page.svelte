@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
-	import { selectedNote, openModal, closeModal, fetchTags, fetchNotes } from '../../../store';
-	import type { PageData } from './$types';
+	import { openModal, closeModal, fetchTags, fetchNotes } from '../../../store';
 	import { get, type Unsubscriber } from 'svelte/store';
 	import Icon from '@iconify/svelte';
 	import TagCombobox from '../../../components/TagCombobox.svelte';
@@ -13,15 +12,16 @@
 	import { page } from '$app/stores';
 	import { saveTags } from '$lib/api';
 	import Tiptap from '../../../components/Tiptap.svelte';
-
-	export let data: PageData;
+	import { selectedNote } from '$lib/stores/notes';
 
 	let tempTags: Tag[] = [];
-	let selectedTags: Tag[] = [...data.note?.tags || []];
+	let selectedTags: Tag[] = [...get(selectedNote)?.tags || []];
 	let subscriptions: Unsubscriber[] = [];
 
 	subscriptions.push(
 		selectedNote.subscribe((note) => {
+			console.log('note changed');
+			console.log(note);
 			if (note) {
 				selectedTags = [...note.tags || []];
 			}
@@ -66,15 +66,13 @@
 
 <div class="relative">
 	<div class="px-16 py-4 max-h-screen overflow-y-auto">
-		{#if !data.note}
+		{#if !$selectedNote}
 			<div class="flex items-center justify-center h-full">
 				<div>No content</div>
 			</div>
 		{/if}
 
-		{#if  data.note}
-			<Tiptap note={data.note} />
-		{/if}
+			<Tiptap />
 	</div>
 
 	<div class="fixed bottom-0 p-3 bg-bg border-t border-bg-border text-text-primary w-full z-10 flex items-center gap-2 min-h-[50px]">
