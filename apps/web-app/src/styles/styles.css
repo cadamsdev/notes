@@ -1,4 +1,5 @@
 @import url('./editor-theme.css');
+@import url('./tiptap-theme.css');
 
 /* width */
 ::-webkit-scrollbar {

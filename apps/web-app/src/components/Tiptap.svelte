@@ -106,7 +106,7 @@
 	</button>
 {/if}
 
-<div bind:this={element} />
+<div class="editor" bind:this={element} />
 
 <style>
 	button.active {

@@ -1,0 +1,11 @@
+.editor h1 {
+  @apply text-2xl;
+}
+
+.editor h2 {
+  @apply text-xl;
+}
+
+.editor p {
+  @apply text-base;
+}
