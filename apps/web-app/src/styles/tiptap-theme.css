@@ -20,3 +20,11 @@
 .editor h1, .editor h2, .editor h3 {
   @apply font-bold;
 }
+
+.editor p.is-empty::before {
+	@apply text-text-secondary;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+  }

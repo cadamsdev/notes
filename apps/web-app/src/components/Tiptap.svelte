@@ -5,6 +5,7 @@
 	import { updateNote } from '$lib/api';
 	import { get } from 'svelte/store';
 	import { notes, selectedNote, type Note } from '$lib/stores/notes';
+	import Placeholder from '@tiptap/extension-placeholder';
 
 	let element: HTMLElement;
 	let editor: Editor;
@@ -60,7 +61,12 @@
 		editor?.destroy();
 		editor = new Editor({
 			element: element,
-			extensions: [StarterKit],
+			extensions: [
+				StarterKit,
+        Placeholder.configure({
+          placeholder: 'Write something or type / for commands',
+        }),
+			],
 			content: note?.content ? JSON.parse(note.content) : '',
 			onTransaction: () => {
 				// force re-render so `editor.isActive` works as expected
