@@ -48,3 +48,7 @@
 .editor blockquote {
   @apply flex px-4 border-l-[3px] border-secondary;
 }
+
+.editor hr {
+  @apply h-px bg-bg-border my-2 p-0 border-none w-full;
+}
