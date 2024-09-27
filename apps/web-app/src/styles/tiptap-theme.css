@@ -44,3 +44,7 @@
 .editor li {
   @apply py-[5.5px] pl-[3px] leading-[1.6em] outline-none;
 }
+
+.editor blockquote {
+  @apply flex px-4 border-l-[3px] border-secondary;
+}
