@@ -27,4 +27,20 @@
   float: left;
   height: 0;
   pointer-events: none;
-  }
+}
+
+.editor ul li {
+  @apply list-disc;
+}
+
+.editor ol li {
+  @apply list-decimal;
+}
+
+.editor ul, .editor ol {
+  @apply m-0 pl-10 outline-none;
+}
+
+.editor li {
+  @apply py-[5.5px] pl-[3px] leading-[1.6em] outline-none;
+}
