@@ -6,6 +6,7 @@
 	import { get } from 'svelte/store';
 	import { notes, selectedNote, type Note } from '$lib/stores/notes';
 	import Placeholder from '@tiptap/extension-placeholder';
+	import Link from '@tiptap/extension-link';
 
 	let element: HTMLElement;
 	let editor: Editor;
@@ -66,6 +67,10 @@
         Placeholder.configure({
           placeholder: 'Write something or type / for commands',
         }),
+				Link.configure({
+					openOnClick: true,
+					defaultProtocol: 'https',
+				})
 			],
 			content: note?.content ? JSON.parse(note.content) : '',
 			onTransaction: () => {

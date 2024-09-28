@@ -52,3 +52,14 @@
 .editor hr {
   @apply h-px bg-bg-border my-2 p-0 border-none w-full;
 }
+
+.editor a {
+	@apply text-text-link;
+  @apply cursor-pointer;
+  @apply no-underline;
+}
+
+.editor a:hover {
+  @apply underline;
+}
+
