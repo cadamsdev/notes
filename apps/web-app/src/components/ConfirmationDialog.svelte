@@ -5,8 +5,7 @@
 	import Button from './Button.svelte';
 	import { closeModal } from '../store';
 
-	export let id: string;
-	export let description: string = 'Are you sure you want to this?';
+    let { id, description = 'Are you sure you want to this?' }: { id: string, description?: string } = $props();
 
 	const dispatch = createEventDispatcher();
 
@@ -23,12 +22,10 @@
 </script>
 
 <Modal {id} on:closeModal={handleCloseModal}>
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div class="inline-block rounded-[0.25rem] bg-bg border border-bg-border p-3 text-text-primary shadow-md z-20 min-w-[18.75rem]">
         <div class="flex items-center justify-between mb-8">
             <h2 class="text-[1.25rem] text-text-primary font-bold text-center">Confirm Action</h2>
-            <button on:click={handleCloseModal} class="text-text-secondary hover:text-text-primary-hover">
+            <button onclick={handleCloseModal} class="text-text-secondary hover:text-text-primary-hover">
                 <Icon icon="fa-solid:times" width="24" height="24" />
             </button>
         </div>
