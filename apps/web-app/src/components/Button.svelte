@@ -3,8 +3,7 @@
 
   //@ts-ignore
 	export type ButtonType = 'primary' | 'secondary';
-	export let variant: ButtonType = 'primary';
-	export let href = '';
+	let { variant = 'primary', href = '', ...otherProps }: { variant: ButtonType, href: string } = $props();
 </script>
 
 {#if href}
@@ -17,7 +16,7 @@
 			}, 'py-2 px-4 text-btn-text text-base',
 			''
 		)}
-		{...$$props}
+		{...otherProps}
 	>
 		<slot />
 	</a>
@@ -31,7 +30,7 @@
 				}, 'py-2 px-4 text-btn-text text-base',
 				''
 			)}
-			{...$$props}
+			{...otherProps}
 		>
 			<slot />
 		</button>
