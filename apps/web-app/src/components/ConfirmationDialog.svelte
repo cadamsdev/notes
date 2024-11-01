@@ -40,8 +40,8 @@
             {/if}
 
             <div class="flex justify-end gap-2">
-                <Button on:click={handleAction} variant='primary'>Yes</Button>
-                <Button on:click={handleCloseModal} variant='secondary'>No</Button>
+                <Button onclick={handleAction} variant='primary'>Yes</Button>
+                <Button onclick={handleCloseModal} variant='secondary'>No</Button>
             </div>
         </div>
     </div>

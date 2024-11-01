@@ -1,9 +1,17 @@
 <script lang="ts">
 	import clsx from 'clsx';
 
-  //@ts-ignore
+	//@ts-ignore
 	export type ButtonType = 'primary' | 'secondary';
-	let { variant = 'primary', href = '', children, ...otherProps }: { variant: ButtonType, href: string, children: any } = $props();
+
+	interface ButtonProps {
+		variant?: ButtonType;
+		href?: string;
+		children: any;
+		onclick?: () => void;
+	}
+
+	let { variant = 'primary', href = '', onclick, children, ...otherProps }: ButtonProps = $props();
 </script>
 
 {#if href}
@@ -22,6 +30,7 @@
 	</a>
 	{:else}
 		<button
+			onclick={onclick}
 			class={
 				clsx({
 					'bg-primary hover:bg-primary-hover': variant === 'primary',

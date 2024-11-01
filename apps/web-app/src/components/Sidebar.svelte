@@ -219,8 +219,8 @@
 		</div>
 
 		<div class="flex justify-end gap-2">
-			<Button on:click={async () => await handleUpdateTag()}>Save</Button>
-			<Button variant="secondary" on:click={() => closeModal()}>Cancel</Button>
+			<Button onclick={async () => await handleUpdateTag()}>Save</Button>
+			<Button variant="secondary" onclick={() => closeModal()}>Cancel</Button>
 		</div>
 	</div>
 </Dialog>
