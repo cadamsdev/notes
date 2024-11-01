@@ -7,8 +7,7 @@
 
 	type ModalPosition = 'center' | 'center-top';
 
-	export let id: string;
-	export let position: ModalPosition = 'center-top';
+	let { id, position = 'center-top', children }: { id: string, position?: ModalPosition, children: any } = $props();
 
 	let dispatcher = createEventDispatcher();
 
@@ -29,8 +28,6 @@
 </script>
 
 {#if $currentModal === id}
-	<!-- svelte-ignore a11y-click-events-have-key-events -->
-	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div
 		class={clsx(
 			'fixed inset-0 w-full h-full z-10 bg-modal-overlay flex',
@@ -39,6 +36,6 @@
 		use:teleport={'teleport'}
 		use:clickOutside={handleCloseModal}
 	>
-		<slot />
+		{@render children?.()}
 	</div>
 {/if}
