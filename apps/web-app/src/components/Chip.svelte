@@ -3,9 +3,7 @@
 	import clsx from 'clsx';
 	import { createEventDispatcher } from 'svelte';
 
-	export let text: string;
-	export let color = '';
-	export let hasCloseBtn = false;
+	let { text, color = '', hasCloseBtn = false  }: { text: string, color: string, hasCloseBtn: boolean } = $props();
 
 	const dispatch = createEventDispatcher();
 </script>
@@ -34,7 +32,7 @@
 	{/if}
 	<div>{text}</div>
 	{#if hasCloseBtn}
-		<button on:click={() => dispatch('close')} class="p-1">
+		<button onclick={() => dispatch('close')} class="p-1">
 			<Icon icon="fa-solid:times" width="12" height="12" />
 		</button>
 	{/if}
