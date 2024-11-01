@@ -1,7 +1,8 @@
 <script lang="ts">
 	import clsx from 'clsx';
 
-	export let color: string | undefined = undefined;
+	let { color }: { color?: string } = $props();
+
 </script>
 
 <div
