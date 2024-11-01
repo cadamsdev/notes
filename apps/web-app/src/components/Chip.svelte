@@ -3,7 +3,7 @@
 	import clsx from 'clsx';
 	import { createEventDispatcher } from 'svelte';
 
-	let { text, color = '', hasCloseBtn = false  }: { text: string, color: string, hasCloseBtn: boolean } = $props();
+	let { text, color = '', hasCloseBtn = false  }: { text: string, color?: string, hasCloseBtn: boolean } = $props();
 
 	const dispatch = createEventDispatcher();
 </script>
