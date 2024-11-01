@@ -2,9 +2,11 @@
   import Icon from '@iconify/svelte';
 	import { createEventDispatcher } from 'svelte';
 
+  const props = $props();
+
   const dispatch = createEventDispatcher();
 
-  let searchText = '';
+  let searchText = $state('');
 
   function clearSearch() {
     searchText = '';
@@ -27,17 +29,17 @@
     <Icon icon="fa-solid:search" width="20" height="20" />
   </div>
   <input
-    {...$$restProps}
+    {...props}
     class="block w-full py-3 pl-11 pr-8 bg-bg-secondary text-text-secondary rounded text-base leading-normal placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-focus focus:ring-offset-2 focus:ring-offset-bg"
     value={searchText}
-    on:input={handleInput}
+    oninput={handleInput}
     autocomplete="off"
     spellcheck="false"
   >
   {#if searchText}
     <button 
       class="absolute top-0 right-2 bottom-0 text-secondary p-0"
-      on:click={clearSearch} 
+      onclick={clearSearch} 
       title="Clear search"
     >
       <Icon icon="fa-solid:times" width="20" height="20" />
