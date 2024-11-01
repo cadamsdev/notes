@@ -1,14 +1,13 @@
 <script lang="ts">
 	import type { ContextMenuConfig } from '../interfaces/ContextMenu';
 
-	export let actions: ContextMenuConfig[] = [];
-	export let targetId: string;
+	let { actions = [], targetId }: { actions?: ContextMenuConfig[], targetId: string; } = $props();
 
-	let pos = { x: 0, y: 0 };
-	let menu = { w: 0, h: 0, y: 0 };
-	let browser = { w: 0, h: 0, y: 0 };
-	let showMenu = false;
-	let component: HTMLElement;
+	let pos = $state({ x: 0, y: 0 });
+	let menu = $state({ w: 0, h: 0, y: 0 });
+	let browser = $state({ w: 0, h: 0, y: 0 });
+	let showMenu = $state(false);
+	let component = $state<HTMLElement | undefined>(undefined);
 
 	function show(e: MouseEvent) {
 		const targetEl = document.querySelector(`#${targetId}`);
@@ -62,11 +61,11 @@
         <ul class="border border-bg-border bg-bg rounded">
             {#each actions as action}
                 <li>
-                    <button class="p-4 w-full text-left text-text-primary hover:bg-bg-hover" on:click={(e) => handleClickAction(e, action)}>{action.label}</button>
+                    <button class="p-4 w-full text-left text-text-primary hover:bg-bg-hover" onclick={(e) => handleClickAction(e, action)}>{action.label}</button>
                 </li>
             {/each}
         </ul>
     </nav>
 {/if}
 
-<svelte:window on:click={onPageClick} on:contextmenu={onContextMenu} />
+<svelte:window onclick={onPageClick} oncontextmenu={onContextMenu} />
