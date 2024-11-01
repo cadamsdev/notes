@@ -3,7 +3,7 @@
 
   //@ts-ignore
 	export type ButtonType = 'primary' | 'secondary';
-	let { variant = 'primary', href = '', ...otherProps }: { variant: ButtonType, href: string } = $props();
+	let { variant = 'primary', href = '', children, ...otherProps }: { variant: ButtonType, href: string, children: any } = $props();
 </script>
 
 {#if href}
@@ -18,11 +18,10 @@
 		)}
 		{...otherProps}
 	>
-		<slot />
+		{@render children?.()}
 	</a>
 	{:else}
 		<button
-			on:click
 			class={
 				clsx({
 					'bg-primary hover:bg-primary-hover': variant === 'primary',
@@ -32,6 +31,6 @@
 			)}
 			{...otherProps}
 		>
-			<slot />
+			{@render children?.()}
 		</button>
 {/if}
