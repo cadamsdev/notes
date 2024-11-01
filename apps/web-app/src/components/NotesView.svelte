@@ -86,10 +86,10 @@
 							<div class="mt-2 flex flex-wrap gap-1">
 									{#each $selectedTags as filteredTag}
 											<Chip
-													text={filteredTag.name}
-													color={filteredTag.color}
-													hasCloseBtn
-													on:close={() => selectedTags.update((tags) => tags.filter((tag) => tag.id !== filteredTag.id))}
+												text={filteredTag.name}
+												color={filteredTag.color}
+												hasCloseBtn
+												on:close={() => selectedTags.update((tags) => tags.filter((tag) => tag.id !== filteredTag.id))}
 											/>
 									{/each}
 							</div>
