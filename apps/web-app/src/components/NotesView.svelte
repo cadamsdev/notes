@@ -76,7 +76,7 @@
     <div>
         <div bind:this={searchSection} class="p-4">
             <div class="flex justify-end mb-4">
-                <button on:click={async () => await handleCreateNote()} class="bg-bg text-text-primary p-2 rounded hover:bg-bg-hover">
+                <button onclick={async () => await handleCreateNote()} class="bg-bg text-text-primary p-2 rounded hover:bg-bg-hover">
                     <Icon icon="fa-solid:plus" />
                 </button>
             </div>
@@ -103,7 +103,7 @@
                         'bg-bg-secondary': +$page.params.id === note.id,
                         'hover:bg-bg-secondary': +$page.params.id !== note.id,
 									})}
-                    on:click={() => selectNote(note)}
+                    onclick={() => selectNote(note)}
                 >
                     <div class="mb-3 text-text-primary-emphasis">{note.title}</div>
                     <div class="flex flex-wrap gap-1">
