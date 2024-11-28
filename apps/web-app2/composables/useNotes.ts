@@ -32,7 +32,6 @@ export interface Tag {
 
 export const useNotes = () => {
   const config = useRuntimeConfig();
-  console.log(`apiUrl: ${config.public.apiUrl}`);
   const data = ref<Note[]>([]);
   const error = ref<any>(null);
   const loading = ref(false);
@@ -49,7 +48,6 @@ export const useNotes = () => {
 
       if (result.ok) {
         const notes = (await result.json()) as Note[];
-        console.log(notes);
         data.value = notes;
       }
     } catch (err) {
@@ -60,7 +58,6 @@ export const useNotes = () => {
   };
 
   fetchNotes();
-
   return {
     data,
     error,
