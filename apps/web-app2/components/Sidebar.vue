@@ -25,10 +25,10 @@
           <span class="text-base">{{ tag.name }}</span>
           <span class="text-text-primary text-sm">&nbsp;{{ tag.count }}</span>
         </div>
-        <!-- <ContextMenu :targetId="`tag-${tag.id}`" :actions="[
+        <ContextMenu :targetId="`tag-${tag.id}`" :actions="[
           { label: 'Edit', action: () => handleShowEditTagModal(tag) },
           { label: 'Remove', action: () => handleShowRemoveTagConfirmationModal(tag) }
-        ]" /> -->
+        ]" />
       </button>
     </div>
   </div>
@@ -124,10 +124,12 @@ const selectTag = (tag: any) => {
 
 const handleShowEditTagModal = (tag: any) => {
   // Implement your show edit tag modal logic here
+  console.log('handleShowEditTagModal');
 }
 
 const handleShowRemoveTagConfirmationModal = (tag: any) => {
   // Implement your show remove tag confirmation modal logic here
+  console.log('handleShowRemoveTagConfirmationModal');
 }
 
 const handleOnEditTagModalClose = () => {
