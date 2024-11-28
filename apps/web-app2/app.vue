@@ -1,6 +1,6 @@
 <template>
   <div class="flex h-full">
-    <!-- <Sidebar tagSort={data.tagSort} /> -->
+    <Sidebar />
 
     <NotesView />
 
