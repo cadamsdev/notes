@@ -9,3 +9,15 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+useHead({
+  title: 'Web App 2',
+  meta: [
+    {
+      name: 'description',
+      content: 'Web App 2'
+    }
+  ]
+})
+</script>
