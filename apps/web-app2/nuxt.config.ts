@@ -5,6 +5,11 @@ export default defineNuxtConfig({
   ssr: false,
   modules: ['@nuxtjs/tailwindcss', '@nuxt/icon'],
   css: ['@/assets/css/styles.css'],
+  runtimeConfig: {
+    public: {
+      apiUrl: ''
+    }
+  },
   tailwindcss: {
     config: {
       theme: {

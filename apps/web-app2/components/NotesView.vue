@@ -31,10 +31,15 @@
 
 <script setup lang="ts">
 import clsx from 'clsx'
+const { data } = useNotes();
 
 const selectedTags = ref([])
 const filteredNotes = ref([])
 const route = useRoute()
+
+watch(data, (newValue) => {
+  filteredNotes.value = newValue;
+});
 
 const handleCreateNote = async () => {
   // Implement your note creation logic here
