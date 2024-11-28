@@ -12,11 +12,11 @@
 
 <script setup lang="ts">
 useHead({
-  title: 'Web App 2',
+  title: 'NoteX',
   meta: [
     {
       name: 'description',
-      content: 'Web App 2'
+      content: 'A note-taking app for developers'
     }
   ]
 })
