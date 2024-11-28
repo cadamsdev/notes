@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import clsx from 'clsx'
+import clsx from 'clsx';
 const { data } = useNotes();
 
 const selectedTags = ref([])
