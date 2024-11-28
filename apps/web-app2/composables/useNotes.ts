@@ -1,21 +1,3 @@
-/*
-export async function fetchNotes(): Promise<Note[]> {
-	const result = await fetch(`${env.PUBLIC_API_URL}/notes`, {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json'
-		}
-	});
-
-	if (result.ok) {
-		const notes = (await result.json()) as Note[];
-		return notes;
-	}
-
-	return [];
-}
-*/
-
 export interface Note {
   id: number;
   title: string;
