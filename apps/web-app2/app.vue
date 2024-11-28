@@ -2,7 +2,7 @@
   <div class="flex h-full">
     <!-- <Sidebar tagSort={data.tagSort} /> -->
 
-    <!-- <NotesView /> -->
+    <NotesView />
 
     <div class="flex-grow bg-bg text-text-primary">
       <slot />
