@@ -1,8 +1,0 @@
-body {
-  @apply dark:bg-black;
-  @apply min-h-screen;
-}
-
-#__nuxt {
-  @apply min-h-screen;
-}

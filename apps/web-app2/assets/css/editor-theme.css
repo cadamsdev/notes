@@ -1,0 +1,158 @@
+.ce-block__content h1,
+.ce-block__content h2,
+.ce-block__content h3 {
+	@apply leading-tight font-bold;
+}
+
+.ce-block__content h1 {
+	@apply text-[2.027rem]; /* 32.44px */
+}
+
+.ce-block__content h2 {
+	@apply text-[1.802rem]; /* 28.83px */
+}
+
+.ce-block__content h3 {
+	@apply text-[1.602rem]; /* 25.63px */
+}
+
+.ce-popover__overlay .ce-popover.ce-popover--opened {
+	@apply left-0;
+}
+
+.ce-popover .ce-popover__container {
+	@apply bg-bg border border-bg-border;
+}
+
+.ce-toolbar__plus { 
+	@apply text-text-secondary;
+}
+
+.ce-toolbar__plus:hover {
+	@apply bg-bg-secondary;
+}
+
+.ce-toolbar__settings-btn {
+	@apply text-text-secondary;
+}
+
+.ce-toolbar__settings-btn:hover {
+	@apply bg-bg-secondary;
+}
+
+.ce-popover {
+	@apply bg-bg border border-bg-border;
+}
+
+.ce-popover__items .ce-popover-item:hover {
+	@apply bg-bg-secondary-hover;
+}
+
+.ce-popover-item {
+	@apply text-text-primary;
+}
+
+.ce-popover-item__icon {
+	@apply text-text-primary bg-bg shadow-none;
+}
+
+.cdx-search-field {
+	@apply bg-bg-secondary text-text-secondary border border-bg-secondary;
+}
+
+.cdx-search-field__icon svg {
+	@apply text-text-primary;
+}
+
+.cdx-search-field__input {
+	@apply text-text-primary;
+}
+
+.cdx-search-field__input::placeholder {
+	@apply text-text-primary;
+}
+
+.ce-popover__nothing-found-message {
+	@apply text-text-primary;
+}
+
+.ce-block--selected .ce-block__content {
+	@apply bg-bg;
+}
+
+.ce-inline-toolbar {
+	@apply bg-bg border border-bg-border text-text-primary;
+}
+
+.ce-inline-toolbar__buttons .ce-inline-tool:hover {
+	@apply bg-bg-secondary;
+	
+}
+
+.be-list.unordered li {
+	@apply list-disc;
+}
+
+.be-list.ordered li {
+	@apply list-decimal;
+}
+
+.ce-block__content .ce-paragraph[data-placeholder]:empty:before {
+	@apply text-text-primary;
+}
+
+/* Code block */
+textarea.ce-code__textarea {
+	@apply bg-bg-secondary text-text-secondary border border-bg-secondary;
+}
+
+.codex-editor ::selection {
+	@apply bg-bg-secondary;
+}
+
+code.inline-code {
+	@apply bg-bg-secondary text-text-secondary;
+}
+
+.ce-block a {
+	@apply text-text-link;
+}
+
+.ce-inline-tool-input {
+	@apply bg-bg text-text-primary border border-bg-border;
+}
+
+.ce-inline-tool-input::placeholder {
+	@apply text-text-primary;
+}
+
+.ct__content {
+	@apply text-text-primary bg-bg border border-bg-border rounded-[0.375rem];
+}
+
+.codex-editor [data-placeholder-active]:empty:before,
+.codex-editor [data-placeholder-active][data-empty=true]:before {
+	@apply text-text-secondary;
+}
+
+.ce-popover-item-separator__line {
+	@apply bg-bg-border;
+}
+
+.ce-popover__items .ce-popover-item--focused:not(.ce-popover-item--no-focus) {
+	@apply bg-bg-secondary-hover !important;
+}
+
+@media (min-width: 651px) {
+	.codex-editor--narrow .ce-toolbox .ce-popover {
+		@apply left-0 right-auto;
+	}
+
+	.codex-editor--narrow .ce-toolbar__actions {
+		@apply right-full;
+	}
+
+	.codex-editor--narrow .ce-settings .ce-popover {
+		@apply left-0 right-auto;
+	}
+}
