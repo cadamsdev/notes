@@ -5,13 +5,6 @@ export interface Note {
   tags?: Tag[];
 }
 
-export interface Tag {
-  id: number;
-  name: string;
-  color?: string;
-  count?: number;
-}
-
 export const useNotes = () => {
   const config = useRuntimeConfig();
   const data = ref<Note[]>([]);

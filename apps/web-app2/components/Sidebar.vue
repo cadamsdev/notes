@@ -18,7 +18,7 @@
       </button>
     </div>
     <div class="flex-grow overflow-y-auto pl-1">
-      <button v-for="tag in filteredTags" :key="tag.id" v-if="tag?.count ?? 0 > 0" :id="`tag-${tag.id}`"
+      <button v-for="tag in filteredTags" :key="tag.id" :v-if="tag.count ?? 0 > 0" :id="`tag-${tag.id}`"
         class="flex items-center gap-2 py-1 px-2 hover:text-text-primary-hover" @click="selectTag(tag)">
         <ColorDot :color="tag.color" />
         <div class="flex items-center gap-[2px]">
@@ -88,6 +88,8 @@
 </template>
 
 <script setup lang="ts">
+const { data } = useTags();
+
 const MODAL_SETTINGS = 'modal-settings'
 const MODAL_EDIT_TAG = 'modal-edit-tag'
 const MODAL_REMOVE_TAG = 'modal-remove-tag'
@@ -95,10 +97,14 @@ const TAG_SORT_COUNT = 'count'
 const TAG_SORT_NAME = 'name'
 
 const tagSort = ref(TAG_SORT_COUNT)
-const filteredTags = ref([]) // Replace with your actual data source
-const currentTag = ref({ name: '', color: '' }) // Replace with your actual data source
+const filteredTags = ref<Tag[]>([])
+const currentTag = ref({ name: '', color: '' })
 const selectedColor = ref('')
 const colors = ['red', 'green', 'blue', 'purple', 'yellow', 'orange', 'pink', 'brown', 'light-gray', 'dark-gray']
+
+watch(data, (newValue) => {
+  filteredTags.value = newValue;
+});
 
 const openModal = (modalId: string) => {
   // Implement your modal opening logic here
