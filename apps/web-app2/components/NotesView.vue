@@ -9,10 +9,10 @@
         </div>
         <SearchInput @search="handleSearch" placeholder="Search..." />
 
-        <!-- <div v-if="selectedTags.length" class="mt-2 flex flex-wrap gap-1">
+        <div v-if="selectedTags.length" class="mt-2 flex flex-wrap gap-1">
           <Chip v-for="filteredTag in selectedTags" :key="filteredTag.id" :text="filteredTag.name"
             :color="filteredTag.color" hasCloseBtn @close="removeTag(filteredTag.id)" />
-        </div> -->
+        </div>
       </div>
       <div class="overflow-y-auto min-h-screen">
         <button v-for="(note, index) in filteredNotes" :key="note.id" :id="`note-${note.id}`"
