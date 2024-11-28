@@ -3,7 +3,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps } from 'vue';
 import clsx from 'clsx';
 
 const props = defineProps<{

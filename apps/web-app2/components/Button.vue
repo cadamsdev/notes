@@ -6,7 +6,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps, useAttrs } from 'vue'
 import clsx from 'clsx'
 
 type ButtonType = 'primary' | 'secondary'
