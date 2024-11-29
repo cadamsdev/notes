@@ -79,11 +79,11 @@
     </div>
   </Dialog> -->
 
-  <Modal id="test">
+  <Dialog id="test">
     <div>
       Hello world
     </div>
-  </Modal>
+  </Dialog>
 
   <!-- <Dialog :id="MODAL_SETTINGS">
     <h2 class="text-xl mb-8">Settings</h2>
