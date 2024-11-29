@@ -8,7 +8,7 @@ export interface Note {
 }
 
 export const useNotes = () => {
-  const { data: tags, filteredTags } = useTags();
+  const { data: tags, filteredTags, selectedTags } = useTags();
   const config = useRuntimeConfig();
   const data = ref<Note[]>([]);
   const filteredData = ref<Note[]>([]);
@@ -37,12 +37,12 @@ export const useNotes = () => {
     }
   };
 
-  const searchNotes = (searchText: string, selectedTags: Tag[] = []) => {
+  const searchNotes = (searchText: string) => {
     let newFilteredNotes = data.value;
 
-    if (selectedTags.length) {
+    if (selectedTags.value.length) {
       newFilteredNotes = newFilteredNotes.filter((note) => {
-        return selectedTags.every(
+        return selectedTags.value.every(
           (tag) => note.tags?.some((t) => t.id === tag.id) ?? false
         );
       });

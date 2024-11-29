@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="overflow-y-auto min-h-screen">
-        <button v-for="(note, index) in filteredNotes" :key="note.id" :id="`note-${note.id}`"
+        <button v-for="(note, index) in filteredData" :key="note.id" :id="`note-${note.id}`"
           :class="noteClass(note.id)" @click="selectNote(note)">
           <div class="mb-3 text-text-primary-emphasis">{{ note.title }}</div>
           <div class="flex flex-wrap gap-1">
@@ -37,13 +37,12 @@ const { filteredData, searchNotes } = useNotes();
 const { selectedTags, removeSelectedTag } = useTags();
 const { openModal } = useModal();
 
-const filteredNotes = ref<Note[]>([])
 const searchText = ref<string>('')
 const route = useRoute()
 const MODAL_REMOVE_NOTE = 'MODAL_REMOVE_NOTE';
 
-watch(filteredData, (newValue) => {
-  filteredNotes.value = newValue;
+watch(() => selectedTags.value, () => {
+  searchNotes(searchText.value);
 });
 
 const handleCreateNote = async () => {
