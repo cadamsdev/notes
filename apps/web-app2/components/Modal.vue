@@ -12,8 +12,7 @@
 <script setup lang="ts">
 import { useModalStore } from '~/stores/modal';
 
-const modalStore = useModalStore();
-const { currentModal } = storeToRefs(modalStore);
+const { currentModal } = storeToRefs(useModalStore());  
 
 const props = defineProps<{
   id: string
