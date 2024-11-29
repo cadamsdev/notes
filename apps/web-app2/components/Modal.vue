@@ -10,16 +10,12 @@
 </template>
 
 <script setup lang="ts">
-// import { useModalStore } from '~/stores/modal';
-// const { currentModal } = storeToRefs(useModalStore());  
-
-const { currentModal } = useModal();
-
+const { currentModal, closeModal } = useModal();
 const props = defineProps<{
   id: string
 }>();
 
-// const emit = defineEmits(['closeModal'])
+const emit = defineEmits(['closeModal'])
 const isOpen = ref(currentModal.value === props.id);
 
 watch(() => currentModal.value, (newValue) => {
@@ -28,7 +24,7 @@ watch(() => currentModal.value, (newValue) => {
 });
 
 const handleClose = () => {
-  // closeModal();
-  // emit('closeModal')
+  closeModal();
+  emit('closeModal')
 }
 </script>
