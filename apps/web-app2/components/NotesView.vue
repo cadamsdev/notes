@@ -21,21 +21,27 @@
           <div class="flex flex-wrap gap-1">
             <Chip v-for="tag in note.tags ?? []" :key="tag.id" :text="tag.name" :color="tag.color" />
           </div>
-          <!-- <ContextMenu :targetId="`note-${note.id}`"
-            :actions="[{ label: 'Remove', action: () => handleShowRemoveNoteDialog(note, index) }]" /> -->
+          <ContextMenu :targetId="`note-${note.id}`"
+            :actions="[{ label: 'Remove', action: () => handleShowRemoveNoteDialog(note, index) }]" />
         </button>
       </div>
     </div>
   </div>
+
+  <ConfirmationDialog :id="MODAL_REMOVE_NOTE" @action="handleRemoveNote"
+    />
+
 </template>
 
 <script setup lang="ts">
 import clsx from 'clsx';
 const { data } = useNotes();
+const { openModal } = useModal();
 
 const selectedTags = ref([])
 const filteredNotes = ref([])
 const route = useRoute()
+const MODAL_REMOVE_NOTE = 'MODAL_REMOVE_NOTE';
 
 watch(data, (newValue) => {
   filteredNotes.value = newValue;
@@ -58,7 +64,11 @@ const selectNote = (note: any) => {
 }
 
 const handleShowRemoveNoteDialog = (note: any, index: number) => {
-  // Implement your remove note dialog logic here
+  openModal(MODAL_REMOVE_NOTE);
+}
+
+const handleRemoveNote = () => {
+  // Implement your remove note logic here
 }
 
 const noteClass = (noteId: number) => {
