@@ -28,14 +28,12 @@
     </div>
   </div>
 
-  <ConfirmationDialog :id="MODAL_REMOVE_NOTE" @action="handleRemoveNote"
-    />
-
+  <ConfirmationDialog :id="MODAL_REMOVE_NOTE" @action="handleRemoveNote" />
 </template>
 
 <script setup lang="ts">
 import clsx from 'clsx';
-const { data } = useNotes();
+const { filteredData, searchNotes } = useNotes();
 const { openModal } = useModal();
 
 const selectedTags = ref<Tag[]>([])
@@ -44,7 +42,7 @@ const searchText = ref<string>('')
 const route = useRoute()
 const MODAL_REMOVE_NOTE = 'MODAL_REMOVE_NOTE';
 
-watch(data, (newValue) => {
+watch(filteredData, (newValue) => {
   filteredNotes.value = newValue;
 });
 
@@ -54,6 +52,7 @@ const handleCreateNote = async () => {
 
 const handleSearch = (event: { text: string }) => {
   searchText.value = event.text;
+  searchNotes(event.text);
 }
 
 const removeTag = (tagId: number) => {
