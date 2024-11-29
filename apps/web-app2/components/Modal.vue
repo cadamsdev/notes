@@ -15,7 +15,6 @@ const props = defineProps<{
   id: string
 }>();
 
-const emit = defineEmits(['closeModal'])
 const isOpen = ref(currentModal.value === props.id);
 
 watch(() => currentModal.value, (newValue) => {
@@ -25,6 +24,5 @@ watch(() => currentModal.value, (newValue) => {
 
 const handleClose = () => {
   closeModal();
-  emit('closeModal')
 }
 </script>

@@ -79,7 +79,7 @@
     </div>
   </Dialog> -->
 
-  <Dialog id="test">
+  <Dialog id="test" show-header>
     <div>
       Hello world
     </div>
