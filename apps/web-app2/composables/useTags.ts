@@ -12,6 +12,7 @@ export const useTags = () => {
   const error = ref<any>(null);
   const loading = ref(false);
   const selectedTags = useState<Tag[]>('selectedTags', () => []);
+  const filteredTags = useState<Tag[]>('filteredTags', () => []);
 
   const fetchData = async () => {
     loading.value = true;
@@ -26,6 +27,7 @@ export const useTags = () => {
       if (result.ok) {
         const tags = (await result.json()) as Tag[];
         data.value = tags;
+        filteredTags.value = tags;
       }
     } catch (err) {
       error.value = err;
@@ -53,6 +55,7 @@ export const useTags = () => {
     error,
     loading,
     selectedTags,
+    filteredTags,
     selectTag,
     removeSelectedTag,
   };

@@ -88,7 +88,7 @@
 </template>
 
 <script setup lang="ts">
-const { data, selectTag } = useTags();
+const { data, selectTag, filteredTags } = useTags();
 const { openModal, closeModal } = useModal();
 
 const MODAL_SETTINGS = 'modal-settings'
@@ -98,7 +98,6 @@ const TAG_SORT_COUNT = 'count'
 const TAG_SORT_NAME = 'name'
 
 const tagSort = ref(TAG_SORT_COUNT)
-const filteredTags = ref<Tag[]>([])
 const currentTag = ref({ name: '', color: '' })
 const selectedColor = ref('')
 const colors = ['red', 'green', 'blue', 'purple', 'yellow', 'orange', 'pink', 'brown', 'light-gray', 'dark-gray']

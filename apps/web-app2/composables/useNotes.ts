@@ -8,6 +8,7 @@ export interface Note {
 }
 
 export const useNotes = () => {
+  const { data: tags, filteredTags } = useTags();
   const config = useRuntimeConfig();
   const data = ref<Note[]>([]);
   const filteredData = ref<Note[]>([]);
@@ -59,30 +60,30 @@ export const useNotes = () => {
       tempFilteredNotes = newFilteredNotes;
     }
 
-    // const noteTags = tempFilteredNotes.flatMap((note) => note.tags ?? []);
-    // const uniqueTags = Array.from(new Set(noteTags.map((tag) => tag.id)));
-    // const map = new Map<number, Tag>();
-    // const newFilteredTags = tags.value.filter((tag) =>
-    //   uniqueTags.includes(tag.id)
-    // );
-    // newFilteredTags.forEach((tag) => {
-    //   tag.count = 0;
-    //   map.set(tag.id, tag);
-    // });
+    const noteTags = tempFilteredNotes.flatMap((note) => note.tags ?? []);
+    const uniqueTags = Array.from(new Set(noteTags.map((tag) => tag.id)));
+    const map = new Map<number, Tag>();
+    const newFilteredTags = tags.value.filter((tag) =>
+      uniqueTags.includes(tag.id)
+    );
+    newFilteredTags.forEach((tag) => {
+      tag.count = 0;
+      map.set(tag.id, tag);
+    });
 
-    // // set the count of each tag
-    // noteTags.forEach((tag) => {
-    //   if (map.has(tag.id)) {
-    //     const t = map.get(tag.id);
-    //     if (t && t.count !== undefined) {
-    //       t.count += 1;
-    //     }
-    //   }
-    // });
+    // set the count of each tag
+    noteTags.forEach((tag) => {
+      if (map.has(tag.id)) {
+        const t = map.get(tag.id);
+        if (t && t.count !== undefined) {
+          t.count += 1;
+        }
+      }
+    });
 
-    // const newTags = [...map.values()];
-
+    const newTags = [...map.values()];
     filteredData.value = tempFilteredNotes;
+    filteredTags.value = newTags;
   };
 
   fetchNotes();
