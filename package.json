@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "concurrently \"npm run api:dev\" \"wait-on http://localhost:3001/health-check && npm run web2:dev\"",
+    "dev2": "concurrently \"npm run api:dev\" \"wait-on http://localhost:3001/health-check && npm run web:dev\"",
     "web:dev": "npm run -w web dev",
     "web2:dev": "npm run -w web2 dev",
     "api:dev": "npm run -w api dev",
