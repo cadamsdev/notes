@@ -33,7 +33,7 @@
     </div>
   </div>
 
-  <!-- <Dialog :id="MODAL_EDIT_TAG" @closeModal="handleOnEditTagModalClose">
+  <Dialog :id="MODAL_EDIT_TAG" @closeModal="handleOnEditTagModalClose">
     <div>
       <label for="tag-name" class="block text-base font-bold mb-6">
         <div class="mb-2">Name:</div>
@@ -73,15 +73,9 @@
       </div>
 
       <div class="flex justify-end gap-2">
-        <Button @click="handleUpdateTag">Save</Button>
+        <Button variant="primary" @click="handleUpdateTag">Save</Button>
         <Button variant="secondary" @click="closeModal">Cancel</Button>
       </div>
-    </div>
-  </Dialog> -->
-
-  <Dialog id="test" show-header>
-    <div>
-      Hello world
     </div>
   </Dialog>
 
@@ -94,10 +88,8 @@
 </template>
 
 <script setup lang="ts">
-import { useModalStore } from '~/stores/modal';
-
 const { data } = useTags();
-const { openModal } = useModal();
+const { openModal, closeModal } = useModal();
 
 const MODAL_SETTINGS = 'modal-settings'
 const MODAL_EDIT_TAG = 'modal-edit-tag'
@@ -126,7 +118,7 @@ const selectTag = (tag: any) => {
 const handleShowEditTagModal = (tag: any) => {
   currentTag.value = { ...tag }
   selectedColor.value = tag.color
-  openModal('test')
+  openModal(MODAL_EDIT_TAG)
 }
 
 const handleShowRemoveTagConfirmationModal = (tag: any) => {
