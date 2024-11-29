@@ -11,7 +11,6 @@
 
 <script setup lang="ts">
 // import { useModalStore } from '~/stores/modal';
-
 // const { currentModal } = storeToRefs(useModalStore());  
 
 const { currentModal } = useModal();
