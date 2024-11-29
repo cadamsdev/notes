@@ -40,6 +40,7 @@ const { openModal } = useModal();
 
 const selectedTags = ref<Tag[]>([])
 const filteredNotes = ref<Note[]>([])
+const searchText = ref<string>('')
 const route = useRoute()
 const MODAL_REMOVE_NOTE = 'MODAL_REMOVE_NOTE';
 
@@ -52,7 +53,7 @@ const handleCreateNote = async () => {
 }
 
 const handleSearch = (event: { text: string }) => {
-  // Implement your search logic here
+  searchText.value = event.text;
 }
 
 const removeTag = (tagId: number) => {
