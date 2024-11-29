@@ -1,6 +1,5 @@
 <template>
   <Teleport to="#teleports">
-    {{ modal }}
     <div v-if="isOpen" class="fixed inset-0 z-50 flex items-center justify-center">
       <div class="fixed inset-0 bg-black opacity-50" @click="handleClose"></div>
       <div class="relative z-10">
@@ -11,22 +10,25 @@
 </template>
 
 <script setup lang="ts">
-const { modal, closeModal } = useModal();
+import { useModalStore } from '~/stores/modal';
+
+const modalStore = useModalStore();
+const { currentModal } = storeToRefs(modalStore);
 
 const props = defineProps<{
   id: string
 }>();
 
-const emit = defineEmits(['closeModal'])
-const isOpen = ref(modal.value === props.id);
+// const emit = defineEmits(['closeModal'])
+const isOpen = ref(currentModal.value === props.id);
 
-watch(() => modal, (newValue) => {
-  console.log(`modal value changed: ${newValue.value}`)
-  isOpen.value = newValue.value === props.id;
+watch(() => currentModal.value, (newValue) => {
+  console.log(`modal value changed: ${newValue}`)
+  isOpen.value = newValue === props.id;
 });
 
 const handleClose = () => {
-  closeModal();
-  emit('closeModal')
+  // closeModal();
+  // emit('closeModal')
 }
 </script>

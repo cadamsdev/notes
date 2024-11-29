@@ -3,12 +3,12 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   ssr: false,
-  modules: ['@nuxtjs/tailwindcss', '@nuxt/icon'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxt/icon', '@pinia/nuxt'],
   css: ['@/assets/css/styles.css'],
   runtimeConfig: {
     public: {
-      apiUrl: ''
-    }
+      apiUrl: '',
+    },
   },
   tailwindcss: {
     config: {

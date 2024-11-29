@@ -94,8 +94,10 @@
 </template>
 
 <script setup lang="ts">
+import { useModalStore } from '~/stores/modal';
+
 const { data } = useTags();
-const { openModal } = useModal();
+const { openModal } = useModalStore();
 
 const MODAL_SETTINGS = 'modal-settings'
 const MODAL_EDIT_TAG = 'modal-edit-tag'

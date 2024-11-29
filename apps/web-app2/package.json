@@ -12,7 +12,9 @@
   "dependencies": {
     "@nuxt/icon": "^1.8.2",
     "@nuxtjs/tailwindcss": "^6.12.2",
+    "@pinia/nuxt": "^0.8.0",
     "nuxt": "^3.14.1592",
+    "pinia": "^2.2.8",
     "vue": "latest",
     "vue-router": "latest"
   }
