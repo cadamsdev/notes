@@ -38,8 +38,8 @@ import clsx from 'clsx';
 const { data } = useNotes();
 const { openModal } = useModal();
 
-const selectedTags = ref([])
-const filteredNotes = ref([])
+const selectedTags = ref<Tag[]>([])
+const filteredNotes = ref<Note[]>([])
 const route = useRoute()
 const MODAL_REMOVE_NOTE = 'MODAL_REMOVE_NOTE';
 
