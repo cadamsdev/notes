@@ -97,7 +97,7 @@
 import { useModalStore } from '~/stores/modal';
 
 const { data } = useTags();
-const { openModal } = useModalStore();
+const { openModal } = useModal();
 
 const MODAL_SETTINGS = 'modal-settings'
 const MODAL_EDIT_TAG = 'modal-edit-tag'

@@ -1,17 +1,17 @@
 export const useModal = () => {
-  const modal = useState<string>('modal', () => '');
+  const currentModal = useState<string>('modal', () => '');
 
   const openModal = (id: string) => {
-    modal.value = id;
+    currentModal.value = id;
   }
 
   const closeModal = () => {
-    modal.value = '';
+    currentModal.value = '';
   }
 
   return {
-    modal,
+    currentModal,
     openModal,
     closeModal,
-  }
+  };
 }

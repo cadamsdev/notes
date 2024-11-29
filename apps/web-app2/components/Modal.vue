@@ -10,9 +10,11 @@
 </template>
 
 <script setup lang="ts">
-import { useModalStore } from '~/stores/modal';
+// import { useModalStore } from '~/stores/modal';
 
-const { currentModal } = storeToRefs(useModalStore());  
+// const { currentModal } = storeToRefs(useModalStore());  
+
+const { currentModal } = useModal();
 
 const props = defineProps<{
   id: string
