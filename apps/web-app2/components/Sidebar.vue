@@ -79,6 +79,12 @@
     </div>
   </Dialog> -->
 
+  <Modal id="test">
+    <div>
+      Hello world
+    </div>
+  </Modal>
+
   <!-- <Dialog :id="MODAL_SETTINGS">
     <h2 class="text-xl mb-8">Settings</h2>
     <Button variant="secondary" :href="`${env.PUBLIC_API_URL}/export/data`">Export data</Button>
@@ -89,6 +95,7 @@
 
 <script setup lang="ts">
 const { data } = useTags();
+const { openModal } = useModal();
 
 const MODAL_SETTINGS = 'modal-settings'
 const MODAL_EDIT_TAG = 'modal-edit-tag'
@@ -106,14 +113,6 @@ watch(data, (newValue) => {
   filteredTags.value = newValue;
 });
 
-const openModal = (modalId: string) => {
-  // Implement your modal opening logic here
-}
-
-const closeModal = () => {
-  // Implement your modal closing logic here
-}
-
 const toggleSortTags = () => {
   tagSort.value = tagSort.value === TAG_SORT_COUNT ? TAG_SORT_NAME : TAG_SORT_COUNT
 }
@@ -123,8 +122,9 @@ const selectTag = (tag: any) => {
 }
 
 const handleShowEditTagModal = (tag: any) => {
-  // Implement your show edit tag modal logic here
-  console.log('handleShowEditTagModal');
+  currentTag.value = { ...tag }
+  selectedColor.value = tag.color
+  openModal('test')
 }
 
 const handleShowRemoveTagConfirmationModal = (tag: any) => {

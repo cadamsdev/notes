@@ -37,9 +37,9 @@ const onPageClick = () => {
 }
 
 const onContextMenu = (event: MouseEvent) => {
-  event.preventDefault();
   const targetEl = document.getElementById(props.targetId);
   if (targetEl && event.composedPath().includes(targetEl)) {
+    event.preventDefault();
     pos.value = { x: event.clientX, y: event.clientY }
     showMenu.value = true     
   }
