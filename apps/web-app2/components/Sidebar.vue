@@ -79,10 +79,10 @@
     </div>
   </Dialog>
 
-  <!-- <Dialog :id="MODAL_SETTINGS">
+  <Dialog :id="MODAL_SETTINGS">
     <h2 class="text-xl mb-8">Settings</h2>
-    <Button variant="secondary" :href="`${env.PUBLIC_API_URL}/export/data`">Export data</Button>
-  </Dialog> -->
+    <Button variant="secondary">Export data</Button>
+  </Dialog>
 
   <!-- <ConfirmationDialog :id="MODAL_REMOVE_TAG" @action="handleRemoveTag" /> -->
 </template>
