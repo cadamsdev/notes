@@ -84,7 +84,7 @@
     <Button variant="secondary">Export data</Button>
   </Dialog>
 
-  <!-- <ConfirmationDialog :id="MODAL_REMOVE_TAG" @action="handleRemoveTag" /> -->
+  <ConfirmationDialog :id="MODAL_REMOVE_TAG" @action="handleRemoveTag" />
 </template>
 
 <script setup lang="ts">
@@ -122,8 +122,7 @@ const handleShowEditTagModal = (tag: any) => {
 }
 
 const handleShowRemoveTagConfirmationModal = (tag: any) => {
-  // Implement your show remove tag confirmation modal logic here
-  console.log('handleShowRemoveTagConfirmationModal');
+  openModal(MODAL_REMOVE_TAG)
 }
 
 const handleOnEditTagModalClose = () => {
@@ -144,6 +143,7 @@ const handleUpdateTag = async () => {
 }
 
 const handleRemoveTag = async () => {
-  // Implement your remove tag logic here
+  // TODO
+  console.log('remove tag')
 }
 </script>
