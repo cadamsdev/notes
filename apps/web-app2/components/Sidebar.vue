@@ -88,7 +88,7 @@
 </template>
 
 <script setup lang="ts">
-const { data } = useTags();
+const { data, selectTag } = useTags();
 const { openModal, closeModal } = useModal();
 
 const MODAL_SETTINGS = 'modal-settings'
@@ -109,10 +109,6 @@ watch(data, (newValue) => {
 
 const toggleSortTags = () => {
   tagSort.value = tagSort.value === TAG_SORT_COUNT ? TAG_SORT_NAME : TAG_SORT_COUNT
-}
-
-const selectTag = (tag: any) => {
-  // Implement your tag selection logic here
 }
 
 const handleShowEditTagModal = (tag: any) => {

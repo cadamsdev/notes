@@ -11,6 +11,7 @@ export const useTags = () => {
   const data = ref<Tag[]>([]);
   const error = ref<any>(null);
   const loading = ref(false);
+  const selectedTags = useState<Tag[]>('selectedTags', () => []);
 
   const fetchData = async () => {
     loading.value = true;
@@ -33,10 +34,26 @@ export const useTags = () => {
     }
   };
 
+  const selectTag = (tag: Tag) => {
+    const index = selectedTags.value.findIndex((t) => t.id === tag.id);
+    if (index === -1) {
+      selectedTags.value = [...selectedTags.value, tag];
+      console.log('selectedTags');
+      console.log(selectedTags.value);
+    }
+  }
+
+  const removeSelectedTag = (id: number) => {
+    selectedTags.value = selectedTags.value.filter((t) => t.id !== id);
+  }
+
   fetchData();
   return {
     data,
     error,
     loading,
+    selectedTags,
+    selectTag,
+    removeSelectedTag,
   };
 }

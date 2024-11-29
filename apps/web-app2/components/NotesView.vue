@@ -11,7 +11,7 @@
 
         <div v-if="selectedTags.length" class="mt-2 flex flex-wrap gap-1">
           <Chip v-for="filteredTag in selectedTags" :key="filteredTag.id" :text="filteredTag.name"
-            :color="filteredTag.color" hasCloseBtn @close="removeTag(filteredTag.id)" />
+            :color="filteredTag.color" hasCloseBtn @close="removeSelectedTag(filteredTag.id)" />
         </div>
       </div>
       <div class="overflow-y-auto min-h-screen">
@@ -34,9 +34,9 @@
 <script setup lang="ts">
 import clsx from 'clsx';
 const { filteredData, searchNotes } = useNotes();
+const { selectedTags, removeSelectedTag } = useTags();
 const { openModal } = useModal();
 
-const selectedTags = ref<Tag[]>([])
 const filteredNotes = ref<Note[]>([])
 const searchText = ref<string>('')
 const route = useRoute()
@@ -53,10 +53,6 @@ const handleCreateNote = async () => {
 const handleSearch = (event: { text: string }) => {
   searchText.value = event.text;
   searchNotes(event.text);
-}
-
-const removeTag = (tagId: number) => {
-  selectedTags.value = selectedTags.value.filter(tag => tag.id !== tagId)
 }
 
 const selectNote = (note: any) => {

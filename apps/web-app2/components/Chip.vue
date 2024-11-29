@@ -4,7 +4,7 @@
     <div v-if="color" :class="colorClass"></div>
     <span>{{ text }}</span>
     <button v-if="hasCloseBtn" @click="handleClose" class="ml-1">
-      <Icon icon="fa-solid:times" width="12" height="12" />
+      <Icon name="fa-solid:times" width="12" height="12" />
     </button>
   </div>
 </template>

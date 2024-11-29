@@ -13,7 +13,6 @@ export const useNotes = () => {
   const filteredData = ref<Note[]>([]);
   const error = ref<any>(null);
   const loading = ref(false);
-  const { data: tags } = useTags();
 
   const fetchNotes = async () => {
     loading.value = true;
