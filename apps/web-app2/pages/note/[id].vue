@@ -1,5 +1,5 @@
 <template>
-  <Editor v-if="note" :note="note" />
+  <Editor v-if="note" :note="note" class="p-6" />
 </template>
 
 <script setup lang="ts">
