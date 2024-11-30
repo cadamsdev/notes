@@ -78,6 +78,23 @@ export const useNotes = () => {
     }
   }
 
+  const saveNote = async (note: Note) => {
+    try {
+      const result = await fetch(`${config.public.apiUrl}/notes/${note.id}`, {
+        method: 'PUT',
+        body: JSON.stringify(note),
+      });
+
+      if (result.ok) {
+        const index = data.value.findIndex((n) => n.id === note.id);
+        data.value[index] = note;
+        filteredData.value = data.value;
+      }
+    } catch (err) {
+      error.value = err;
+    }
+  }
+
   const searchNotes = (searchText: string) => {
     let newFilteredNotes = data.value;
 
@@ -142,6 +159,10 @@ export const useNotes = () => {
     }
   }
 
+  const findNote = (noteId: number): Note | undefined => {
+    return data.value.find((n) => n.id === noteId);
+  }
+
   fetchNotes();
   return {
     data,
@@ -153,5 +174,7 @@ export const useNotes = () => {
     createNote,
     deleteNote,
     fetchNote,
+    findNote,
+    saveNote
   };
 };
