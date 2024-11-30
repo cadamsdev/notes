@@ -3,7 +3,7 @@
     <nav v-if="showMenu" ref="component" :style="{ top: `${pos.y}px`, left: `${pos.x}px` }" class="absolute">
       <ul class="border border-bg-border bg-bg rounded">
         <li v-for="action in props.actions" :key="action.label">
-          <button class="p-4 w-full text-left text-text-primary hover:bg-bg-hover" @click="handleClickAction(action)">
+          <button class="p-4 w-full text-left text-text-primary hover:bg-bg-hover" @click.stop="handleClickAction(action)">
             {{ action.label }}
           </button>
         </li>
