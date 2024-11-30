@@ -84,12 +84,14 @@
     <Button variant="secondary">Export data</Button>
   </Dialog>
 
-  <ConfirmationDialog :id="MODAL_REMOVE_TAG" @action="handleRemoveTag" />
+  <ConfirmationDialog :id="MODAL_REMOVE_TAG" @action="handleDeleteTag" />
 </template>
 
 <script setup lang="ts">
-const { data, selectTag, filteredTags } = useTags();
+const { data, selectTag, filteredTags, deleteTag } = useTags();
 const { openModal, closeModal } = useModal();
+
+const selectedTag = ref<Tag>();
 
 const MODAL_SETTINGS = 'modal-settings'
 const MODAL_EDIT_TAG = 'modal-edit-tag'
@@ -116,7 +118,8 @@ const handleShowEditTagModal = (tag: any) => {
   openModal(MODAL_EDIT_TAG)
 }
 
-const handleShowRemoveTagConfirmationModal = (tag: any) => {
+const handleShowRemoveTagConfirmationModal = (tag: Tag) => {
+  selectedTag.value = tag;
   openModal(MODAL_REMOVE_TAG)
 }
 
@@ -137,8 +140,11 @@ const handleUpdateTag = async () => {
   // Implement your update tag logic here
 }
 
-const handleRemoveTag = async () => {
-  // TODO
-  console.log('remove tag')
+const handleDeleteTag = async () => {
+  const id = selectedTag.value?.id;
+  if (!id) {
+    return;
+  }
+  await deleteTag(id);
 }
 </script>

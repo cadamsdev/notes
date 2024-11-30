@@ -36,6 +36,27 @@ export const useTags = () => {
     }
   };
 
+  const deleteTag = async (id: number) => {
+    try {
+      const result = await fetch(`${config.public.apiUrl}/tags/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (result.ok) {
+        // remove from all tags
+        data.value = [...data.value.filter((t) => t.id !== id)];
+
+        // remove from filtered tags
+        filteredTags.value = [...filteredTags.value.filter((t) => t.id !== id)];
+
+        // remove from selected tags
+        selectedTags.value = [...selectedTags.value.filter((t) => t.id !== id)];
+      }
+    } catch (err) {
+      error.value = err;
+    }
+  }
+
   const selectTag = (tag: Tag) => {
     const index = selectedTags.value.findIndex((t) => t.id === tag.id);
     if (index === -1) {
@@ -58,5 +79,6 @@ export const useTags = () => {
     filteredTags,
     selectTag,
     removeSelectedTag,
+    deleteTag,
   };
 }
