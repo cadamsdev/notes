@@ -57,6 +57,28 @@ export const useTags = () => {
     }
   }
 
+  const updateTag = async (tag: Tag) => {
+    try {
+      const result = await fetch(`${config.public.apiUrl}/tags/${tag.id}`, {
+        method: 'PUT',
+        body: JSON.stringify(tag),
+      });
+
+      if (result.ok) {
+        const tempTags = [...filteredTags.value];
+        const tempTag = tempTags.find((t) => t.id === tag.id);
+        if (tempTag) {
+          tempTag.name = tag.name;
+          tempTag.color = tag.color;
+        }
+
+        filteredTags.value = tempTags;
+      }
+    } catch (err) {
+      error.value = err;
+    }
+  }
+
   const selectTag = (tag: Tag) => {
     const index = selectedTags.value.findIndex((t) => t.id === tag.id);
     if (index === -1) {
@@ -80,5 +102,6 @@ export const useTags = () => {
     selectTag,
     removeSelectedTag,
     deleteTag,
+    updateTag,
   };
 }

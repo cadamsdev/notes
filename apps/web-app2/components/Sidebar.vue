@@ -37,7 +37,7 @@
     <div>
       <label for="tag-name" class="block text-base font-bold mb-6">
         <div class="mb-2">Name:</div>
-        <Input id="tag-name" name="name" placeholder="Enter tag name" v-model="currentTag.name"
+        <Input id="tag-name" name="name" placeholder="Enter tag name" v-model="selectedTag!.name"
           @input="handleChangeTagName" />
       </label>
 
@@ -63,8 +63,8 @@
               {
                 'outline outline-2 outline-primary outline-offset-4':
                   selectedColor === color ||
-                  (!selectedColor && currentTag.color === color) ||
-                  (!selectedColor && !currentTag.color && color === 'none')
+                  (!selectedColor && selectedTag?.color === color) ||
+                  (!selectedColor && !selectedTag?.color && color === 'none')
               }
             ]"></div>
             <div class="color-label">{{ color }}</div>
@@ -88,7 +88,7 @@
 </template>
 
 <script setup lang="ts">
-const { data, selectTag, filteredTags, deleteTag } = useTags();
+const { data, selectTag, filteredTags, deleteTag, updateTag } = useTags();
 const { openModal, closeModal } = useModal();
 
 const selectedTag = ref<Tag>();
@@ -100,7 +100,6 @@ const TAG_SORT_COUNT = 'count'
 const TAG_SORT_NAME = 'name'
 
 const tagSort = ref(TAG_SORT_COUNT)
-const currentTag = ref({ name: '', color: '' })
 const selectedColor = ref('')
 const colors = ['red', 'green', 'blue', 'purple', 'yellow', 'orange', 'pink', 'brown', 'light-gray', 'dark-gray']
 
@@ -112,9 +111,9 @@ const toggleSortTags = () => {
   tagSort.value = tagSort.value === TAG_SORT_COUNT ? TAG_SORT_NAME : TAG_SORT_COUNT
 }
 
-const handleShowEditTagModal = (tag: any) => {
-  currentTag.value = { ...tag }
-  selectedColor.value = tag.color
+const handleShowEditTagModal = (tag: Tag) => {
+  selectedTag.value = tag;
+  selectedColor.value = tag.color || '';
   openModal(MODAL_EDIT_TAG)
 }
 
@@ -129,15 +128,24 @@ const handleOnEditTagModalClose = () => {
 
 const handleChangeTagName = (event: Event) => {
   const input = event.target as HTMLInputElement
-  currentTag.value.name = input.value
+  if (selectedTag.value) {
+    selectedTag.value.name = input.value;
+  }
 }
 
 const selectColor = (color: string) => {
-  selectedColor.value = color
+  selectedColor.value = color;
 }
 
 const handleUpdateTag = async () => {
-  // Implement your update tag logic here
+  const tag = selectedTag.value;
+  if (!tag) {
+    return;
+  }
+
+  tag.color = selectedColor.value;
+  await updateTag(tag);
+  closeModal();
 }
 
 const handleDeleteTag = async () => {
