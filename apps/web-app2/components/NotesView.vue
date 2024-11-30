@@ -14,7 +14,7 @@
             :color="filteredTag.color" hasCloseBtn @close="removeSelectedTag(filteredTag.id)" />
         </div>
       </div>
-      <div class="overflow-y-auto min-h-screen">
+      <div class="overflow-y-auto min-h-[calc(100vh-136px)] max-h-[calc(100vh-136px)]">
         <button v-for="(note) in filteredData" :key="note.id" :id="`note-${note.id}`"
           :class="noteClass(note.id)" @click="selectNote(note)">
           <div class="mb-3 text-text-primary-emphasis">{{ note.title }}</div>
