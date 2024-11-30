@@ -1,3 +1,6 @@
+<script setup lang="ts">
+</script>
+
 <template>
-  <div>test</div>
+  <Editor />
 </template>
