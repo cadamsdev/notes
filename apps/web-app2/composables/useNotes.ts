@@ -14,6 +14,7 @@ export const useNotes = () => {
   const filteredData = ref<Note[]>([]);
   const error = ref<any>(null);
   const loading = ref(false);
+  const selectedNote = ref<Note | null>(null);
 
   const fetchNotes = async () => {
     loading.value = true;
@@ -126,14 +127,31 @@ export const useNotes = () => {
     filteredTags.value = newTags;
   };
 
+  const fetchNote = async (noteId: number): Promise<Note | undefined> => {
+    try {
+      const result = await fetch(`${config.public.apiUrl}/notes/${noteId}`, {
+        method: 'GET',
+      });
+
+      if (result.ok) {
+        const note = (await result.json()) as Note;
+        return note;
+      }
+    } catch (err) {
+      error.value = err;
+    }
+  }
+
   fetchNotes();
   return {
     data,
     filteredData,
     error,
     loading,
+    selectedNote,
     searchNotes,
     createNote,
     deleteNote,
+    fetchNote,
   };
 };

@@ -36,6 +36,7 @@ import clsx from 'clsx';
 const { filteredData, searchNotes, createNote, deleteNote } = useNotes();
 const { selectedTags, removeSelectedTag } = useTags();
 const { openModal } = useModal();
+const router = useRouter();
 
 const searchText = ref<string>('')
 const noteToDelete = ref<Note | null>(null)
@@ -56,7 +57,7 @@ const handleSearch = (event: { text: string }) => {
 }
 
 const selectNote = (note: any) => {
-  // Implement your note selection logic here
+  router.push(`/note/${note.id}`);
 }
 
 const handleShowRemoveNoteDialog = (note: Note) => {

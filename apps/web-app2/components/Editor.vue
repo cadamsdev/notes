@@ -6,6 +6,10 @@
 import { Editor, EditorContent } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit'
 
+const props = defineProps<{
+  content: string;
+}>();
+
 const editor = ref<Editor>();
 
 onMounted(() => {
@@ -13,6 +17,11 @@ onMounted(() => {
     extensions: [
       StarterKit,
     ],
+    content: props.content,
   });
+});
+
+onBeforeUnmount(() => {
+  editor.value?.destroy();
 });
 </script>
