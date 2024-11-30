@@ -7,9 +7,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-  useSeoMeta({
-    icon: '/favicon.png',  
-  })
-</script>
