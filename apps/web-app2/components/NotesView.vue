@@ -15,14 +15,14 @@
         </div>
       </div>
       <div class="overflow-y-auto min-h-screen">
-        <button v-for="(note, index) in filteredData" :key="note.id" :id="`note-${note.id}`"
+        <button v-for="(note) in filteredData" :key="note.id" :id="`note-${note.id}`"
           :class="noteClass(note.id)" @click="selectNote(note)">
           <div class="mb-3 text-text-primary-emphasis">{{ note.title }}</div>
           <div class="flex flex-wrap gap-1">
             <Chip v-for="tag in note.tags ?? []" :key="tag.id" :text="tag.name" :color="tag.color" />
           </div>
           <ContextMenu :targetId="`note-${note.id}`"
-            :actions="[{ label: 'Remove', action: () => handleShowRemoveNoteDialog(note, index) }]" />
+            :actions="[{ label: 'Remove', action: () => handleShowRemoveNoteDialog(note) }]" />
         </button>
       </div>
     </div>
@@ -33,11 +33,12 @@
 
 <script setup lang="ts">
 import clsx from 'clsx';
-const { filteredData, searchNotes } = useNotes();
+const { filteredData, searchNotes, createNote, deleteNote } = useNotes();
 const { selectedTags, removeSelectedTag } = useTags();
 const { openModal } = useModal();
 
 const searchText = ref<string>('')
+const noteToDelete = ref<Note | null>(null)
 const route = useRoute()
 const MODAL_REMOVE_NOTE = 'MODAL_REMOVE_NOTE';
 
@@ -46,7 +47,7 @@ watch(() => selectedTags.value, () => {
 });
 
 const handleCreateNote = async () => {
-  // Implement your note creation logic here
+  await createNote();
 }
 
 const handleSearch = (event: { text: string }) => {
@@ -58,12 +59,18 @@ const selectNote = (note: any) => {
   // Implement your note selection logic here
 }
 
-const handleShowRemoveNoteDialog = (note: any, index: number) => {
+const handleShowRemoveNoteDialog = (note: Note) => {
+  noteToDelete.value = note;
   openModal(MODAL_REMOVE_NOTE);
 }
 
-const handleRemoveNote = () => {
-  // Implement your remove note logic here
+const handleRemoveNote = async () => {
+  const note = noteToDelete.value;
+  if (!note) {
+    return;
+  }
+
+  await deleteNote(note.id);
 }
 
 const noteClass = (noteId: number) => {

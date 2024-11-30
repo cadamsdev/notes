@@ -37,6 +37,46 @@ export const useNotes = () => {
     }
   };
 
+  const createNote = async () => {
+    try {
+      const note: Note = {
+        id: -1,
+        title: 'A title',
+        content: '',
+      };
+
+      const result = await fetch(`${config.public.apiUrl}/notes`, {
+        method: 'POST',
+        body: JSON.stringify(note),
+      });
+
+      if (result.ok) {
+        const id = await result.json();
+        note.id = id;
+        data.value  = [note, ...data.value];
+        filteredData.value = [note, ...filteredData.value];
+      }
+    } catch (err) {
+      error.value = err;
+    }
+  }
+
+  const deleteNote = async (noteId: number) => {
+    try {
+      const result = await fetch(`${config.public.apiUrl}/notes/${noteId}`, {
+        method: 'DELETE',
+      });
+
+      if (result.ok) {
+        const filteredNotes = data.value.filter((n) => n.id !== noteId);
+        data.value = filteredNotes;
+        filteredData.value = filteredNotes;
+      }
+    } catch (err) {
+      error.value = err;
+    }
+  }
+
   const searchNotes = (searchText: string) => {
     let newFilteredNotes = data.value;
 
@@ -93,5 +133,7 @@ export const useNotes = () => {
     error,
     loading,
     searchNotes,
+    createNote,
+    deleteNote,
   };
 };
