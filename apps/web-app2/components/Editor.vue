@@ -17,6 +17,11 @@ const editor = ref<Editor>();
 const handleUpdate = useDebounceFn(async (editor: Editor) => {
   const content = editor.getJSON();
   props.note.content = JSON.stringify(content);
+
+  if (content.content?.length) {
+    props.note.title = content.content?.[0]?.content?.[0]?.text || 'A title'
+  }
+
   await saveNote(props.note);
 }, 500);
 

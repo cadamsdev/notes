@@ -47,6 +47,11 @@ watch(() => selectedTags.value, () => {
   searchNotes(searchText.value);
 });
 
+watch(filteredData.value, (newValue) => {
+  console.log('detected filteredData change')
+  console.log(newValue)
+});
+
 const handleCreateNote = async () => {
   await createNote();
 }

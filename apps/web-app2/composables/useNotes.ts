@@ -10,8 +10,8 @@ export interface Note {
 export const useNotes = () => {
   const { data: tags, filteredTags, selectedTags } = useTags();
   const config = useRuntimeConfig();
-  const data = ref<Note[]>([]);
-  const filteredData = ref<Note[]>([]);
+  const data = useState<Note[]>('notes', () => []);
+  const filteredData = useState<Note[]>('filteredData', () => []);
   const error = ref<any>(null);
   const loading = ref(false);
   const selectedNote = ref<Note | null>(null);
@@ -87,8 +87,10 @@ export const useNotes = () => {
 
       if (result.ok) {
         const index = data.value.findIndex((n) => n.id === note.id);
-        data.value[index] = note;
-        filteredData.value = data.value;
+        const temp = [...data.value];
+        temp[index] = note;
+        data.value = temp;
+        filteredData.value = [...data.value];
       }
     } catch (err) {
       error.value = err;
@@ -159,10 +161,6 @@ export const useNotes = () => {
     }
   }
 
-  const findNote = (noteId: number): Note | undefined => {
-    return data.value.find((n) => n.id === noteId);
-  }
-
   fetchNotes();
   return {
     data,
@@ -174,7 +172,6 @@ export const useNotes = () => {
     createNote,
     deleteNote,
     fetchNote,
-    findNote,
     saveNote
   };
 };
