@@ -18,7 +18,6 @@ const props = defineProps<{
 const isOpen = ref(currentModal.value === props.id);
 
 watch(() => currentModal.value, (newValue) => {
-  console.log(`modal value changed: ${newValue}`)
   isOpen.value = newValue === props.id;
 });
 

@@ -30,7 +30,7 @@ onMounted(() => {
     extensions: [
       StarterKit,
     ],
-    content: JSON.parse(props.note.content || ''),
+    content: props.note.content ? JSON.parse(props.note.content) : null,
     onUpdate: () => handleUpdate(editor.value!),
   });
 });

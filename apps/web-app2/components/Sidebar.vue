@@ -33,7 +33,7 @@
     </div>
   </div>
 
-  <Dialog :id="MODAL_EDIT_TAG" @closeModal="handleOnEditTagModalClose">
+  <Dialog :id="MODAL_EDIT_TAG">
     <div>
       <label for="tag-name" class="block text-base font-bold mb-6">
         <div class="mb-2">Name:</div>
@@ -120,10 +120,6 @@ const handleShowEditTagModal = (tag: Tag) => {
 const handleShowRemoveTagConfirmationModal = (tag: Tag) => {
   selectedTag.value = tag;
   openModal(MODAL_REMOVE_TAG)
-}
-
-const handleOnEditTagModalClose = () => {
-  // Implement your on edit tag modal close logic here
 }
 
 const handleChangeTagName = (event: Event) => {
