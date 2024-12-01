@@ -6,14 +6,22 @@ export interface Note {
   content?: string;
   tags?: Tag[];
 }
+export interface Tag {
+  id: number;
+  name: string;
+  color?: string;
+  count?: number;
+}
 
 export const useNotes = () => {
-  const { tags, filteredTags, selectedTags } = useTags();
   const config = useRuntimeConfig();
   const notes = useState<Note[]>('notes', () => []);
   const filteredData = useState<Note[]>('filteredData', () => []);
   const selectedNote = useState<Note | null>('selectedNote', () => null);
   const router = useRouter();
+  const tags = useState<Tag[]>('tags', () => []);
+  const selectedTags = useState<Tag[]>('selectedTags', () => []);
+  const filteredTags = useState<Tag[]>('filteredTags', () => []);
 
   const fetchNotes = async (): Promise<Note[]> => {
     const data = await $fetch<Note[]>(`${config.public.apiUrl}/notes`);
@@ -131,6 +139,60 @@ export const useNotes = () => {
     );
     return note;
   }
+
+  const fetchTags = async (): Promise<Tag[]> => {
+    const data = await $fetch<Tag[]>(`${config.public.apiUrl}/tags`);
+    const tagsData = data;
+    tags.value = tagsData;
+    filteredTags.value = tagsData;
+    return tagsData;
+  };
+
+  const deleteTag = async (id: number) => {
+    await $fetch(`${config.public.apiUrl}/tags/${id}`, {
+      method: 'DELETE',
+    });
+
+    // remove from all tags
+    tags.value = [...tags.value.filter((t) => t.id !== id)];
+
+    // remove from filtered tags
+    filteredTags.value = [...filteredTags.value.filter((t) => t.id !== id)];
+
+    // remove from selected tags
+    selectedTags.value = [...selectedTags.value.filter((t) => t.id !== id)];
+  };
+
+  const updateTag = async (tag: Tag) => {
+    await $fetch(`${config.public.apiUrl}/tags/${tag.id}`, {
+      method: 'PUT',
+      body: tag,
+    });
+
+    const tempTags = [...filteredTags.value];
+    const tempTag = tempTags.find((t) => t.id === tag.id);
+    if (tempTag) {
+      tempTag.name = tag.name;
+      tempTag.color = tag.color;
+    }
+
+    filteredTags.value = tempTags;
+
+    // TODO invalidate notes
+    await fetchNotes();
+  };
+
+  const selectTag = (tag: Tag) => {
+    const index = selectedTags.value.findIndex((t) => t.id === tag.id);
+    if (index === -1) {
+      selectedTags.value = [...selectedTags.value, tag];
+    }
+  };
+
+  const removeSelectedTag = (id: number) => {
+    selectedTags.value = selectedTags.value.filter((t) => t.id !== id);
+  };
+
   return {
     notes,
     filteredData,
@@ -141,5 +203,13 @@ export const useNotes = () => {
     fetchNote,
     saveNote,
     fetchNotes,
+    tags,
+    selectedTags,
+    filteredTags,
+    selectTag,
+    removeSelectedTag,
+    deleteTag,
+    updateTag,
+    fetchTags,
   };
 };

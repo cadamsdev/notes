@@ -42,9 +42,8 @@
 <script setup lang="ts">
 const note = ref<Note>();
 const route = useRoute();
-const { fetchNote } = useNotes();
+const { fetchNote, selectedTags } = useNotes();
 const { openModal, closeModal } = useModal();
-const { selectedTags } = useTags();
 const MODAL_TAG = 'MODAL_TAG';
 
 function handleSaveTags() {

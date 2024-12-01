@@ -33,8 +33,7 @@
 
 <script setup lang="ts">
 import clsx from 'clsx';
-const { filteredData, searchNotes, createNote, deleteNote } = useNotes();
-const { selectedTags, removeSelectedTag } = useTags();
+const { filteredData, searchNotes, createNote, deleteNote, selectedTags, removeSelectedTag } = useNotes();
 const { openModal } = useModal();
 const router = useRouter();
 

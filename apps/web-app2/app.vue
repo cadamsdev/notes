@@ -5,7 +5,6 @@
 </template>
 
 <script setup lang="ts">
-  const { fetchNotes } = useNotes();
-  const { fetchTags } = useTags();
+  const { fetchNotes, fetchTags } = useNotes();
   await Promise.all([fetchNotes(), fetchTags()]);
 </script>

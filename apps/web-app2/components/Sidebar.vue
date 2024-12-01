@@ -88,7 +88,7 @@
 </template>
 
 <script setup lang="ts">
-const { tags, selectTag, filteredTags, deleteTag, updateTag } = useTags();
+const { tags, selectTag, filteredTags, deleteTag, updateTag } = useNotes();
 const { openModal, closeModal } = useModal();
 
 const selectedTag = ref<Tag>();
