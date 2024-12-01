@@ -14,7 +14,7 @@ export const useTags = () => {
   const selectedTags = useState<Tag[]>('selectedTags', () => []);
   const filteredTags = useState<Tag[]>('filteredTags', () => []);
 
-  const fetchData = async () => {
+  const fetchTags = async () => {
     loading.value = true;
     try {
       const result = await fetch(`${config.public.apiUrl}/tags`, {
@@ -91,8 +91,6 @@ export const useTags = () => {
   const removeSelectedTag = (id: number) => {
     selectedTags.value = selectedTags.value.filter((t) => t.id !== id);
   }
-
-  fetchData();
   return {
     data,
     error,
@@ -103,5 +101,6 @@ export const useTags = () => {
     removeSelectedTag,
     deleteTag,
     updateTag,
+    fetchTags,
   };
 }

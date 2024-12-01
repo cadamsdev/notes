@@ -12,92 +12,83 @@ export const useNotes = () => {
   const config = useRuntimeConfig();
   const data = useState<Note[]>('notes', () => []);
   const filteredData = useState<Note[]>('filteredData', () => []);
-  const error = ref<any>(null);
-  const loading = ref(false);
   const selectedNote = ref<Note | null>(null);
 
   const fetchNotes = async (): Promise<Note[]> => {
-    loading.value = true;
-    try {
-      const result = await fetch(`${config.public.apiUrl}/notes`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+    const { data: notes, error } = await useFetch<Note[]>(`${config.public.apiUrl}/notes`);
 
-      if (result.ok) {
-        const notes = (await result.json()) as Note[];
-        data.value = notes;
-        filteredData.value = notes;
-        return notes;
-      }
-    } catch (err) {
-      error.value = err;
-    } finally {
-      loading.value = false;
+    if (error.value) {
+      console.error(error.value);
+      return [];
     }
 
-    return [];
+    data.value = notes.value || [];
+    filteredData.value = notes.value || [];
+    return notes.value || []; 
   };
 
   const createNote = async () => {
-    try {
-      const note: Note = {
-        id: -1,
-        title: 'A title',
-        content: '',
-      };
+    const note: Note = {
+      id: -1,
+      title: 'A title',
+      content: '',
+    };
 
-      const result = await fetch(`${config.public.apiUrl}/notes`, {
+    const { data: id, error } = await useFetch<number>(
+      `${config.public.apiUrl}/notes`,
+      {
         method: 'POST',
         body: JSON.stringify(note),
-      });
-
-      if (result.ok) {
-        const id = await result.json();
-        note.id = id;
-        data.value  = [note, ...data.value];
-        filteredData.value = [note, ...filteredData.value];
       }
-    } catch (err) {
-      error.value = err;
+    );
+
+    if (error.value) {
+      console.error(error.value);
+      return -1;
     }
+
+    note.id = id.value || -1;
+    data.value = [note, ...data.value];
+    filteredData.value = [note, ...filteredData.value];
   }
 
   const deleteNote = async (noteId: number) => {
-    try {
-      const result = await fetch(`${config.public.apiUrl}/notes/${noteId}`, {
+    const { error } = await useFetch(
+      `${config.public.apiUrl}/notes/${noteId}`,
+      {
         method: 'DELETE',
-      });
-
-      if (result.ok) {
-        const filteredNotes = data.value.filter((n) => n.id !== noteId);
-        data.value = filteredNotes;
-        filteredData.value = filteredNotes;
       }
-    } catch (err) {
-      error.value = err;
+    );
+
+    if (error.value) {
+      console.error(error.value);
+      return;
     }
+
+    const filteredNotes = data.value.filter((n) => n.id !== noteId);
+    data.value = filteredNotes;
+    filteredData.value = filteredNotes;
   }
 
   const saveNote = async (note: Note) => {
-    try {
-      const result = await fetch(`${config.public.apiUrl}/notes/${note.id}`, {
+    const { error } = await useFetch(
+      `${config.public.apiUrl}/notes/${note.id}`,
+      {
         method: 'PUT',
         body: JSON.stringify(note),
-      });
-
-      if (result.ok) {
-        const index = data.value.findIndex((n) => n.id === note.id);
-        const temp = [...data.value];
-        temp[index] = note;
-        data.value = temp;
-        filteredData.value = [...data.value];
       }
-    } catch (err) {
-      error.value = err;
+    );
+
+    if (error.value) {
+      console.error(error.value);
+      return;
     }
+
+    const index = data.value.findIndex((n) => n.id === note.id);
+    const temp = [...data.value];
+    temp[index] = note;
+    data.value = temp;
+    filteredData.value = [...data.value];
   }
 
   const searchNotes = (searchText: string) => {
@@ -150,26 +141,26 @@ export const useNotes = () => {
   };
 
   const fetchNote = async (noteId: number): Promise<Note | undefined> => {
-    try {
-      const result = await fetch(`${config.public.apiUrl}/notes/${noteId}`, {
+    const { data: note, error } = await useFetch<Note>(
+      `${config.public.apiUrl}/notes/${noteId}`,
+      {
         method: 'GET',
-      });
-
-      if (result.ok) {
-        const note = (await result.json()) as Note;
-        return note;
       }
-    } catch (err) {
-      error.value = err;
-    }
-  }
+    );
 
-  fetchNotes();
+    if (error.value) {
+      throw error.value;
+    }
+
+    if (note.value) {
+      return note.value;
+    }
+
+    return undefined;
+  }
   return {
     data,
     filteredData,
-    error,
-    loading,
     selectedNote,
     searchNotes,
     createNote,
