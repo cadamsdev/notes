@@ -12,7 +12,7 @@ export const useNotes = () => {
   const config = useRuntimeConfig();
   const notes = useState<Note[]>('notes', () => []);
   const filteredData = useState<Note[]>('filteredData', () => []);
-  const selectedNote = ref<Note | null>(null);
+  const selectedNote = useState<Note | null>('selectedNote', () => null);
 
   const fetchNotes = async (): Promise<Note[]> => {
     const { data, error } = await useFetch<Note[]>(`${config.public.apiUrl}/notes`);
