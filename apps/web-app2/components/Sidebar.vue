@@ -88,7 +88,7 @@
 </template>
 
 <script setup lang="ts">
-const { data, selectTag, filteredTags, deleteTag, updateTag } = useTags();
+const { tags, selectTag, filteredTags, deleteTag, updateTag } = useTags();
 const { openModal, closeModal } = useModal();
 
 const selectedTag = ref<Tag>();
@@ -103,7 +103,8 @@ const tagSort = ref(TAG_SORT_COUNT)
 const selectedColor = ref('')
 const colors = ['red', 'green', 'blue', 'purple', 'yellow', 'orange', 'pink', 'brown', 'light-gray', 'dark-gray']
 
-watch(data, (newValue) => {
+// TODO remove
+watch(tags, (newValue) => {
   filteredTags.value = newValue;
 });
 

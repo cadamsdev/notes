@@ -8,7 +8,7 @@ export interface Note {
 }
 
 export const useNotes = () => {
-  const { data: tags, filteredTags, selectedTags } = useTags();
+  const { tags, filteredTags, selectedTags } = useTags();
   const config = useRuntimeConfig();
   const notes = useState<Note[]>('notes', () => []);
   const filteredData = useState<Note[]>('filteredData', () => []);

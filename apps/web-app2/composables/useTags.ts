@@ -8,75 +8,69 @@ export interface Tag {
 
 export const useTags = () => {
   const config = useRuntimeConfig();
-  const data = ref<Tag[]>([]);
-  const error = ref<any>(null);
-  const loading = ref(false);
+  const tags = useState<Tag[]>('tags', () => []);
   const selectedTags = useState<Tag[]>('selectedTags', () => []);
   const filteredTags = useState<Tag[]>('filteredTags', () => []);
 
-  const fetchTags = async () => {
-    loading.value = true;
-    try {
-      const result = await fetch(`${config.public.apiUrl}/tags`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+  const fetchTags = async (): Promise<Tag[]> => {
+    const { data, error } = await useFetch<Tag[]>(`${config.public.apiUrl}/tags`);
 
-      if (result.ok) {
-        const tags = (await result.json()) as Tag[];
-        data.value = tags;
-        filteredTags.value = tags;
-      }
-    } catch (err) {
-      error.value = err;
-    } finally {
-      loading.value = false;
+    if (error.value) {
+      console.error(error.value);
+      return [];
     }
+
+    const tagsData = data.value || [];
+    tags.value = tagsData;
+    filteredTags.value = tagsData;
+    return tagsData;
   };
 
   const deleteTag = async (id: number) => {
-    try {
-      const result = await fetch(`${config.public.apiUrl}/tags/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (result.ok) {
-        // remove from all tags
-        data.value = [...data.value.filter((t) => t.id !== id)];
-
-        // remove from filtered tags
-        filteredTags.value = [...filteredTags.value.filter((t) => t.id !== id)];
-
-        // remove from selected tags
-        selectedTags.value = [...selectedTags.value.filter((t) => t.id !== id)];
-      }
-    } catch (err) {
-      error.value = err;
+  const { error } = await useFetch(
+    `${config.public.apiUrl}/tags/${id}`,
+    {
+      method: 'DELETE',
     }
+  );
+
+  if (error.value) {
+    console.error(error.value);
+    return;
+  }
+
+    // remove from all tags
+    tags.value = [...tags.value.filter((t) => t.id !== id)];
+
+    // remove from filtered tags
+    filteredTags.value = [...filteredTags.value.filter((t) => t.id !== id)];
+
+    // remove from selected tags
+    selectedTags.value = [...selectedTags.value.filter((t) => t.id !== id)];
   }
 
   const updateTag = async (tag: Tag) => {
-    try {
-      const result = await fetch(`${config.public.apiUrl}/tags/${tag.id}`, {
+    const { error } = await useFetch(
+      `${config.public.apiUrl}/tags/${tag.id}`,
+      {
         method: 'PUT',
         body: JSON.stringify(tag),
-      });
-
-      if (result.ok) {
-        const tempTags = [...filteredTags.value];
-        const tempTag = tempTags.find((t) => t.id === tag.id);
-        if (tempTag) {
-          tempTag.name = tag.name;
-          tempTag.color = tag.color;
-        }
-
-        filteredTags.value = tempTags;
       }
-    } catch (err) {
-      error.value = err;
+    );
+
+    if (error.value) {
+      console.error(error.value);
+      return;
     }
+
+    const tempTags = [...filteredTags.value];
+    const tempTag = tempTags.find((t) => t.id === tag.id);
+    if (tempTag) {
+      tempTag.name = tag.name;
+      tempTag.color = tag.color;
+    }
+
+    filteredTags.value = tempTags;
   }
 
   const selectTag = (tag: Tag) => {
@@ -92,9 +86,7 @@ export const useTags = () => {
     selectedTags.value = selectedTags.value.filter((t) => t.id !== id);
   }
   return {
-    data,
-    error,
-    loading,
+    tags,
     selectedTags,
     filteredTags,
     selectTag,
