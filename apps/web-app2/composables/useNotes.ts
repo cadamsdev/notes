@@ -16,7 +16,7 @@ export const useNotes = () => {
   const loading = ref(false);
   const selectedNote = ref<Note | null>(null);
 
-  const fetchNotes = async () => {
+  const fetchNotes = async (): Promise<Note[]> => {
     loading.value = true;
     try {
       const result = await fetch(`${config.public.apiUrl}/notes`, {
@@ -30,12 +30,15 @@ export const useNotes = () => {
         const notes = (await result.json()) as Note[];
         data.value = notes;
         filteredData.value = notes;
+        return notes;
       }
     } catch (err) {
       error.value = err;
     } finally {
       loading.value = false;
     }
+
+    return [];
   };
 
   const createNote = async () => {
@@ -172,6 +175,7 @@ export const useNotes = () => {
     createNote,
     deleteNote,
     fetchNote,
-    saveNote
+    saveNote,
+    fetchNotes,
   };
 };
