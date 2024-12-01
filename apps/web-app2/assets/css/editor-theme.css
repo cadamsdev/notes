@@ -34,3 +34,7 @@
 .editor blockquote {
   @apply flex px-4 border-l-[3px] border-secondary;
 }
+
+.editor a {
+	@apply text-text-link;
+}
