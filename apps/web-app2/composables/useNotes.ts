@@ -13,6 +13,7 @@ export const useNotes = () => {
   const notes = useState<Note[]>('notes', () => []);
   const filteredData = useState<Note[]>('filteredData', () => []);
   const selectedNote = useState<Note | null>('selectedNote', () => null);
+  const router = useRouter();
 
   const fetchNotes = async (): Promise<Note[]> => {
     const data = await $fetch<Note[]>(`${config.public.apiUrl}/notes`);
@@ -40,6 +41,7 @@ export const useNotes = () => {
     note.id = id;
     notes.value = [note, ...notes.value];
     filteredData.value = [note, ...filteredData.value];
+    router.push(`/note/${id}`);
   }
 
   const deleteNote = async (noteId: number) => {
