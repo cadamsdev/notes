@@ -10,21 +10,22 @@ export interface Note {
 export const useNotes = () => {
   const { data: tags, filteredTags, selectedTags } = useTags();
   const config = useRuntimeConfig();
-  const data = useState<Note[]>('notes', () => []);
+  const notes = useState<Note[]>('notes', () => []);
   const filteredData = useState<Note[]>('filteredData', () => []);
   const selectedNote = ref<Note | null>(null);
 
   const fetchNotes = async (): Promise<Note[]> => {
-    const { data: notes, error } = await useFetch<Note[]>(`${config.public.apiUrl}/notes`);
+    const { data, error } = await useFetch<Note[]>(`${config.public.apiUrl}/notes`);
 
     if (error.value) {
       console.error(error.value);
       return [];
     }
 
-    data.value = notes.value || [];
-    filteredData.value = notes.value || [];
-    return notes.value || []; 
+    const notesData = data.value || [];
+    notes.value = notesData;
+    filteredData.value = notesData;
+    return notesData; 
   };
 
   const createNote = async () => {
@@ -48,7 +49,7 @@ export const useNotes = () => {
     }
 
     note.id = id.value || -1;
-    data.value = [note, ...data.value];
+    notes.value = [note, ...notes.value];
     filteredData.value = [note, ...filteredData.value];
   }
 
@@ -65,8 +66,8 @@ export const useNotes = () => {
       return;
     }
 
-    const filteredNotes = data.value.filter((n) => n.id !== noteId);
-    data.value = filteredNotes;
+    const filteredNotes = notes.value.filter((n) => n.id !== noteId);
+    notes.value = filteredNotes;
     filteredData.value = filteredNotes;
   }
 
@@ -84,15 +85,15 @@ export const useNotes = () => {
       return;
     }
 
-    const index = data.value.findIndex((n) => n.id === note.id);
-    const temp = [...data.value];
+    const index = notes.value.findIndex((n) => n.id === note.id);
+    const temp = [...notes.value];
     temp[index] = note;
-    data.value = temp;
-    filteredData.value = [...data.value];
+    notes.value = temp;
+    filteredData.value = [...notes.value];
   }
 
   const searchNotes = (searchText: string) => {
-    let newFilteredNotes = data.value;
+    let newFilteredNotes = notes.value;
 
     if (selectedTags.value.length) {
       newFilteredNotes = newFilteredNotes.filter((note) => {
@@ -159,7 +160,7 @@ export const useNotes = () => {
     return undefined;
   }
   return {
-    data,
+    notes,
     filteredData,
     selectedNote,
     searchNotes,
