@@ -113,13 +113,13 @@ const toggleSortTags = () => {
 }
 
 const handleShowEditTagModal = (tag: Tag) => {
-  selectedTag.value = tag;
+  selectedTag.value = {...tag};
   selectedColor.value = tag.color || '';
   openModal(MODAL_EDIT_TAG)
 }
 
 const handleShowRemoveTagConfirmationModal = (tag: Tag) => {
-  selectedTag.value = tag;
+  selectedTag.value = {...tag};
   openModal(MODAL_REMOVE_TAG)
 }
 
