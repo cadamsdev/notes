@@ -30,3 +30,7 @@
 	@apply list-decimal;
 	@apply pl-8;
 }
+
+.editor blockquote {
+  @apply flex px-4 border-l-[3px] border-secondary;
+}
