@@ -13,9 +13,9 @@
       <button @click="openModal(MODAL_TAG)">
         <Icon name="fa-solid:tags" />
       </button>
-      <button v-if="selectedTags.length === 0" @click="openModal(MODAL_TAG)" class="text-sm">Click to add Tags...</button>
+      <button v-if="tags.length === 0" @click="openModal(MODAL_TAG)" class="text-sm">Click to add Tags...</button>
       <div v-else class="flex flex-wrap gap-2">
-        <button v-for="tag in selectedTags" @click="openModal(MODAL_TAG)">
+        <button v-for="tag in tags" @click="openModal(MODAL_TAG)">
           <Chip :text="tag.name" :color="tag.color" />
         </button>
       </div>
@@ -28,7 +28,7 @@
         <div class="font-bold mb-4 text-text-primary">Tags</div>
       </div>
       <div class="mb-4">
-        <!-- <TagCombobox selectedTags={selectedTags} on:selectTag={handleSelectTag} /> -->
+        <TagCombobox :tags="tags" />
       </div>
 
       <div class="flex justify-end gap-2">
@@ -42,7 +42,8 @@
 <script setup lang="ts">
 const note = ref<Note>();
 const route = useRoute();
-const { fetchNote, selectedTags } = useNotes();
+const tags = ref<Tag[]>([]);
+const { fetchNote } = useNotes();
 const { openModal, closeModal } = useModal();
 const MODAL_TAG = 'MODAL_TAG';
 
@@ -53,5 +54,6 @@ function handleSaveTags() {
 onMounted(async () => {
   const noteId = +route.params.id;
   note.value = await fetchNote(noteId);
+  tags.value = note.value.tags || [];
 });
 </script>
