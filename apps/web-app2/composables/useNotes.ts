@@ -15,14 +15,8 @@ export const useNotes = () => {
   const selectedNote = useState<Note | null>('selectedNote', () => null);
 
   const fetchNotes = async (): Promise<Note[]> => {
-    const { data, error } = await useFetch<Note[]>(`${config.public.apiUrl}/notes`);
-
-    if (error.value) {
-      console.error(error.value);
-      return [];
-    }
-
-    const notesData = data.value || [];
+    const data = await $fetch<Note[]>(`${config.public.apiUrl}/notes`);
+    const notesData = data;
     notes.value = notesData;
     filteredData.value = notesData;
     return notesData; 
@@ -35,36 +29,26 @@ export const useNotes = () => {
       content: '',
     };
 
-    const { data: id, error } = await useFetch<number>(
+    const id = await $fetch<number>(
       `${config.public.apiUrl}/notes`,
       {
         method: 'POST',
-        body: JSON.stringify(note),
+        body: note,
       }
     );
 
-    if (error.value) {
-      console.error(error.value);
-      return -1;
-    }
-
-    note.id = id.value || -1;
+    note.id = id;
     notes.value = [note, ...notes.value];
     filteredData.value = [note, ...filteredData.value];
   }
 
   const deleteNote = async (noteId: number) => {
-    const { error } = await useFetch(
+    await $fetch(
       `${config.public.apiUrl}/notes/${noteId}`,
       {
         method: 'DELETE',
       }
     );
-
-    if (error.value) {
-      console.error(error.value);
-      return;
-    }
 
     const filteredNotes = notes.value.filter((n) => n.id !== noteId);
     notes.value = filteredNotes;
@@ -72,18 +56,13 @@ export const useNotes = () => {
   }
 
   const saveNote = async (note: Note) => {
-    const { error } = await useFetch(
+    await $fetch(
       `${config.public.apiUrl}/notes/${note.id}`,
       {
         method: 'PUT',
-        body: JSON.stringify(note),
+        body: note,
       }
     );
-
-    if (error.value) {
-      console.error(error.value);
-      return;
-    }
 
     const index = notes.value.findIndex((n) => n.id === note.id);
     const temp = [...notes.value];
@@ -141,23 +120,14 @@ export const useNotes = () => {
     filteredTags.value = newTags;
   };
 
-  const fetchNote = async (noteId: number): Promise<Note | undefined> => {
-    const { data: note, error } = await useFetch<Note>(
+  const fetchNote = async (noteId: number): Promise<Note> => {
+    const note = await $fetch<Note>(
       `${config.public.apiUrl}/notes/${noteId}`,
       {
         method: 'GET',
       }
     );
-
-    if (error.value) {
-      throw error.value;
-    }
-
-    if (note.value) {
-      return note.value;
-    }
-
-    return undefined;
+    return note;
   }
   return {
     notes,
