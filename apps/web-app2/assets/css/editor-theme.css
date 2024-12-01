@@ -20,3 +20,13 @@
 	@apply p-8;
 	min-height: calc(100vh - 50px);
 }
+
+.editor ul {
+	@apply list-disc;
+	@apply pl-8;
+}
+
+.editor ol {
+	@apply list-decimal;
+	@apply pl-8;
+}
