@@ -177,8 +177,6 @@ export const useNotes = () => {
     }
 
     filteredTags.value = tempTags;
-
-    // TODO invalidate notes
     await fetchNotes();
   };
 
