@@ -1,11 +1,11 @@
 <template>
   <div class="relative">
-    <div class="px-16 py-4 max-h-screen overflow-y-auto">
-      <div v-if="!note" class="flex items-center justify-center h-full">
+    <div class="overflow-y-auto">
+      <!-- <div v-if="!note" class="flex items-center justify-center h-full">
         <div>No content</div>
-      </div>
+      </div> -->
 
-      <Editor v-if="note" :note="note" class="p-6" />
+      <Editor v-if="note" :note="note" />
     </div>
 
     <div

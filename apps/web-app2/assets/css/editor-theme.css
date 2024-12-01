@@ -15,3 +15,8 @@
 .editor h3 {
 	@apply text-[1.602rem]; /* 25.63px */
 }
+
+.editor .tiptap {
+	@apply p-8;
+	min-height: calc(100vh - 50px);
+}
