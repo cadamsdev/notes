@@ -16,7 +16,8 @@
       </div>
       <div class="overflow-y-auto min-h-[calc(100vh-136px)] max-h-[calc(100vh-136px)]">
         <button v-for="(note) in filteredNotes" :key="note.id" :id="`note-${note.id}`"
-          :class="noteClass(note.id)" @click="selectNote(note)">
+          :class="{ 'block w-full text-left p-4 border-b border-bg-secondary text-base': true, 'bg-bg-secondary': +route.params.id === note.id, 'hover:bg-bg-secondary': +route.params.id !== note.id }"
+          @click="selectNote(note)">
           <div class="mb-3 text-text-primary-emphasis">{{ note.title }}</div>
           <div class="flex flex-wrap gap-1">
             <Chip v-for="tag in note.tags ?? []" :key="tag.id" :text="tag.name" :color="tag.color" />
@@ -32,7 +33,6 @@
 </template>
 
 <script setup lang="ts">
-import clsx from 'clsx';
 const { searchNotes, createNote, deleteNote, selectedTags, removeSelectedTag, tags } = useNotes();
 const { openModal } = useModal();
 const { settings } = useSettings();
@@ -50,7 +50,7 @@ watch([searchText, selectedTags, tags, settings], () => {
 
 onMounted(() => {
   filteredNotes.value = searchNotes(searchText.value);
-}); 
+});
 
 const handleCreateNote = async () => {
   await createNote();
@@ -78,12 +78,4 @@ const handleRemoveNote = async () => {
 
   await deleteNote(note.id);
 }
-
-const noteClass = (noteId: number) => {
-  return clsx('block w-full text-left p-4 border-b border-bg-secondary text-base', {
-    'bg-bg-secondary': +route.params.id === noteId,
-    'hover:bg-bg-secondary': +route.params.id !== noteId,
-  })
-}
 </script>
-
