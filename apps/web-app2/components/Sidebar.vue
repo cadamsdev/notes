@@ -12,9 +12,9 @@
         Tags
       </div>
       <button @click="toggleSortTags">
-        <Icon v-if="tagSort === TAG_SORT_COUNT" name="mingcute:numbers-90-sort-descending-line" width="24"
+        <Icon v-if="settings.tagSort === TAG_SORT_COUNT" name="mingcute:numbers-90-sort-descending-line" width="24"
           height="24" />
-        <Icon v-if="tagSort === TAG_SORT_NAME" name="mingcute:az-sort-ascending-letters-line" width="24" height="24" />
+        <Icon v-if="settings.tagSort === TAG_SORT_NAME" name="mingcute:az-sort-ascending-letters-line" width="24" height="24" />
       </button>
     </div>
     <div class="flex-grow overflow-y-auto pl-1">
@@ -88,8 +88,9 @@
 </template>
 
 <script setup lang="ts">
-const { selectTag, deleteTag, updateTag, tags } = useNotes();
+const { selectTag, deleteTag, updateTag, tags, selectedTags } = useNotes();
 const { openModal, closeModal } = useModal();
+const { updateSettings, settings } = useSettings();
 
 const filteredTags = ref<Tag[]>([]);
 const selectedTag = ref<Tag>();
@@ -97,23 +98,40 @@ const selectedTag = ref<Tag>();
 const MODAL_SETTINGS = 'modal-settings'
 const MODAL_EDIT_TAG = 'modal-edit-tag'
 const MODAL_REMOVE_TAG = 'modal-remove-tag'
-const TAG_SORT_COUNT = 'count'
-const TAG_SORT_NAME = 'name'
+const TAG_SORT_COUNT = 0;
+const TAG_SORT_NAME = 1;
 
-const tagSort = ref(TAG_SORT_COUNT)
 const selectedColor = ref('')
 const colors = ['red', 'green', 'blue', 'purple', 'yellow', 'orange', 'pink', 'brown', 'light-gray', 'dark-gray'];
 
+watch(() => settings.value.tagSort, () => {
+  filteredTags.value = getFilteredTags();
+});
+
 watch(() => tags.value, () => {
-  filteredTags.value = [...tags.value];
+  filteredTags.value = getFilteredTags();
+});
+
+watch(() => selectedTags.value, () => {
+  filteredTags.value = getFilteredTags();
 });
 
 onMounted(() => {
-  filteredTags.value = [...tags.value];
+  filteredTags.value = getFilteredTags(); 
 }); 
 
-const toggleSortTags = () => {
-  tagSort.value = tagSort.value === TAG_SORT_COUNT ? TAG_SORT_NAME : TAG_SORT_COUNT
+function getFilteredTags() {
+  return [...tags.value].sort((a, b) => {
+    if (settings.value.tagSort === TAG_SORT_COUNT) {
+      return (b.count ?? 0) - (a.count ?? 0);
+    }
+    return a.name.localeCompare(b.name);
+  });
+}
+
+const toggleSortTags = async () => {
+  const newTagSort = settings.value.tagSort === TAG_SORT_COUNT ? TAG_SORT_NAME : TAG_SORT_COUNT
+  await updateSettings(newTagSort);
 }
 
 const handleShowEditTagModal = (tag: Tag) => {
