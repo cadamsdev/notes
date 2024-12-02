@@ -1,6 +1,6 @@
 <template>
-  <div v-for="tag in selectedTags" class="flex flex-wrap gap-1 mb-4">
-    <Chip :text="tag.name" :color="tag.color" has-close-btn @close="handleRemoveTag(tag.id)" />
+  <div v-if="selectedTags.length" class="flex flex-wrap gap-1 mb-4">
+    <Chip v-for="tag in selectedTags" :text="tag.name" :color="tag.color" has-close-btn @close="handleRemoveTag(tag.id)" />
   </div>
 
   <div class="relative min-w-[13rem]">
