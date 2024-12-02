@@ -66,7 +66,8 @@ watch(() => searchText.value, (newValue) => {
 });
 
 function handleRemoveTag(tagId: number) {
-  selectedTags.value = selectedTags.value.filter(tag => tag.id !== tagId)
+  selectedTags.value = selectedTags.value.filter(tag => tag.id !== tagId);
+  emits('selectedTags', selectedTags.value);
 }
 
 function handleTogglePopup() {
