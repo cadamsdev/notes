@@ -43,6 +43,10 @@ const noteToDelete = ref<Note | null>(null)
 const route = useRoute()
 const MODAL_REMOVE_NOTE = 'MODAL_REMOVE_NOTE';
 
+watch(() => searchText.value, () => {
+  filteredNotes.value = searchNotes(searchText.value);
+});
+
 watch(() => selectedTags.value, () => {
   filteredNotes.value = searchNotes(searchText.value);
 });
