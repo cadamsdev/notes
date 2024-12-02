@@ -85,13 +85,7 @@ function handleFocus() {
   showPopup.value = true;
 }
 
-function handleBlur() {
-  showPopup.value = false;
-}
-
 function handleSelectTag(tag: Tag) {
-  console.log('handleSelectTag');
-
   selectedTags.value = [...selectedTags.value, tag];
   searchText.value = '';
   showPopup.value = false;
@@ -99,8 +93,6 @@ function handleSelectTag(tag: Tag) {
 }
 
 function handleCreateTag() {
-  console.log('calling handleCreateTag');
-
   const newTag: Tag = { name: searchText.value, id: -1 };
   selectedTags.value = [...selectedTags.value, newTag];
   searchText.value = '';
