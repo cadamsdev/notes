@@ -16,18 +16,16 @@ export interface Tag {
 export const useNotes = () => {
   const config = useRuntimeConfig();
   const notes = useState<Note[]>('notes', () => []);
-  const filteredData = useState<Note[]>('filteredData', () => []);
   const selectedNote = useState<Note | null>('selectedNote', () => null);
   const router = useRouter();
   const tags = useState<Tag[]>('tags', () => []);
   const selectedTags = useState<Tag[]>('selectedTags', () => []);
-  const filteredTags = useState<Tag[]>('filteredTags', () => []);
+  // const filteredTags = useState<Tag[]>('filteredTags', () => []);
 
   const fetchNotes = async (): Promise<Note[]> => {
     const data = await $fetch<Note[]>(`${config.public.apiUrl}/notes`);
     const notesData = data;
     notes.value = notesData;
-    filteredData.value = notesData;
     return notesData; 
   };
 
@@ -46,9 +44,7 @@ export const useNotes = () => {
       }
     );
 
-    note.id = id;
-    notes.value = [note, ...notes.value];
-    filteredData.value = [note, ...filteredData.value];
+    await fetchNotes();
     router.push(`/note/${id}`);
   }
 
@@ -60,9 +56,7 @@ export const useNotes = () => {
       }
     );
 
-    const filteredNotes = notes.value.filter((n) => n.id !== noteId);
-    notes.value = filteredNotes;
-    filteredData.value = filteredNotes;
+    await fetchNotes();
   }
 
   const saveNote = async (note: Note) => {
@@ -74,11 +68,7 @@ export const useNotes = () => {
       }
     );
 
-    const index = notes.value.findIndex((n) => n.id === note.id);
-    const temp = [...notes.value];
-    temp[index] = note;
-    notes.value = temp;
-    filteredData.value = [...notes.value];
+    await fetchNotes();
   }
 
   const saveTags = async (noteId: number, tags: Tag[]) => {
@@ -93,7 +83,7 @@ export const useNotes = () => {
     }
   }
 
-  const searchNotes = (searchText: string) => {
+  const searchNotes = (searchText: string): Note[] => {
     let newFilteredNotes = notes.value;
 
     if (selectedTags.value.length) {
@@ -137,9 +127,7 @@ export const useNotes = () => {
       }
     });
 
-    const newTags = [...map.values()];
-    filteredData.value = tempFilteredNotes;
-    filteredTags.value = newTags;
+    return tempFilteredNotes;
   };
 
   const fetchNote = async (noteId: number): Promise<Note> => {
@@ -156,7 +144,6 @@ export const useNotes = () => {
     const data = await $fetch<Tag[]>(`${config.public.apiUrl}/tags`);
     const tagsData = data;
     tags.value = tagsData;
-    filteredTags.value = tagsData;
     return tagsData;
   };
 
@@ -165,14 +152,10 @@ export const useNotes = () => {
       method: 'DELETE',
     });
 
-    // remove from all tags
-    tags.value = [...tags.value.filter((t) => t.id !== id)];
-
-    // remove from filtered tags
-    filteredTags.value = [...filteredTags.value.filter((t) => t.id !== id)];
-
     // remove from selected tags
     selectedTags.value = [...selectedTags.value.filter((t) => t.id !== id)];
+
+    await fetchTags();
   };
 
   const updateTag = async (tag: Tag) => {
@@ -181,15 +164,8 @@ export const useNotes = () => {
       body: tag,
     });
 
-    const tempTags = [...filteredTags.value];
-    const tempTag = tempTags.find((t) => t.id === tag.id);
-    if (tempTag) {
-      tempTag.name = tag.name;
-      tempTag.color = tag.color;
-    }
-
-    filteredTags.value = tempTags;
     await fetchNotes();
+    await fetchTags();
   };
 
   const selectTag = (tag: Tag) => {
@@ -205,7 +181,6 @@ export const useNotes = () => {
 
   return {
     notes,
-    filteredData,
     selectedNote,
     searchNotes,
     createNote,
@@ -215,7 +190,6 @@ export const useNotes = () => {
     fetchNotes,
     tags,
     selectedTags,
-    filteredTags,
     selectTag,
     removeSelectedTag,
     deleteTag,

@@ -88,9 +88,10 @@
 </template>
 
 <script setup lang="ts">
-const { selectTag, filteredTags, deleteTag, updateTag } = useNotes();
+const { selectTag, deleteTag, updateTag, tags } = useNotes();
 const { openModal, closeModal } = useModal();
 
+const filteredTags = ref<Tag[]>([]);
 const selectedTag = ref<Tag>();
 
 const MODAL_SETTINGS = 'modal-settings'
@@ -101,7 +102,15 @@ const TAG_SORT_NAME = 'name'
 
 const tagSort = ref(TAG_SORT_COUNT)
 const selectedColor = ref('')
-const colors = ['red', 'green', 'blue', 'purple', 'yellow', 'orange', 'pink', 'brown', 'light-gray', 'dark-gray']
+const colors = ['red', 'green', 'blue', 'purple', 'yellow', 'orange', 'pink', 'brown', 'light-gray', 'dark-gray'];
+
+watch(() => tags.value, () => {
+  filteredTags.value = [...tags.value];
+});
+
+onMounted(() => {
+  filteredTags.value = [...tags.value];
+}); 
 
 const toggleSortTags = () => {
   tagSort.value = tagSort.value === TAG_SORT_COUNT ? TAG_SORT_NAME : TAG_SORT_COUNT

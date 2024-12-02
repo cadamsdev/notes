@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="overflow-y-auto min-h-[calc(100vh-136px)] max-h-[calc(100vh-136px)]">
-        <button v-for="(note) in filteredData" :key="note.id" :id="`note-${note.id}`"
+        <button v-for="(note) in filteredNotes" :key="note.id" :id="`note-${note.id}`"
           :class="noteClass(note.id)" @click="selectNote(note)">
           <div class="mb-3 text-text-primary-emphasis">{{ note.title }}</div>
           <div class="flex flex-wrap gap-1">
@@ -33,18 +33,27 @@
 
 <script setup lang="ts">
 import clsx from 'clsx';
-const { filteredData, searchNotes, createNote, deleteNote, selectedTags, removeSelectedTag } = useNotes();
+const { searchNotes, createNote, deleteNote, selectedTags, removeSelectedTag, tags } = useNotes();
 const { openModal } = useModal();
 const router = useRouter();
 
+const filteredNotes = ref<Note[]>([]);
 const searchText = ref<string>('')
 const noteToDelete = ref<Note | null>(null)
 const route = useRoute()
 const MODAL_REMOVE_NOTE = 'MODAL_REMOVE_NOTE';
 
 watch(() => selectedTags.value, () => {
-  searchNotes(searchText.value);
+  filteredNotes.value = searchNotes(searchText.value);
 });
+
+watch(() => tags.value, () => {
+  filteredNotes.value = searchNotes(searchText.value);
+});
+
+onMounted(() => {
+  filteredNotes.value = searchNotes(searchText.value);
+}); 
 
 const handleCreateNote = async () => {
   await createNote();

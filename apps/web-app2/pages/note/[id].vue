@@ -43,9 +43,19 @@
 const note = ref<Note>();
 const tempTags = ref<Tag[]>([]);
 const route = useRoute();
-const { fetchNote, saveTags } = useNotes();
+const { fetchNote, saveTags, tags } = useNotes();
 const { openModal, closeModal } = useModal();
 const MODAL_TAG = 'MODAL_TAG';
+
+watch(() => tags.value, async () => {
+  note.value = await fetchNote(+route.params.id);
+});
+
+onMounted(async () => {
+  const noteId = +route.params.id;
+  note.value = await fetchNote(noteId);
+  tempTags.value = note.value.tags || [];
+});
 
 async function handleSaveTags() {
   if (!note.value) {
@@ -60,10 +70,4 @@ async function handleSaveTags() {
 function onSelectedTags(tags: Tag[]) {
   tempTags.value = tags;
 }
-
-onMounted(async () => {
-  const noteId = +route.params.id;
-  note.value = await fetchNote(noteId);
-  tempTags.value = note.value.tags || [];
-});
 </script>
