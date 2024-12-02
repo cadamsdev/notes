@@ -15,6 +15,7 @@ export interface Tag {
 
 export const useNotes = () => {
   const config = useRuntimeConfig();
+  const { settings } = useSettings();
   const notes = useState<Note[]>('notes', () => []);
   const selectedNote = useState<Note | null>('selectedNote', () => null);
   const router = useRouter();
@@ -128,7 +129,16 @@ export const useNotes = () => {
       }
     });
 
-    filteredTags.value = newFilteredTags;
+    filteredTags.value = newFilteredTags.sort((a, b) => {
+      if (settings.value.tagSort === 0) {
+        const aCount = a.count ?? 0;
+        const bCount = b.count ?? 0;
+
+        return bCount - aCount;
+      }
+      return a.name.localeCompare(b.name);
+    });
+
     return tempFilteredNotes;
   };
 

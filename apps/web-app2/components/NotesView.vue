@@ -35,6 +35,7 @@
 import clsx from 'clsx';
 const { searchNotes, createNote, deleteNote, selectedTags, removeSelectedTag, tags } = useNotes();
 const { openModal } = useModal();
+const { settings } = useSettings();
 const router = useRouter();
 
 const filteredNotes = ref<Note[]>([]);
@@ -52,6 +53,10 @@ watch(() => selectedTags.value, () => {
 });
 
 watch(() => tags.value, () => {
+  filteredNotes.value = searchNotes(searchText.value);
+});
+
+watch(() => settings.value, () => {
   filteredNotes.value = searchNotes(searchText.value);
 });
 
