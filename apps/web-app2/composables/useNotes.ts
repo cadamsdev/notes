@@ -81,6 +81,18 @@ export const useNotes = () => {
     filteredData.value = [...notes.value];
   }
 
+  const saveTags = async (noteId: number, tags: Tag[]) => {
+    await $fetch(`${config.public.apiUrl}/notes/${noteId}/tags`, {
+      method: 'POST',
+      body: tags,
+    });
+
+    const note = notes.value.find((n) => n.id === noteId);
+    if (note) {
+      note.tags = tags;
+    }
+  }
+
   const searchNotes = (searchText: string) => {
     let newFilteredNotes = notes.value;
 
@@ -209,5 +221,6 @@ export const useNotes = () => {
     deleteTag,
     updateTag,
     fetchTags,
+    saveTags,
   };
 };

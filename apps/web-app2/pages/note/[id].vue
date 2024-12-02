@@ -28,7 +28,7 @@
         <div class="font-bold mb-4 text-text-primary">Tags</div>
       </div>
       <div class="mb-4">
-        <TagCombobox :tags="tags" />
+        <TagCombobox :tags="tags" @selected-tags="onSelectedTags" />
       </div>
 
       <div class="flex justify-end gap-2">
@@ -43,12 +43,23 @@
 const note = ref<Note>();
 const route = useRoute();
 const tags = ref<Tag[]>([]);
-const { fetchNote } = useNotes();
+const { fetchNote, saveTags } = useNotes();
 const { openModal, closeModal } = useModal();
 const MODAL_TAG = 'MODAL_TAG';
 
-function handleSaveTags() {
+async function handleSaveTags() {
+  if (!note.value) {
+    return;
+  }
 
+  await saveTags(note.value.id, note.value.tags || []);
+  closeModal();
+}
+
+function onSelectedTags(tags: Tag[]) {
+  if (note.value) {
+    note.value.tags = tags;
+  }
 }
 
 onMounted(async () => {
