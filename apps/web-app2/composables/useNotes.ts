@@ -19,6 +19,7 @@ export const useNotes = () => {
   const selectedNote = useState<Note | null>('selectedNote', () => null);
   const router = useRouter();
   const tags = useState<Tag[]>('tags', () => []);
+  const filteredTags = useState<Tag[]>('filteredTags', () => []);
   const selectedTags = useState<Tag[]>('selectedTags', () => []);
   // const filteredTags = useState<Tag[]>('filteredTags', () => []);
 
@@ -127,6 +128,7 @@ export const useNotes = () => {
       }
     });
 
+    filteredTags.value = newFilteredTags;
     return tempFilteredNotes;
   };
 
@@ -144,6 +146,7 @@ export const useNotes = () => {
     const data = await $fetch<Tag[]>(`${config.public.apiUrl}/tags`);
     const tagsData = data;
     tags.value = tagsData;
+    filteredTags.value = [...tagsData];
     return tagsData;
   };
 
@@ -189,6 +192,7 @@ export const useNotes = () => {
     saveNote,
     fetchNotes,
     tags,
+    filteredTags,
     selectedTags,
     selectTag,
     removeSelectedTag,

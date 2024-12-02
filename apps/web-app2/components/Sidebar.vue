@@ -88,11 +88,10 @@
 </template>
 
 <script setup lang="ts">
-const { selectTag, deleteTag, updateTag, tags, selectedTags } = useNotes();
+const { selectTag, deleteTag, updateTag, filteredTags } = useNotes();
 const { openModal, closeModal } = useModal();
 const { updateSettings, settings } = useSettings();
 
-const filteredTags = ref<Tag[]>([]);
 const selectedTag = ref<Tag>();
 
 const MODAL_SETTINGS = 'modal-settings'
@@ -103,31 +102,6 @@ const TAG_SORT_NAME = 1;
 
 const selectedColor = ref('')
 const colors = ['red', 'green', 'blue', 'purple', 'yellow', 'orange', 'pink', 'brown', 'light-gray', 'dark-gray'];
-
-watch(() => settings.value.tagSort, () => {
-  filteredTags.value = getFilteredTags();
-});
-
-watch(() => tags.value, () => {
-  filteredTags.value = getFilteredTags();
-});
-
-watch(() => selectedTags.value, () => {
-  filteredTags.value = getFilteredTags();
-});
-
-onMounted(() => {
-  filteredTags.value = getFilteredTags(); 
-}); 
-
-function getFilteredTags() {
-  return [...tags.value].sort((a, b) => {
-    if (settings.value.tagSort === TAG_SORT_COUNT) {
-      return (b.count ?? 0) - (a.count ?? 0);
-    }
-    return a.name.localeCompare(b.name);
-  });
-}
 
 const toggleSortTags = async () => {
   const newTagSort = settings.value.tagSort === TAG_SORT_COUNT ? TAG_SORT_NAME : TAG_SORT_COUNT
