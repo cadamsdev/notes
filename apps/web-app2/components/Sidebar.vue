@@ -103,11 +103,6 @@ const tagSort = ref(TAG_SORT_COUNT)
 const selectedColor = ref('')
 const colors = ['red', 'green', 'blue', 'purple', 'yellow', 'orange', 'pink', 'brown', 'light-gray', 'dark-gray']
 
-// TODO remove
-watch(tags, (newValue) => {
-  filteredTags.value = newValue;
-});
-
 const toggleSortTags = () => {
   tagSort.value = tagSort.value === TAG_SORT_COUNT ? TAG_SORT_NAME : TAG_SORT_COUNT
 }
