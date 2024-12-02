@@ -6,5 +6,6 @@
 
 <script setup lang="ts">
   const { fetchNotes, fetchTags } = useNotes();
-  await Promise.all([fetchNotes(), fetchTags()]);
+  const { fetchSettings } = useSettings();
+  await Promise.all([fetchNotes(), fetchTags(), fetchSettings()]);
 </script>
