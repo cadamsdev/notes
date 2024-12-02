@@ -4,9 +4,9 @@
   </div>
 
   <div class="relative min-w-[13rem]">
-    <div @click="handleTogglePopup" class="flex items-center justify-between bg-bg rounded p-2 border border-bg-border">
-      <input ref="inputRef" @input="handleInputChange" @keydown="handleKeyDown" :value="searchText"
-        class="flex-grow mr-2 bg-bg text-text-primary outline-none" />
+    <div class="flex items-center justify-between bg-bg rounded p-2 border border-bg-border">
+      <input ref="inputRef" @input="handleInputChange" @focus.stop="handleFocus" @keydown="handleKeyDown"
+        :value="searchText" class="flex-grow mr-2 bg-bg text-text-primary outline-none" />
       <div>
         <button @click.stop="handleTogglePopup" class="p-2 flex items-center justify-center text-text-primary"
           tabindex="-1">
@@ -15,16 +15,16 @@
       </div>
     </div>
 
-    <div v-if="showPopup && filteredTags.length" ref="popupRef"
+    <div v-if="showPopup" ref="popupRef"
       :class="{ 'absolute top-full left-0 mt-2 w-full bg-bg-secondary text-text-secondary': true, 'hidden': !showPopup, 'block': showPopup }">
-      <div class="max-h-[12.9375rem] overflow-y-auto p-1">
+      <div v-if="filteredTags.length" class="max-h-[12.9375rem] overflow-y-auto p-1">
         <button v-for="tag in filteredTags" @click="() => handleSelectTag(tag)" class="block w-full text-left p-3 text-text-secondary
         hover:bg-bg-secondary-hover">
           {{ tag.name }}
         </button>
       </div>
 
-      <button v-if="!hasMatch && searchText" @click="() => handleCreateTag({ name: searchText, id: -1 })"
+      <button v-if="!hasMatch && searchText" @click="handleCreateTag"
         class="block w-full text-left p-3">
         Create "{{ searchText }}"
       </button>
@@ -34,44 +34,42 @@
 </template>
 
 <script setup lang="ts">
+import { onClickOutside } from '@vueuse/core';
 const props = defineProps<{
   tags: Tag[]
 }>();
+const { tags: allTags } = useNotes();
 const selectedTags = ref<Tag[]>([...props.tags]);
-const { tags } = useNotes();
+const filteredTags = ref<Tag[]>([...allTags.value]);
 const inputRef = ref<HTMLInputElement>();
 const popupRef = ref<HTMLDivElement>();
 const searchText = ref('');
 const showPopup = ref(false);
-const filteredTags = ref<Tag[]>([...tags.value]);
-const hasMatch = ref(false);
+const hasMatch = ref(filteredTags.value.some(tag => tag.name.toLowerCase() === searchText.value.toLowerCase()));
 
 const emits = defineEmits(['selectedTags'])
 
+onClickOutside(popupRef, () => {
+  showPopup.value = false;
+});
+
 watch(() => searchText.value, (newValue) => {
-  if (!newValue) {
-    filteredTags.value = [];
-    hasMatch.value = false;
-    return;
+  const lowerCaseSearchText = newValue.toLowerCase();
+
+  if (lowerCaseSearchText.length > 0) {
+    filteredTags.value = allTags.value.filter(tag => tag.name.toLowerCase().includes(lowerCaseSearchText));
+  } else {
+    filteredTags.value = [...allTags.value];
   }
 
-  const lowerCaseSearchText = newValue.toLowerCase();
-  const matchedTags = tags.value.filter(tag => tag.name.toLowerCase().includes(lowerCaseSearchText));
-  filteredTags.value = matchedTags;
-  hasMatch.value = matchedTags.length > 0;
+  hasMatch.value = filteredTags.value.some(tag => tag.name.toLowerCase() === lowerCaseSearchText);
 });
 
 function handleRemoveTag(tagId: number) {
-  selectedTags.value = selectedTags.value.filter(tag => tag.id !== tagId) 
+  selectedTags.value = selectedTags.value.filter(tag => tag.id !== tagId)
 }
 
-function handleTogglePopup(event: Event) {
-  if (event.target === inputRef.value) {
-    showPopup.value = true;
-    return;
-  }
-
-  filteredTags.value = [...tags.value];
+function handleTogglePopup() {
   showPopup.value = !showPopup.value;
 }
 
@@ -83,16 +81,30 @@ function handleKeyDown() {
 
 }
 
+function handleFocus() {
+  showPopup.value = true;
+}
+
+function handleBlur() {
+  showPopup.value = false;
+}
+
 function handleSelectTag(tag: Tag) {
+  console.log('handleSelectTag');
+
   selectedTags.value = [...selectedTags.value, tag];
   searchText.value = '';
   showPopup.value = false;
   emits('selectedTags', selectedTags.value);
 }
 
-function handleCreateTag(tag: Tag) {
-  selectedTags.value = [...selectedTags.value, tag];
+function handleCreateTag() {
+  console.log('calling handleCreateTag');
+
+  const newTag: Tag = { name: searchText.value, id: -1 };
+  selectedTags.value = [...selectedTags.value, newTag];
   searchText.value = '';
   showPopup.value = false;
+  emits('selectedTags', selectedTags.value);
 }
 </script>
