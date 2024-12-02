@@ -1,8 +1,12 @@
 <template>
   <Teleport to="#teleports">
-    <div v-if="isOpen" class="fixed inset-0 z-50 flex items-center justify-center">
-      <div class="fixed inset-0 bg-black opacity-50" @click="handleClose"></div>
-      <div class="relative z-10">
+    <div v-if="isOpen"
+      :class="{
+        'fixed inset-0 z-50 flex items-center justify-center bg-modal-overlay': true,
+        'pt-8 justify-center items-baseline': position === 'center-top',
+        'justify-center items-center': position === 'center'
+      }">
+      <div ref="modalRef">
         <slot />
       </div>
     </div>
@@ -10,18 +14,23 @@
 </template>
 
 <script setup lang="ts">
+import { onClickOutside } from '@vueuse/core';
+type ModalPosition = 'center' | 'center-top';
 const { currentModal, closeModal } = useModal();
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   id: string
-}>();
-
+  position?: ModalPosition
+}>(), {
+  position: 'center-top'
+});
+const modalRef = ref<HTMLDivElement>();
 const isOpen = ref(currentModal.value === props.id);
 
 watch(() => currentModal.value, (newValue) => {
   isOpen.value = newValue === props.id;
 });
 
-const handleClose = () => {
+onClickOutside(modalRef, () => {
   closeModal();
-}
+});
 </script>
