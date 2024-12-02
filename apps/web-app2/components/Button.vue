@@ -1,13 +1,16 @@
 <template>
-  <component :is="href ? 'a' : 'button'" :href="href || undefined" :class="buttonClass" v-bind="attrs"
-    @click="handleClick">
+  <component :is="href ? 'a' : 'button'" :href="href || undefined"
+    :class="{
+      'bg-primary hover:bg-primary-hover': props.variant === 'primary',
+      'bg-secondary hover:bg-secondary-hover': props.variant === 'secondary',
+      'py-2 px-4 text-btn-text text-base': true
+    }"
+    v-bind="attrs" @click="handleClick">
     <slot />
   </component>
 </template>
 
 <script setup lang="ts">
-import clsx from 'clsx'
-
 type ButtonType = 'primary' | 'secondary'
 
 const props = withDefaults(defineProps<{
@@ -19,13 +22,7 @@ const props = withDefaults(defineProps<{
 
 const attrs = useAttrs()
 
-const buttonClass = computed(() => {
-  return clsx({
-    'bg-primary hover:bg-primary-hover': props.variant === 'primary',
-    'bg-secondary hover:bg-secondary-hover': props.variant === 'secondary',
-  }, 'py-2 px-4 text-btn-text text-base')
-})
-
+// TODO fix
 const handleClick = (event: Event) => {
   if (!props.href) {
     // Handle button click
