@@ -20,9 +20,9 @@ WORKDIR /app
 
 COPY --from=base /app/node_modules ./node_modules
 COPY --from=base /app/package*.json ./
-COPY --from=base /app/vite.config.ts ./
-COPY --from=base /app/.svelte-kit ./.svelte-kit
+COPY --from=base /app/.output ./.output
+COPY --from=base /app/.nuxt ./.nuxt
 
-EXPOSE 4173
+EXPOSE 3000
 
-CMD ["npm", "run", "preview", "--host"]
+CMD ["npm", "run", "preview"]

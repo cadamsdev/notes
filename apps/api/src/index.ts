@@ -44,7 +44,7 @@ server.post('/notes', async (request, reply) => {
     return;
   }
 
-  const { title, content } = JSON.parse(request.body as string) as {
+  const { title, content } = request.body as {
     title: string;
     content: string;
   };
@@ -65,7 +65,7 @@ server.put('/notes/:id', async (request, reply) => {
     return;
   }
 
-  const newNote = JSON.parse(request.body as string) as Note;
+  const newNote = request.body as Note;
   newNote.id = id;
   const note = await updateNote(newNote);
   return note;
@@ -84,7 +84,7 @@ server.get('/tags', async (request, reply) => {
 
 server.put('/tags/:id', async (request, reply) => {
   const { id } = request.params as { id: number };
-  const tag = JSON.parse(request.body as string) as Tag;
+  const tag = request.body as Tag;
   tag.id = +id;
   const result = await updateTag(tag);
   return result;
@@ -114,7 +114,7 @@ server.post('/notes/:id/tags', async (request, reply) => {
     return;
   }
 
-  const tags = JSON.parse(request.body as string) as Tag[];
+  const tags = request.body as Tag[];
   await saveTags(id, tags);
   const updatedNote = await getNoteForId(id);
   return updatedNote;
@@ -137,7 +137,7 @@ server.put('/settings/:name', async (request, reply) => {
     return;
   }
 
-  const data = JSON.parse(request.body as string) as { value: number };
+  const data = request.body as { value: number };
   const result = await updateSettings(name, data.value);
   return result;
 });

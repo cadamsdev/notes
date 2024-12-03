@@ -1,0 +1,31 @@
+@import url('./editor-theme.css');
+
+body {
+  @apply dark:bg-black;
+  @apply min-h-screen;
+}
+
+#__nuxt {
+  @apply min-h-screen;
+}
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 0.75rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  @apply bg-scrollbar-track;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  @apply bg-scrollbar-thumb;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-scrollbar-thumb-hover;
+}

@@ -1,7 +1,0 @@
-.ss-divider {
-  @apply flex items-center h-6;
-}
-
-.ss-divider .seperator {
-  @apply flex-grow h-px bg-secondary m-0 p-0 border-none w-full;
-}
