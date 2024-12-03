@@ -17,6 +17,7 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
+      title: 'NoteX',
       link: [
         {
           rel: 'icon',
