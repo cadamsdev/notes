@@ -38,3 +38,7 @@
 .editor a {
 	@apply text-text-link;
 }
+
+.editor code {
+  @apply inline-block bg-bg-secondary text-text-secondary p-4 whitespace-pre w-full font-['JetBrains_Mono_Variable',_monospace] overflow-x-auto;
+}
