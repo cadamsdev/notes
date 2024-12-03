@@ -54,6 +54,7 @@ onMounted(() => {
 
 const handleCreateNote = async () => {
   await createNote();
+  filteredNotes.value = searchNotes(searchText.value);
 }
 
 const handleSearch = (event: { text: string }) => {
@@ -77,5 +78,6 @@ const handleRemoveNote = async () => {
   }
 
   await deleteNote(note.id);
+  filteredNotes.value = searchNotes(searchText.value);
 }
 </script>
