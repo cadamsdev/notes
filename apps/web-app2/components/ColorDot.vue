@@ -1,16 +1,6 @@
 <template>
-  <div :class="colorClass"></div>
-</template>
-
-<script setup lang="ts">
-import clsx from 'clsx';
-
-const props = defineProps<{
-  color?: string
-}>()
-
-const colorClass = computed(() => {
-  return clsx('w-3 h-3 rounded-full', {
+  <div :class="{
+    'w-3 h-3 rounded-full': true,
     'bg-tag-red': props.color === 'red',
     'bg-tag-green': props.color === 'green',
     'bg-tag-blue': props.color === 'blue',
@@ -21,7 +11,11 @@ const colorClass = computed(() => {
     'bg-tag-brown': props.color === 'brown',
     'bg-tag-light-gray': props.color === 'light-gray',
     'bg-tag-dark-gray': props.color === 'dark-gray'
-  })
-})
-</script>
+  }"></div>
+</template>
 
+<script setup lang="ts">
+const props = defineProps<{
+  color?: string
+}>();
+</script>
