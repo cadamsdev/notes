@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-const { searchNotes, createNote, deleteNote, selectedTags, removeSelectedTag, tags } = useNotes();
+const { searchNotes, createNote, deleteNote, selectedTags, removeSelectedTag, tags, notes } = useNotes();
 const { openModal } = useModal();
 const { settings } = useSettings();
 const router = useRouter();
@@ -44,7 +44,7 @@ const noteToDelete = ref<Note | null>(null)
 const route = useRoute()
 const MODAL_REMOVE_NOTE = 'MODAL_REMOVE_NOTE';
 
-watch([searchText, selectedTags, tags, settings], () => {
+watch([searchText, selectedTags, tags, settings, notes], () => {
   filteredNotes.value = searchNotes(searchText.value);
 });
 
