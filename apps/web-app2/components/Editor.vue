@@ -6,6 +6,8 @@
 import { Editor, EditorContent } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit'
 import { useDebounceFn } from '@vueuse/core'
+import CodeBlockShiki from 'tiptap-extension-code-block-shiki'
+
 const { saveNote } = useNotes();
 
 const props = defineProps<{
@@ -28,7 +30,10 @@ const handleUpdate = useDebounceFn(async (editor: Editor) => {
 onMounted(() => {
   editor.value = new Editor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({ codeBlock: false }),
+      CodeBlockShiki.configure({
+        defaultTheme: 'one-dark-pro'
+      }),
     ],
     content: props.note.content ? JSON.parse(props.note.content) : null,
     onUpdate: () => handleUpdate(editor.value!),

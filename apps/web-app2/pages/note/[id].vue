@@ -1,6 +1,6 @@
 <template>
   <div class="relative">
-    <div class="overflow-y-auto">
+    <div class="overflow-y-auto max-h-[calc(100vh-50px)]">
       <!-- <div v-if="!note" class="flex items-center justify-center h-full">
         <div>No content</div>
       </div> -->

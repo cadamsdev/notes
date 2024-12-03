@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-bg w-[20rem] border-r border-bg-border">
+  <div class="bg-bg w-[20rem] min-w-[20rem] border-r border-bg-border">
     <div>
       <div class="p-4">
         <div class="flex justify-end mb-4">
