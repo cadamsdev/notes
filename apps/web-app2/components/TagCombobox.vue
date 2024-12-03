@@ -40,7 +40,7 @@ const props = defineProps<{
 }>();
 const { tags: allTags } = useNotes();
 const selectedTags = ref<Tag[]>([...props.tags]);
-const filteredTags = ref<Tag[]>([...allTags.value]);
+const filteredTags = ref<Tag[]>([]);
 const inputRef = ref<HTMLInputElement>();
 const popupRef = ref<HTMLDivElement>();
 const searchText = ref('');
@@ -53,21 +53,26 @@ onClickOutside(popupRef, () => {
   showPopup.value = false;
 });
 
-watch(() => searchText.value, (newValue) => {
+watch([searchText, selectedTags], ([newValue]) => {
   const lowerCaseSearchText = newValue.toLowerCase();
-
-  if (lowerCaseSearchText.length > 0) {
-    filteredTags.value = allTags.value.filter(tag => tag.name.toLowerCase().includes(lowerCaseSearchText));
-  } else {
-    filteredTags.value = [...allTags.value];
-  }
-
+  filteredTags.value = getFilteredTags(newValue);
   hasMatch.value = filteredTags.value.some(tag => tag.name.toLowerCase() === lowerCaseSearchText);
 });
 
 onMounted(() => {
+  filteredTags.value = getFilteredTags(searchText.value);
   inputRef.value?.focus();
 });
+
+function getFilteredTags(searchText: string): Tag[] {
+  const searchTextToLower = searchText.toLowerCase();
+  if (!searchTextToLower) {
+    return [...allTags.value].filter(tag => !selectedTags.value.some(selectedTag => selectedTag.id === tag.id));
+  }
+
+  return [...allTags.value]
+    .filter(tag => !selectedTags.value.some(selectedTag => selectedTag.id === tag.id) && tag.name.toLowerCase().includes(searchTextToLower));
+}
 
 function handleRemoveTag(tagId: number) {
   selectedTags.value = selectedTags.value.filter(tag => tag.id !== tagId);
