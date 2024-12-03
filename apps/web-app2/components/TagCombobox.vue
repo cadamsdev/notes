@@ -65,6 +65,10 @@ watch(() => searchText.value, (newValue) => {
   hasMatch.value = filteredTags.value.some(tag => tag.name.toLowerCase() === lowerCaseSearchText);
 });
 
+onMounted(() => {
+  inputRef.value?.focus();
+});
+
 function handleRemoveTag(tagId: number) {
   selectedTags.value = selectedTags.value.filter(tag => tag.id !== tagId);
   emits('selectedTags', selectedTags.value);
