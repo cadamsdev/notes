@@ -2,19 +2,18 @@
   <div
     class="w-[275px] min-w-[275px] p-6 bg-bg flex flex-col gap-4 text-text-primary border-r border-solid border-bg-border">
     <button class="flex items-center gap-2 hover:bg-bg-hover p-2 rounded" @click="openModal(MODAL_SETTINGS)">
-      <Icon name="fluent:settings-20-filled" width="20" height="20" />
+      <Icon name="fluent:settings-20-filled" size="20" />
       Settings
     </button>
 
     <div class="flex items-center justify-between gap-2 text-text-primary-emphasis text-sm">
       <div class="flex items-center gap-2">
-        <Icon name="fa-solid:tags" />
+        <Icon name="fa-solid:tags" size="16" />
         Tags
       </div>
       <button @click="toggleSortTags">
-        <Icon v-if="settings.tagSort === TAG_SORT_COUNT" name="mingcute:numbers-90-sort-descending-line" width="24"
-          height="24" />
-        <Icon v-if="settings.tagSort === TAG_SORT_NAME" name="mingcute:az-sort-ascending-letters-line" width="24" height="24" />
+        <Icon v-if="settings.tagSort === TAG_SORT_COUNT" name="mingcute:numbers-90-sort-descending-line" size="20" />
+        <Icon v-if="settings.tagSort === TAG_SORT_NAME" name="mingcute:az-sort-ascending-letters-line" size="20" />
       </button>
     </div>
     <div class="flex-grow overflow-y-auto pl-1">
