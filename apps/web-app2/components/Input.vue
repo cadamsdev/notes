@@ -1,5 +1,5 @@
 <template>
-  <input v-bind="attrs" @input="handleInput" :class="{
+  <input v-bind="attrs" :class="{
     'block w-full p-2 text-text-secondary rounded text-sm font-normal bg-bg-secondary': true,
     'placeholder:text-text-secondary': true,
     'border-solid border-bg-secondary border': true,
