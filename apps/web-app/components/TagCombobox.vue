@@ -6,7 +6,7 @@
   <div class="relative min-w-[13rem]">
     <div class="flex items-center justify-between bg-bg rounded p-2 border border-bg-border">
       <input ref="inputRef" @input="handleInputChange" @focus.stop="handleFocus" @keydown="handleKeyDown"
-        :value="searchText" class="flex-grow mr-2 bg-bg text-text-primary outline-none" />
+        :value="searchText" class="flex-grow mr-2 bg-bg text-text-primary outline-none" autocomplete="off" spellcheck="false" />
       <div>
         <button @click.stop="handleTogglePopup" class="p-2 flex items-center justify-center text-text-primary"
           tabindex="-1">
