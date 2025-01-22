@@ -1,8 +1,21 @@
 import Database from 'better-sqlite3';
 import { Note } from './models/note';
 import { Tag } from './models/tag';
+import { existsSync, mkdirSync, writeFileSync } from 'fs';
 
-const db = new Database('./data/database.sqlite');
+const dataDir = './data';
+
+if (!existsSync(dataDir)) {
+  mkdirSync(dataDir);
+}
+
+const dbFile = `${dataDir}/database.sqlite`;
+
+if (!existsSync(dbFile)) {
+  writeFileSync(dbFile, '');  
+}
+
+const db = new Database(dbFile);
 
 db.pragma('journal_mode = WAL');
 seed();
