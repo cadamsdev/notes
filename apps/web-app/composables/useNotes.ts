@@ -79,10 +79,7 @@ export const useNotes = () => {
       body: tags,
     });
 
-    const note = notes.value.find((n) => n.id === noteId);
-    if (note) {
-      note.tags = tags;
-    }
+    await Promise.all([fetchNotes(), fetchTags()]);
   }
 
   const searchNotes = (searchText: string): Note[] => {
@@ -168,7 +165,7 @@ export const useNotes = () => {
     // remove from selected tags
     selectedTags.value = [...selectedTags.value.filter((t) => t.id !== id)];
 
-    await fetchTags();
+    await Promise.all([fetchNotes(), fetchTags()]);
   };
 
   const updateTag = async (tag: Tag) => {
