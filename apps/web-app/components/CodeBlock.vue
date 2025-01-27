@@ -1,10 +1,12 @@
 <template>
   <node-view-wrapper>
     <div :class="`language-${node.attrs.language}`" class="relative">
-      <node-view-content @input="handleInput" />
+      <node-view-content
+        class="absolute top-0 left-0 right-0 bottom-0 p-4 caret-text-secondary text-transparent font-['JetBrains_Mono_Variable',_monospace] z-20"
+        @input="handleInput" />
 
       <template v-if="highlightedCode">
-        <div v-html="highlightedCode"></div>
+        <div class="" v-html="highlightedCode"></div>
       </template>
 
       <select class="absolute top-2 right-2 bg-bg text-text-secondary" v-model="node.attrs.language"
