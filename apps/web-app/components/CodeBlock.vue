@@ -3,7 +3,7 @@
     <div :class="`language-${node.attrs.language}`" class="relative">
       <node-view-content
         class="absolute top-0 left-0 right-0 bottom-0 p-4 caret-text-secondary text-transparent font-['JetBrains_Mono_Variable',_monospace] z-20"
-        @input="handleInput" spellcheck="false" />
+        spellcheck="false" />
 
       <template v-if="highlightedCode">
         <div class="" v-html="highlightedCode"></div>
@@ -49,11 +49,6 @@ onMounted(async () => {
   result = result.replace('<code>', '<code spellcheck="false">');
   highlightedCode.value = result;
 });
-
-function handleInput(event: Event) {
-  const content = (event.target as HTMLDivElement).textContent || '';
-  console.log(content)
-}
 
 function changeLanguage(event: Event) {
   const select = event.target as HTMLSelectElement;
