@@ -3,7 +3,7 @@
     <div :class="`language-${node.attrs.language}`" class="relative">
       <node-view-content
         class="absolute top-0 left-0 right-0 bottom-0 p-4 caret-text-secondary text-transparent font-['JetBrains_Mono_Variable',_monospace] z-20"
-        @input="handleInput" />
+        @input="handleInput" spellcheck="false" />
 
       <template v-if="highlightedCode">
         <div class="" v-html="highlightedCode"></div>
@@ -31,29 +31,28 @@ props.editor.on('update', async (e) => {
   if (currentNode.type.name === 'codeBlock') {
     const content = currentNode.textContent;
 
-    const result = await codeToHtml(content, {
+    let result = await codeToHtml(content, {
       lang: 'javascript',
       theme: 'vitesse-dark'
     });
 
+    result = result.replace('<code>', '<code spellcheck="false">');
     highlightedCode.value = result;
   }
 })
 
 onMounted(async () => {
-  const result = await codeToHtml(code, {
+  let result = await codeToHtml(code, {
     lang: 'javascript',
     theme: 'vitesse-dark'
   });
-
-  console.log(highlightedCode);
+  result = result.replace('<code>', '<code spellcheck="false">');
   highlightedCode.value = result;
 });
 
 function handleInput(event: Event) {
   const content = (event.target as HTMLDivElement).textContent || '';
   console.log(content)
-
 }
 
 function changeLanguage(event: Event) {
