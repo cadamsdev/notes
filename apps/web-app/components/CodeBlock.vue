@@ -45,7 +45,13 @@ async function highlightCode(code: string) {
     lang: props.node.attrs.language || 'text',
     theme: 'vitesse-dark'
   });
+
   result = result.replace('<code>', '<code spellcheck="false">');
+
+  if (result === highlightedCode.value) {
+    return;
+  }
+
   highlightedCode.value = result;
 }
 
