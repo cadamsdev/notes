@@ -25,6 +25,9 @@ const CodeBlock = Node.create({
       },
       code: {
         default: '',
+      },
+      id: {
+        default: '',
       }
     };
   },

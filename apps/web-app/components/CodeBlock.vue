@@ -21,17 +21,18 @@
 <script setup lang="ts">
 import { NodeViewWrapper, type NodeViewProps, NodeViewContent } from '@tiptap/vue-3';
 import { codeToHtml } from 'shiki';
+import { v4 as uuid } from 'uuid';
 const props = defineProps<NodeViewProps>();
 const languages = ['javascript', 'html', 'css', 'ts', 'typescript', 'text'];
 const highlightedCode = ref('');
+const id = uuid();
 
 const code = props.node.textContent;
 
-props.editor.on('update', async () => {
-  const currentNode = props.editor.view.state.selection.$from.node();
-  console.log(currentNode)
-  if (currentNode.type.name === 'codeBlock') {
-    const content = currentNode.textContent;
+props.editor.on('update', async ({ transaction }) => {
+  const selectedNode = transaction.selection.$head.node();
+  if (selectedNode.type.name === 'codeBlock' && selectedNode.attrs.id === id) {
+    const content = selectedNode.textContent;
     await highlightCode(content);
   }
 })
@@ -52,6 +53,7 @@ async function highlightCode(code: string) {
     return;
   }
 
+  props.updateAttributes({ id: id });
   highlightedCode.value = result;
 }
 
