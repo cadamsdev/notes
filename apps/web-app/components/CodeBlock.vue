@@ -20,10 +20,10 @@
 
 <script setup lang="ts">
 import { NodeViewWrapper, type NodeViewProps, NodeViewContent } from '@tiptap/vue-3';
-import { codeToHtml } from 'shiki';
+import { codeToHtml, bundledLanguages } from 'shiki';
 import { v4 as uuid } from 'uuid';
 const props = defineProps<NodeViewProps>();
-const languages = ['javascript', 'html', 'css', 'ts', 'typescript', 'text'];
+const languages = Object.keys(bundledLanguages);
 const highlightedCode = ref('');
 const id = uuid();
 
