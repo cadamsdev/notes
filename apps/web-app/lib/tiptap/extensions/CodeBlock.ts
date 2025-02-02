@@ -1,4 +1,4 @@
-import { Node, mergeAttributes } from '@tiptap/core';
+import { Node, mergeAttributes, textblockTypeInputRule } from '@tiptap/core';
 import { nodeInputRule } from '@tiptap/core';
 import { VueNodeViewRenderer } from '@tiptap/vue-3';
 import Component from '~/components/CodeBlock.vue';
@@ -57,14 +57,12 @@ const CodeBlock = Node.create({
   addInputRules() {
     const inputRegex = /^```([a-z]+)?[\s\n]$/;
     return [
-      nodeInputRule({
+      textblockTypeInputRule({
         find: inputRegex,
         type: this.type,
-        getAttributes: (match) => {
-          const language = match[1] || this.options.defaultLanguage;
-          console.log(language);
-          return { language };
-        },
+        getAttributes: (match) => ({
+          language: match[1] || this.options.defaultLanguage,
+        }),
       }),
     ];
   },
