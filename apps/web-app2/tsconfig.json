@@ -3,5 +3,9 @@
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
-  ]
+  ],
+  "include": ["./typed-router.d.ts"],
+  "compilerOptions": {
+    "types": ["unplugin-vue-router/client"]
+  }
 }
