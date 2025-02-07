@@ -6,7 +6,7 @@
         spellcheck="false" />
 
       <template v-if="highlightedCode">
-        <div class="" v-html="highlightedCode"></div>
+        <div v-html="highlightedCode"></div>
       </template>
 
       <select class="absolute top-2 left-2 bg-bg text-text-secondary" v-model="node.attrs.language"
@@ -14,6 +14,11 @@
         <option v-for="language in languages" :value="language" :selected="language === node.attrs.language">{{ language
           }}</option>
       </select>
+
+      <button class="absolute top-2 right-2 flex items-center justify-center bg-bg text-text-secondary p-1 rounded"
+        @click="copyToClipboard" title="Copy to clipboard">
+        <Icon name="mingcute:copy-line" size="20" />
+      </button>
     </div>
   </node-view-wrapper>
 </template>
@@ -61,6 +66,10 @@ async function changeLanguage(event: Event) {
   const select = event.target as HTMLSelectElement;
   props.updateAttributes({ language: select.value });
   await highlightCode(code);
+}
+
+function copyToClipboard() {
+  navigator.clipboard.writeText(code);
 }
 </script>
 
