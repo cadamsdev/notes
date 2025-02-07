@@ -72,9 +72,3 @@ function copyToClipboard() {
   navigator.clipboard.writeText(code);
 }
 </script>
-
-<style scoped>
-pre {
-  margin: 0;
-}
-</style>
