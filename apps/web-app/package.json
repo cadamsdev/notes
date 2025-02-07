@@ -20,9 +20,12 @@
     "fuse.js": "^7.0.0",
     "nuxt": "^3.14.1592",
     "pinia": "^2.2.8",
-    "shiki": "^1.24.0",
     "tiptap-extension-code-block-shiki": "^0.4.0",
+    "uuid": "^11.0.5",
     "vue": "latest",
     "vue-router": "latest"
+  },
+  "devDependencies": {
+    "shiki": "^2.1.0"
   }
 }
