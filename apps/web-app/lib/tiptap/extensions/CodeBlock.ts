@@ -44,15 +44,15 @@ const CodeBlock = Node.create({
     return ['code-block', mergeAttributes(HTMLAttributes)];
   },
 
-  // addCommands() {
-  //   return {
-  //     setCodeBlock:
-  //       () =>
-  //       ({ commands }) => {
-  //         return commands.setNode('codeBlock');
-  //       },
-  //   };
-  // },
+  addCommands() {
+    return {
+      setCodeBlock:
+        () =>
+        ({ commands }) => {
+          return commands.setNode('codeBlock');
+        },
+    };
+  },
 
   addInputRules() {
     const inputRegex = /^```([a-z]+)?[\s\n]$/;
