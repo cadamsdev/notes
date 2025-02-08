@@ -67,7 +67,7 @@ export default {
             .chain()
             .focus()
             .deleteRange(range)
-            .setNode('codeBlock',)
+            .setNode('codeBlock', { language: 'text' })
             .run();
         },
       },
