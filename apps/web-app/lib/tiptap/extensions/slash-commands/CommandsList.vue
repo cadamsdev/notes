@@ -1,8 +1,12 @@
 <template>
   <div class="dropdown-menu">
     <template v-if="items.length">
-      <button :class="{ 'is-selected': index === selectedIndex }" v-for="(item, index) in items" :key="index"
+      <button 
+        class="flex gap-1 text-sm"
+        :class="{ 'is-selected': index === selectedIndex }"
+        v-for="(item, index) in items" :key="index"
         @click="selectItem(index)">
+        <Icon v-if="item.icon" :name="item.icon" size="24" />
         {{ item.title }}
       </button>
     </template>

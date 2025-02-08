@@ -7,6 +7,7 @@ export default {
     return [
       {
         title: 'Heading 1',
+        icon: 'codex:h1',
         command: ({ editor, range }) => {
           editor
             .chain()
@@ -18,6 +19,7 @@ export default {
       },
       {
         title: 'Heading 2',
+        icon: 'codex:h2',
         command: ({ editor, range }) => {
           editor
             .chain()
@@ -29,6 +31,7 @@ export default {
       },
       {
         title: 'Heading 3',
+        icon: 'codex:h3',
         command: ({ editor, range }) => {
           editor
             .chain()
@@ -40,6 +43,7 @@ export default {
       },
       {
         title: 'Heading 4',
+        icon: 'codex:h4',
         command: ({ editor, range }) => {
           editor
             .chain()
@@ -51,6 +55,7 @@ export default {
       },
       {
         title: 'Heading 5',
+        icon: 'codex:h5',
         command: ({ editor, range }) => {
           editor
             .chain()
@@ -62,6 +67,7 @@ export default {
       },
       {
         title: 'Code',
+        icon: 'codex:curly-brackets',
         command: ({ editor, range }) => {
           editor
             .chain()
