@@ -28,7 +28,9 @@ import { NodeViewWrapper, type NodeViewProps, NodeViewContent } from '@tiptap/vu
 import { codeToHtml, bundledLanguages } from 'shiki';
 import { v4 as uuid } from 'uuid';
 const props = defineProps<NodeViewProps>();
-const languages = Object.keys(bundledLanguages);
+const languages = ['text', 'plaintext', ...Object.keys(bundledLanguages)].sort((a, b) => {
+  return a.localeCompare(b);
+})
 const highlightedCode = ref('');
 const id = uuid();
 
