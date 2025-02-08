@@ -7,6 +7,8 @@ import { Editor, EditorContent } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit'
 import { useDebounceFn } from '@vueuse/core'
 import CodeBlock from '@/lib/tiptap/extensions/CodeBlock';
+import Commands from '~/lib/tiptap/extensions/slash-commands/commands';
+import suggestion from '~/lib/tiptap/extensions/slash-commands/suggestions';
 // import CodeBlockShiki from 'tiptap-extension-code-block-shiki'
 
 const { saveNote } = useNotes();
@@ -33,6 +35,9 @@ onMounted(() => {
     extensions: [
       StarterKit.configure({ codeBlock: false }),
       CodeBlock,
+      Commands.configure({
+        suggestion,
+      }),
       // CodeBlockShiki.configure({
       //   defaultTheme: 'one-dark-pro'
       // }),
