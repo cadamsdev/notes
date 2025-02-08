@@ -60,6 +60,17 @@ export default {
             .run();
         },
       },
+      {
+        title: 'Code',
+        command: ({ editor, range }) => {
+          editor
+            .chain()
+            .focus()
+            .deleteRange(range)
+            .setNode('codeBlock',)
+            .run();
+        },
+      },
     ]
       .filter((item) =>
         item.title.toLowerCase().startsWith(query.toLowerCase())
