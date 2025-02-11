@@ -1,22 +1,26 @@
 <template>
-  <div class="dropdown-menu">
-    <template v-if="items.length">
-      <button 
-        class="flex gap-1 text-sm"
-        :class="{ 'is-selected': index === selectedIndex }"
-        v-for="(item, index) in items" :key="index"
-        @click="selectItem(index)">
-        <Icon v-if="item.icon" :name="item.icon" size="24" />
-        {{ item.title }}
-      </button>
-    </template>
-    <div class="item" v-else>
-      No result
+  <div class="dropdown">
+    <div class="search-container">
+      <SearchInput @search="handleSearch" placeholder="Search..." />
+    </div>
+    <div class="dropdown-menu">
+      <template v-if="filteredItems.length">
+        <button class="flex gap-1 text-sm" :class="{ 'is-selected': index === selectedIndex }"
+          v-for="(item, index) in filteredItems" :key="index" @click="selectItem(index)">
+          <Icon v-if="item.icon" :name="item.icon" size="24" />
+          {{ item.title }}
+        </button>
+      </template>
+      <div class="item" v-else>
+        No result
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import SearchInput from '~/components/SearchInput.vue';
+
 export default {
   props: {
     items: {
@@ -33,6 +37,8 @@ export default {
   data() {
     return {
       selectedIndex: 0,
+      searchText: '',
+      filteredItems: [...this.items],
     };
   },
 
@@ -43,6 +49,12 @@ export default {
   },
 
   methods: {
+    handleSearch(event) {
+      const searchText = event.text;
+      this.searchText = searchText;
+      this.filteredItems = searchText ? this.items.filter((item) => item.title.toLowerCase().includes(this.searchText.toLowerCase())) : [...this.items];
+    },
+
     onKeyDown({ event }) {
       if (event.key === 'ArrowUp') {
         this.upHandler();
