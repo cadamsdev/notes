@@ -98,12 +98,19 @@ export default {
 </script>
 
 <style>
+.dropdown {
+  border-width: 1px;
+  border-style: solid;
+  @apply border-bg-border;
+  @apply rounded;
+}
+
+.search-container {
+  @apply p-2;
+}
+
 .dropdown-menu {
   background: #FFF;
-  border: 1px solid rgba(61, 37, 20, .05);
-  border-radius: 4px;
-  box-shadow: 0px 12px 33px 0px rgba(0, 0, 0, .06),
-    0px 3.618px 9.949px 0px rgba(0, 0, 0, .04);
   display: flex;
   flex-direction: column;
   overflow: auto;
@@ -112,19 +119,20 @@ export default {
 
 .dropdown-menu button {
   align-items: center;
-  background-color: transparent;
   display: flex;
   text-align: left;
   width: 100%;
   padding: 12px 8px;
+  @apply bg-bg;
+  @apply text-text-primary;
 }
 
 .dropdown-menu button:hover,
 .dropdown-menu button:hover.is-selected {
-  background-color: rgba(61, 37, 20, .12);
+  @apply bg-bg-hover;
 }
 
 .dropdown-menu button.is-selected {
-  background-color: rgba(61, 37, 20, .08);
+  @apply bg-bg-secondary;
 }
 </style>
