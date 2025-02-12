@@ -1,7 +1,7 @@
 <template>
   <div class="dropdown">
     <div class="search-container">
-      <SearchInput @search="handleSearch" placeholder="Search..." />
+      <SearchInput ref="searchInputRef" @search="handleSearch" placeholder="Search..." />
     </div>
     <div class="dropdown-menu">
       <template v-if="filteredItems.length">
@@ -29,17 +29,23 @@ const props = defineProps<{
 const selectedIndex = ref(0);
 const searchText = ref('');
 const filteredItems = ref(props.items);
+const searchInputRef = ref<any | null>(null);
 
 watch(() => props.items, () => {
   selectedIndex.value = 0;
   filteredItems.value = [...props.items];
 });
 
+onMounted(() => {
+  setTimeout(() => {
+    searchInputRef.value.focus();
+  }, 0);
+});
 
 function handleSearch(event: any) {
-  const searchText = event.text;
-  searchText.value = searchText;
-  filteredItems.value = searchText ? props.items.filter((item) => item.title.toLowerCase().includes(searchText.toLowerCase())) : [...props.items];
+  const tempSearchText = event.text;
+  searchText.value = tempSearchText;
+  filteredItems.value = searchText ? props.items.filter((item) => item.title.toLowerCase().includes(tempSearchText.toLowerCase())) : [...props.items];
 }
 
 function onKeyDown({ event }: { event: KeyboardEvent }) {  
