@@ -18,83 +18,72 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import SearchInput from '~/components/SearchInput.vue';
 
-export default {
-  props: {
-    items: {
-      type: Array,
-      required: true,
-    },
+const props = defineProps<{
+  items: { title: string; icon?: string }[];
+  command: (item: { title: string; icon?: string }) => void;
+}>();
 
-    command: {
-      type: Function,
-      required: true,
-    },
-  },
+const selectedIndex = ref(0);
+const searchText = ref('');
+const filteredItems = ref(props.items);
 
-  data() {
-    return {
-      selectedIndex: 0,
-      searchText: '',
-      filteredItems: [...this.items],
-    };
-  },
+watch(() => props.items, () => {
+  selectedIndex.value = 0;
+  filteredItems.value = [...props.items];
+});
 
-  watch: {
-    items() {
-      this.selectedIndex = 0;
-    },
-  },
 
-  methods: {
-    handleSearch(event) {
-      const searchText = event.text;
-      this.searchText = searchText;
-      this.filteredItems = searchText ? this.items.filter((item) => item.title.toLowerCase().includes(this.searchText.toLowerCase())) : [...this.items];
-    },
+function handleSearch(event: any) {
+  const searchText = event.text;
+  searchText.value = searchText;
+  filteredItems.value = searchText ? props.items.filter((item) => item.title.toLowerCase().includes(searchText.toLowerCase())) : [...props.items];
+}
 
-    onKeyDown({ event }) {
-      if (event.key === 'ArrowUp') {
-        this.upHandler();
-        return true;
-      }
+function onKeyDown({ event }: { event: KeyboardEvent }) {  
+  if (event.key === 'ArrowUp') {
+    upHandler();
+    return true;
+  }
 
-      if (event.key === 'ArrowDown') {
-        this.downHandler();
-        return true;
-      }
+  if (event.key === 'ArrowDown') {
+    downHandler();
+    return true;
+  }
 
-      if (event.key === 'Enter') {
-        this.enterHandler();
-        return true;
-      }
+  if (event.key === 'Enter') {
+    enterHandler();
+    return true;
+  }
 
-      return false;
-    },
+  return false;
+}
 
-    upHandler() {
-      this.selectedIndex = ((this.selectedIndex + this.items.length) - 1) % this.items.length;
-    },
+function upHandler() {
+  selectedIndex.value = ((selectedIndex.value + props.items.length) - 1) % props.items.length;
+}
 
-    downHandler() {
-      this.selectedIndex = (this.selectedIndex + 1) % this.items.length;
-    },
+function downHandler() {
+  selectedIndex.value = (selectedIndex.value + 1) % props.items.length;
+}
 
-    enterHandler() {
-      this.selectItem(this.selectedIndex);
-    },
+function enterHandler() {
+  selectItem(selectedIndex.value);
+}
 
-    selectItem(index) {
-      const item = this.items[index];
+function selectItem(index: number) {
+  const item = props.items[index];
 
-      if (item) {
-        this.command(item);
-      }
-    },
-  },
-};
+  if (item) {
+    props.command(item);
+  }
+}
+
+defineExpose({
+  onKeyDown,
+}); 
 </script>
 
 <style>
