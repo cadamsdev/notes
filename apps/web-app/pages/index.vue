@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center justify-center h-full">
-    <div>Loading...</div>
+    <Button variant="primary" @click="handleCreateNote">Create Note</Button>
   </div>
 </template>
 
@@ -26,6 +26,12 @@ definePageMeta({
       }
     }
   ]
-})
+});
+
+const { createNote } = useNotes();
+
+async function handleCreateNote() {
+  await createNote();
+}
 
 </script>
