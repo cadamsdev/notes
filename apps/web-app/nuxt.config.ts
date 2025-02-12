@@ -3,16 +3,11 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   ssr: false,
-  modules: [
-    '@nuxtjs/tailwindcss',
-    '@nuxt/icon',
-    '@pinia/nuxt',
-    '@vueuse/nuxt',
-  ],
+  modules: ['@nuxtjs/tailwindcss', '@nuxt/icon', '@pinia/nuxt', '@vueuse/nuxt'],
   css: ['@/assets/css/styles.css'],
   runtimeConfig: {
     public: {
-      apiUrl: process.env.API_URL || '',
+      apiUrl: process.env.API_URL || 'http://localhost:3001',
     },
   },
   app: {
@@ -24,8 +19,8 @@ export default defineNuxtConfig({
           type: 'image/png',
           href: '/favicon.png',
         },
-      ]
-    }
+      ],
+    },
   },
   tailwindcss: {
     config: {
