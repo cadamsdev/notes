@@ -85,15 +85,15 @@ function handleEnter() {
 }
 
 function handleUp() {
-  selectedIndex.value = ((selectedIndex.value + props.items.length) - 1) % props.items.length;
+  selectedIndex.value = ((selectedIndex.value + filteredItems.value.length) - 1) % filteredItems.value.length;
 }
 
 function handleDown() {
-  selectedIndex.value = (selectedIndex.value + 1) % props.items.length;
+  selectedIndex.value = (selectedIndex.value + 1) % filteredItems.value.length;
 }
 
 function selectItem(index: number) {
-  const item = props.items[index];
+  const item = filteredItems.value[index];
 
   if (item) {
     props.command(item);
