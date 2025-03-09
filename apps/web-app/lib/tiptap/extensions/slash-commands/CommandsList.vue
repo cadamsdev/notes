@@ -11,7 +11,7 @@
           {{ item.title }}
         </button>
       </template>
-      <div class="item" v-else>
+      <div class="no-results" v-else>
         No result
       </div>
     </div>
@@ -115,11 +115,11 @@ defineExpose({
 }
 
 .dropdown-menu {
-  background: #FFF;
   display: flex;
   flex-direction: column;
   overflow: auto;
   position: relative;
+  @apply text-text-primary;
 }
 
 .dropdown-menu button {
@@ -129,7 +129,6 @@ defineExpose({
   width: 100%;
   padding: 12px 8px;
   @apply bg-bg;
-  @apply text-text-primary;
 }
 
 .dropdown-menu button:hover,
@@ -139,5 +138,9 @@ defineExpose({
 
 .dropdown-menu button.is-selected {
   @apply bg-bg-secondary;
+}
+
+.no-results {
+  padding: 12px 8px;
 }
 </style>
