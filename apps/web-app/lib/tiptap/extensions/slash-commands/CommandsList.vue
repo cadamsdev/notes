@@ -53,7 +53,7 @@ function onKeyDown(e: KeyboardEvent) {
   console.log('onKeyDown');
   console.log(e.key);
 
-  if (e.key === 'Escape') {
+  if (e.key === 'Escape' || (e.key === 'Backspace' && searchText.value === '')) {
     handleClose();
     return;
   }
