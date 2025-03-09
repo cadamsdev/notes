@@ -1,5 +1,5 @@
 <template>
-  <div class="dropdown">
+  <div class="dropdown" @keydown="onKeyDown">
     <div class="search-container">
       <SearchInput ref="searchInputRef" @search="handleSearch" placeholder="Search..." />
     </div>
@@ -24,6 +24,7 @@ import SearchInput from '~/components/SearchInput.vue';
 const props = defineProps<{
   items: { title: string; icon?: string }[];
   command: (item: { title: string; icon?: string }) => void;
+  onClose: () => void;
 }>();
 
 const selectedIndex = ref(0);
@@ -48,35 +49,47 @@ function handleSearch(event: any) {
   filteredItems.value = searchText ? props.items.filter((item) => item.title.toLowerCase().includes(tempSearchText.toLowerCase())) : [...props.items];
 }
 
-function onKeyDown({ event }: { event: KeyboardEvent }) {  
-  if (event.key === 'ArrowUp') {
-    upHandler();
+function onKeyDown(e: KeyboardEvent) {
+  console.log('onKeyDown');
+  console.log(e.key);
+
+  if (e.key === 'Escape') {
+    handleClose();
+    return;
+  }
+
+  if (e.key === 'Enter') {
+    handleEnter();
+    return;
+  }
+
+  if (e.key === 'ArrowUp') {
+    handleUp();
     return true;
   }
 
-  if (event.key === 'ArrowDown') {
-    downHandler();
-    return true;
-  }
-
-  if (event.key === 'Enter') {
-    enterHandler();
+  if (e.key === 'ArrowDown') {
+    handleDown();
     return true;
   }
 
   return false;
 }
 
-function upHandler() {
+function handleClose() {
+  props.onClose();
+}
+
+function handleEnter() {
+  selectItem(selectedIndex.value);
+}
+
+function handleUp() {
   selectedIndex.value = ((selectedIndex.value + props.items.length) - 1) % props.items.length;
 }
 
-function downHandler() {
+function handleDown() {
   selectedIndex.value = (selectedIndex.value + 1) % props.items.length;
-}
-
-function enterHandler() {
-  selectItem(selectedIndex.value);
 }
 
 function selectItem(index: number) {

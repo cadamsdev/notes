@@ -90,11 +90,22 @@ export default {
 
     return {
       onStart: (props) => {
+
+        function onClose() {
+          popup[0].hide();
+          props.editor
+            .chain()
+            .deleteRange({
+              from: props.editor.state.selection.from - 1,
+              to: props.editor.state.selection.from,
+            })
+            .focus()
+            .run();
+        }
+
+        console.log('onStart')
         component = new VueRenderer(CommandsList, {
-          // using vue 2:
-          // parent: this,
-          // propsData: props,
-          props,
+          props: {...props, onClose},
           editor: props.editor,
         });
 
@@ -126,13 +137,13 @@ export default {
       },
 
       onKeyDown(props) {
-        if (props.event.key === 'Escape') {
-          popup[0].hide();
+        // if (props.event.key === 'Escape') {
+        //   popup[0].hide();
 
-          return true;
-        }
+        //   return true;
+        // }
 
-        return component.ref?.onKeyDown(props);
+        // return component.ref?.onKeyDown(props);
       },
 
       onExit() {
