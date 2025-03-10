@@ -66,6 +66,25 @@ export default {
         },
       },
       {
+        title: 'Bulleted List',
+        icon: 'codex:list-bulleted',
+        command: ({ editor, range }) => {
+          editor.chain().focus().deleteRange(range).setNode('bulletList').run();
+        },
+      },
+      {
+        title: 'Numbered List',
+        icon: 'codex:list-numbered',
+        command: ({ editor, range }) => {
+          editor
+            .chain()
+            .focus()
+            .deleteRange(range)
+            .setNode('orderedList')
+            .run();
+        },
+      },
+      {
         title: 'Code',
         icon: 'codex:curly-brackets',
         command: ({ editor, range }) => {
