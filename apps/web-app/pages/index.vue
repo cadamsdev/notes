@@ -1,7 +1,7 @@
 <template>
-  <div class="max-w-2xl mx-auto border-x border-bg-border min-h-screen">
+  <div class="max-w-4xl mx-auto border-x border-bg-border min-h-screen">
     <!-- Header -->
-    <div class="sticky top-0 bg-bg/80 backdrop-blur-md border-b border-bg-border p-4 z-10">
+    <div class="sticky top-0 bg-bg/80 backdrop-blur-md border-b border-bg-border p-6 z-10">
       <div class="flex items-center justify-between">
         <h1 class="text-xl font-bold text-text-primary-emphasis">Notes</h1>
         <button @click="toggleView" class="p-2 hover:bg-bg-hover rounded-full">
@@ -11,7 +11,7 @@
     </div>
 
     <!-- Quick Note Composer -->
-    <div class="border-b border-bg-border p-4">
+    <div class="border-b border-bg-border p-6">
       <div class="flex gap-3">
         <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
           <Icon name="fluent:note-20-filled" size="20" class="text-white" />
@@ -76,12 +76,12 @@
     </div>
 
     <!-- Search and Filter -->
-    <div class="p-4 border-b border-bg-border">
-      <div class="flex gap-2 mb-3">
+    <div class="p-6 border-b border-bg-border">
+      <div class="flex gap-3 mb-4">
         <SearchInput @search="handleSearch" placeholder="Search notes..." class="flex-1" />
         <button 
           @click="showFilters = !showFilters"
-          class="p-2 hover:bg-bg-hover rounded-lg"
+          class="p-3 hover:bg-bg-hover rounded-lg"
           :class="{ 'text-primary': selectedTags.length > 0 }"
         >
           <Icon name="fluent:filter-20-filled" size="20" />
@@ -126,7 +126,7 @@
         <p class="text-sm mt-1">Start by creating your first note above</p>
       </div>
       
-      <div v-else :class="isGridView ? 'grid grid-cols-1 md:grid-cols-2 gap-4 p-4' : ''">
+      <div v-else :class="isGridView ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-6' : ''">
         <NoteCard
           v-for="note in filteredNotes"
           :key="note.id"

@@ -1,7 +1,7 @@
 <template>
-  <div class="max-w-4xl mx-auto border-x border-bg-border min-h-screen">
+  <div class="max-w-5xl mx-auto border-x border-bg-border min-h-screen">
     <!-- Header -->
-    <div class="sticky top-0 bg-bg/80 backdrop-blur-md border-b border-bg-border p-4 z-10">
+    <div class="sticky top-0 bg-bg/80 backdrop-blur-md border-b border-bg-border p-6 z-10">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-3">
           <NuxtLink 
@@ -60,7 +60,7 @@
     </div>
 
     <!-- Editor -->
-    <div class="p-6">
+    <div class="p-8">
       <Editor v-if="note" :note="note" />
       <div v-else class="flex items-center justify-center py-20">
         <div class="text-center text-text-secondary">

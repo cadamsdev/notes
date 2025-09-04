@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen bg-bg">
-    <div class="max-w-6xl mx-auto flex">
+    <div class="max-w-7xl mx-auto flex">
       <!-- Sidebar -->
       <div class="hidden lg:block lg:w-64 xl:w-80">
         <Sidebar />
