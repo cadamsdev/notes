@@ -5,6 +5,8 @@ export interface Note {
   title: string;
   content?: string;
   tags?: Tag[];
+  created_at?: string;
+  updated_at?: string;
 }
 export interface Tag {
   id: number;
@@ -31,11 +33,11 @@ export const useNotes = () => {
     return notesData; 
   };
 
-  const createNote = async () => {
+  const createNote = async (content?: string) => {
     const note: Note = {
       id: -1,
-      title: 'A title',
-      content: '',
+      title: content ? content.split('\n')[0].substring(0, 50) || 'Quick Note' : 'A title',
+      content: content || '',
     };
 
     const id = await $fetch<number>(
@@ -47,6 +49,12 @@ export const useNotes = () => {
     );
 
     await fetchNotes();
+    
+    // If content was provided, return the ID instead of navigating
+    if (content) {
+      return id;
+    }
+    
     router.push(`/note/${id}`);
   }
 

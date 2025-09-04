@@ -27,53 +27,53 @@ export default defineNuxtConfig({
       theme: {
         extend: {
           colors: {
-            // Text colors
-            text: '#e2e2e2',
-            'text-primary': '#b3b3b3',
-            'text-primary-hover': '#d9d9d9',
-            'text-primary-emphasis': '#e6e6e6',
-            'text-secondary': '#b3b3b3',
-            'text-secondary-hover': '#c6c6c6',
-            'text-link': '#e6e6e6',
+            // Text colors - improved contrast
+            text: '#f7f9fa',
+            'text-primary': '#e7e9ea',
+            'text-primary-hover': '#f7f9fa',
+            'text-primary-emphasis': '#ffffff',
+            'text-secondary': '#71767b',
+            'text-secondary-hover': '#8b949e',
+            'text-link': '#1d9bf0',
 
-            // Background colors
-            bg: '#151415',
-            'bg-hover': '#2d2b2d',
-            'bg-secondary': '#211f21',
-            'bg-secondary-hover': '#454245',
-            'bg-on-secondary': '#2d2b2d',
+            // Background colors - more modern dark theme
+            bg: '#000000',
+            'bg-hover': '#080808',
+            'bg-secondary': '#16181c',
+            'bg-secondary-hover': '#1e2328',
+            'bg-on-secondary': '#202327',
 
             // Border colors
-            'bg-border': '#2d2b2d',
+            'bg-border': '#2f3336',
 
-            // Other colors
-            primary: '#e78e1e',
-            'primary-hover': '#eb9f40',
-            secondary: '#a39995',
-            'secondary-hover': '#b1a8a5',
-            accent: '#E8942A',
-            focus: '#454245',
+            // Primary colors - Twitter-like blue
+            primary: '#1d9bf0',
+            'primary-hover': '#1a8cd8',
+            secondary: '#536471',
+            'secondary-hover': '#6e767d',
+            accent: '#1d9bf0',
+            focus: '#1d9bf0',
 
-            // Tag colors
-            'tag-blue': '#004c91',
-            'tag-purple': '#4d2b8a',
-            'tag-green': '#1f6e32',
-            'tag-red': '#a61c2a',
-            'tag-yellow': '#c68f00',
-            'tag-orange': '#c24a0a',
-            'tag-pink': '#b82d6a',
-            'tag-cyan': '#0e7d8a',
-            'tag-dark-gray': '#24282b',
-            'tag-light-gray': '#d4d6d7',
-            'tag-brown': '#5e3f34',
-            'tag-default-text': '#e2e2e2',
+            // Tag colors - more vibrant and modern
+            'tag-blue': '#1d9bf0',
+            'tag-purple': '#7856ff',
+            'tag-green': '#00ba7c',
+            'tag-red': '#f4212e',
+            'tag-yellow': '#ffad1f',
+            'tag-orange': '#ff6500',
+            'tag-pink': '#e91e63',
+            'tag-cyan': '#1ba1f2',
+            'tag-dark-gray': '#536471',
+            'tag-light-gray': '#8b949e',
+            'tag-brown': '#8b5a2b',
+            'tag-default-text': '#f7f9fa',
 
             // Component tokens
-            'modal-overlay': 'rgb(21, 20, 21, 0.75)',
-            'btn-text': '#151415',
-            'scrollbar-track': '#2c2a2c',
-            'scrollbar-thumb': '#383538',
-            'scrollbar-thumb-hover': '#433f43',
+            'modal-overlay': 'rgba(0, 0, 0, 0.6)',
+            'btn-text': '#ffffff',
+            'scrollbar-track': '#202327',
+            'scrollbar-thumb': '#536471',
+            'scrollbar-thumb-hover': '#6e767d',
           },
         },
       },

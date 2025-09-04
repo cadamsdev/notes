@@ -135,8 +135,11 @@ export function getNoteForId(id: number): Note | null {
       n.id,
       n.title,
       n.content,
+      n.created_at,
+      n.updated_at,
       t.id as tag_id,
-      t.name as tag_name
+      t.name as tag_name,
+      t.color as tag_color
     FROM notes as n
     LEFT JOIN note_tags as nt ON nt.note_id = n.id
     LEFT JOIN tags as t ON t.id = nt.tag_id
@@ -174,7 +177,7 @@ export function updateNote(note: Note) {
   const content = note.content;
 
   const sql = `
-    UPDATE notes SET title = ?, content = ? WHERE id = ?
+    UPDATE notes SET title = ?, content = ?, updated_at = datetime('now') WHERE id = ?
   `;
 
   const result = db.prepare(sql).run(title, content, id);
