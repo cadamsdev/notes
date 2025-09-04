@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"npm run api:dev\" \"wait-on http://localhost:3001/health-check && npm run web:dev\"",
-    "web:dev": "npm run -w web dev",
-    "api:dev": "npm run -w api dev",
-    "build:web": "npm run -w web build",
-    "build:api": "npm run -w api build",
-    "desktop": "npm run -w desktop start"
+    "dev": "concurrently \"bun run --filter api dev\" \"wait-on http://localhost:3001/health-check && bun run --filter web dev\"",
+    "web:dev": "bun run --filter web dev",
+    "api:dev": "bun run --filter api dev",
+    "build:web": "bun run --filter web build",
+    "build:api": "bun run --filter api build",
+    "desktop": "bun run --filter desktop start"
   },
   "workspaces": [
     "apps/*"
