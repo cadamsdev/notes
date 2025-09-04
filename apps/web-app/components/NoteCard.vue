@@ -114,29 +114,21 @@ const getContentPreview = (content?: string) => {
   try {
     const parsed = JSON.parse(content);
     
-    // Simple recursive function to extract all text
-    const extractAllText = (obj: any): string => {
-      if (!obj) return '';
-      
+    // TipTap JSON structure: { type: "doc", content: [{ type: "paragraph", content: [{ type: "text", text: "..." }] }] }
+    const extractTextFromTipTap = (node: any): string => {
       let text = '';
       
       // If this is a text node, return its text
-      if (obj.type === 'text' && obj.text) {
-        return obj.text;
+      if (node && node.type === 'text' && node.text) {
+        return node.text;
       }
       
-      // If this object has content array, process it
-      if (obj.content && Array.isArray(obj.content)) {
-        for (const item of obj.content) {
-          text += extractAllText(item) + ' ';
-        }
-      }
-      
-      // If this is an object, check all its properties
-      if (typeof obj === 'object' && obj !== null) {
-        for (const key in obj) {
-          if (key !== 'type' && obj[key]) {
-            text += extractAllText(obj[key]);
+      // If this node has content array, process each item
+      if (node && node.content && Array.isArray(node.content)) {
+        for (const child of node.content) {
+          const childText = extractTextFromTipTap(child);
+          if (childText) {
+            text += childText + ' ';
           }
         }
       }
@@ -144,7 +136,7 @@ const getContentPreview = (content?: string) => {
       return text;
     };
     
-    const extractedText = extractAllText(parsed).trim();
+    const extractedText = extractTextFromTipTap(parsed).trim();
     
     if (extractedText && extractedText.length > 0) {
       // Limit preview length
@@ -154,7 +146,6 @@ const getContentPreview = (content?: string) => {
     return 'Start writing...';
   } catch (error) {
     // If JSON parsing fails, treat as plain text
-    console.log('JSON parse error, treating as plain text:', error);
     const plainText = content.trim();
     if (plainText.length > 0) {
       return plainText.length > 300 ? plainText.substring(0, 300) + '...' : plainText;

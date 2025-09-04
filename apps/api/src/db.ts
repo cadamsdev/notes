@@ -75,6 +75,7 @@ export function getNotes(): Note[] {
     SELECT
       n.id,
       n.title,
+      n.content,
       n.created_at,
       n.updated_at,
       t.id as tag_id,
@@ -89,6 +90,9 @@ export function getNotes(): Note[] {
   const notesResult = db.prepare(notesQuery).all() as {
     id: number;
     title: string;
+    content: string;
+    created_at: string;
+    updated_at: string;
     tag_id: number;
     tag_name: string;
     tag_color: string;
@@ -108,6 +112,9 @@ export function getNotes(): Note[] {
         acc.push({
           id: curr.id,
           title: curr.title,
+          content: curr.content,
+          created_at: curr.created_at,
+          updated_at: curr.updated_at,
           tags: curr.tag_id
             ? [{ id: curr.tag_id, name: curr.tag_name, color: curr.tag_color }]
             : [],
@@ -119,6 +126,9 @@ export function getNotes(): Note[] {
     [] as {
       id: number;
       title: string;
+      content: string;
+      created_at: string;
+      updated_at: string;
       tag_id?: number;
       tag_name?: string;
       tag_color?: string;
