@@ -1,7 +1,7 @@
 .editor h1,
 .editor h2,
 .editor h3 {
-	@apply leading-tight font-bold;
+	@apply leading-tight font-bold text-text-primary-emphasis;
 }
 
 .editor h1 {
@@ -17,28 +17,101 @@
 }
 
 .editor .tiptap {
-	@apply p-8;
+	@apply p-8 text-text-primary;
 	min-height: calc(100vh - 50px);
 }
 
+.editor .tiptap p {
+	@apply text-text-primary mb-4;
+}
+
+.editor .tiptap:focus {
+	@apply outline-none;
+}
+
 .editor ul {
-	@apply list-disc;
-	@apply pl-8;
+	@apply list-disc text-text-primary;
+	@apply pl-8 mb-4;
 }
 
 .editor ol {
-	@apply list-decimal;
-	@apply pl-8;
+	@apply list-decimal text-text-primary;
+	@apply pl-8 mb-4;
+}
+
+.editor li {
+	@apply text-text-primary mb-2;
 }
 
 .editor blockquote {
-  @apply flex px-4 border-l-[3px] border-secondary;
+  @apply flex px-4 border-l-[3px] border-secondary text-text-secondary italic;
+  @apply mb-4;
 }
 
 .editor a {
-	@apply text-text-link;
+	@apply text-text-link hover:text-primary underline;
 }
 
 .editor code {
-  @apply inline-block bg-bg-secondary text-text-secondary px-4 pt-10 pb-4 w-full font-['JetBrains_Mono_Variable',_monospace] overflow-x-auto;
+  @apply inline-block bg-bg-secondary text-text-primary px-2 py-1 rounded text-sm font-mono;
+}
+
+.editor pre {
+  @apply bg-bg-secondary text-text-primary p-4 rounded-lg overflow-x-auto mb-4;
+}
+
+.editor pre code {
+  @apply bg-transparent p-0 text-text-primary font-mono text-sm;
+}
+
+/* Code block styling */
+.editor .code-block {
+  @apply bg-bg-secondary border border-bg-border rounded-lg mb-4 overflow-hidden;
+}
+
+.editor .code-block pre {
+  @apply m-0 p-4 bg-transparent;
+}
+
+.editor .code-block code {
+  @apply text-text-primary font-mono text-sm bg-transparent p-0;
+}
+
+/* Placeholder styling */
+.editor .tiptap.is-editor-empty:before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #71767b;
+  pointer-events: none;
+  height: 0;
+  font-style: italic;
+}
+
+/* Better placeholder for first paragraph */
+.editor .tiptap p.is-empty:first-child::before {
+  content: 'Start writing your note...';
+  float: left;
+  color: #71767b;
+  pointer-events: none;
+  height: 0;
+  font-style: italic;
+}
+
+/* Ensure all text elements have proper color */
+.editor .tiptap * {
+  color: inherit;
+}
+
+/* Strong and emphasis styling */
+.editor strong {
+  @apply font-bold text-text-primary-emphasis;
+}
+
+.editor em {
+  @apply italic text-text-primary;
+}
+
+/* Focus styles */
+.editor .tiptap:focus-visible {
+  @apply outline-none;
 }

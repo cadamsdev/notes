@@ -34,10 +34,20 @@ export const useNotes = () => {
   };
 
   const createNote = async (content?: string) => {
+    const defaultContent = JSON.stringify({
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: content ? [{ type: 'text', text: content }] : []
+        }
+      ]
+    });
+
     const note: Note = {
       id: -1,
-      title: content ? content.split('\n')[0].substring(0, 50) || 'Quick Note' : 'A title',
-      content: content || '',
+      title: content ? content.split('\n')[0].substring(0, 50) || 'Quick Note' : 'Untitled',
+      content: content ? defaultContent : defaultContent,
     };
 
     const id = await $fetch<number>(
