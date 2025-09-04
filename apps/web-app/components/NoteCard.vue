@@ -46,7 +46,7 @@
     <!-- Content preview -->
     <div class="mb-3">
       <div 
-        class="text-text-primary text-sm leading-relaxed"
+        class="text-gray-200 text-sm leading-relaxed"
         :class="isGridView ? 'line-clamp-4' : 'line-clamp-2'"
       >
         {{ getContentPreview(note.content) }}
@@ -108,28 +108,58 @@ defineEmits<{
 const getContentPreview = (content?: string) => {
   if (!content) return 'No content';
   
+  // If content is just whitespace or empty
+  if (!content.trim()) return 'No content';
+  
   try {
     const parsed = JSON.parse(content);
-    let text = '';
     
-    // Extract text from TipTap JSON structure
-    const extractText = (node: any): string => {
-      if (node.type === 'text') {
-        return node.text || '';
+    // Simple recursive function to extract all text
+    const extractAllText = (obj: any): string => {
+      if (!obj) return '';
+      
+      let text = '';
+      
+      // If this is a text node, return its text
+      if (obj.type === 'text' && obj.text) {
+        return obj.text;
       }
-      if (node.content) {
-        return node.content.map(extractText).join('');
+      
+      // If this object has content array, process it
+      if (obj.content && Array.isArray(obj.content)) {
+        for (const item of obj.content) {
+          text += extractAllText(item) + ' ';
+        }
       }
-      return '';
+      
+      // If this is an object, check all its properties
+      if (typeof obj === 'object' && obj !== null) {
+        for (const key in obj) {
+          if (key !== 'type' && obj[key]) {
+            text += extractAllText(obj[key]);
+          }
+        }
+      }
+      
+      return text;
     };
     
-    if (parsed.content) {
-      text = parsed.content.map(extractText).join(' ');
+    const extractedText = extractAllText(parsed).trim();
+    
+    if (extractedText && extractedText.length > 0) {
+      // Limit preview length
+      return extractedText.length > 300 ? extractedText.substring(0, 300) + '...' : extractedText;
     }
     
-    return text.trim() || 'No content';
-  } catch {
-    return content.substring(0, 200) + (content.length > 200 ? '...' : '');
+    return 'Start writing...';
+  } catch (error) {
+    // If JSON parsing fails, treat as plain text
+    console.log('JSON parse error, treating as plain text:', error);
+    const plainText = content.trim();
+    if (plainText.length > 0) {
+      return plainText.length > 300 ? plainText.substring(0, 300) + '...' : plainText;
+    }
+    return 'No content';
   }
 };
 
