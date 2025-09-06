@@ -7,7 +7,12 @@
             <Icon name="fa-solid:plus" />
           </button>
         </div>
-        <SearchInput @search="handleSearch" placeholder="Search..." />
+        <SearchInput 
+          @search="handleSearch" 
+          placeholder="Search notes..." 
+          :show-results-count="!!searchText"
+          :result-count="searchText ? filteredNotes.length : null"
+        />
 
         <div v-if="selectedTags.length" class="mt-2 flex flex-wrap gap-1">
           <Chip v-for="filteredTag in selectedTags" :key="filteredTag.id" :text="filteredTag.name"

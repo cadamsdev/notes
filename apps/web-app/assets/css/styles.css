@@ -17,22 +17,22 @@ body {
 }
 
 
-/* width */
+/* Scrollbar styling - X-like minimalist approach */
 ::-webkit-scrollbar {
-  width: 0.75rem;
+  width: 0.5rem;
 }
 
-/* Track */
+/* Track - transparent for clean look */
 ::-webkit-scrollbar-track {
   @apply bg-scrollbar-track;
 }
 
-/* Handle */
+/* Handle - subtle and refined */
 ::-webkit-scrollbar-thumb {
-  @apply bg-scrollbar-thumb;
+  @apply bg-scrollbar-thumb rounded-full;
 }
 
-/* Handle on hover */
+/* Handle on hover - slightly more visible */
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-scrollbar-thumb-hover;
 }

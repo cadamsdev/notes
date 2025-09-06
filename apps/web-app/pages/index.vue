@@ -78,7 +78,13 @@
     <!-- Search and Filter -->
     <div class="p-6 border-b border-bg-border">
       <div class="flex gap-3 mb-4">
-        <SearchInput @search="handleSearch" placeholder="Search notes..." class="flex-1" />
+        <SearchInput 
+          @search="handleSearch" 
+          placeholder="Search notes..." 
+          class="flex-1" 
+          :show-results-count="!!searchText"
+          :result-count="searchText ? filteredNotes.length : null"
+        />
         <button 
           @click="showFilters = !showFilters"
           class="p-3 hover:bg-bg-hover rounded-lg"
