@@ -244,7 +244,7 @@ onMounted(() => {
         placeholder: 'Any thoughts...',
         emptyEditorClass: 'is-editor-empty',
         showOnlyWhenEditable: true,
-        showOnlyCurrent: false,
+        showOnlyCurrent: true,
       }),
     ],
     content: {
