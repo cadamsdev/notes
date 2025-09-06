@@ -1,91 +1,70 @@
 <template>
   <article 
-    :class="[
-      'group cursor-pointer transition-all duration-200',
-      isGridView 
-        ? 'bg-bg-secondary hover:bg-bg-hover rounded-xl p-4 border border-bg-border hover:border-primary/20' 
-        : 'border-b border-bg-border hover:bg-bg-secondary/50 p-4'
-    ]"
+    class="group cursor-pointer transition-all duration-200 bg-card-bg hover:bg-card-hover rounded-lg p-4 border border-card-border"
     @click="$emit('click', note)"
   >
-    <!-- Header -->
-    <div class="flex items-start justify-between mb-3">
-      <div class="flex items-center gap-2 flex-1 min-w-0">
-        <div class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-          <Icon name="fluent:note-20-filled" size="16" class="text-primary" />
-        </div>
-        <div class="flex-1 min-w-0">
-          <h3 class="text-text-primary-emphasis font-medium text-sm line-clamp-1">
-            {{ note.title || 'Untitled' }}
-          </h3>
-          <p class="text-text-secondary text-xs">
-            {{ formatDate(note.created_at) }}
-          </p>
-        </div>
+    <!-- Header with timestamp and actions -->
+    <div class="flex items-center justify-between mb-3">
+      <div class="flex items-center gap-2 text-xs text-text-muted">
+        <span>{{ formatTimeAgo(note.created_at) }}</span>
+        <span v-if="note.updated_at && note.updated_at !== note.created_at">
+          • edited
+        </span>
       </div>
       
       <!-- Actions -->
       <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
         <button 
           @click.stop="$emit('edit-tags', note)"
-          class="p-1 hover:bg-bg-hover rounded text-text-secondary hover:text-text-primary"
+          class="p-1 hover:bg-bg-hover rounded text-text-muted hover:text-text-primary"
           title="Edit tags"
         >
-          <Icon name="fluent:tag-20-regular" size="16" />
+          <Icon name="fluent:tag-20-regular" size="14" />
         </button>
         <button 
-          @click.stop="$emit('delete', note)"
-          class="p-1 hover:bg-red-500/10 rounded text-text-secondary hover:text-red-400"
-          title="Delete note"
+          @click.stop
+          class="p-1 hover:bg-bg-hover rounded text-text-muted hover:text-text-primary"
+          title="More options"
         >
-          <Icon name="fluent:delete-20-regular" size="16" />
+          <Icon name="fluent:more-horizontal-20-filled" size="14" />
         </button>
       </div>
     </div>
 
-    <!-- Content preview -->
+    <!-- Content -->
     <div class="mb-3">
-      <div 
-        class="text-gray-200 text-sm leading-relaxed"
-        :class="isGridView ? 'line-clamp-4' : 'line-clamp-2'"
-      >
+      <div class="text-text-primary text-sm leading-relaxed whitespace-pre-wrap">
         {{ getContentPreview(note.content) }}
       </div>
     </div>
 
-    <!-- Tags -->
-    <div v-if="note.tags && note.tags.length > 0" class="flex flex-wrap gap-1 mb-2">
-      <span
-        v-for="tag in note.tags.slice(0, isGridView ? 4 : 3)"
-        :key="tag.id"
-        class="inline-flex items-center gap-1 px-2 py-1 bg-bg-hover rounded-full text-xs text-text-secondary"
-      >
-        <ColorDot :color="tag.color" :size="6" />
-        {{ tag.name }}
-      </span>
-      <span 
-        v-if="note.tags.length > (isGridView ? 4 : 3)" 
-        class="px-2 py-1 text-xs text-text-secondary"
-      >
-        +{{ note.tags.length - (isGridView ? 4 : 3) }} more
-      </span>
-    </div>
-
-    <!-- Footer stats -->
-    <div class="flex items-center justify-between text-xs text-text-secondary">
-      <div class="flex items-center gap-3">
-        <span class="flex items-center gap-1">
-          <Icon name="fluent:text-character-count-20-regular" size="12" />
-          {{ getWordCount(note.content) }} words
+    <!-- Tags and footer -->
+    <div class="flex items-center justify-between">
+      <div class="flex flex-wrap gap-1">
+        <span 
+          v-for="tag in note.tags?.slice(0, 3)" 
+          :key="tag.id"
+          class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-xs"
+          :style="{ 
+            backgroundColor: tag.color + '20', 
+            color: tag.color 
+          }"
+        >
+          <span class="text-xs">#</span>{{ tag.name }}
         </span>
-        <span v-if="hasCodeBlocks(note.content)" class="flex items-center gap-1">
-          <Icon name="fluent:code-20-regular" size="12" />
-          Code
+        <span 
+          v-if="note.tags && note.tags.length > 3"
+          class="text-xs text-text-muted"
+        >
+          +{{ note.tags.length - 3 }} more
         </span>
       </div>
-      <time :datetime="note.updated_at">
-        {{ formatRelativeTime(note.updated_at) }}
-      </time>
+      
+      <!-- Referenced indicator -->
+      <div v-if="hasReferences" class="flex items-center gap-1 text-xs text-text-muted">
+        <Icon name="fluent:arrow-reply-20-filled" size="12" />
+        <span>Referenced by (1)</span>
+      </div>
     </div>
   </article>
 </template>
@@ -104,7 +83,29 @@ defineEmits<{
   'edit-tags': [note: Note];
 }>();
 
+// Computed
+const hasReferences = computed(() => false); // TODO: Implement reference tracking
+
 // Helper functions
+const formatTimeAgo = (dateString?: string) => {
+  if (!dateString) return 'Unknown';
+  
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60));
+  
+  if (diffInMinutes < 1) return 'Just now';
+  if (diffInMinutes < 60) return `${diffInMinutes} minute${diffInMinutes > 1 ? 's' : ''} ago`;
+  
+  const diffInHours = Math.floor(diffInMinutes / 60);
+  if (diffInHours < 24) return `${diffInHours} hour${diffInHours > 1 ? 's' : ''} ago`;
+  
+  const diffInDays = Math.floor(diffInHours / 24);
+  if (diffInDays < 7) return `${diffInDays} day${diffInDays > 1 ? 's' : ''} ago`;
+  
+  return date.toLocaleDateString();
+};
+
 const getContentPreview = (content?: string) => {
   if (!content) return 'No content';
   
@@ -136,89 +137,12 @@ const getContentPreview = (content?: string) => {
       return text;
     };
     
-    const extractedText = extractTextFromTipTap(parsed).trim();
-    
-    if (extractedText && extractedText.length > 0) {
-      // Limit preview length
-      return extractedText.length > 300 ? extractedText.substring(0, 300) + '...' : extractedText;
-    }
-    
-    return 'Start writing...';
+    const fullText = extractTextFromTipTap(parsed);
+    const preview = fullText.trim().substring(0, 200);
+    return preview || 'No content';
   } catch (error) {
-    // If JSON parsing fails, treat as plain text
-    const plainText = content.trim();
-    if (plainText.length > 0) {
-      return plainText.length > 300 ? plainText.substring(0, 300) + '...' : plainText;
-    }
-    return 'No content';
+    // If parsing fails, treat as plain text
+    return content.substring(0, 200);
   }
-};
-
-const getWordCount = (content?: string) => {
-  const text = getContentPreview(content);
-  return text.split(/\s+/).filter(word => word.length > 0).length;
-};
-
-const hasCodeBlocks = (content?: string) => {
-  if (!content) return false;
-  try {
-    const parsed = JSON.parse(content);
-    const hasCode = (node: any): boolean => {
-      if (node.type === 'codeBlock') return true;
-      if (node.content) {
-        return node.content.some(hasCode);
-      }
-      return false;
-    };
-    return parsed.content?.some(hasCode) || false;
-  } catch {
-    return content.includes('```');
-  }
-};
-
-const formatDate = (dateString?: string) => {
-  if (!dateString) return '';
-  const date = new Date(dateString);
-  return date.toLocaleDateString();
-};
-
-const formatRelativeTime = (dateString?: string) => {
-  if (!dateString) return '';
-  const date = new Date(dateString);
-  const now = new Date();
-  const diffMs = now.getTime() - date.getTime();
-  const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-  const diffDays = Math.floor(diffHours / 24);
-  
-  if (diffHours < 1) return 'now';
-  if (diffHours < 24) return `${diffHours}h`;
-  if (diffDays < 7) return `${diffDays}d`;
-  return date.toLocaleDateString();
 };
 </script>
-
-<style scoped>
-.line-clamp-1 {
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.line-clamp-4 {
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-</style>
