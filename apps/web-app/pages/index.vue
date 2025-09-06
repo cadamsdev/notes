@@ -260,6 +260,8 @@ onMounted(() => {
       Placeholder.configure({
         placeholder: 'Any thoughts...',
         emptyEditorClass: 'is-editor-empty',
+        showOnlyWhenEditable: true,
+        showOnlyCurrent: false,
       }),
     ],
     content: {
@@ -474,6 +476,26 @@ const handleEditNoteTags = (note: Note) => {
   color: rgb(95 99 104);
   pointer-events: none;
   height: 0;
+  font-style: normal;
+}
+
+.quick-note-editor :deep(.ProseMirror .is-empty::before) {
+  content: attr(data-placeholder);
+  float: left;
+  color: rgb(95 99 104);
+  pointer-events: none;
+  height: 0;
+  font-style: normal;
+}
+
+/* Alternative placeholder selector for TipTap */
+.quick-note-editor :deep(.ProseMirror p.is-editor-empty:first-child::before) {
+  content: attr(data-placeholder);
+  float: left;
+  color: rgb(95 99 104);
+  pointer-events: none;
+  height: 0;
+  font-style: normal;
 }
 
 .quick-note-editor :deep(.ProseMirror h1) {
