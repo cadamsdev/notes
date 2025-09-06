@@ -19,10 +19,10 @@
       @focus="handleFocus"
       @blur="handleBlur"
       @keydown.escape="handleEscape"
-      placeholder="Search notes..."
+      placeholder="Search your notes..."
       autocomplete="off" 
       spellcheck="false"
-      class="w-full h-12 pl-12 pr-12 bg-bg-secondary border border-bg-border rounded-full text-text-primary placeholder-text-muted transition-all duration-200 ease-out focus:outline-none focus:ring-2 focus:ring-primary-soft focus:border-primary/50 focus:bg-bg-tertiary hover:bg-bg-tertiary hover:border-bg-border-hover"
+      class="w-full h-11 pl-12 pr-12 bg-input-bg border border-input-border rounded-lg text-text-primary placeholder-text-muted transition-all duration-200 ease-out focus:outline-none focus:ring-2 focus:ring-primary-soft focus:border-input-focus hover:bg-bg-secondary hover:border-bg-border-hover"
     />
     
     <!-- Clear Button -->

@@ -27,78 +27,82 @@ export default defineNuxtConfig({
       theme: {
         extend: {
           colors: {
-            // Text colors - X-like refined contrast
-            text: '#e7e9ea',
-            'text-primary': '#f7f9fa',
+            // Text colors - optimized for reading and writing
+            text: '#e8eaed',
+            'text-primary': '#f8f9fa',
             'text-primary-hover': '#ffffff',
             'text-primary-emphasis': '#ffffff',
-            'text-secondary': '#71767b',
-            'text-secondary-hover': '#8b949e',
-            'text-muted': '#536471',
-            'text-link': '#1d9bf0',
+            'text-secondary': '#9aa0a6',
+            'text-secondary-hover': '#bdc1c6',
+            'text-muted': '#5f6368',
+            'text-link': '#8ab4f8',
 
-            // Background colors - X modern dark theme
-            bg: '#000000',
-            'bg-hover': '#0f1419',
-            'bg-secondary': '#16181c',
-            'bg-secondary-hover': '#1e2025',
-            'bg-tertiary': '#202327',
-            'bg-border': '#2f3336',
-            'bg-border-hover': '#3e4144',
+            // Background colors - clean and minimal
+            bg: '#0d1117',
+            'bg-hover': '#161b22',
+            'bg-secondary': '#21262d',
+            'bg-secondary-hover': '#30363d',
+            'bg-tertiary': '#373e47',
+            'bg-border': '#30363d',
+            'bg-border-hover': '#444c56',
 
-            // Primary colors - X signature blue with refinements
-            primary: '#1d9bf0',
-            'primary-hover': '#1a8cd8',
-            'primary-soft': 'rgba(29, 155, 240, 0.1)',
-            'primary-muted': 'rgba(29, 155, 240, 0.2)',
+            // Primary colors - subtle blue for focus
+            primary: '#58a6ff',
+            'primary-hover': '#388bfd',
+            'primary-soft': 'rgba(88, 166, 255, 0.1)',
+            'primary-muted': 'rgba(88, 166, 255, 0.2)',
 
-            // Secondary colors - refined grays
-            secondary: '#536471',
-            'secondary-hover': '#6e767d',
-            'secondary-soft': 'rgba(83, 100, 113, 0.1)',
+            // Secondary colors - neutral grays
+            secondary: '#656d76',
+            'secondary-hover': '#7d8590',
+            'secondary-soft': 'rgba(101, 109, 118, 0.1)',
 
-            // Status colors - X modern palette
-            success: '#00ba7c',
-            'success-hover': '#00a372',
-            error: '#f4212e',
-            'error-hover': '#dc1927',
-            warning: '#ffad1f',
-            'warning-hover': '#e6981c',
+            // Status colors - subtle and professional
+            success: '#3fb950',
+            'success-hover': '#2ea043',
+            error: '#f85149',
+            'error-hover': '#da3633',
+            warning: '#d29922',
+            'warning-hover': '#bb8009',
 
             // Component-specific
-            accent: '#1d9bf0',
-            focus: '#1d9bf0',
+            accent: '#58a6ff',
+            focus: '#58a6ff',
 
-            // Tag colors - X-inspired modern palette
-            'tag-blue': '#1d9bf0',
-            'tag-purple': '#7856ff',
-            'tag-green': '#00ba7c',
-            'tag-red': '#f4212e',
-            'tag-yellow': '#ffad1f',
-            'tag-orange': '#ff6500',
-            'tag-pink': '#e91e63',
-            'tag-cyan': '#1ba1f2',
-            'tag-indigo': '#6366f1',
-            'tag-emerald': '#10b981',
-            'tag-rose': '#f43f5e',
-            'tag-amber': '#f59e0b',
-            'tag-gray': '#6b7280',
-            'tag-slate': '#64748b',
+            // Tag colors - muted professional palette
+            'tag-blue': '#58a6ff',
+            'tag-purple': '#a5a5ff',
+            'tag-green': '#3fb950',
+            'tag-red': '#f85149',
+            'tag-yellow': '#d29922',
+            'tag-orange': '#fd7e14',
+            'tag-pink': '#db61a2',
+            'tag-cyan': '#39c5cf',
+            'tag-indigo': '#6f7fff',
+            'tag-emerald': '#26d0ce',
+            'tag-rose': '#ff6b9d',
+            'tag-amber': '#f7cc47',
+            'tag-gray': '#7d8590',
+            'tag-slate': '#8b949e',
             'tag-default-text': '#ffffff',
 
-            // UI component tokens
-            'modal-overlay': 'rgba(0, 0, 0, 0.65)',
-            'btn-text': '#ffffff',
-            'input-bg': '#202327',
-            'input-border': '#2f3336',
-            'card-bg': '#16181c',
-            'card-border': '#2f3336',
-            'divider': '#2f3336',
+            // UI component tokens - professional and clean
+            'modal-overlay': 'rgba(1, 4, 9, 0.8)',
+            'btn-text': '#f0f6fc',
+            'input-bg': '#21262d',
+            'input-border': '#30363d',
+            'input-focus': '#388bfd',
+            'card-bg': '#161b22',
+            'card-border': '#21262d',
+            'card-hover': '#21262d',
+            'divider': '#21262d',
+            'editor-bg': '#0d1117',
+            'editor-border': '#21262d',
             
-            // Scrollbar - X-like subtle styling
+            // Scrollbar - minimal and unobtrusive
             'scrollbar-track': 'transparent',
-            'scrollbar-thumb': '#536471',
-            'scrollbar-thumb-hover': '#6e767d',
+            'scrollbar-thumb': '#373e47',
+            'scrollbar-thumb-hover': '#444c56',
           },
         },
       },

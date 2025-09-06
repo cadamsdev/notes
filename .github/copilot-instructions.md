@@ -15,27 +15,27 @@ This is a **monorepo** with three main applications:
 
 ## Design System
 
-### **X-Inspired Modern Dark Theme**
-This app follows X's refined design language with:
-- **Pure black backgrounds** (#000000) for maximum contrast
-- **Subtle gray hierarchies** for content organization
-- **Signature blue accents** (#1d9bf0) for primary actions
-- **Refined typography** with improved readability
-- **Minimalist aesthetics** with clean lines and purposeful spacing
+### **Minimalist Note-Taking Theme**
+This app follows a clean, minimalist design optimized for note-taking and productivity:
+- **Professional dark backgrounds** (#0d1117) for reduced eye strain
+- **Subtle color hierarchies** for content organization without distraction
+- **Gentle blue accents** (#58a6ff) for primary actions and focus states
+- **Excellent typography contrast** for extended reading and writing
+- **Clean, distraction-free interface** focused on content creation
 
 ### **Color Palette**
-- **Primary**: #1d9bf0 (X blue) with hover states
-- **Backgrounds**: Pure black to dark grays (#000000, #16181c, #202327)
-- **Text**: High contrast whites and grays (#ffffff, #e7e9ea, #71767b)
-- **Borders**: Subtle grays (#2f3336) for clean separation
-- **Status**: Modern success/error/warning colors
+- **Primary**: #58a6ff (gentle blue) for focus and primary actions
+- **Backgrounds**: Professional grays (#0d1117, #21262d, #373e47)
+- **Text**: High contrast for readability (#f8f9fa, #e8eaed, #9aa0a6)
+- **Borders**: Subtle and unobtrusive (#30363d, #21262d)
+- **Tags**: Muted professional colors for organization without distraction
 
 ### **Component Styling Guidelines**
-- Use **rounded corners** (rounded-lg, rounded-full for inputs)
-- Implement **smooth transitions** (duration-200, ease-out)
-- Apply **subtle hover effects** with color and scale changes
-- Maintain **consistent spacing** using Tailwind's spacing scale
-- Use **semantic color tokens** from the design system
+- Use **generous white space** and clean layouts
+- Implement **subtle transitions** (duration-200, ease-out) for smooth interactions
+- Apply **minimal but effective hover states** without being distracting
+- Maintain **consistent spacing** optimized for reading and writing
+- Use **semantic color tokens** that support long-form content creation
 
 ## Development Workflow
 
@@ -65,8 +65,8 @@ Located in `apps/api/src/db.ts` - uses auto-seeding pattern:
 Components follow atomic design in `components/`:
 - Use `<script setup>` syntax with TypeScript
 - Props are type-safe interfaces matching backend models
-- **TailwindCSS with X-inspired design tokens** in `nuxt.config.ts`
-- Follow **modern X design patterns**: clean cards, subtle borders, refined spacing
+- **TailwindCSS with productivity-focused design tokens** in `nuxt.config.ts`
+- Follow **minimalist note-taking patterns**: clean cards, subtle interactions, content-first design
 
 ### API Patterns
 - RESTful endpoints with consistent error handling
@@ -99,18 +99,18 @@ Components follow atomic design in `components/`:
 
 ## Development Guidelines
 
-### **X-Like Design Implementation**
-- **Prioritize contrast and readability** - use high contrast text on dark backgrounds
-- **Implement smooth micro-interactions** - hover states, focus rings, transitions
-- **Use consistent component patterns** - cards, modals, inputs should follow X design language
-- **Apply semantic spacing** - consistent margins, padding, and component sizing
-- **Maintain visual hierarchy** - clear text sizes, weights, and color usage
+### **Note-Taking App Design Implementation**
+- **Prioritize readability and writability** - optimize for extended reading and writing sessions
+- **Minimize visual distractions** - clean interfaces that keep focus on content
+- **Use professional, muted colors** - avoid bright or saturated colors that compete with content
+- **Implement smooth, subtle interactions** - support workflow without being flashy
+- **Design for productivity** - every element should serve the note-taking experience
 
 ### **Component Development**
 - **Database changes**: Modify the `seed()` function in `apps/api/src/db.ts`
 - **New components**: Place in appropriate `components/` subdirectory with TypeScript props
 - **State management**: Use composables for data, Pinia stores for UI-only state
-- **Styling**: Use design system tokens from `nuxt.config.ts`, avoid hardcoded colors
+- **Styling**: Use design system tokens from `nuxt.config.ts`, prioritize content readability
 - **Editor features**: Extend TipTap in `lib/tiptap/extensions/` directory
 
 ## Common Tasks
@@ -130,9 +130,9 @@ Components follow atomic design in `components/`:
 2. Consider migration strategy for existing data
 3. Update TypeScript interfaces in both API and frontend
 
-### Implementing X-like UI Components:
+### Implementing Note-Taking UI Components:
 1. Use design system colors and tokens from `nuxt.config.ts`
-2. Implement consistent hover and focus states
-3. Add smooth transitions (duration-200, ease-out)
-4. Ensure proper contrast ratios and accessibility
-5. Follow X's minimalist design principles
+2. Prioritize content readability and writing comfort
+3. Add smooth, non-distracting transitions (duration-200, ease-out)
+4. Ensure excellent contrast ratios for extended reading
+5. Follow minimalist, productivity-focused design principles
