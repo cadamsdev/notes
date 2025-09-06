@@ -24,6 +24,7 @@ export const useNotes = () => {
   const tags = useState<Tag[]>('tags', () => []);
   const filteredTags = useState<Tag[]>('filteredTags', () => []);
   const selectedTags = useState<Tag[]>('selectedTags', () => []);
+  const selectedDate = useState<Date | null>('selectedDate', () => null);
   // const filteredTags = useState<Tag[]>('filteredTags', () => []);
 
   const fetchNotes = async (): Promise<Note[]> => {
@@ -219,6 +220,7 @@ export const useNotes = () => {
     tags,
     filteredTags,
     selectedTags,
+    selectedDate,
     selectTag,
     removeSelectedTag,
     deleteTag,

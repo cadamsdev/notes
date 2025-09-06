@@ -1,249 +1,143 @@
 <template>
-  <div class="min-h-screen bg-bg flex">
-    <!-- Left Sidebar -->
-    <div class="w-80 border-r border-divider bg-card-bg flex flex-col">
-      <!-- Header -->
-      <div class="p-4 border-b border-divider">
-        <h1 class="text-xl font-semibold text-text-primary-emphasis mb-1">Notes</h1>
-        <div class="flex items-center justify-between">
-          <span class="text-sm text-text-muted">{{ notes.length }} notes</span>
-          <SearchInput 
-            @search="handleSearch" 
-            placeholder="Search memos..." 
-            class="w-32" 
-            :show-results-count="false"
-          />
-        </div>
-      </div>
-
-      <!-- Calendar Section -->
-      <div class="p-4 border-b border-divider">
-        <h2 class="text-sm font-medium text-text-primary mb-3 flex items-center gap-2">
-          <Icon name="fluent:calendar-20-filled" size="16" />
-          Calendar
-        </h2>
-        <div class="bg-bg-secondary rounded-lg p-3">
-          <!-- Calendar Header -->
-          <div class="flex items-center justify-between mb-3">
-            <button @click="previousMonth" class="p-1 hover:bg-bg-hover rounded">
-              <Icon name="fluent:chevron-left-20-filled" size="16" class="text-text-muted" />
-            </button>
-            <h3 class="text-sm font-medium text-text-primary">{{ currentMonthYear }}</h3>
-            <button @click="nextMonth" class="p-1 hover:bg-bg-hover rounded">
-              <Icon name="fluent:chevron-right-20-filled" size="16" class="text-text-muted" />
-            </button>
-          </div>
-          
-          <!-- Calendar Grid -->
-          <div class="grid grid-cols-7 gap-1 text-xs">
-            <!-- Day headers -->
-            <div v-for="day in dayHeaders" :key="day" class="text-center text-text-muted p-1 font-medium">
-              {{ day }}
-            </div>
-            
-            <!-- Calendar days -->
-            <button
-              v-for="date in calendarDays"
-              :key="date.key"
-              @click="selectDate(date)"
-              :class="[
-                'text-center p-1 rounded hover:bg-bg-hover transition-colors',
-                date.isCurrentMonth ? 'text-text-primary' : 'text-text-muted',
-                date.isToday ? 'bg-primary text-white' : '',
-                date.hasNotes ? 'font-semibold' : '',
-                selectedDate && isSameDay(date.date, selectedDate) ? 'bg-primary-soft text-primary' : ''
-              ]"
+  <div class="min-h-screen bg-bg">
+    <div class="max-w-4xl mx-auto p-6">
+      <!-- Note Composer -->
+      <div class="border border-divider bg-card-bg rounded-lg p-6 mb-8">
+        <textarea
+          v-model="quickNoteContent"
+          @keydown="handleKeydown"
+          placeholder="Any thoughts..."
+          class="w-full bg-transparent text-text-primary placeholder-text-muted text-base resize-none border-none outline-none leading-relaxed min-h-[100px]"
+          rows="4"
+        ></textarea>
+        
+        <!-- Composer Actions -->
+        <div class="flex items-center justify-between mt-4">
+          <div class="flex items-center gap-2">
+            <button 
+              @click="showTagSelector = !showTagSelector"
+              class="p-2 hover:bg-bg-hover rounded-lg text-text-muted hover:text-text-primary transition-colors"
+              title="Add tags"
             >
-              {{ date.day }}
+              <Icon name="fluent:hashtag-20-filled" size="18" />
+            </button>
+            <button class="p-2 hover:bg-bg-hover rounded-lg text-text-muted hover:text-text-primary transition-colors">
+              <Icon name="fluent:attach-20-filled" size="18" />
+            </button>
+            <button class="p-2 hover:bg-bg-hover rounded-lg text-text-muted hover:text-text-primary transition-colors">
+              <Icon name="fluent:link-20-filled" size="18" />
+            </button>
+            <button 
+              @click="toggleCodeMode"
+              class="p-2 hover:bg-bg-hover rounded-lg transition-colors"
+              :class="isCodeMode ? 'text-primary' : 'text-text-muted hover:text-text-primary'"
+              title="Code mode"
+            >
+              <Icon name="fluent:code-20-filled" size="18" />
+            </button>
+            <button class="p-2 hover:bg-bg-hover rounded-lg text-text-muted hover:text-text-primary transition-colors">
+              <Icon name="fluent:location-20-filled" size="18" />
             </button>
           </div>
-        </div>
-      </div>
-
-      <!-- Tags Section -->
-      <div class="flex-1 p-4">
-        <div class="flex items-center justify-between mb-3">
-          <h2 class="text-sm font-medium text-text-primary flex items-center gap-2">
-            <Icon name="fluent:tag-20-filled" size="16" />
-            Tags
-          </h2>
-          <button class="text-xs text-text-muted hover:text-text-primary">
-            <Icon name="fluent:add-20-filled" size="12" />
-          </button>
+          <Button 
+            variant="primary" 
+            @click="createQuickNote"
+            :disabled="!quickNoteContent.trim()"
+            class="px-6"
+          >
+            <Icon name="fluent:save-20-filled" size="16" class="mr-1" />
+            Save
+          </Button>
         </div>
         
-        <!-- Tag List -->
-        <div class="space-y-1">
-          <button
-            v-for="tag in availableTags"
-            :key="tag.id"
-            @click="selectTag(tag)"
-            :class="[
-              'w-full flex items-center gap-2 px-2 py-1.5 rounded-lg text-left transition-colors text-sm',
-              selectedTags.find(t => t.id === tag.id)
-                ? 'bg-primary-soft text-primary'
-                : 'hover:bg-bg-hover text-text-secondary'
-            ]"
-          >
-            <ColorDot :color="tag.color" size="sm" />
-            <span class="flex-1">{{ tag.name }}</span>
-            <span class="text-xs opacity-75">{{ tag.count }}</span>
-          </button>
+        <!-- Tags for quick note -->
+        <div v-if="quickNoteTags.length > 0" class="flex flex-wrap gap-1 mt-3">
+          <Chip 
+            v-for="tag in quickNoteTags" 
+            :key="tag.id" 
+            :text="tag.name" 
+            :color="tag.color" 
+            hasCloseBtn 
+            @close="removeQuickNoteTag(tag.id)" 
+          />
         </div>
-
-        <!-- Shortcuts -->
-        <div class="mt-6 pt-4 border-t border-divider">
-          <h3 class="text-xs font-medium text-text-muted mb-2">Shortcuts</h3>
-          <div class="space-y-1">
-            <button class="w-full flex items-center gap-2 px-2 py-1.5 rounded-lg text-left hover:bg-bg-hover text-sm text-text-secondary">
-              <Icon name="fluent:link-20-filled" size="14" />
-              <span>Links</span>
-              <span class="text-xs opacity-75 ml-auto">0</span>
-            </button>
-            <button class="w-full flex items-center gap-2 px-2 py-1.5 rounded-lg text-left hover:bg-bg-hover text-sm text-text-secondary">
-              <Icon name="fluent:checkmark-square-20-filled" size="14" />
-              <span>To-do</span>
-              <span class="text-xs opacity-75 ml-auto">0 / 1</span>
-            </button>
-            <button class="w-full flex items-center gap-2 px-2 py-1.5 rounded-lg text-left hover:bg-bg-hover text-sm text-text-secondary">
-              <Icon name="fluent:code-20-filled" size="14" />
-              <span>Code</span>
-              <span class="text-xs opacity-75 ml-auto">0</span>
-            </button>
+        
+        <!-- Tag selector -->
+        <Transition
+          enter-active-class="transition-all duration-200 ease-out"
+          enter-from-class="opacity-0 scale-95"
+          enter-to-class="opacity-100 scale-100"
+          leave-active-class="transition-all duration-150 ease-in"
+          leave-from-class="opacity-100 scale-100"
+          leave-to-class="opacity-0 scale-95"
+        >
+          <div v-if="showTagSelector" class="mt-4 p-4 bg-bg-secondary border border-bg-border rounded-lg">
+            <TagCombobox :tags="quickNoteTags" @selected-tags="updateQuickNoteTags" />
           </div>
-        </div>
+        </Transition>
       </div>
-    </div>
 
-    <!-- Main Content -->
-    <div class="flex-1 flex flex-col">
-      <!-- Note Composer -->
-      <div class="border-b border-divider bg-card-bg p-6">
-        <div class="max-w-4xl">
-          <textarea
-            v-model="quickNoteContent"
-            @keydown="handleKeydown"
-            placeholder="Any thoughts..."
-            class="w-full bg-transparent text-text-primary placeholder-text-muted text-base resize-none border-none outline-none leading-relaxed min-h-[100px]"
-            rows="4"
-          ></textarea>
-          
-          <!-- Composer Actions -->
-          <div class="flex items-center justify-between mt-4">
-            <div class="flex items-center gap-2">
-              <button 
-                @click="showTagSelector = !showTagSelector"
-                class="p-2 hover:bg-bg-hover rounded-lg text-text-muted hover:text-text-primary transition-colors"
-                title="Add tags"
-              >
-                <Icon name="fluent:hashtag-20-filled" size="18" />
-              </button>
-              <button class="p-2 hover:bg-bg-hover rounded-lg text-text-muted hover:text-text-primary transition-colors">
-                <Icon name="fluent:attach-20-filled" size="18" />
-              </button>
-              <button class="p-2 hover:bg-bg-hover rounded-lg text-text-muted hover:text-text-primary transition-colors">
-                <Icon name="fluent:link-20-filled" size="18" />
-              </button>
-              <button 
-                @click="toggleCodeMode"
-                class="p-2 hover:bg-bg-hover rounded-lg transition-colors"
-                :class="isCodeMode ? 'text-primary' : 'text-text-muted hover:text-text-primary'"
-                title="Code mode"
-              >
-                <Icon name="fluent:code-20-filled" size="18" />
-              </button>
-              <button class="p-2 hover:bg-bg-hover rounded-lg text-text-muted hover:text-text-primary transition-colors">
-                <Icon name="fluent:location-20-filled" size="18" />
-              </button>
-            </div>
-            <Button 
-              variant="primary" 
-              @click="createQuickNote"
-              :disabled="!quickNoteContent.trim()"
-              class="px-6"
-            >
-              <Icon name="fluent:save-20-filled" size="16" class="mr-1" />
-              Save
-            </Button>
-          </div>
-          
-          <!-- Tags for quick note -->
-          <div v-if="quickNoteTags.length > 0" class="flex flex-wrap gap-1 mt-3">
+      <!-- Search and Filter Bar -->
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-4">
+          <h1 class="text-xl font-semibold text-text-primary-emphasis">Notes</h1>
+          <span class="text-sm text-text-muted">{{ notes.length }} notes</span>
+        </div>
+        <SearchInput 
+          @search="handleSearch" 
+          placeholder="Search notes..." 
+          class="w-64" 
+          :show-results-count="false"
+        />
+      </div>
+
+      <!-- Notes Feed -->
+      <div class="space-y-4">
+        <!-- Filter Info -->
+        <div v-if="selectedTags.length > 0 || selectedDate" class="flex items-center gap-2 text-sm text-text-muted">
+          <Icon name="fluent:filter-20-filled" size="16" />
+          <span>Filtered by:</span>
+          <div class="flex items-center gap-1">
             <Chip 
-              v-for="tag in quickNoteTags" 
+              v-for="tag in selectedTags" 
               :key="tag.id" 
               :text="tag.name" 
               :color="tag.color" 
               hasCloseBtn 
-              @close="removeQuickNoteTag(tag.id)" 
+              @close="removeSelectedTag(tag.id)" 
             />
+            <span v-if="selectedDate" class="px-2 py-1 bg-bg-secondary rounded text-xs">
+              {{ formatDate(selectedDate) }}
+              <button @click="selectedDate = null" class="ml-1 hover:text-text-primary">×</button>
+            </span>
           </div>
-          
-          <!-- Tag selector -->
-          <Transition
-            enter-active-class="transition-all duration-200 ease-out"
-            enter-from-class="opacity-0 scale-95"
-            enter-to-class="opacity-100 scale-100"
-            leave-active-class="transition-all duration-150 ease-in"
-            leave-from-class="opacity-100 scale-100"
-            leave-to-class="opacity-0 scale-95"
-          >
-            <div v-if="showTagSelector" class="mt-4 p-4 bg-bg-secondary border border-bg-border rounded-lg">
-              <TagCombobox :tags="quickNoteTags" @selected-tags="updateQuickNoteTags" />
-            </div>
-          </Transition>
         </div>
-      </div>
 
-      <!-- Notes Feed -->
-      <div class="flex-1 overflow-y-auto p-6">
-        <div class="max-w-4xl space-y-4">
-          <!-- Filter Info -->
-          <div v-if="selectedTags.length > 0 || selectedDate" class="flex items-center gap-2 text-sm text-text-muted">
-            <Icon name="fluent:filter-20-filled" size="16" />
-            <span>Filtered by:</span>
-            <div class="flex items-center gap-1">
-              <Chip 
-                v-for="tag in selectedTags" 
-                :key="tag.id" 
-                :text="tag.name" 
-                :color="tag.color" 
-                hasCloseBtn 
-                @close="removeSelectedTag(tag.id)" 
-              />
-              <span v-if="selectedDate" class="px-2 py-1 bg-bg-secondary rounded text-xs">
-                {{ formatDate(selectedDate) }}
-                <button @click="selectedDate = null" class="ml-1 hover:text-text-primary">×</button>
-              </span>
-            </div>
+        <!-- Empty state -->
+        <div v-if="filteredNotes.length === 0" class="text-center py-16">
+          <div class="w-16 h-16 bg-bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
+            <Icon name="fluent:note-20-regular" size="32" class="text-text-muted" />
           </div>
-
-          <!-- Empty state -->
-          <div v-if="filteredNotes.length === 0" class="text-center py-16">
-            <div class="w-16 h-16 bg-bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
-              <Icon name="fluent:note-20-regular" size="32" class="text-text-muted" />
-            </div>
-            <h3 class="text-lg font-medium text-text-primary mb-2">
-              {{ searchText || selectedTags.length > 0 || selectedDate ? 'No notes found' : 'No notes yet' }}
-            </h3>
-            <p class="text-text-muted">
-              {{ searchText || selectedTags.length > 0 || selectedDate ? 'Try adjusting your filters' : 'Start writing your first note above' }}
-            </p>
-          </div>
-          
-          <!-- Notes List -->
-          <div v-else class="space-y-3">
-            <NoteCard
-              v-for="note in filteredNotes"
-              :key="note.id"
-              :note="note"
-              :isGridView="false"
-              @click="selectNote(note)"
-              @delete="handleDeleteNote"
-              @edit-tags="handleEditNoteTags"
-              class="cursor-pointer hover:bg-card-hover transition-colors rounded-lg border border-card-border"
-            />
-          </div>
+          <h3 class="text-lg font-medium text-text-primary mb-2">
+            {{ searchText || selectedTags.length > 0 || selectedDate ? 'No notes found' : 'No notes yet' }}
+          </h3>
+          <p class="text-text-muted">
+            {{ searchText || selectedTags.length > 0 || selectedDate ? 'Try adjusting your filters' : 'Start writing your first note above' }}
+          </p>
+        </div>
+        
+        <!-- Notes List -->
+        <div v-else class="space-y-3">
+          <NoteCard
+            v-for="note in filteredNotes"
+            :key="note.id"
+            :note="note"
+            :isGridView="false"
+            @click="selectNote(note)"
+            @delete="handleDeleteNote"
+            @edit-tags="handleEditNoteTags"
+            class="cursor-pointer hover:bg-card-hover transition-colors rounded-lg border border-card-border"
+          />
         </div>
       </div>
     </div>

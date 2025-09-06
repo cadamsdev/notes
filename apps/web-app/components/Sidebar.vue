@@ -32,6 +32,65 @@
       </div>
     </div>
 
+    <!-- Calendar Section -->
+    <div class="p-4 border-b border-bg-border">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="font-medium text-text-primary-emphasis">Calendar</h2>
+        <div class="flex items-center gap-1">
+          <button
+            @click="previousMonth"
+            class="p-1 hover:bg-bg-hover rounded transition-colors text-text-secondary hover:text-text-primary"
+          >
+            <Icon name="fluent:chevron-left-20-filled" size="14" />
+          </button>
+          <button
+            @click="nextMonth"
+            class="p-1 hover:bg-bg-hover rounded transition-colors text-text-secondary hover:text-text-primary"
+          >
+            <Icon name="fluent:chevron-right-20-filled" size="14" />
+          </button>
+        </div>
+      </div>
+      
+      <div class="text-xs font-medium text-text-primary text-center mb-2">
+        {{ currentMonthYear }}
+      </div>
+      
+      <!-- Calendar Grid -->
+      <div class="grid grid-cols-7 gap-0.5 text-xs">
+        <div 
+          v-for="day in dayHeaders" 
+          :key="day" 
+          class="p-1 text-center text-text-secondary font-medium"
+        >
+          {{ day.slice(0, 1) }}
+        </div>
+        
+        <button
+          v-for="dayObj in calendarDays"
+          :key="dayObj.key"
+          @click="selectDate(dayObj)"
+          :class="[
+            'p-1 text-center rounded transition-colors relative aspect-square flex items-center justify-center',
+            {
+              'text-text-secondary': !dayObj.isCurrentMonth,
+              'text-text-primary hover:bg-bg-hover': dayObj.isCurrentMonth,
+              'bg-primary text-white': selectedDate && isSameDay(dayObj.date, selectedDate),
+              'bg-bg-secondary': !selectedDate && dayObj.isToday,
+              'font-semibold': dayObj.isToday
+            }
+          ]"
+        >
+          {{ dayObj.day }}
+          <div 
+            v-if="dayObj.hasNotes" 
+            class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-0.5 bg-primary rounded-full"
+            :class="{ '!bg-white': selectedDate && isSameDay(dayObj.date, selectedDate) }"
+          ></div>
+        </button>
+      </div>
+    </div>
+
     <!-- Tags Section -->
     <div class="flex-1 overflow-hidden flex flex-col">
       <div class="p-4 border-b border-bg-border">
@@ -252,7 +311,7 @@
 </template>
 
 <script setup lang="ts">
-const { selectTag, filteredTags, notes } = useNotes();
+const { selectTag, filteredTags, notes, selectedDate } = useNotes();
 const { openModal, closeModal } = useModal();
 const { updateSettings, settings } = useSettings();
 
@@ -260,9 +319,59 @@ const MODAL_SETTINGS = 'modal-settings';
 const TAG_SORT_COUNT = 0;
 const TAG_SORT_NAME = 1;
 
+// Calendar functionality
+const currentDate = ref(new Date());
+const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
 // Computed
 const activeTags = computed(() => {
   return filteredTags.value.filter(tag => tag.count && tag.count > 0);
+});
+
+const currentMonthYear = computed(() => {
+  return currentDate.value.toLocaleDateString('en-US', { 
+    month: 'long', 
+    year: 'numeric' 
+  });
+});
+
+const calendarDays = computed(() => {
+  const year = currentDate.value.getFullYear();
+  const month = currentDate.value.getMonth();
+  
+  // First day of the month
+  const firstDay = new Date(year, month, 1);
+  // Last day of the month
+  const lastDay = new Date(year, month + 1, 0);
+  // First day of the week (Sunday = 0)
+  const startDate = new Date(firstDay);
+  startDate.setDate(startDate.getDate() - firstDay.getDay());
+  
+  const days = [];
+  const currentDateObj = new Date(startDate);
+  
+  // Generate 42 days (6 weeks)
+  for (let i = 0; i < 42; i++) {
+    const date = new Date(currentDateObj);
+    const isCurrentMonth = date.getMonth() === month;
+    const isToday = isSameDay(date, new Date());
+    const hasNotes = notes.value.some(note => 
+      note.created_at && isSameDay(new Date(note.created_at), date)
+    );
+    
+    days.push({
+      date,
+      day: date.getDate(),
+      isCurrentMonth,
+      isToday,
+      hasNotes,
+      key: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+    });
+    
+    currentDateObj.setDate(currentDateObj.getDate() + 1);
+  }
+  
+  return days;
 });
 
 const totalWords = computed(() => {
@@ -287,7 +396,34 @@ const totalWords = computed(() => {
   }, 0);
 });
 
+// Helper functions
+const isSameDay = (date1: Date, date2: Date): boolean => {
+  return date1.getFullYear() === date2.getFullYear() &&
+         date1.getMonth() === date2.getMonth() &&
+         date1.getDate() === date2.getDate();
+};
+
 // Methods
+const previousMonth = () => {
+  const newDate = new Date(currentDate.value);
+  newDate.setMonth(newDate.getMonth() - 1);
+  currentDate.value = newDate;
+};
+
+const nextMonth = () => {
+  const newDate = new Date(currentDate.value);
+  newDate.setMonth(newDate.getMonth() + 1);
+  currentDate.value = newDate;
+};
+
+const selectDate = (dayObj: any) => {
+  if (selectedDate.value && isSameDay(dayObj.date, selectedDate.value)) {
+    selectedDate.value = null;
+  } else {
+    selectedDate.value = dayObj.date;
+  }
+};
+
 const toggleSortTags = () => {
   const newSort = settings.value.tagSort === TAG_SORT_COUNT ? TAG_SORT_NAME : TAG_SORT_COUNT;
   updateSettings(newSort);
