@@ -1,37 +1,5 @@
 <template>
   <div class="h-screen sticky top-0 bg-bg border-r border-bg-border flex flex-col">
-    <!-- Header -->
-    <div class="p-4 border-b border-bg-border">
-      <div class="flex items-center gap-3 mb-4">
-        <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-          <Icon name="fluent:note-20-filled" size="20" class="text-white" />
-        </div>
-        <h1 class="text-lg font-bold text-text-primary-emphasis">Notes</h1>
-      </div>
-      
-      <NuxtLink 
-        to="/"
-        class="flex items-center gap-3 p-3 rounded-lg hover:bg-bg-hover text-text-primary hover:text-text-primary-emphasis transition-colors"
-      >
-        <Icon name="fluent:home-20-filled" size="20" />
-        <span>Home</span>
-      </NuxtLink>
-    </div>
-
-    <!-- Quick Stats -->
-    <div class="p-4 border-b border-bg-border">
-      <div class="grid grid-cols-2 gap-3">
-        <div class="bg-bg-secondary rounded-lg p-3">
-          <div class="text-2xl font-bold text-text-primary-emphasis">{{ notes.length }}</div>
-          <div class="text-xs text-text-secondary">Notes</div>
-        </div>
-        <div class="bg-bg-secondary rounded-lg p-3">
-          <div class="text-2xl font-bold text-text-primary-emphasis">{{ activeTags.length }}</div>
-          <div class="text-xs text-text-secondary">Tags</div>
-        </div>
-      </div>
-    </div>
-
     <!-- Calendar Section -->
     <div class="p-4 border-b border-bg-border">
       <div class="flex items-center justify-between mb-3">
