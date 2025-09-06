@@ -24,23 +24,6 @@
             >
               <Icon name="fluent:hashtag-20-filled" size="18" />
             </button>
-            <button class="p-2 hover:bg-bg-hover rounded-lg text-text-muted hover:text-text-primary transition-colors">
-              <Icon name="fluent:attach-20-filled" size="18" />
-            </button>
-            <button class="p-2 hover:bg-bg-hover rounded-lg text-text-muted hover:text-text-primary transition-colors">
-              <Icon name="fluent:link-20-filled" size="18" />
-            </button>
-            <button 
-              @click="toggleCodeMode"
-              class="p-2 hover:bg-bg-hover rounded-lg transition-colors"
-              :class="isCodeMode ? 'text-primary' : 'text-text-muted hover:text-text-primary'"
-              title="Code mode"
-            >
-              <Icon name="fluent:code-20-filled" size="18" />
-            </button>
-            <button class="p-2 hover:bg-bg-hover rounded-lg text-text-muted hover:text-text-primary transition-colors">
-              <Icon name="fluent:location-20-filled" size="18" />
-            </button>
           </div>
           <Button 
             variant="primary" 
