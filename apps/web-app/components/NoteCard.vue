@@ -40,23 +40,23 @@
 
     <!-- Tags and footer -->
     <div class="flex items-center justify-between">
-      <div class="flex flex-wrap gap-1">
+      <div class="flex flex-wrap gap-1.5">
         <span 
           v-for="tag in note.tags?.slice(0, 3)" 
           :key="tag.id"
-          class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-xs"
-          :style="{ 
-            backgroundColor: tag.color + '20', 
-            color: tag.color 
-          }"
+          class="inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium transition-colors hover:opacity-90 bg-bg-secondary border border-bg-border text-text-primary"
         >
-          <span class="text-xs">#</span>{{ tag.name }}
+          <div 
+            class="w-1.5 h-1.5 rounded-full flex-shrink-0" 
+            :style="{ backgroundColor: tag.color }"
+          ></div>
+          {{ tag.name }}
         </span>
         <span 
           v-if="note.tags && note.tags.length > 3"
-          class="text-xs text-text-muted"
+          class="inline-flex items-center px-2 py-1 rounded-full text-xs text-text-muted bg-bg-secondary border border-bg-border"
         >
-          +{{ note.tags.length - 3 }} more
+          +{{ note.tags.length - 3 }}
         </span>
       </div>
       
