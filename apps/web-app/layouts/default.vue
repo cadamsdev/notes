@@ -10,13 +10,6 @@
       <div class="flex-1 min-w-0">
         <slot />
       </div>
-      
-      <!-- Right sidebar for trending/suggestions (future) -->
-      <div class="hidden xl:block xl:w-80">
-        <div class="sticky top-0 p-4">
-          <!-- Future: trending tags, recent activity, etc. -->
-        </div>
-      </div>
     </div>
     
     <!-- Mobile bottom navigation -->
