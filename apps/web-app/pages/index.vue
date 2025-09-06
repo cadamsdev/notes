@@ -3,13 +3,16 @@
     <div class="max-w-4xl mx-auto p-6">
       <!-- Note Composer -->
       <div class="border border-divider bg-card-bg rounded-lg p-6 mb-8">
-        <textarea
-          v-model="quickNoteContent"
-          @keydown="handleKeydown"
-          placeholder="Any thoughts..."
-          class="w-full bg-transparent text-text-primary placeholder-text-muted text-base resize-none border-none outline-none leading-relaxed min-h-[100px]"
-          rows="4"
-        ></textarea>
+        <div class="quick-note-editor">
+          <editor-content 
+            v-if="quickNoteEditor" 
+            :editor="quickNoteEditor" 
+            class="min-h-[100px] text-text-primary"
+          />
+          <div v-else class="min-h-[100px] flex items-center text-text-muted">
+            Loading editor...
+          </div>
+        </div>
         
         <!-- Composer Actions -->
         <div class="flex items-center justify-between mt-4">
@@ -42,7 +45,7 @@
           <Button 
             variant="primary" 
             @click="createQuickNote"
-            :disabled="!quickNoteContent.trim()"
+            :disabled="!quickNoteEditor?.getText().trim()"
             class="px-6"
           >
             <Icon name="fluent:save-20-filled" size="16" class="mr-1" />
@@ -146,6 +149,10 @@
 
 <script setup lang="ts">
 import type { Note, Tag } from '~/composables/useNotes';
+import { Editor, EditorContent } from '@tiptap/vue-3';
+import StarterKit from '@tiptap/starter-kit'
+import Placeholder from '@tiptap/extension-placeholder'
+import CodeBlock from '@/lib/tiptap/extensions/CodeBlock';
 
 useHead({
   title: 'Notes - Home',
@@ -178,6 +185,9 @@ const quickNoteContent = ref('');
 const quickNoteTags = ref<Tag[]>([]);
 const isCodeMode = ref(false);
 const showTagSelector = ref(false);
+
+// TipTap editor for quick notes
+const quickNoteEditor = ref<Editor>();
 
 // View and filters
 const searchText = ref('');
@@ -239,6 +249,53 @@ const calendarDays = computed(() => {
   return days;
 });
 
+// Initialize TipTap editor for quick notes
+onMounted(() => {
+  quickNoteEditor.value = new Editor({
+    extensions: [
+      StarterKit.configure({ 
+        codeBlock: false
+      }),
+      CodeBlock,
+      Placeholder.configure({
+        placeholder: 'Any thoughts...',
+        emptyEditorClass: 'is-editor-empty',
+      }),
+    ],
+    content: {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: []
+        }
+      ]
+    },
+    editorProps: {
+      attributes: {
+        class: 'prose prose-invert max-w-none focus:outline-none text-text-primary bg-transparent p-0 border-none leading-relaxed'
+      },
+      handleKeyDown: (view, event) => {
+        if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) {
+          event.preventDefault();
+          createQuickNote();
+          return true;
+        }
+        return false;
+      }
+    },
+    onUpdate: () => {
+      // Update the content when editor changes
+      const json = quickNoteEditor.value?.getJSON();
+      quickNoteContent.value = JSON.stringify(json);
+    },
+  });
+});
+
+onBeforeUnmount(() => {
+  quickNoteEditor.value?.destroy();
+});
+
 // Watch for changes to update filtered notes
 watch([searchText, selectedTags, selectedDate, notes], () => {
   let filtered = searchNotes(searchText.value);
@@ -270,6 +327,7 @@ const formatDate = (date: Date): string => {
 // Methods
 const handleKeydown = (event: KeyboardEvent) => {
   if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) {
+    event.preventDefault();
     createQuickNote();
   }
 };
@@ -296,15 +354,18 @@ const selectDate = (dateObj: any) => {
 };
 
 const createQuickNote = async () => {
-  if (!quickNoteContent.value.trim()) return;
+  if (!quickNoteEditor.value) return;
   
-  // Create note with the content
+  const editorContent = quickNoteEditor.value.getJSON();
+  const editorText = quickNoteEditor.value.getText().trim();
+  
+  if (!editorText) return;
+  
+  // Create note with the TipTap content
   const note: Note = {
     id: -1,
-    title: quickNoteContent.value.split('\n')[0].substring(0, 50) || 'Quick Note',
-    content: isCodeMode.value 
-      ? `\`\`\`\n${quickNoteContent.value}\n\`\`\``
-      : quickNoteContent.value,
+    title: editorText.split('\n')[0].substring(0, 50) || 'Quick Note',
+    content: JSON.stringify(editorContent),
   };
 
   const noteId = await $fetch<number>(
@@ -321,6 +382,7 @@ const createQuickNote = async () => {
   }
   
   // Reset form
+  quickNoteEditor.value.commands.clearContent();
   quickNoteContent.value = '';
   quickNoteTags.value = [];
   isCodeMode.value = false;
@@ -332,7 +394,19 @@ const createQuickNote = async () => {
 };
 
 const toggleCodeMode = () => {
+  if (!quickNoteEditor.value) return;
+  
   isCodeMode.value = !isCodeMode.value;
+  
+  if (isCodeMode.value) {
+    // Switch to code block
+    quickNoteEditor.value.chain().focus().toggleCodeBlock().run();
+  } else {
+    // Switch back to normal paragraph
+    if (quickNoteEditor.value.isActive('codeBlock')) {
+      quickNoteEditor.value.chain().focus().toggleCodeBlock().run();
+    }
+  }
 };
 
 const removeQuickNoteTag = (tagId: number) => {
@@ -372,3 +446,113 @@ const handleEditNoteTags = (note: Note) => {
   router.push(`/note/${note.id}?edit-tags=true`);
 };
 </script>
+
+<style scoped>
+.quick-note-editor :deep(.ProseMirror) {
+  outline: none;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgb(248 249 250);
+  background: transparent;
+  border: none;
+  padding: 0;
+  min-height: 100px;
+  resize: none;
+}
+
+.quick-note-editor :deep(.ProseMirror p) {
+  margin: 0 0 1rem 0;
+}
+
+.quick-note-editor :deep(.ProseMirror p:last-child) {
+  margin-bottom: 0;
+}
+
+.quick-note-editor :deep(.ProseMirror.is-editor-empty:first-child::before) {
+  content: attr(data-placeholder);
+  float: left;
+  color: rgb(95 99 104);
+  pointer-events: none;
+  height: 0;
+}
+
+.quick-note-editor :deep(.ProseMirror h1) {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem 0;
+  color: rgb(255 255 255);
+}
+
+.quick-note-editor :deep(.ProseMirror h2) {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem 0;
+  color: rgb(255 255 255);
+}
+
+.quick-note-editor :deep(.ProseMirror h3) {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem 0;
+  color: rgb(255 255 255);
+}
+
+.quick-note-editor :deep(.ProseMirror ul),
+.quick-note-editor :deep(.ProseMirror ol) {
+  margin: 0 0 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.quick-note-editor :deep(.ProseMirror li) {
+  margin-bottom: 0.25rem;
+}
+
+.quick-note-editor :deep(.ProseMirror blockquote) {
+  border-left: 3px solid rgb(88 166 255);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: rgb(154 160 166);
+  font-style: italic;
+}
+
+.quick-note-editor :deep(.ProseMirror code) {
+  background-color: rgb(33 38 45);
+  color: rgb(88 166 255);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+}
+
+.quick-note-editor :deep(.ProseMirror pre) {
+  background-color: rgb(13 17 23);
+  border: 1px solid rgb(33 38 45);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1rem 0;
+  overflow-x: auto;
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.quick-note-editor :deep(.ProseMirror pre code) {
+  background: none;
+  padding: 0;
+  color: rgb(248 249 250);
+}
+
+.quick-note-editor :deep(.ProseMirror strong) {
+  font-weight: 600;
+  color: rgb(255 255 255);
+}
+
+.quick-note-editor :deep(.ProseMirror em) {
+  font-style: italic;
+}
+
+/* Focus states */
+.quick-note-editor :deep(.ProseMirror:focus) {
+  outline: none;
+}
+</style>
