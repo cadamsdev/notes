@@ -1,5 +1,12 @@
 @import url('./editor-theme.css');
 
+html {
+  /* Always reserve space for scrollbar to prevent layout shift */
+  scrollbar-gutter: stable;
+  /* Fallback for browsers that don't support scrollbar-gutter */
+  overflow-y: scroll;
+}
+
 body {
   @apply dark:bg-black;
   @apply min-h-screen;
