@@ -155,6 +155,7 @@ const {
   selectTag, 
   removeSelectedTag,
   selectedTags,
+  selectedDate,
   deleteNote,
   saveNote,
   saveTags,
@@ -178,7 +179,6 @@ const quickNoteEditor = ref<Editor>();
 // View and filters
 const searchText = ref('');
 const filteredNotes = ref<Note[]>([]);
-const selectedDate = ref<Date | null>(null);
 
 // Computed properties
 const availableTags = computed(() => {

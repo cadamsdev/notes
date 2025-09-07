@@ -7,7 +7,6 @@
         :notes="notes"
         title="Calendar"
         :show-title="true"
-        @date-selected="onDateSelected"
       />
     </div>
 
@@ -240,11 +239,6 @@ const { updateSettings, settings } = useSettings();
 const MODAL_SETTINGS = 'modal-settings';
 const TAG_SORT_COUNT = 0;
 const TAG_SORT_NAME = 1;
-
-// Calendar event handler
-const onDateSelected = (date: Date | null) => {
-  selectedDate.value = date;
-};
 
 // Computed
 const activeTags = computed(() => {
