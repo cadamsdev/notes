@@ -37,7 +37,7 @@
       <button 
         v-if="searchText"
         @click="clearSearch"
-        class="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-secondary-soft hover:bg-text-muted/20 text-text-muted hover:text-text-secondary transition-all duration-200 ease-out hover:scale-110 active:scale-95"
+        class="absolute right-3 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-secondary-soft hover:bg-text-muted/20 text-text-muted hover:text-text-secondary transition-all duration-200 ease-out hover:scale-110 active:scale-95 flex items-center justify-center"
         title="Clear search"
         tabindex="-1"
       >
