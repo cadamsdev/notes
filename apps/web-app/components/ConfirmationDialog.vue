@@ -73,10 +73,10 @@
         </div>
         
         <!-- Keyboard shortcuts hint -->
-        <div class="mt-3 pt-3 border-t border-border/50">
+        <div class="mt-3 pt-3 border-t border-white/5">
           <p class="text-xs text-text-secondary/70 text-center">
-            Press <kbd class="px-1.5 py-0.5 text-xs bg-bg-hover rounded border border-border">Esc</kbd> to cancel or 
-            <kbd class="px-1.5 py-0.5 text-xs bg-bg-hover rounded border border-border">⌘+Enter</kbd> to confirm
+            Press <kbd class="px-1.5 py-0.5 text-xs bg-bg-hover rounded border border-white/5">Esc</kbd> to cancel or 
+            <kbd class="px-1.5 py-0.5 text-xs bg-bg-hover rounded border border-white/5">⌘+Enter</kbd> to confirm
           </p>
         </div>
       </div>
