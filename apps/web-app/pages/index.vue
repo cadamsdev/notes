@@ -119,10 +119,10 @@
             :key="note.id"
             :note="note"
             :isGridView="false"
-            @click="selectNote(note)"
             @delete="handleDeleteNote"
             @edit-tags="handleEditNoteTags"
-            class="cursor-pointer hover:bg-card-hover transition-colors rounded-lg border border-card-border"
+            @edit="handleEditNote"
+            class="hover:bg-card-hover transition-colors rounded-lg border border-card-border"
           />
         </div>
       </div>
@@ -425,6 +425,10 @@ const selectNote = (note: Note) => {
 const handleDeleteNote = async (note: Note) => {
   await deleteNote(note.id);
   filteredNotes.value = searchNotes(searchText.value);
+};
+
+const handleEditNote = (note: Note) => {
+  router.push(`/note/${note.id}`);
 };
 
 const handleEditNoteTags = (note: Note) => {

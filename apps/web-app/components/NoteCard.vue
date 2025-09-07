@@ -1,7 +1,6 @@
 <template>
   <article 
-    class="group cursor-pointer transition-all duration-200 bg-card-bg hover:bg-card-hover rounded-lg p-4 border border-card-border"
-    @click="$emit('click', note)"
+    class="group transition-all duration-200 bg-card-bg hover:bg-card-hover rounded-lg p-4 border border-card-border"
   >
     <!-- Header with timestamp and actions -->
     <div class="flex items-center justify-between mb-3">
@@ -23,10 +22,43 @@
         </button>
         <button 
           @click.stop
-          class="p-1 hover:bg-bg-hover rounded text-text-muted hover:text-text-primary"
+          class="p-1 hover:bg-bg-hover rounded text-text-muted hover:text-text-primary relative"
           title="More options"
+          @click="toggleDropdown"
+          ref="moreOptionsButton"
         >
           <Icon name="fluent:more-horizontal-20-filled" size="14" />
+          
+          <!-- Dropdown Menu -->
+          <Transition
+            enter-active-class="transition-all duration-150 ease-out"
+            enter-from-class="opacity-0 scale-95 translate-y-1"
+            enter-to-class="opacity-100 scale-100 translate-y-0"
+            leave-active-class="transition-all duration-100 ease-in"
+            leave-from-class="opacity-100 scale-100 translate-y-0"
+            leave-to-class="opacity-0 scale-95 translate-y-1"
+          >
+            <div 
+              v-if="showDropdown" 
+              class="absolute right-0 top-full mt-1 w-32 bg-bg-secondary border border-bg-border rounded-lg shadow-lg z-10"
+              @click.stop
+            >
+              <button 
+                @click="handleEdit"
+                class="w-full px-3 py-2 text-left text-sm text-text-primary hover:bg-bg-hover rounded-t-lg flex items-center gap-2"
+              >
+                <Icon name="fluent:edit-20-regular" size="14" />
+                Edit
+              </button>
+              <button 
+                @click="handleDelete"
+                class="w-full px-3 py-2 text-left text-sm text-red-400 hover:bg-bg-hover rounded-b-lg flex items-center gap-2"
+              >
+                <Icon name="fluent:delete-20-regular" size="14" />
+                Delete
+              </button>
+            </div>
+          </Transition>
         </button>
       </div>
     </div>
@@ -82,20 +114,51 @@ interface Props {
 
 const props = defineProps<Props>();
 
-defineEmits<{
+// Get emit function
+const emit = defineEmits<{
   click: [note: Note];
   delete: [note: Note];
   'edit-tags': [note: Note];
+  edit: [note: Note];
 }>();
 
 // TipTap editor for read-only display
 const editor = ref<Editor>();
 
+// Dropdown state
+const showDropdown = ref(false);
+const moreOptionsButton = ref<HTMLElement>();
+
 // Computed
 const hasReferences = computed(() => false); // TODO: Implement reference tracking
 
+// Dropdown functions
+const toggleDropdown = () => {
+  showDropdown.value = !showDropdown.value;
+};
+
+const handleEdit = () => {
+  showDropdown.value = false;
+  emit('edit', props.note);
+};
+
+const handleDelete = () => {
+  showDropdown.value = false;
+  emit('delete', props.note);
+};
+
+// Close dropdown when clicking outside
+const closeDropdown = (event: MouseEvent) => {
+  if (moreOptionsButton.value && !moreOptionsButton.value.contains(event.target as Node)) {
+    showDropdown.value = false;
+  }
+};
+
 // Initialize read-only editor
 onMounted(() => {
+  // Add click listener to close dropdown when clicking outside
+  document.addEventListener('click', closeDropdown);
+  
   let initialContent;
   
   try {
@@ -173,6 +236,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   editor.value?.destroy();
+  document.removeEventListener('click', closeDropdown);
 });
 
 // Helper functions
