@@ -31,7 +31,7 @@ export const useNotes = () => {
     const data = await $fetch<Note[]>(`${config.public.apiUrl}/notes`);
     const notesData = data;
     notes.value = notesData;
-    return notesData; 
+    return notesData;
   };
 
   const createNote = async (content?: string) => {
@@ -60,12 +60,12 @@ export const useNotes = () => {
     );
 
     await fetchNotes();
-    
+
     // If content was provided, return the ID instead of navigating
     if (content) {
       return id;
     }
-    
+
     router.push(`/note/${id}`);
   }
 
@@ -101,6 +101,34 @@ export const useNotes = () => {
     await Promise.all([fetchNotes(), fetchTags()]);
   }
 
+  // Helper function to extract plain text from TipTap JSON content
+  const extractTextFromContent = (content: string): string => {
+    try {
+      const parsed = JSON.parse(content);
+
+      const extractText = (node: any): string => {
+        let text = '';
+
+        if (node.type === 'text') {
+          text += node.text || '';
+        }
+
+        if (node.content && Array.isArray(node.content)) {
+          node.content.forEach((child: any) => {
+            text += extractText(child);
+          });
+        }
+
+        return text;
+      };
+
+      return extractText(parsed);
+    } catch (e) {
+      // If parsing fails, return the original content
+      return content;
+    }
+  };
+
   const searchNotes = (searchText: string): Note[] => {
     let newFilteredNotes = notes.value;
 
@@ -112,17 +140,57 @@ export const useNotes = () => {
       });
     }
 
-    const fuse = new Fuse(newFilteredNotes, {
-      keys: ['title'],
+    // If no search text, return all filtered notes
+    if (!searchText.trim()) {
+      const noteTags = newFilteredNotes.flatMap((note) => note.tags ?? []);
+      const uniqueTags = Array.from(new Set(noteTags.map((tag) => tag.id)));
+      const map = new Map<number, Tag>();
+      const newFilteredTags = tags.value.filter((tag) =>
+        uniqueTags.includes(tag.id)
+      );
+      newFilteredTags.forEach((tag) => {
+        tag.count = 0;
+        map.set(tag.id, tag);
+      });
+
+      // set the count of each tag
+      noteTags.forEach((tag) => {
+        if (map.has(tag.id)) {
+          const t = map.get(tag.id);
+          if (t && t.count !== undefined) {
+            t.count += 1;
+          }
+        }
+      });
+
+      filteredTags.value = newFilteredTags.sort((a, b) => {
+        if (settings.value.tagSort === 0) {
+          const aCount = a.count ?? 0;
+          const bCount = b.count ?? 0;
+
+          return bCount - aCount;
+        }
+        return a.name.localeCompare(b.name);
+      });
+
+      return newFilteredNotes;
+    }
+
+    // Prepare notes with extracted text content for search
+    const searchableNotes = newFilteredNotes.map(note => ({
+      ...note,
+      searchableContent: extractTextFromContent(note.content || '')
+    }));
+
+    // Search in both title and extracted content
+    const fuse = new Fuse(searchableNotes, {
+      keys: ['title', 'searchableContent'],
+      threshold: 0.3,
     });
 
     let tempFilteredNotes = fuse
-      .search(searchText)
+      .search(searchText.trim())
       .map((result) => result.item);
-
-    if (!tempFilteredNotes.length) {
-      tempFilteredNotes = newFilteredNotes;
-    }
 
     const noteTags = tempFilteredNotes.flatMap((note) => note.tags ?? []);
     const uniqueTags = Array.from(new Set(noteTags.map((tag) => tag.id)));
