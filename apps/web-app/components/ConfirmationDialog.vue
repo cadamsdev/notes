@@ -1,6 +1,6 @@
 <template>
   <Modal :id="id">
-    <div class="relative inline-block rounded-lg bg-bg-elevated border border-border shadow-2xl ring-1 ring-black/5 z-20 min-w-[22rem] max-w-md mx-4">
+    <div class="relative inline-block rounded-lg bg-bg-elevated shadow-2xl ring-1 ring-white/5 z-20 min-w-[22rem] max-w-md mx-4">
       <!-- Header with dynamic gradient accent -->
       <div class="relative px-6 pt-6 pb-4">
         <div 
