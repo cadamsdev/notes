@@ -121,6 +121,13 @@
         <span>Referenced by (1)</span>
       </div>
     </div>
+    
+    <!-- Delete Confirmation Modal -->
+    <ConfirmationDialog 
+      :id="`delete-note-${note.id}`"
+      description="Are you sure you want to delete this note? This action cannot be undone."
+      @action="confirmDelete"
+    />
   </article>
 </template>
 
@@ -129,6 +136,7 @@ import { Editor, EditorContent } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit'
 import CodeBlock from '@/lib/tiptap/extensions/CodeBlock';
 import { nextTick } from 'vue';
+import ConfirmationDialog from './ConfirmationDialog.vue';
 
 interface Props {
   note: Note;
@@ -145,6 +153,9 @@ const emit = defineEmits<{
   edit: [note: Note];
   save: [note: Note];
 }>();
+
+// Modal functionality
+const { openModal } = useModal();
 
 // TipTap editor for read-only display
 const editor = ref<Editor>();
@@ -173,6 +184,10 @@ const handleEdit = () => {
 
 const handleDelete = () => {
   showDropdown.value = false;
+  openModal(`delete-note-${props.note.id}`);
+};
+
+const confirmDelete = () => {
   emit('delete', props.note);
 };
 
