@@ -3,7 +3,7 @@
 ## Architecture Overview
 
 This is a **monorepo** with three main applications:
-- **`apps/api/`** - Fastify REST API with SQLite database using better-sqlite3
+- **`apps/api/`** - Hono REST API with SQLite database using better-sqlite3
 - **`apps/web-app/`** - Nuxt 3 SPA frontend with TipTap block editor
 - **`apps/desktop-app/`** - Electron wrapper (in development)
 
