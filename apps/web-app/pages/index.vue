@@ -180,59 +180,9 @@ const searchText = ref('');
 const filteredNotes = ref<Note[]>([]);
 const selectedDate = ref<Date | null>(null);
 
-// Calendar functionality
-const currentDate = ref(new Date());
-const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
 // Computed properties
 const availableTags = computed(() => {
   return tags.value.filter(tag => tag.count && tag.count > 0);
-});
-
-const currentMonthYear = computed(() => {
-  return currentDate.value.toLocaleDateString('en-US', { 
-    month: 'long', 
-    year: 'numeric' 
-  });
-});
-
-const calendarDays = computed(() => {
-  const year = currentDate.value.getFullYear();
-  const month = currentDate.value.getMonth();
-  
-  // First day of the month
-  const firstDay = new Date(year, month, 1);
-  // Last day of the month
-  const lastDay = new Date(year, month + 1, 0);
-  // First day of the week (Sunday = 0)
-  const startDate = new Date(firstDay);
-  startDate.setDate(startDate.getDate() - firstDay.getDay());
-  
-  const days = [];
-  const currentDateObj = new Date(startDate);
-  
-  // Generate 42 days (6 weeks)
-  for (let i = 0; i < 42; i++) {
-    const date = new Date(currentDateObj);
-    const isCurrentMonth = date.getMonth() === month;
-    const isToday = isSameDay(date, new Date());
-    const hasNotes = notes.value.some(note => 
-      note.created_at && isSameDay(new Date(note.created_at), date)
-    );
-    
-    days.push({
-      date,
-      day: date.getDate(),
-      isCurrentMonth,
-      isToday,
-      hasNotes,
-      key: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
-    });
-    
-    currentDateObj.setDate(currentDateObj.getDate() + 1);
-  }
-  
-  return days;
 });
 
 // Initialize TipTap editor for quick notes
@@ -317,27 +267,6 @@ const handleKeydown = (event: KeyboardEvent) => {
   if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) {
     event.preventDefault();
     createQuickNote();
-  }
-};
-
-// Calendar methods
-const previousMonth = () => {
-  const newDate = new Date(currentDate.value);
-  newDate.setMonth(newDate.getMonth() - 1);
-  currentDate.value = newDate;
-};
-
-const nextMonth = () => {
-  const newDate = new Date(currentDate.value);
-  newDate.setMonth(newDate.getMonth() + 1);
-  currentDate.value = newDate;
-};
-
-const selectDate = (dateObj: any) => {
-  if (selectedDate.value && isSameDay(dateObj.date, selectedDate.value)) {
-    selectedDate.value = null;
-  } else {
-    selectedDate.value = dateObj.date;
   }
 };
 
