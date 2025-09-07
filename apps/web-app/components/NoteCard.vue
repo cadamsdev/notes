@@ -14,7 +14,7 @@
       <!-- Actions -->
       <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
         <button 
-          @click.stop="$emit('edit-tags', note)"
+          @click.stop="handleEditTags"
           class="p-1 hover:bg-bg-hover rounded text-text-muted hover:text-text-primary"
           title="Edit tags"
         >
@@ -94,7 +94,7 @@
     </div>
 
     <!-- Tags and footer -->
-    <div class="flex items-center justify-between">
+    <div v-if="!isEditingTags" class="flex items-center justify-between">
       <div class="flex flex-wrap gap-1.5">
         <span 
           v-for="tag in note.tags?.slice(0, 3)" 
@@ -122,6 +122,31 @@
       </div>
     </div>
     
+    <!-- Tag editing section -->
+    <div v-else class="space-y-3">
+      <div class="text-sm font-medium text-text-primary">Edit Tags</div>
+      <TagCombobox 
+        :tags="currentNoteTags" 
+        @selected-tags="updateNoteTags"
+      />
+      
+      <!-- Tag edit actions -->
+      <div class="flex items-center justify-end gap-2 pt-3 border-t border-bg-border">
+        <button 
+          @click="cancelTagEdit"
+          class="px-3 py-1.5 text-xs bg-bg-secondary hover:bg-bg-hover text-text-muted hover:text-text-primary rounded transition-colors"
+        >
+          Cancel
+        </button>
+        <button 
+          @click="saveTagEdit"
+          class="px-3 py-1.5 text-xs bg-primary hover:bg-primary/90 text-white rounded transition-colors"
+        >
+          Save Tags
+        </button>
+      </div>
+    </div>
+    
     <!-- Delete Confirmation Modal -->
     <ConfirmationDialog 
       :id="`delete-note-${note.id}`"
@@ -137,6 +162,7 @@ import StarterKit from '@tiptap/starter-kit'
 import CodeBlock from '@/lib/tiptap/extensions/CodeBlock';
 import { nextTick } from 'vue';
 import ConfirmationDialog from './ConfirmationDialog.vue';
+import TagCombobox from './TagCombobox.vue';
 
 interface Props {
   note: Note;
@@ -152,6 +178,7 @@ const emit = defineEmits<{
   'edit-tags': [note: Note];
   edit: [note: Note];
   save: [note: Note];
+  'save-tags': [note: Note, tags: Tag[]];
 }>();
 
 // Modal functionality
@@ -168,6 +195,11 @@ const moreOptionsButton = ref<HTMLElement>();
 // Edit state
 const isEditing = ref(false);
 const originalContent = ref('');
+
+// Tag editing state
+const isEditingTags = ref(false);
+const currentNoteTags = ref<Tag[]>([]);
+const originalTags = ref<Tag[]>([]);
 
 // Computed
 const hasReferences = computed(() => false); // TODO: Implement reference tracking
@@ -189,6 +221,32 @@ const handleDelete = () => {
 
 const confirmDelete = () => {
   emit('delete', props.note);
+};
+
+// Tag editing functions
+const handleEditTags = () => {
+  showDropdown.value = false;
+  startTagEditing();
+};
+
+const startTagEditing = () => {
+  isEditingTags.value = true;
+  currentNoteTags.value = [...(props.note.tags || [])];
+  originalTags.value = [...(props.note.tags || [])];
+};
+
+const updateNoteTags = (tags: Tag[]) => {
+  currentNoteTags.value = [...tags];
+};
+
+const cancelTagEdit = () => {
+  isEditingTags.value = false;
+  currentNoteTags.value = [...originalTags.value];
+};
+
+const saveTagEdit = () => {
+  emit('save-tags', props.note, currentNoteTags.value);
+  isEditingTags.value = false;
 };
 
 // Edit functions

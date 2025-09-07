@@ -123,6 +123,7 @@
             @edit-tags="handleEditNoteTags"
             @edit="handleEditNote"
             @save="handleSaveNote"
+            @save-tags="handleSaveNoteTags"
             class="hover:bg-card-hover transition-colors rounded-lg border border-card-border"
           />
         </div>
@@ -435,6 +436,11 @@ const handleEditNote = (note: Note) => {
 
 const handleSaveNote = async (note: Note) => {
   await saveNote(note);
+  filteredNotes.value = searchNotes(searchText.value);
+};
+
+const handleSaveNoteTags = async (note: Note, tags: Tag[]) => {
+  await saveTags(note.id, tags);
   filteredNotes.value = searchNotes(searchText.value);
 };
 
