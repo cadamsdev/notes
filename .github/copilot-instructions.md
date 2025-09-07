@@ -107,6 +107,8 @@ Components follow atomic design in `components/`:
 - **Design for productivity** - every element should serve the note-taking experience
 
 ### **Component Development**
+- **Build reusable components** - extract common UI patterns into standalone components (e.g., Calendar, Modal, Button) that can be used across the application
+- **Component composition** - design components with props and slots for flexibility and reusability
 - **Database changes**: Modify the `seed()` function in `apps/api/src/db.ts`
 - **New components**: Place in appropriate `components/` subdirectory with TypeScript props
 - **State management**: Use composables for data, Pinia stores for UI-only state
@@ -131,8 +133,10 @@ Components follow atomic design in `components/`:
 3. Update TypeScript interfaces in both API and frontend
 
 ### Implementing Note-Taking UI Components:
-1. Use design system colors and tokens from `nuxt.config.ts`
-2. Prioritize content readability and writing comfort
-3. Add smooth, non-distracting transitions (duration-200, ease-out)
-4. Ensure excellent contrast ratios for extended reading
-5. Follow minimalist, productivity-focused design principles
+1. **Extract reusable patterns** - create standalone components for common UI elements (modals, calendars, input fields, etc.)
+2. Use design system colors and tokens from `nuxt.config.ts`
+3. Prioritize content readability and writing comfort
+4. Add smooth, non-distracting transitions (duration-200, ease-out)
+5. Ensure excellent contrast ratios for extended reading
+6. Follow minimalist, productivity-focused design principles
+7. **Design for composition** - use props, slots, and events to make components flexible and reusable
