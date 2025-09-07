@@ -1,0 +1,19 @@
+{
+  "name": "elysia-api",
+  "version": "1.0.50",
+  "scripts": {
+    "dev": "bun run --watch src/index.ts",
+    "build": "bun build src/index.ts --outdir dist",
+    "start": "bun run src/index.ts"
+  },
+  "dependencies": {
+    "elysia": "latest",
+    "@elysiajs/cors": "latest",
+    "archiver": "^7.0.1"
+  },
+  "devDependencies": {
+    "bun-types": "latest",
+    "@types/archiver": "^6.0.2"
+  },
+  "module": "src/index.js"
+}
