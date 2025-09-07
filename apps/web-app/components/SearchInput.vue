@@ -1,7 +1,7 @@
 <template>
   <div class="relative group">
     <!-- Search Icon -->
-    <div class="absolute left-4 top-1/2 -translate-y-1/2 z-10 transition-colors duration-200"
+    <div class="absolute left-4 top-1/2 -translate-y-1/2 z-10 transition-colors duration-200 flex items-center justify-center"
          :class="[
            isFocused || searchText 
              ? 'text-primary' 
