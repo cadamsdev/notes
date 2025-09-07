@@ -1,4 +1,4 @@
-import Database from 'better-sqlite3';
+import { Database } from "bun:sqlite";
 import { Note } from './models/note';
 import { Tag } from './models/tag';
 import { existsSync, mkdirSync, writeFileSync } from 'fs';
@@ -17,7 +17,7 @@ if (!existsSync(dbFile)) {
 
 const db = new Database(dbFile);
 
-db.pragma('journal_mode = WAL');
+db.exec('PRAGMA journal_mode = WAL');
 seed();
 
 function seed() {
@@ -184,7 +184,7 @@ export function getNoteForId(id: number): Note | null {
 export function updateNote(note: Note) {
   const id = note.id;
   const title = note.title || 'New note';
-  const content = note.content;
+  const content = note.content || '';
 
   const sql = `
     UPDATE notes SET title = ?, content = ?, updated_at = datetime('now') WHERE id = ?
@@ -218,7 +218,7 @@ export function getTagSort() {
     SELECT value FROM settings WHERE name = 'tag_sort';
   `;
 
-  const result = db.prepare<{ value: number }[], { value: number }>(sql).get();
+  const result = db.prepare(sql).get() as { value: number } | null;
   return result?.value ?? 0;
 }
 
@@ -251,82 +251,33 @@ export function saveTags(noteId: number, tags: Tag[]) {
   );
 
   if (newTags.length) {
-    let query = `
-      INSERT INTO tags (name)
-      VALUES
-    `;
-
-    let sqlData = [];
-
-    for (let i = 0; i < newTags.length; i++) {
-      query += '(?)';
-      query += i < newTags.length - 1 ? ',' : ';';
-
-      const tag = newTags[i];
-      sqlData.push(tag.name);
-    }
-
-    const result = db.prepare(query).run(sqlData);
-    const { changes, lastInsertRowid } = result;
-    const lastID = lastInsertRowid as number;
-
-    if (changes && lastID) {
-      query = `
-        INSERT OR IGNORE INTO note_tags (note_id, tag_id)
-        VALUES
-      `;
-
-      sqlData = [];
-
-      const startIndex = (lastID as number) - changes;
-      for (let i = startIndex; i < lastID; i++) {
-        query += '(?, ?)';
-        query += i < lastID - 1 ? ',' : ';';
-        sqlData.push(noteId);
-        sqlData.push(i + 1);
-      }
-
-      db.prepare(query).run(sqlData);
+    // Insert new tags one by one
+    const insertTagStmt = db.prepare('INSERT INTO tags (name) VALUES (?)');
+    const insertNoteTagStmt = db.prepare('INSERT OR IGNORE INTO note_tags (note_id, tag_id) VALUES (?, ?)');
+    
+    for (const tag of newTags) {
+      const result = insertTagStmt.run(tag.name);
+      const tagId = result.lastInsertRowid;
+      insertNoteTagStmt.run(noteId, tagId);
     }
   }
 
   if (tagsToAdd.length) {
-    let query = `
-      INSERT OR IGNORE INTO note_tags (note_id, tag_id)
-      VALUES
-    `;
-
-    const sqlData = [];
-
-    for (let i = 0; i < tagsToAdd.length; i++) {
-      query += '(?, ?)';
-      query += i < tagsToAdd.length - 1 ? ',' : ';';
-
-      const tag = tagsToAdd[i];
-      sqlData.push(noteId);
-      sqlData.push(tag.id);
+    // Add existing tags to note
+    const insertNoteTagStmt = db.prepare('INSERT OR IGNORE INTO note_tags (note_id, tag_id) VALUES (?, ?)');
+    
+    for (const tag of tagsToAdd) {
+      insertNoteTagStmt.run(noteId, tag.id);
     }
-
-    db.prepare(query).run(sqlData);
   }
 
   if (tagsToDelete.length) {
-    let query = `
-      DELETE FROM note_tags
-      WHERE note_id = ? AND tag_id IN (
-    `;
-
-    const sqlData = [noteId];
-
-    for (let i = 0; i < tagsToDelete.length; i++) {
-      query += '?';
-      query += i < tagsToDelete.length - 1 ? ',' : ');';
-
-      const tag = tagsToDelete[i];
-      sqlData.push(tag.id);
+    // Remove tags from note
+    const deleteNoteTagStmt = db.prepare('DELETE FROM note_tags WHERE note_id = ? AND tag_id = ?');
+    
+    for (const tag of tagsToDelete) {
+      deleteNoteTagStmt.run(noteId, tag.id);
     }
-
-    db.prepare(query).run(sqlData);
   }
 }
 
@@ -344,6 +295,6 @@ export function deleteTag(tagId: number) {
 
 export function updateTag(tag: Tag) {
   const sql = `update tags set name = ?, color = ? where id = ?`;
-  const result = db.prepare(sql).run(tag.name, tag.color, tag.id);
+  const result = db.prepare(sql).run(tag.name, tag.color || null, tag.id);
   return result;
 }

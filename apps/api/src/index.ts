@@ -1,148 +1,143 @@
-import Fastify, { FastifyInstance } from 'fastify';
+import { Hono } from 'hono';
+import { cors } from 'hono/cors';
 import * as dotenv from 'dotenv';
 dotenv.config();
 import { createNote, deleteNote, deleteTag, getAllTags, getNoteForId, getNotes, getTagsForNote, getTagSort, saveTags, updateNote, updateSettings, updateTag } from './db';
 import { Note } from './models/note';
 import { Tag } from './models/tag';
-import cors from '@fastify/cors';
 import { join } from 'path';
 import archiver from 'archiver';
 
 const { PORT = '3001', ADDRESS = 'localhost' } = process.env;
 
-const server: FastifyInstance = Fastify({
-  logger: true,
-});
+const app = new Hono();
 
-server.register(cors, {
+app.use('*', cors({
   origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
+}));
+
+app.get('/health-check', async (c) => {
+  return c.json({ status: 'ok' });
 });
 
-server.get('/health-check', async (request, reply) => {
-  return { status: 'ok' };
-});
-
-server.get('/notes', async (request, reply) => {
+app.get('/notes', async (c) => {
   const notes = await getNotes();
-  return notes;
+  return c.json(notes);
 });
 
-server.get('/notes/:id', async (request, reply) => {
-  const { id } = request.params as { id: number };
+app.get('/notes/:id', async (c) => {
+  const id = parseInt(c.req.param('id'));
   const note = await getNoteForId(id);
   const tags = await getTagsForNote(id);
   if (note) {
     note.tags = tags;
   }
-  return note;
+  return c.json(note);
 });
 
-server.post('/notes', async (request, reply) => {
-  if (!request.body) {
-    reply.code(400).send({ error: 'Request body is missing' });
-    return;
+app.post('/notes', async (c) => {
+  const body = await c.req.json();
+  if (!body) {
+    return c.json({ error: 'Request body is missing' }, 400);
   }
 
-  const { title, content } = request.body as {
+  const { title, content } = body as {
     title: string;
     content: string;
   };
   const note = await createNote(title, content);
-  return note;
+  return c.json(note);
 });
 
-server.put('/notes/:id', async (request, reply) => {
-  const { id } = request.params as { id: number };
+app.put('/notes/:id', async (c) => {
+  const id = parseInt(c.req.param('id'));
 
   if (!id) {
-    reply.code(400).send({ error: 'Invalid note id' });
-    return;
+    return c.json({ error: 'Invalid note id' }, 400);
   }
 
-  if (!request.body) {
-    reply.code(400).send({ error: 'Request body is missing' });
-    return;
+  const body = await c.req.json();
+  if (!body) {
+    return c.json({ error: 'Request body is missing' }, 400);
   }
 
-  const newNote = request.body as Note;
+  const newNote = body as Note;
   newNote.id = id;
   const note = await updateNote(newNote);
-  return note;
+  return c.json(note);
 });
 
-server.delete('/notes/:id', async (request, reply) => {
-  const { id } = request.params as { id: number };
+app.delete('/notes/:id', async (c) => {
+  const id = parseInt(c.req.param('id'));
   const note = await deleteNote(id);
-  return note;
+  return c.json(note);
 });
 
-server.get('/tags', async (request, reply) => {
+app.get('/tags', async (c) => {
   const tags = await getAllTags();
-  return tags;
+  return c.json(tags);
 });
 
-server.put('/tags/:id', async (request, reply) => {
-  const { id } = request.params as { id: number };
-  const tag = request.body as Tag;
-  tag.id = +id;
+app.put('/tags/:id', async (c) => {
+  const id = parseInt(c.req.param('id'));
+  const body = await c.req.json();
+  const tag = body as Tag;
+  tag.id = id;
   const result = await updateTag(tag);
-  return result;
+  return c.json(result);
 });
 
-server.delete('/tags/:id', async (request, reply) => {
-  const { id } = request.params as { id: number };
+app.delete('/tags/:id', async (c) => {
+  const id = parseInt(c.req.param('id'));
   if (!id) {
-    reply.code(400).send({ error: 'Invalid tag id' });
-    return;
+    return c.json({ error: 'Invalid tag id' }, 400);
   }
 
   const tag = await deleteTag(id);
-  return tag;
+  return c.json(tag);
 });
 
-server.post('/notes/:id/tags', async (request, reply) => {
-  const { id } = request.params as { id: number };
+app.post('/notes/:id/tags', async (c) => {
+  const id = parseInt(c.req.param('id'));
 
   if (!id) {
-    reply.code(400).send({ error: 'Invalid note id' });
-    return;
+    return c.json({ error: 'Invalid note id' }, 400);
   }
 
-  if (!request.body) {
-    reply.code(400).send({ error: 'Request body is missing' });
-    return;
+  const body = await c.req.json();
+  if (!body) {
+    return c.json({ error: 'Request body is missing' }, 400);
   }
 
-  const tags = request.body as Tag[];
+  const tags = body as Tag[];
   await saveTags(id, tags);
   const updatedNote = await getNoteForId(id);
-  return updatedNote;
+  return c.json(updatedNote);
 });
 
-server.get('/tag-sort', async (request, reply) => {
+app.get('/tag-sort', async (c) => {
   const tagSort = await getTagSort();
-  return { tagSort };
+  return c.json({ tagSort });
 });
 
-server.put('/settings/:name', async (request, reply) => {
-  const { name } = request.params as { name: string };
+app.put('/settings/:name', async (c) => {
+  const name = c.req.param('name');
   if (!name) {
-    reply.code(400).send({ error: 'Invalid name param' });
-    return;
+    return c.json({ error: 'Invalid name param' }, 400);
   }
 
-  if (!request.body) {
-    reply.code(400).send({ error: 'Request body is missing' });
-    return;
+  const body = await c.req.json();
+  if (!body) {
+    return c.json({ error: 'Request body is missing' }, 400);
   }
 
-  const data = request.body as { value: number };
+  const data = body as { value: number };
   const result = await updateSettings(name, data.value);
-  return result;
+  return c.json(result);
 });
 
-server.get('/export/data', async (req, reply) => {
+app.get('/export/data', async (c) => {
   const workspaceDir = process.cwd();
   const databaseFileNames = [
     'database.sqlite',
@@ -157,35 +152,66 @@ server.get('/export/data', async (req, reply) => {
     }
   });
 
-  reply.header('Content-Type', 'application/zip');
-  reply.header('Content-Disposition', 'attachment; filename=database.zip');
-
   const archive = archiver('zip', {
     zlib: { level: 9 }, // Sets the compression level
   });
 
-  archive.on('error', (err) => {
-    reply.log.error(err);
-    reply.code(500).send({ error: 'Failed to create archive' });
+  // Collect archive data in a buffer
+  const chunks: Uint8Array[] = [];
+  
+  archive.on('data', (chunk: Buffer) => {
+    chunks.push(new Uint8Array(chunk));
   });
 
-  // Pipe archive data to the reply
-  archive.pipe(reply.raw);
+  archive.on('error', (err) => {
+    console.error(err);
+    throw new Error('Failed to create archive');
+  });
 
   // Add files to the archive
   for (const file of files) {
     archive.file(file.path, { name: file.name });
   }
 
-  // Finalize the archive (ie we are done appending files but streams have to finish yet)
-  await archive.finalize();
+  // Finalize the archive
+  archive.finalize();
+
+  // Wait for archive to finish
+  await new Promise((resolve, reject) => {
+    archive.on('end', resolve);
+    archive.on('error', reject);
+  });
+
+  // Concatenate chunks
+  const totalLength = chunks.reduce((sum, chunk) => sum + chunk.length, 0);
+  const result = new Uint8Array(totalLength);
+  let offset = 0;
+  for (const chunk of chunks) {
+    result.set(chunk, offset);
+    offset += chunk.length;
+  }
+
+  // Return the archive as a response
+  c.header('Content-Type', 'application/zip');
+  c.header('Content-Disposition', 'attachment; filename=database.zip');
+  
+  return c.body(result);
 });
 
 const start = async () => {
   try {
-    await server.listen({ host: ADDRESS, port: +PORT });
+    console.log(`Server starting on http://${ADDRESS}:${PORT}`);
+    
+    // Use Bun.serve for optimal performance with Bun
+    Bun.serve({
+      port: +PORT,
+      hostname: ADDRESS,
+      fetch: app.fetch,
+    });
+    
+    console.log(`Server running on http://${ADDRESS}:${PORT}`);
   } catch (err) {
-    server.log.error(err);
+    console.error('Server startup error:', err);
     process.exit(1);
   }
 };
