@@ -29,7 +29,7 @@
             variant="primary" 
             @click="createQuickNote"
             :disabled="!quickNoteEditor?.getText().trim()"
-            class="px-6"
+            class="px-6 flex items-center"
           >
             <Icon name="fluent:save-20-filled" size="16" class="mr-1" />
             Save
