@@ -2,7 +2,7 @@
   <Teleport to="#teleports">
     <div v-if="isOpen"
       :class="{
-        'fixed inset-0 z-50 flex items-center justify-center bg-modal-overlay': true,
+        'fixed inset-0 z-50 flex items-center justify-center bg-modal-overlay backdrop-blur-sm': true,
         'pt-8 justify-center items-baseline': position === 'center-top',
         'justify-center items-center': position === 'center'
       }">
