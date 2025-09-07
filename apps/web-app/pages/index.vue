@@ -122,6 +122,7 @@
             @delete="handleDeleteNote"
             @edit-tags="handleEditNoteTags"
             @edit="handleEditNote"
+            @save="handleSaveNote"
             class="hover:bg-card-hover transition-colors rounded-lg border border-card-border"
           />
         </div>
@@ -154,6 +155,7 @@ const {
   removeSelectedTag,
   selectedTags,
   deleteNote,
+  saveNote,
   saveTags,
   tags,
   notes,
@@ -429,6 +431,11 @@ const handleDeleteNote = async (note: Note) => {
 
 const handleEditNote = (note: Note) => {
   router.push(`/note/${note.id}`);
+};
+
+const handleSaveNote = async (note: Note) => {
+  await saveNote(note);
+  filteredNotes.value = searchNotes(searchText.value);
 };
 
 const handleEditNoteTags = (note: Note) => {

@@ -65,9 +65,31 @@
 
     <!-- Content -->
     <div class="mb-3">
-      <div class="text-text-primary text-sm leading-relaxed">
+      <div v-if="!isEditing" class="text-text-primary text-sm leading-relaxed">
         <editor-content v-if="editor" :editor="editor" class="note-content" />
         <div v-else class="text-text-muted">Loading content...</div>
+      </div>
+      
+      <!-- Inline editor when editing -->
+      <div v-else class="text-text-primary text-sm leading-relaxed">
+        <editor-content v-if="editEditor" :editor="editEditor" class="note-content-editor" />
+        <div v-else class="text-text-muted">Loading editor...</div>
+        
+        <!-- Edit actions -->
+        <div class="flex items-center justify-end gap-2 mt-3 pt-3 border-t border-bg-border">
+          <button 
+            @click="cancelEdit"
+            class="px-3 py-1.5 text-xs bg-bg-secondary hover:bg-bg-hover text-text-muted hover:text-text-primary rounded transition-colors"
+          >
+            Cancel
+          </button>
+          <button 
+            @click="saveEdit"
+            class="px-3 py-1.5 text-xs bg-primary hover:bg-primary/90 text-white rounded transition-colors"
+          >
+            Save
+          </button>
+        </div>
       </div>
     </div>
 
@@ -106,6 +128,7 @@
 import { Editor, EditorContent } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit'
 import CodeBlock from '@/lib/tiptap/extensions/CodeBlock';
+import { nextTick } from 'vue';
 
 interface Props {
   note: Note;
@@ -120,14 +143,20 @@ const emit = defineEmits<{
   delete: [note: Note];
   'edit-tags': [note: Note];
   edit: [note: Note];
+  save: [note: Note];
 }>();
 
 // TipTap editor for read-only display
 const editor = ref<Editor>();
+const editEditor = ref<Editor>();
 
 // Dropdown state
 const showDropdown = ref(false);
 const moreOptionsButton = ref<HTMLElement>();
+
+// Edit state
+const isEditing = ref(false);
+const originalContent = ref('');
 
 // Computed
 const hasReferences = computed(() => false); // TODO: Implement reference tracking
@@ -139,12 +168,107 @@ const toggleDropdown = () => {
 
 const handleEdit = () => {
   showDropdown.value = false;
-  emit('edit', props.note);
+  startEditing();
 };
 
 const handleDelete = () => {
   showDropdown.value = false;
   emit('delete', props.note);
+};
+
+// Edit functions
+const startEditing = () => {
+  isEditing.value = true;
+  originalContent.value = props.note.content || '';
+  
+  // Initialize edit editor
+  nextTick(() => {
+    let initialContent;
+    
+    try {
+      if (props.note.content && props.note.content.trim()) {
+        initialContent = JSON.parse(props.note.content);
+      } else {
+        initialContent = {
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+              content: []
+            }
+          ]
+        };
+      }
+    } catch (error) {
+      if (props.note.content && props.note.content.trim()) {
+        initialContent = {
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+              content: [
+                {
+                  type: 'text',
+                  text: props.note.content
+                }
+              ]
+            }
+          ]
+        };
+      } else {
+        initialContent = {
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+              content: []
+            }
+          ]
+        };
+      }
+    }
+
+    editEditor.value = new Editor({
+      extensions: [
+        StarterKit.configure({ 
+          codeBlock: false
+        }),
+        CodeBlock,
+      ],
+      content: initialContent,
+      editable: true,
+      editorProps: {
+        attributes: {
+          class: 'prose prose-invert max-w-none focus:outline-none note-card-content-editor'
+        }
+      },
+    });
+  });
+};
+
+const cancelEdit = () => {
+  isEditing.value = false;
+  editEditor.value?.destroy();
+  editEditor.value = undefined;
+};
+
+const saveEdit = () => {
+  if (!editEditor.value) return;
+  
+  const content = JSON.stringify(editEditor.value.getJSON());
+  const updatedNote = {
+    ...props.note,
+    content: content
+  };
+  
+  emit('save', updatedNote);
+  isEditing.value = false;
+  
+  // Update the read-only editor with new content
+  editor.value?.commands.setContent(editEditor.value.getJSON());
+  
+  editEditor.value?.destroy();
+  editEditor.value = undefined;
 };
 
 // Close dropdown when clicking outside
@@ -236,6 +360,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   editor.value?.destroy();
+  editEditor.value?.destroy();
   document.removeEventListener('click', closeDropdown);
 });
 
@@ -389,6 +514,107 @@ const getContentPreview = (content?: string) => {
 }
 
 .note-content :deep(.ProseMirror em) {
+  font-style: italic;
+}
+
+/* Edit mode styles */
+.note-content-editor :deep(.ProseMirror) {
+  outline: none;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: rgb(248 249 250);
+  padding: 0.75rem;
+  border: 1px solid rgb(88 166 255);
+  border-radius: 0.375rem;
+  background-color: rgb(13 17 23);
+  min-height: 100px;
+}
+
+.note-content-editor :deep(.ProseMirror:focus) {
+  border-color: rgb(88 166 255);
+  box-shadow: 0 0 0 2px rgb(88 166 255 / 0.1);
+}
+
+.note-content-editor :deep(.ProseMirror p) {
+  margin: 0 0 0.75rem 0;
+}
+
+.note-content-editor :deep(.ProseMirror p:last-child) {
+  margin-bottom: 0;
+}
+
+.note-content-editor :deep(.ProseMirror h1) {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  color: rgb(255 255 255);
+}
+
+.note-content-editor :deep(.ProseMirror h2) {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  color: rgb(255 255 255);
+}
+
+.note-content-editor :deep(.ProseMirror h3) {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  color: rgb(255 255 255);
+}
+
+.note-content-editor :deep(.ProseMirror ul),
+.note-content-editor :deep(.ProseMirror ol) {
+  margin: 0 0 0.75rem 0;
+  padding-left: 1.25rem;
+}
+
+.note-content-editor :deep(.ProseMirror li) {
+  margin-bottom: 0.25rem;
+}
+
+.note-content-editor :deep(.ProseMirror blockquote) {
+  border-left: 3px solid rgb(88 166 255);
+  padding-left: 1rem;
+  margin: 0.75rem 0;
+  color: rgb(154 160 166);
+  font-style: italic;
+}
+
+.note-content-editor :deep(.ProseMirror code) {
+  background-color: rgb(33 38 45);
+  color: rgb(88 166 255);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-size: 0.8rem;
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+}
+
+.note-content-editor :deep(.ProseMirror pre) {
+  background-color: rgb(13 17 23);
+  border: 1px solid rgb(33 38 45);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 0.75rem 0;
+  overflow-x: auto;
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.note-content-editor :deep(.ProseMirror pre code) {
+  background: none;
+  padding: 0;
+  color: rgb(248 249 250);
+}
+
+.note-content-editor :deep(.ProseMirror strong) {
+  font-weight: 600;
+  color: rgb(255 255 255);
+}
+
+.note-content-editor :deep(.ProseMirror em) {
   font-style: italic;
 }
 </style>
