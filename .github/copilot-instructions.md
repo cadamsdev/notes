@@ -69,6 +69,8 @@ Components follow atomic design in `components/`:
 - Follow **minimalist note-taking patterns**: clean cards, subtle interactions, content-first design
 - **Mobile responsive design** using Tailwind CSS v4 breakpoints (sm, md, lg, xl, 2xl)
 - **Mobile-first approach** with progressive enhancement for larger screens
+- **Always create reusable components** - extract UI elements into standalone components instead of writing inline markup
+- **Component composition over duplication** - build complex UI by composing smaller, focused components
 
 ### API Patterns
 - RESTful endpoints with consistent error handling
@@ -109,8 +111,11 @@ Components follow atomic design in `components/`:
 - **Design for productivity** - every element should serve the note-taking experience
 
 ### **Component Development**
-- **Build reusable components** - extract common UI patterns into standalone components (e.g., Calendar, Modal, Button) that can be used across the application
-- **Component composition** - design components with props and slots for flexibility and reusability
+- **Always create reusable components** - extract all UI elements into standalone components instead of writing inline markup
+- **Component composition over duplication** - build complex UI by composing smaller, focused components
+- **Extract UI patterns immediately** - whenever you create UI elements (buttons, cards, forms, lists), make them standalone components
+- **Design for reusability** - use props, slots, and events to make components flexible and composable
+- **Type-safe component interfaces** - define clear TypeScript interfaces for props and emits
 - **Database changes**: Modify the `seed()` function in `apps/api/src/db.ts`
 - **New components**: Place in appropriate `components/` subdirectory with TypeScript props
 - **State management**: Use composables for data, Pinia stores for UI-only state
