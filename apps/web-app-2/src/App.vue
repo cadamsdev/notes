@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import './styles/global.css';
+import { ref } from 'vue';
+
+// Mobile UI state
+const showMobileMenu = ref(false);
+const activeTab = ref('notes'); // 'calendar', 'tags', 'notes'
 
 // Mock data for demonstration
 const mockNotes = [
@@ -69,14 +74,100 @@ const calendarDays = generateCalendarDays();
 
 <template>
   <div class="min-h-screen bg-gray-900 text-gray-100">
-    <!-- Main Layout - Two Columns -->
-    <div class="flex h-screen">
+    <!-- Mobile Header -->
+    <div class="lg:hidden bg-gray-800 border-b border-gray-700 p-4">
+      <div class="flex items-center justify-between">
+        <h1 class="text-lg font-medium text-gray-100">Notes</h1>
+        <button @click="showMobileMenu = !showMobileMenu" 
+                class="p-2 text-gray-400 hover:text-gray-200 transition-colors duration-200">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
       
-      <!-- Left Column: Calendar & Tags -->
-      <div class="w-80 bg-gray-800 border-r border-gray-700 flex flex-col">
+      <!-- Mobile Tab Navigation -->
+      <div class="flex space-x-1 mt-4">
+        <button @click="activeTab = 'notes'" 
+                class="flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-colors duration-200"
+                :class="activeTab === 'notes' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-gray-200'">
+          Notes
+        </button>
+        <button @click="activeTab = 'calendar'" 
+                class="flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-colors duration-200"
+                :class="activeTab === 'calendar' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-gray-200'">
+          Calendar
+        </button>
+        <button @click="activeTab = 'tags'" 
+                class="flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-colors duration-200"
+                :class="activeTab === 'tags' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-gray-200'">
+          Tags
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Layout -->
+    <div class="flex h-screen lg:h-auto">
+      
+      <!-- Left Column: Calendar & Tags (Desktop) / Mobile Content -->
+      <div class="w-full lg:w-80 bg-gray-800 border-r border-gray-700 flex flex-col"
+           :class="{ 'hidden lg:flex': activeTab === 'notes' && !showMobileMenu }">
         
-        <!-- Calendar Section -->
-        <div class="p-6 border-b border-gray-700">
+        <!-- Mobile Calendar View -->
+        <div v-if="activeTab === 'calendar'" class="lg:hidden p-4">
+          <h2 class="text-lg font-medium text-gray-100 mb-4">{{ currentMonth }}</h2>
+          
+          <!-- Calendar Grid -->
+          <div class="grid grid-cols-7 gap-1 text-sm">
+            <!-- Day Headers -->
+            <div v-for="day in ['S', 'M', 'T', 'W', 'T', 'F', 'S']" 
+                 :key="day" 
+                 class="text-center text-gray-400 font-medium py-2">
+              {{ day }}
+            </div>
+            
+            <!-- Calendar Days -->
+            <button v-for="(day, index) in calendarDays" 
+                    :key="index"
+                    class="relative h-10 text-center rounded hover:bg-gray-700 transition-colors duration-200"
+                    :class="{
+                      'text-gray-500': !day.isCurrentMonth,
+                      'text-gray-100': day.isCurrentMonth,
+                      'bg-blue-600 text-white': day.isToday,
+                      'hover:bg-blue-500': day.isToday
+                    }">
+              {{ day.date }}
+              <!-- Note indicator -->
+              <div v-if="day.hasNotes && day.isCurrentMonth" 
+                   class="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-blue-400 rounded-full"></div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mobile Tags View -->
+        <div v-if="activeTab === 'tags'" class="lg:hidden p-4 flex-1 overflow-y-auto">
+          <h3 class="text-lg font-medium text-gray-100 mb-4">Tags</h3>
+          
+          <div class="grid grid-cols-2 gap-2">
+            <button v-for="tag in mockTags" 
+                    :key="tag.name"
+                    class="flex items-center p-3 rounded-lg hover:bg-gray-700 transition-colors duration-200 text-left">
+              <div class="w-3 h-3 rounded-full mr-3" :style="{ backgroundColor: tag.color }"></div>
+              <div class="flex-1 min-w-0">
+                <span class="text-gray-200 text-sm block truncate">{{ tag.name }}</span>
+                <span class="text-gray-400 text-xs">{{ tag.count }}</span>
+              </div>
+            </button>
+          </div>
+          
+          <!-- Add Tag Button -->
+          <button class="mt-4 w-full px-3 py-3 border-2 border-dashed border-gray-600 rounded-lg text-gray-400 hover:border-gray-500 hover:text-gray-300 transition-colors duration-200">
+            + Add Tag
+          </button>
+        </div>
+        
+        <!-- Desktop Calendar Section -->
+        <div class="hidden lg:block p-6 border-b border-gray-700">
           <h2 class="text-lg font-medium text-gray-100 mb-4">{{ currentMonth }}</h2>
           
           <!-- Calendar Grid -->
@@ -106,8 +197,8 @@ const calendarDays = generateCalendarDays();
           </div>
         </div>
         
-        <!-- Tags Section -->
-        <div class="p-6 flex-1 overflow-y-auto">
+        <!-- Desktop Tags Section -->
+        <div class="hidden lg:block p-6 flex-1 overflow-y-auto">
           <h3 class="text-lg font-medium text-gray-100 mb-4">Tags</h3>
           
           <div class="space-y-2">
@@ -128,30 +219,31 @@ const calendarDays = generateCalendarDays();
       </div>
       
       <!-- Right Column: Note Editor & Feed -->
-      <div class="flex-1 flex flex-col">
+      <div class="flex-1 flex flex-col min-h-0"
+           :class="{ 'hidden lg:flex': activeTab !== 'notes' }">
         
         <!-- Note Composer -->
-        <div class="bg-gray-800 border-b border-gray-700 p-6">
+        <div class="bg-gray-800 border-b border-gray-700 p-4 lg:p-6">
           <div class="max-w-4xl mx-auto">
             <!-- Title Input -->
             <input type="text" 
                    placeholder="Note title..." 
-                   class="w-full bg-transparent text-xl font-medium text-gray-100 placeholder-gray-500 border-none outline-none mb-4">
+                   class="w-full bg-transparent text-lg lg:text-xl font-medium text-gray-100 placeholder-gray-500 border-none outline-none mb-3 lg:mb-4">
             
             <!-- Content Editor -->
-            <div class="min-h-32 p-4 bg-gray-750 rounded-lg border border-gray-600 focus-within:border-blue-500 transition-colors duration-200">
+            <div class="min-h-24 lg:min-h-32 p-3 lg:p-4 bg-gray-750 rounded-lg border border-gray-600 focus-within:border-blue-500 transition-colors duration-200">
               <div contenteditable="true" 
-                   class="outline-none text-gray-200 placeholder-gray-500 leading-relaxed"
+                   class="outline-none text-gray-200 placeholder-gray-500 leading-relaxed text-sm lg:text-base"
                    data-placeholder="Start writing your note...">
               </div>
             </div>
             
             <!-- Editor Toolbar -->
-            <div class="flex items-center justify-between mt-4">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-4 space-y-3 sm:space-y-0">
               <div class="flex items-center space-x-4">
                 <!-- Tag Selector -->
                 <div class="flex items-center space-x-2">
-                  <span class="text-sm text-gray-400">Tags:</span>
+                  <span class="text-sm text-gray-400 hidden sm:inline">Tags:</span>
                   <div class="flex space-x-1">
                     <span class="px-2 py-1 bg-blue-600 text-white text-xs rounded-full">work</span>
                     <button class="px-2 py-1 border border-gray-600 text-gray-400 text-xs rounded-full hover:border-gray-500 transition-colors duration-200">
@@ -161,9 +253,9 @@ const calendarDays = generateCalendarDays();
                 </div>
               </div>
               
-              <div class="flex items-center space-x-3">
+              <div class="flex items-center justify-between sm:justify-end space-x-3">
                 <span class="text-sm text-gray-400">Auto-saving...</span>
-                <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors duration-200">
+                <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors duration-200 text-sm">
                   Save Note
                 </button>
               </div>
@@ -172,44 +264,44 @@ const calendarDays = generateCalendarDays();
         </div>
         
         <!-- Notes Feed -->
-        <div class="flex-1 overflow-y-auto p-6">
+        <div class="flex-1 overflow-y-auto p-4 lg:p-6">
           <div class="max-w-4xl mx-auto">
-            <div class="flex items-center justify-between mb-6">
-              <h2 class="text-xl font-medium text-gray-100">Recent Notes</h2>
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 lg:mb-6 space-y-3 sm:space-y-0">
+              <h2 class="text-lg lg:text-xl font-medium text-gray-100">Recent Notes</h2>
               
               <!-- Search & Filter -->
               <div class="flex items-center space-x-3">
                 <input type="text" 
                        placeholder="Search notes..." 
-                       class="px-3 py-2 bg-gray-800 border border-gray-600 rounded-lg text-gray-200 placeholder-gray-500 focus:border-blue-500 focus:outline-none transition-colors duration-200">
-                <button class="px-3 py-2 border border-gray-600 rounded-lg text-gray-400 hover:border-gray-500 hover:text-gray-300 transition-colors duration-200">
+                       class="flex-1 sm:flex-none px-3 py-2 bg-gray-800 border border-gray-600 rounded-lg text-gray-200 placeholder-gray-500 focus:border-blue-500 focus:outline-none transition-colors duration-200 text-sm">
+                <button class="px-3 py-2 border border-gray-600 rounded-lg text-gray-400 hover:border-gray-500 hover:text-gray-300 transition-colors duration-200 text-sm whitespace-nowrap">
                   Filter
                 </button>
               </div>
             </div>
             
             <!-- Notes List -->
-            <div class="space-y-4">
+            <div class="space-y-3 lg:space-y-4">
               <div v-for="note in mockNotes" 
                    :key="note.id"
-                   class="bg-gray-800 rounded-lg p-6 border border-gray-700 hover:border-gray-600 transition-colors duration-200 cursor-pointer">
+                   class="bg-gray-800 rounded-lg p-4 lg:p-6 border border-gray-700 hover:border-gray-600 transition-colors duration-200 cursor-pointer group">
                 
                 <!-- Note Header -->
-                <div class="flex items-start justify-between mb-3">
-                  <h3 class="text-lg font-medium text-gray-100">{{ note.title }}</h3>
-                  <div class="text-sm text-gray-400">
+                <div class="flex items-start justify-between mb-2 lg:mb-3">
+                  <h3 class="text-base lg:text-lg font-medium text-gray-100 flex-1 mr-2">{{ note.title }}</h3>
+                  <div class="text-xs lg:text-sm text-gray-400 whitespace-nowrap">
                     {{ note.date }} • {{ note.time }}
                   </div>
                 </div>
                 
                 <!-- Note Content Preview -->
-                <p class="text-gray-300 leading-relaxed mb-4 line-clamp-3">
+                <p class="text-gray-300 leading-relaxed mb-3 lg:mb-4 line-clamp-2 lg:line-clamp-3 text-sm lg:text-base">
                   {{ note.content }}
                 </p>
                 
-                <!-- Note Tags -->
+                <!-- Note Tags and Actions -->
                 <div class="flex items-center justify-between">
-                  <div class="flex space-x-2">
+                  <div class="flex flex-wrap gap-1 lg:gap-2">
                     <span v-for="tag in note.tags" 
                           :key="tag"
                           class="px-2 py-1 bg-gray-700 text-gray-300 text-xs rounded-full">
@@ -235,8 +327,8 @@ const calendarDays = generateCalendarDays();
             </div>
             
             <!-- Load More -->
-            <div class="text-center mt-8">
-              <button class="px-6 py-3 border border-gray-600 rounded-lg text-gray-400 hover:border-gray-500 hover:text-gray-300 transition-colors duration-200">
+            <div class="text-center mt-6 lg:mt-8">
+              <button class="px-6 py-3 border border-gray-600 rounded-lg text-gray-400 hover:border-gray-500 hover:text-gray-300 transition-colors duration-200 text-sm">
                 Load More Notes
               </button>
             </div>
@@ -259,6 +351,14 @@ const calendarDays = generateCalendarDays();
 }
 
 /* Line clamp utility */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 .line-clamp-3 {
   display: -webkit-box;
   -webkit-line-clamp: 3;
