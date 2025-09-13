@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 
 interface Props {
   title?: string;
   content?: string;
   tags?: string[];
-  autoSave?: boolean;
-  autoSaveDelay?: number;
   placeholder?: string;
   titlePlaceholder?: string;
 }
@@ -15,8 +13,6 @@ const props = withDefaults(defineProps<Props>(), {
   title: '',
   content: '',
   tags: () => [],
-  autoSave: true,
-  autoSaveDelay: 500,
   placeholder: 'Start writing your note...',
   titlePlaceholder: 'Note title...'
 });
@@ -32,40 +28,42 @@ const emit = defineEmits<{
 const titleValue = ref(props.title);
 const contentValue = ref(props.content);
 const selectedTags = ref([...props.tags]);
-const isAutoSaving = ref(false);
-const saveTimeout = ref<number | null>(null);
+const contentEditor = ref<HTMLDivElement | null>(null);
+
+// Watch for prop changes to update local state
+watch(() => props.title, (newTitle) => {
+  titleValue.value = newTitle;
+});
+
+watch(() => props.content, (newContent) => {
+  contentValue.value = newContent;
+  // Only update the editor if it's not currently focused (to avoid interfering with typing)
+  if (contentEditor.value && document.activeElement !== contentEditor.value) {
+    contentEditor.value.textContent = newContent;
+  }
+});
+
+watch(() => props.tags, (newTags) => {
+  selectedTags.value = [...newTags];
+});
+
+// Set initial content when component mounts
+onMounted(() => {
+  if (contentEditor.value) {
+    contentEditor.value.textContent = props.content;
+  }
+});
 
 const handleTitleChange = (event: Event) => {
   const target = event.target as HTMLInputElement;
   titleValue.value = target.value;
   emit('titleChange', titleValue.value);
-  
-  if (props.autoSave) {
-    scheduleAutoSave();
-  }
 };
 
 const handleContentChange = (event: Event) => {
   const target = event.target as HTMLDivElement;
   contentValue.value = target.textContent || '';
   emit('contentChange', contentValue.value);
-  
-  if (props.autoSave) {
-    scheduleAutoSave();
-  }
-};
-
-const scheduleAutoSave = () => {
-  if (saveTimeout.value) {
-    clearTimeout(saveTimeout.value);
-  }
-  
-  isAutoSaving.value = true;
-  
-  saveTimeout.value = window.setTimeout(() => {
-    handleSave();
-    isAutoSaving.value = false;
-  }, props.autoSaveDelay);
 };
 
 const handleSave = () => {
@@ -77,9 +75,12 @@ const handleSave = () => {
 };
 
 const handleTagAdd = () => {
-  // In a real app, this would open a tag selector modal
-  const newTag = 'work'; // Placeholder
-  if (!selectedTags.value.includes(newTag)) {
+  // For demo purposes, cycle through available tags
+  const availableTags = ['work', 'personal', 'ideas', 'meetings', 'tasks', 'writing'];
+  const unusedTags = availableTags.filter(tag => !selectedTags.value.includes(tag));
+  
+  if (unusedTags.length > 0) {
+    const newTag = unusedTags[0];
     selectedTags.value.push(newTag);
     emit('tagAdd', newTag);
   }
@@ -89,14 +90,6 @@ const handleTagRemove = (tagName: string) => {
   selectedTags.value = selectedTags.value.filter(tag => tag !== tagName);
   emit('tagRemove', tagName);
 };
-
-// Auto-save status message
-const autoSaveStatus = computed(() => {
-  if (isAutoSaving.value) {
-    return 'Auto-saving...';
-  }
-  return 'Saved';
-});
 </script>
 
 <template>
@@ -114,11 +107,12 @@ const autoSaveStatus = computed(() => {
       <!-- Content Editor -->
       <div class="min-h-24 lg:min-h-32 p-3 lg:p-4 bg-gray-750 rounded-lg border border-gray-600 focus-within:border-blue-500 transition-colors duration-200">
         <div 
+          ref="contentEditor"
           contenteditable="true"
           @input="handleContentChange"
           class="outline-none text-gray-200 placeholder-gray-500 leading-relaxed text-sm lg:text-base"
           :data-placeholder="placeholder"
-        >{{ contentValue }}</div>
+        ></div>
       </div>
       
       <!-- Editor Toolbar -->
@@ -151,13 +145,7 @@ const autoSaveStatus = computed(() => {
           </div>
         </div>
         
-        <div class="flex items-center justify-between sm:justify-end space-x-3">
-          <span 
-            v-if="autoSave"
-            class="text-sm text-gray-400"
-          >
-            {{ autoSaveStatus }}
-          </span>
+        <div class="flex items-center justify-end space-x-3">
           <button 
             @click="handleSave"
             class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors duration-200 text-sm"

@@ -11,7 +11,7 @@ const showMobileMenu = ref(false);
 const activeTab = ref('notes'); // 'calendar', 'tags', 'notes'
 
 // Mock data for demonstration
-const mockNotes = [
+const mockNotes = ref([
   {
     id: 1,
     title: "Meeting Notes - Project Kickoff",
@@ -36,7 +36,7 @@ const mockNotes = [
     date: "2024-09-11",
     time: "6:45 PM"
   }
-];
+]);
 
 const mockTags = [
   { name: "work", color: "#58a6ff", count: 5 },
@@ -52,6 +52,13 @@ const currentDate = new Date();
 
 // Mock note dates that have notes
 const noteDates = ['2024-09-13', '2024-09-10', '2024-09-08', '2024-09-05'];
+
+// Current note being edited (for the composer)
+const currentNote = ref({
+  title: '',
+  content: '',
+  tags: [] as string[]
+});
 
 // Event handlers
 const handleDayClick = (date: Date) => {
@@ -71,23 +78,73 @@ const handleNoteClick = (noteId: number) => {
 };
 
 const handleEditNote = (noteId: number) => {
-  console.log('Edit note:', noteId);
+  const note = mockNotes.value.find(n => n.id === noteId);
+  if (note) {
+    currentNote.value = {
+      title: note.title,
+      content: note.content,
+      tags: [...note.tags]
+    };
+  }
 };
 
 const handleDeleteNote = (noteId: number) => {
-  console.log('Delete note:', noteId);
+  mockNotes.value = mockNotes.value.filter(note => note.id !== noteId);
+  console.log('Note deleted:', noteId);
 };
 
 const handleNoteSave = (data: { title: string; content: string; tags: string[] }) => {
-  console.log('Note saved:', data);
+  if (!data.title.trim() && !data.content.trim()) {
+    console.log('Cannot save empty note');
+    return;
+  }
+
+  // Create new note
+  const now = new Date();
+  const newNote = {
+    id: Math.max(...mockNotes.value.map(n => n.id), 0) + 1,
+    title: data.title.trim() || 'Untitled Note',
+    content: data.content.trim(),
+    tags: data.tags,
+    date: now.toISOString().split('T')[0],
+    time: now.toLocaleTimeString('en-US', { 
+      hour: 'numeric', 
+      minute: '2-digit',
+      hour12: true 
+    })
+  };
+
+  // Add to beginning of notes array
+  mockNotes.value.unshift(newNote);
+  
+  // Clear the composer after a short delay to show save feedback
+  setTimeout(() => {
+    currentNote.value = {
+      title: '',
+      content: '',
+      tags: []
+    };
+  }, 1000);
+  
+  console.log('Note saved successfully:', newNote);
 };
 
 const handleTitleChange = (title: string) => {
-  console.log('Title changed:', title);
+  currentNote.value.title = title;
 };
 
 const handleContentChange = (content: string) => {
-  console.log('Content changed:', content);
+  currentNote.value.content = content;
+};
+
+const handleTagAdd = (tagName: string) => {
+  if (!currentNote.value.tags.includes(tagName)) {
+    currentNote.value.tags.push(tagName);
+  }
+};
+
+const handleTagRemove = (tagName: string) => {
+  currentNote.value.tags = currentNote.value.tags.filter(tag => tag !== tagName);
 };
 </script>
 
@@ -177,9 +234,14 @@ const handleContentChange = (content: string) => {
         
         <!-- Note Composer -->
         <NoteComposer 
+          :title="currentNote.title"
+          :content="currentNote.content"
+          :tags="currentNote.tags"
           @save="handleNoteSave"
           @title-change="handleTitleChange"
           @content-change="handleContentChange"
+          @tag-add="handleTagAdd"
+          @tag-remove="handleTagRemove"
         />
         
         <!-- Notes Feed -->
