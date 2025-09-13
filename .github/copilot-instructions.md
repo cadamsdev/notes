@@ -4,7 +4,7 @@
 
 This is a **monorepo** with three main applications:
 - **`apps/api/`** - Hono REST API with SQLite database using better-sqlite3
-- **`apps/web-app/`** - Nuxt 3 SPA frontend with TipTap block editor
+- **`apps/web-app/`** - Vue 3 SPA frontend with TipTap block editor
 - **`apps/desktop-app/`** - Electron wrapper (in development)
 
 **Key architectural decisions:**
@@ -57,16 +57,18 @@ Located in `apps/api/src/db.ts` - uses auto-seeding pattern:
 ## Code Patterns & Conventions
 
 ### Frontend State Management
-- **Nuxt composables** in `composables/` for data fetching (`useNotes`, `useSettings`)
+- **Vue composables** in `composables/` for data fetching (`useNotes`, `useSettings`)
 - **Pinia stores** in `stores/` for UI state (modals)
-- **Global state** via `useState()` for shared data across components
+- **Reactive refs and computed properties** for shared data across components
 
 ### Component Structure
 Components follow atomic design in `components/`:
 - Use `<script setup>` syntax with TypeScript
 - Props are type-safe interfaces matching backend models
-- **TailwindCSS with productivity-focused design tokens** in `nuxt.config.ts`
+- **TailwindCSS with productivity-focused design tokens**
 - Follow **minimalist note-taking patterns**: clean cards, subtle interactions, content-first design
+- **Mobile responsive design** using Tailwind CSS v4 breakpoints (sm, md, lg, xl, 2xl)
+- **Mobile-first approach** with progressive enhancement for larger screens
 
 ### API Patterns
 - RESTful endpoints with consistent error handling
@@ -112,7 +114,7 @@ Components follow atomic design in `components/`:
 - **Database changes**: Modify the `seed()` function in `apps/api/src/db.ts`
 - **New components**: Place in appropriate `components/` subdirectory with TypeScript props
 - **State management**: Use composables for data, Pinia stores for UI-only state
-- **Styling**: Use design system tokens from `nuxt.config.ts`, prioritize content readability
+- **Styling**: Use design system colors and Tailwind CSS, prioritize content readability
 - **Editor features**: Extend TipTap in `lib/tiptap/extensions/` directory
 
 ## Common Tasks
@@ -134,9 +136,15 @@ Components follow atomic design in `components/`:
 
 ### Implementing Note-Taking UI Components:
 1. **Extract reusable patterns** - create standalone components for common UI elements (modals, calendars, input fields, etc.)
-2. Use design system colors and tokens from `nuxt.config.ts`
+2. Use design system colors and Tailwind CSS
 3. Prioritize content readability and writing comfort
 4. Add smooth, non-distracting transitions (duration-200, ease-out)
 5. Ensure excellent contrast ratios for extended reading
 6. Follow minimalist, productivity-focused design principles
 7. **Design for composition** - use props, slots, and events to make components flexible and reusable
+8. **Implement mobile-first responsive design** using Tailwind CSS v4 breakpoints:
+   - Start with mobile layout and enhance for larger screens
+   - Use `sm:` (640px+), `md:` (768px+), `lg:` (1024px+), `xl:` (1280px+), `2xl:` (1536px+)
+   - Ensure touch-friendly interactions on mobile devices
+   - Optimize layouts for both portrait and landscape orientations
+   - Test across different screen sizes and device types
