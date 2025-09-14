@@ -11,7 +11,7 @@ const editor = ref<HTMLElement | null>(null);
 
 function handleKeyDown(event: KeyboardEvent) {
   const target = event.target as HTMLElement;
-  console.log('Key down event:', event.key, 'on target:', target);
+  // console.log('Key down event:', event.key, 'on target:', target);
 
   if (event.key === 'Enter') {
     console.log('Enter key pressed');
@@ -42,7 +42,22 @@ function handleKeyDown(event: KeyboardEvent) {
       if (!previousSibling) {
         editor.value?.focus();  
       }
+    }
+  } else {
 
+    console.log(target.textContent)
+    console.log(event);
+
+    const isHeading = target.textContent.match(/^#{1,3}$/) && event.code === 'Space';
+    if (isHeading) {
+      // convert target to heading
+      const level = target.textContent.length;
+      const heading = document.createElement('h' + level);
+      heading.contentEditable = "true";
+      heading.textContent = '';
+      target.replaceWith(heading);
+      heading.focus();
+      event.preventDefault();
     }
   }
 }
