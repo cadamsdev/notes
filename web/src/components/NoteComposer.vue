@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { ref, watch, onMounted } from "vue";
-import { Editor, EditorContent, useEditor } from "@tiptap/vue-3";
-import StarterKit from "@tiptap/starter-kit";
-import Placeholder from '@tiptap/extension-placeholder'
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import Heading from '@tiptap/extension-heading'
+import { ref, watch } from "vue";
+import { EditorContent, useEditor } from "@tiptap/vue-3";
+import Placeholder from "@tiptap/extension-placeholder";
+import Document from "@tiptap/extension-document";
+import Paragraph from "@tiptap/extension-paragraph";
+import Text from "@tiptap/extension-text";
+import Heading from "@tiptap/extension-heading";
 
 interface Props {
   content?: string;
@@ -31,8 +30,23 @@ const contentValue = ref(props.content);
 const selectedTags = ref([...props.tags]);
 
 const editor = useEditor({
-  content: props.content,
-  extensions: [StarterKit],
+  content: "",
+  extensions: [
+    Document,
+    Paragraph,
+    Text,
+    Placeholder.configure({
+      placeholder: "Any thoughts...",
+      emptyEditorClass: "is-editor-empty",
+    }),
+    Heading.configure({
+      levels: [1, 2, 3],
+    }),
+  ],
+  autofocus: true,
+  onUpdate: () => {
+    console.log("Editor content updated:", editor.value?.getHTML());
+  },
 });
 
 watch(
@@ -41,28 +55,6 @@ watch(
     selectedTags.value = [...newTags];
   }
 );
-
-onMounted(() => {
-  editor.value = new Editor({
-    content: '',
-    extensions: [
-      Document,
-      Paragraph,
-      Text,
-      Placeholder.configure({
-        placeholder: 'Any thoughts...',
-        emptyEditorClass: 'is-editor-empty',
-      }),
-      Heading.configure({
-        levels: [1, 2, 3],
-      }),
-    ],
-    autofocus: true,
-    onUpdate: () => {
-      console.log("Editor content updated:", editor.value?.getHTML());
-    },
-  });
-});
 
 const handleSave = () => {
   emit("save", {
@@ -97,38 +89,50 @@ const handleTagRemove = (tagName: string) => {
         class="p-3 lg:p-4 bg-gray-750 rounded-lg border border-gray-600 focus-within:border-blue-500 transition-colors duration-200 outline-none text-gray-200 placeholder-gray-500 leading-relaxed text-sm lg:text-base"
       >
         <EditorContent :editor="editor" />
-    </div>
+      </div>
 
-    <!-- Editor Toolbar -->
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-4 space-y-3 sm:space-y-0">
-      <div class="flex items-center space-x-4">
-        <!-- Tag Selector -->
-        <div class="flex items-center space-x-2">
-          <span class="text-sm text-gray-400 hidden sm:inline">Tags:</span>
-          <div class="flex flex-wrap gap-1">
-            <span v-for="tag in selectedTags" :key="tag"
-              class="inline-flex items-center px-2 py-1 bg-blue-600 text-white text-xs rounded-full">
-              {{ tag }}
-              <button @click="handleTagRemove(tag)" class="ml-1 hover:text-gray-300 transition-colors duration-200">
-                ×
+      <!-- Editor Toolbar -->
+      <div
+        class="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-4 space-y-3 sm:space-y-0"
+      >
+        <div class="flex items-center space-x-4">
+          <!-- Tag Selector -->
+          <div class="flex items-center space-x-2">
+            <span class="text-sm text-gray-400 hidden sm:inline">Tags:</span>
+            <div class="flex flex-wrap gap-1">
+              <span
+                v-for="tag in selectedTags"
+                :key="tag"
+                class="inline-flex items-center px-2 py-1 bg-blue-600 text-white text-xs rounded-full"
+              >
+                {{ tag }}
+                <button
+                  @click="handleTagRemove(tag)"
+                  class="ml-1 hover:text-gray-300 transition-colors duration-200"
+                >
+                  ×
+                </button>
+              </span>
+              <button
+                @click="handleTagAdd"
+                class="px-2 py-1 border border-gray-600 text-gray-400 text-xs rounded-full hover:border-gray-500 transition-colors duration-200"
+              >
+                + Add
               </button>
-            </span>
-            <button @click="handleTagAdd"
-              class="px-2 py-1 border border-gray-600 text-gray-400 text-xs rounded-full hover:border-gray-500 transition-colors duration-200">
-              + Add
-            </button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="flex items-center justify-end space-x-3">
-        <button @click="handleSave"
-          class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors duration-200 text-sm">
-          Save Note
-        </button>
+        <div class="flex items-center justify-end space-x-3">
+          <button
+            @click="handleSave"
+            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors duration-200 text-sm"
+          >
+            Save Note
+          </button>
+        </div>
       </div>
     </div>
-  </div>
   </div>
 </template>
 
