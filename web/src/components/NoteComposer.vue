@@ -97,56 +97,40 @@ const handleTagRemove = (tagName: string) => {
       <!-- Content Editor -->
       <div
         class="min-h-24 lg:min-h-32 p-3 lg:p-4 bg-gray-750 rounded-lg border border-gray-600 focus-within:border-blue-500 transition-colors duration-200 outline-none text-gray-200 placeholder-gray-500 leading-relaxed text-sm lg:text-base"
-        ref="contentEditor"
-        contenteditable="true"
-        @input="handleContentChange"
-        :data-placeholder="placeholder"
-      ></div>
-
-      <EditorContent :editor="editor" />
-
-      <!-- Editor Toolbar -->
-      <div
-        class="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-4 space-y-3 sm:space-y-0"
       >
-        <div class="flex items-center space-x-4">
-          <!-- Tag Selector -->
-          <div class="flex items-center space-x-2">
-            <span class="text-sm text-gray-400 hidden sm:inline">Tags:</span>
-            <div class="flex flex-wrap gap-1">
-              <span
-                v-for="tag in selectedTags"
-                :key="tag"
-                class="inline-flex items-center px-2 py-1 bg-blue-600 text-white text-xs rounded-full"
-              >
-                {{ tag }}
-                <button
-                  @click="handleTagRemove(tag)"
-                  class="ml-1 hover:text-gray-300 transition-colors duration-200"
-                >
-                  ×
-                </button>
-              </span>
-              <button
-                @click="handleTagAdd"
-                class="px-2 py-1 border border-gray-600 text-gray-400 text-xs rounded-full hover:border-gray-500 transition-colors duration-200"
-              >
-                + Add
+        <EditorContent :editor="editor" />
+    </div>
+
+    <!-- Editor Toolbar -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-4 space-y-3 sm:space-y-0">
+      <div class="flex items-center space-x-4">
+        <!-- Tag Selector -->
+        <div class="flex items-center space-x-2">
+          <span class="text-sm text-gray-400 hidden sm:inline">Tags:</span>
+          <div class="flex flex-wrap gap-1">
+            <span v-for="tag in selectedTags" :key="tag"
+              class="inline-flex items-center px-2 py-1 bg-blue-600 text-white text-xs rounded-full">
+              {{ tag }}
+              <button @click="handleTagRemove(tag)" class="ml-1 hover:text-gray-300 transition-colors duration-200">
+                ×
               </button>
-            </div>
+            </span>
+            <button @click="handleTagAdd"
+              class="px-2 py-1 border border-gray-600 text-gray-400 text-xs rounded-full hover:border-gray-500 transition-colors duration-200">
+              + Add
+            </button>
           </div>
         </div>
+      </div>
 
-        <div class="flex items-center justify-end space-x-3">
-          <button
-            @click="handleSave"
-            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors duration-200 text-sm"
-          >
-            Save Note
-          </button>
-        </div>
+      <div class="flex items-center justify-end space-x-3">
+        <button @click="handleSave"
+          class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors duration-200 text-sm">
+          Save Note
+        </button>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
