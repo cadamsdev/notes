@@ -94,16 +94,6 @@ const handleDeleteNote = (noteId: number) => {
   mockNotes.value = mockNotes.value.filter((note) => note.id !== noteId);
   console.log("Note deleted:", noteId);
 };
-
-const handleTagAdd = (tagName: string) => {
-  if (!currentNote.value.tags.includes(tagName)) {
-    currentNote.value.tags.push(tagName);
-  }
-};
-
-const handleTagRemove = (tagName: string) => {
-  currentNote.value.tags = currentNote.value.tags.filter((tag) => tag !== tagName);
-};
 </script>
 
 <template>
