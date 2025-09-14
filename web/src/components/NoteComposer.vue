@@ -26,7 +26,7 @@ const emit = defineEmits<{
 const contentValue = ref(props.content);
 const selectedTags = ref([...props.tags]);
 const contentEditor = ref<HTMLDivElement | null>(null);
-const content = ref("<p>I'm running Tiptap with Vue.js. 🎉</p>");
+const content = ref('');
 
 const editor = useEditor({
   content: content.value,
