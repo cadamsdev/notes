@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, onMounted } from "vue";
+import { Editor, EditorContent, useEditor } from "@tiptap/vue-3";
+import StarterKit from "@tiptap/starter-kit";
 
 interface Props {
   content?: string;
@@ -24,6 +26,11 @@ const contentValue = ref(props.content);
 const selectedTags = ref([...props.tags]);
 const contentEditor = ref<HTMLDivElement | null>(null);
 
+const editor = useEditor({
+  content: "<p>I'm running Tiptap with Vue.js. 🎉</p>",
+  extensions: [StarterKit],
+});
+
 watch(
   () => props.content,
   (newContent) => {
@@ -42,11 +49,15 @@ watch(
   }
 );
 
-// Set initial content when component mounts
 onMounted(() => {
   if (contentEditor.value) {
     contentEditor.value.textContent = props.content;
   }
+
+  editor.value = new Editor({
+    content: "<p>I'm running Tiptap with Vue.js. 🎉</p>",
+    extensions: [StarterKit],
+  });
 });
 
 const handleContentChange = (event: Event) => {
@@ -91,6 +102,8 @@ const handleTagRemove = (tagName: string) => {
         @input="handleContentChange"
         :data-placeholder="placeholder"
       ></div>
+
+      <EditorContent :editor="editor" />
 
       <!-- Editor Toolbar -->
       <div

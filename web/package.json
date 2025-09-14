@@ -17,6 +17,9 @@
     "lint": "run-s lint:*"
   },
   "dependencies": {
+    "@tiptap/pm": "^3.4.2",
+    "@tiptap/starter-kit": "^3.4.2",
+    "@tiptap/vue-3": "^3.4.2",
     "pinia": "^3.0.3",
     "vue": "^3.5.18"
   },
