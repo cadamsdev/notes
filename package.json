@@ -12,7 +12,9 @@
     "desktop": "bun run --filter desktop start"
   },
   "workspaces": [
-    "apps/*"
+    "api",
+    "web",
+    "web-app"
   ],
   "keywords": [],
   "author": "",
