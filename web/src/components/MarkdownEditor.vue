@@ -1,5 +1,5 @@
 <template>
-  <div ref="editor" tabindex="0" @keydown="handleKeyDown">
+  <div ref="editor" class="editor" tabindex="0" @keydown="handleKeyDown">
     <span id="placeholder">Any thoughts...</span>
   </div>
 </template>
@@ -72,3 +72,24 @@ function createParagraph() {
 }
 
 </script>
+
+<style>
+.editor h1 {
+  font-size: 2em;
+  font-weight: bold;
+  margin: 0.67em 0;
+}
+
+.editor h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 0.75em 0;
+}
+
+.editor h3 {
+  font-size: 1.17em;
+  font-weight: bold;
+  margin: 0.83em 0;
+}
+
+</style>
