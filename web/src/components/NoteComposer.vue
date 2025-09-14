@@ -65,6 +65,7 @@ onMounted(() => {
         emptyEditorClass: 'is-editor-empty',
       }),
     ],
+    autofocus: true,
     onUpdate: () => {
       console.log("Editor content updated:", editor.value?.getHTML());
     },
