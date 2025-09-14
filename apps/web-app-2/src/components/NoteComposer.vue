@@ -2,38 +2,27 @@
 import { ref, watch, onMounted } from 'vue';
 
 interface Props {
-  title?: string;
   content?: string;
   tags?: string[];
   placeholder?: string;
-  titlePlaceholder?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  title: '',
   content: '',
   tags: () => [],
-  placeholder: 'Start writing your note...',
-  titlePlaceholder: 'Note title...'
+  placeholder: 'Any thoughts...',
 });
 
 const emit = defineEmits<{
-  titleChange: [title: string];
   contentChange: [content: string];
-  save: [data: { title: string; content: string; tags: string[] }];
+  save: [data: { content: string; tags: string[] }];
   tagAdd: [tagName: string];
   tagRemove: [tagName: string];
 }>();
 
-const titleValue = ref(props.title);
 const contentValue = ref(props.content);
 const selectedTags = ref([...props.tags]);
 const contentEditor = ref<HTMLDivElement | null>(null);
-
-// Watch for prop changes to update local state
-watch(() => props.title, (newTitle) => {
-  titleValue.value = newTitle;
-});
 
 watch(() => props.content, (newContent) => {
   contentValue.value = newContent;
@@ -52,13 +41,7 @@ onMounted(() => {
   if (contentEditor.value) {
     contentEditor.value.textContent = props.content;
   }
-});
-
-const handleTitleChange = (event: Event) => {
-  const target = event.target as HTMLInputElement;
-  titleValue.value = target.value;
-  emit('titleChange', titleValue.value);
-};
+})
 
 const handleContentChange = (event: Event) => {
   const target = event.target as HTMLDivElement;
@@ -68,7 +51,6 @@ const handleContentChange = (event: Event) => {
 
 const handleSave = () => {
   emit('save', {
-    title: titleValue.value,
     content: contentValue.value,
     tags: selectedTags.value
   });
@@ -95,15 +77,6 @@ const handleTagRemove = (tagName: string) => {
 <template>
   <div class="bg-gray-800 border-b border-gray-700 p-4 lg:p-6">
     <div class="max-w-4xl mx-auto">
-      <!-- Title Input -->
-      <input 
-        v-model="titleValue"
-        @input="handleTitleChange"
-        type="text" 
-        :placeholder="titlePlaceholder"
-        class="w-full bg-transparent text-lg lg:text-xl font-medium text-gray-100 placeholder-gray-500 border-none outline-none mb-3 lg:mb-4"
-      />
-      
       <!-- Content Editor -->
       <div class="min-h-24 lg:min-h-32 p-3 lg:p-4 bg-gray-750 rounded-lg border border-gray-600 focus-within:border-blue-500 transition-colors duration-200">
         <div 
