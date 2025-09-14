@@ -96,7 +96,7 @@ const handleTagRemove = (tagName: string) => {
     <div class="max-w-4xl mx-auto">
       <!-- Content Editor -->
       <div
-        class="min-h-24 lg:min-h-32 p-3 lg:p-4 bg-gray-750 rounded-lg border border-gray-600 focus-within:border-blue-500 transition-colors duration-200 outline-none text-gray-200 placeholder-gray-500 leading-relaxed text-sm lg:text-base"
+        class="p-3 lg:p-4 bg-gray-750 rounded-lg border border-gray-600 focus-within:border-blue-500 transition-colors duration-200 outline-none text-gray-200 placeholder-gray-500 leading-relaxed text-sm lg:text-base"
       >
         <EditorContent :editor="editor" />
     </div>
@@ -135,13 +135,7 @@ const handleTagRemove = (tagName: string) => {
 </template>
 
 <style>
-/* Contenteditable placeholder styling */
-[contenteditable][data-placeholder]:empty:before {
-  content: attr(data-placeholder);
-  color: #9ca3af;
-}
-
-[contenteditable]:focus {
-  outline: none;
+.tiptap {
+  min-height: 128px;
 }
 </style>
