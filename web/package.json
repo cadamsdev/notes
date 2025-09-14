@@ -17,7 +17,11 @@
     "lint": "run-s lint:*"
   },
   "dependencies": {
+    "@tiptap/extension-document": "^3.4.2",
+    "@tiptap/extension-heading": "^3.4.2",
+    "@tiptap/extension-paragraph": "^3.4.2",
     "@tiptap/extension-placeholder": "^3.4.2",
+    "@tiptap/extension-text": "^3.4.2",
     "@tiptap/pm": "^3.4.2",
     "@tiptap/starter-kit": "^3.4.2",
     "@tiptap/vue-3": "^3.4.2",

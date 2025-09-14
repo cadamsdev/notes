@@ -3,6 +3,10 @@ import { ref, watch, onMounted } from "vue";
 import { Editor, EditorContent, useEditor } from "@tiptap/vue-3";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from '@tiptap/extension-placeholder'
+import Document from '@tiptap/extension-document'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
+import Heading from '@tiptap/extension-heading'
 
 interface Props {
   content?: string;
@@ -59,10 +63,15 @@ onMounted(() => {
   editor.value = new Editor({
     content: '',
     extensions: [
-      StarterKit,
+      Document,
+      Paragraph,
+      Text,
       Placeholder.configure({
         placeholder: 'Any thoughts...',
         emptyEditorClass: 'is-editor-empty',
+      }),
+      Heading.configure({
+        levels: [1, 2, 3],
       }),
     ],
     autofocus: true,
