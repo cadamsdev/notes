@@ -25,9 +25,10 @@ const emit = defineEmits<{
 const contentValue = ref(props.content);
 const selectedTags = ref([...props.tags]);
 const contentEditor = ref<HTMLDivElement | null>(null);
+const content = ref("<p>I'm running Tiptap with Vue.js. 🎉</p>");
 
 const editor = useEditor({
-  content: "<p>I'm running Tiptap with Vue.js. 🎉</p>",
+  content: content.value,
   extensions: [StarterKit],
 });
 
@@ -57,6 +58,9 @@ onMounted(() => {
   editor.value = new Editor({
     content: "<p>I'm running Tiptap with Vue.js. 🎉</p>",
     extensions: [StarterKit],
+    onUpdate: () => {
+      console.log("Editor content updated:", editor.value?.getHTML());
+    },
   });
 });
 
@@ -98,7 +102,7 @@ const handleTagRemove = (tagName: string) => {
       <div
         class="p-3 lg:p-4 bg-gray-750 rounded-lg border border-gray-600 focus-within:border-blue-500 transition-colors duration-200 outline-none text-gray-200 placeholder-gray-500 leading-relaxed text-sm lg:text-base"
       >
-        <EditorContent :editor="editor" />
+        <EditorContent :editor="editor" v-model="content" />
     </div>
 
     <!-- Editor Toolbar -->
