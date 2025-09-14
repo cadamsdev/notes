@@ -1,7 +1,6 @@
 <script setup lang="ts">
 interface Note {
   id: number;
-  title: string;
   content: string;
   tags: string[];
   date: string;
@@ -61,9 +60,6 @@ const contentLineClampClass = {
   >
     <!-- Note Header -->
     <div class="flex items-start justify-between mb-2 lg:mb-3">
-      <h3 class="text-base lg:text-lg font-medium text-gray-100 flex-1 mr-2">
-        {{ note.title }}
-      </h3>
       <div class="text-xs lg:text-sm text-gray-400 whitespace-nowrap">
         {{ note.date }} • {{ note.time }}
       </div>
