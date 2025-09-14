@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { onBeforeUnmount, ref, watch } from "vue";
 import { EditorContent, useEditor } from "@tiptap/vue-3";
 import Placeholder from "@tiptap/extension-placeholder";
 import Document from "@tiptap/extension-document";
@@ -79,6 +79,10 @@ const handleTagRemove = (tagName: string) => {
   selectedTags.value = selectedTags.value.filter((tag) => tag !== tagName);
   emit("tagRemove", tagName);
 };
+
+onBeforeUnmount(() => {
+  editor.value?.destroy();
+});
 </script>
 
 <template>
