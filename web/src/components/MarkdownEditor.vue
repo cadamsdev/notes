@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from "vue";
 
 const editor = ref<HTMLElement | null>(null);
 
@@ -13,17 +13,18 @@ function handleKeyDown(event: KeyboardEvent) {
   const target = event.target as HTMLElement;
   // console.log('Key down event:', event.key, 'on target:', target);
 
-  if (event.key === 'Enter') {
-    console.log('Enter key pressed');
+  const isEditor = target === editor.value;
+
+  if (event.key === "Enter") {
+    console.log("Enter key pressed");
     event.preventDefault(); // Prevent default Enter behavior
     createParagraph();
-  } else if (event.key === 'Backspace' && target !== editor.value) {
-    console.log('Backspace key pressed');
+  } else if (event.key === "Backspace" && !isEditor) {
+    console.log("Backspace key pressed");
 
     const target = event.target as HTMLElement;
     if (target && target.textContent.length === 0) {
-
-      const previousSibling = target.previousElementSibling as HTMLElement | null;    
+      const previousSibling = target.previousElementSibling as HTMLElement | null;
 
       if (previousSibling) {
         previousSibling.focus();
@@ -40,21 +41,62 @@ function handleKeyDown(event: KeyboardEvent) {
       event.preventDefault();
 
       if (!previousSibling) {
-        editor.value?.focus();  
+        editor.value?.focus();
       }
     }
-  } else {
+  } else if (event.key === "ArrowUp" && !isEditor) {
+    console.log("UpArrow key pressed");
+    const previousSibling = target.previousElementSibling as HTMLElement | null;
+    if (previousSibling) {
+      // get cursor position in target
+      const selection = window.getSelection();
+      const range = selection?.getRangeAt(0);
+      const cursorPosition = range?.startOffset || 0;
+      previousSibling.focus();
+      event.preventDefault();
 
-    console.log(target.textContent)
+      // place cursor at the same position in previousSibling
+      const newRange = document.createRange();
+      newRange.setStart(
+        previousSibling.firstChild || previousSibling,
+        Math.min(cursorPosition, (previousSibling.textContent || "").length)
+      );
+      newRange.collapse(true);
+      selection?.removeAllRanges();
+      selection?.addRange(newRange);
+    }
+  } else if (event.key === "ArrowDown" && !isEditor) {
+    const nextSibling = target.nextElementSibling as HTMLElement | null;
+    if (nextSibling) {
+      // get cursor position in target
+      const selection = window.getSelection();
+      const range = selection?.getRangeAt(0);
+      const cursorPosition = range?.startOffset || 0;
+
+      nextSibling.focus();
+      event.preventDefault();
+
+      // place cursor at the same position in nextSibling
+      const newRange = document.createRange();
+      newRange.setStart(
+        nextSibling.firstChild || nextSibling,
+        Math.min(cursorPosition, (nextSibling.textContent || "").length)
+      );
+      newRange.collapse(true);
+      selection?.removeAllRanges();
+      selection?.addRange(newRange);
+    }
+  } else {
+    console.log(target.textContent);
     console.log(event);
 
-    const isHeading = target.textContent.match(/^#{1,3}$/) && event.code === 'Space';
+    const isHeading = target.textContent.match(/^#{1,3}$/) && event.code === "Space";
     if (isHeading) {
       // convert target to heading
       const level = target.textContent.length;
-      const heading = document.createElement('h' + level);
+      const heading = document.createElement("h" + level);
       heading.contentEditable = "true";
-      heading.textContent = '';
+      heading.textContent = "";
       target.replaceWith(heading);
       heading.focus();
       event.preventDefault();
@@ -63,14 +105,13 @@ function handleKeyDown(event: KeyboardEvent) {
 }
 
 function createParagraph() {
-  const paragraph = document.createElement('p');
+  const paragraph = document.createElement("p");
   // paragraph.addEventListener('keydown', onChildKeyDown);
-  paragraph.textContent = '';
+  paragraph.textContent = "";
   paragraph.contentEditable = "true";
   editor.value?.appendChild(paragraph);
   paragraph.focus();
 }
-
 </script>
 
 <style>
