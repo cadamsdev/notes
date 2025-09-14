@@ -22,9 +22,27 @@ function handleKeyDown(event: KeyboardEvent) {
 
     const target = event.target as HTMLElement;
     if (target && target.textContent.length === 0) {
+
+      const previousSibling = target.previousElementSibling as HTMLElement | null;    
+
+      if (previousSibling) {
+        previousSibling.focus();
+        // place cursor at the end
+        const range = document.createRange();
+        range.selectNodeContents(previousSibling);
+        range.collapse(false);
+        const sel = window.getSelection();
+        sel?.removeAllRanges();
+        sel?.addRange(range);
+      }
+
       target.remove();
       event.preventDefault();
-      editor.value?.focus();
+
+      if (!previousSibling) {
+        editor.value?.focus();  
+      }
+
     }
   }
 }
