@@ -30,6 +30,7 @@
       "name": "web",
       "version": "0.0.0",
       "dependencies": {
+        "@tiptap/extension-placeholder": "^3.4.2",
         "@tiptap/pm": "^3.4.2",
         "@tiptap/starter-kit": "^3.4.2",
         "@tiptap/vue-3": "^3.4.2",
@@ -581,7 +582,7 @@
 
     "@tiptap/extension-paragraph": ["@tiptap/extension-paragraph@3.4.2", "", { "peerDependencies": { "@tiptap/core": "^3.4.2" } }, "sha512-M4M+N5Sit82HUK9rp662ZL1X/MMkD3zMnD8i5gV0Gj1T+YwToAGBIdte7n9QoAcNZr1cOdjAveI+HzOw6UA6SQ=="],
 
-    "@tiptap/extension-placeholder": ["@tiptap/extension-placeholder@3.4.0", "", { "peerDependencies": { "@tiptap/extensions": "^3.4.0" } }, "sha512-uFfV3ObR0Vtisf06KKF00DElYCv/KNKoU2/xzLBxmmT1wzxMaApOFa3aXuOWnZcL7lxmyge4AgbUfztlO8yssg=="],
+    "@tiptap/extension-placeholder": ["@tiptap/extension-placeholder@3.4.2", "", { "peerDependencies": { "@tiptap/extensions": "^3.4.2" } }, "sha512-it4BIl2quDLIBM3I1y618kvOHYgcWBaf9VvLTN2SzTAt35cn5ySOFBOxM2eSr8HG1WigdL9eIL/y1hENsdQrqw=="],
 
     "@tiptap/extension-strike": ["@tiptap/extension-strike@3.4.2", "", { "peerDependencies": { "@tiptap/core": "^3.4.2" } }, "sha512-bgdq2eW5omli+rv6PHErDME1YocT1BHkiWvRV5pRYyTz5TZTgYujA0Qn2DjsW1baFike0oG3ToLAxH5RnViDoQ=="],
 

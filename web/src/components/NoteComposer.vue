@@ -2,6 +2,7 @@
 import { ref, watch, onMounted } from "vue";
 import { Editor, EditorContent, useEditor } from "@tiptap/vue-3";
 import StarterKit from "@tiptap/starter-kit";
+import Placeholder from '@tiptap/extension-placeholder'
 
 interface Props {
   content?: string;
@@ -56,8 +57,14 @@ onMounted(() => {
   }
 
   editor.value = new Editor({
-    content: "<p>I'm running Tiptap with Vue.js. 🎉</p>",
-    extensions: [StarterKit],
+    content: '',
+    extensions: [
+      StarterKit,
+      Placeholder.configure({
+        placeholder: 'Any thoughts...',
+        emptyEditorClass: 'is-editor-empty',
+      }),
+    ],
     onUpdate: () => {
       console.log("Editor content updated:", editor.value?.getHTML());
     },
