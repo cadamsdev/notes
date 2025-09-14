@@ -2,10 +2,11 @@
 
 ## Architecture Overview
 
-This is a **monorepo** with three main applications:
-- **`apps/api/`** - Hono REST API with SQLite database using better-sqlite3
-- **`apps/web-app/`** - Vue 3 SPA frontend with TipTap block editor
-- **`apps/desktop-app/`** - Electron wrapper (in development)
+This is a **monorepo** with multiple applications:
+- **`api/`** - Hono REST API with SQLite database using better-sqlite3
+- **`web/`** - Vue 3 SPA frontend (current active frontend)
+- **`web-app/`** - Nuxt 3 app with TipTap block editor (legacy/old frontend)
+- **Desktop app** - Electron wrapper (in development, not yet in repo)
 
 **Key architectural decisions:**
 - SQLite with WAL mode for local-first data storage
@@ -43,12 +44,13 @@ This app follows a clean, minimalist design optimized for note-taking and produc
 ```bash
 bun run dev  # Starts API first, then web app when API health check passes
 # OR individually:
-bun run api:dev  # Port 3001
-bun run web:dev  # Port 3000
+bun run api:dev  # Port 3001 (from api/ directory)
+bun run web:dev  # Port 3000 (from web/ directory - current Vue app)
+# Legacy Nuxt app (web-app/ directory) can be started separately if needed
 ```
 
 ### Database Schema
-Located in `apps/api/src/db.ts` - uses auto-seeding pattern:
+Located in `api/src/db.ts` - uses auto-seeding pattern:
 - `notes` table with JSON content storage
 - `tags` table with name/color
 - `note_tags` junction table for many-to-many relationships
@@ -88,13 +90,13 @@ Components follow atomic design in `components/`:
 
 ### API-Frontend Communication
 - Runtime config: `PUBLIC_API_URL` environment variable
-- Type sharing: Duplicate interfaces in `apps/api/src/models/` and `composables/useNotes.ts`
+- Type sharing: Duplicate interfaces in `api/src/models/` and `composables/useNotes.ts`
 - Error handling: Frontend assumes API success, minimal error boundaries
 
 ### Build & Deployment
 - **Development**: Uses `wait-on` to ensure API readiness before starting frontend
 - **Production**: Docker Compose with volume mounts for SQLite persistence
-- **Database**: Auto-creates in `apps/api/data/` directory with WAL mode
+- **Database**: Auto-creates in `api/data/` directory with WAL mode
 
 ### Search & Filtering
 - Client-side search using Fuse.js in `useNotes` composable
@@ -116,7 +118,7 @@ Components follow atomic design in `components/`:
 - **Extract UI patterns immediately** - whenever you create UI elements (buttons, cards, forms, lists), make them standalone components
 - **Design for reusability** - use props, slots, and events to make components flexible and composable
 - **Type-safe component interfaces** - define clear TypeScript interfaces for props and emits
-- **Database changes**: Modify the `seed()` function in `apps/api/src/db.ts`
+- **Database changes**: Modify the `seed()` function in `api/src/db.ts`
 - **New components**: Place in appropriate `components/` subdirectory with TypeScript props
 - **State management**: Use composables for data, Pinia stores for UI-only state
 - **Styling**: Use design system colors and Tailwind CSS, prioritize content readability
@@ -125,8 +127,8 @@ Components follow atomic design in `components/`:
 ## Common Tasks
 
 ### Adding a new API endpoint:
-1. Add route handler in `apps/api/src/index.ts`
-2. Add database function in `apps/api/src/db.ts`
+1. Add route handler in `api/src/index.ts`
+2. Add database function in `api/src/db.ts`
 3. Update frontend composable in `composables/useNotes.ts`
 
 ### Adding new note content types:
@@ -135,7 +137,7 @@ Components follow atomic design in `components/`:
 3. Update content JSON schema handling
 
 ### Modifying the database:
-1. Update `seed()` function in `apps/api/src/db.ts`
+1. Update `seed()` function in `api/src/db.ts`
 2. Consider migration strategy for existing data
 3. Update TypeScript interfaces in both API and frontend
 
