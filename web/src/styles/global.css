@@ -1,1 +1,14 @@
 @import "tailwindcss";
+
+.editor h1 {
+  @apply text-3xl font-bold my-2;
+}
+
+.editor h2 {
+  @apply text-2xl font-bold my-2;
+}
+
+.editor h3 {
+  @apply text-xl font-bold my-2;
+  margin: 0.83em 0;
+}

@@ -1,6 +1,6 @@
 <template>
   <div ref="editor" class="editor" tabindex="0" @keydown="handleKeyDown">
-    <span id="placeholder">Any thoughts...</span>
+    <p data-placeholder="Any thoughts..." contenteditable="true"></p>
   </div>
 </template>
 
@@ -74,22 +74,9 @@ function createParagraph() {
 </script>
 
 <style>
-.editor h1 {
-  font-size: 2em;
-  font-weight: bold;
-  margin: 0.67em 0;
+.editor[data-placeholder]:empty::before {
+  content: attr(data-placeholder);
+  color: gray;
+  display: block; /* Ensures the placeholder is on its own line */
 }
-
-.editor h2 {
-  font-size: 1.5em;
-  font-weight: bold;
-  margin: 0.75em 0;
-}
-
-.editor h3 {
-  font-size: 1.17em;
-  font-weight: bold;
-  margin: 0.83em 0;
-}
-
 </style>
