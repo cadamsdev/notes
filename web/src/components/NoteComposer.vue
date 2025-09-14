@@ -6,6 +6,7 @@ import Document from "@tiptap/extension-document";
 import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
 import Heading from "@tiptap/extension-heading";
+import HardBreak from '@tiptap/extension-hard-break'
 
 interface Props {
   content?: string;
@@ -26,7 +27,6 @@ const emit = defineEmits<{
   tagRemove: [tagName: string];
 }>();
 
-const contentValue = ref(props.content);
 const selectedTags = ref([...props.tags]);
 
 const editor = useEditor({
@@ -42,6 +42,7 @@ const editor = useEditor({
     Heading.configure({
       levels: [1, 2, 3],
     }),
+    HardBreak,
   ],
   autofocus: true,
   onUpdate: () => {
@@ -58,7 +59,7 @@ watch(
 
 const handleSave = () => {
   emit("save", {
-    content: contentValue.value,
+    content: '',
     tags: selectedTags.value,
   });
 };
