@@ -29,24 +29,12 @@ const emit = defineEmits<{
 
 const contentValue = ref(props.content);
 const selectedTags = ref([...props.tags]);
-const contentEditor = ref<HTMLDivElement | null>(null);
 const content = ref('');
 
 const editor = useEditor({
   content: content.value,
   extensions: [StarterKit],
 });
-
-watch(
-  () => props.content,
-  (newContent) => {
-    contentValue.value = newContent;
-    // Only update the editor if it's not currently focused (to avoid interfering with typing)
-    if (contentEditor.value && document.activeElement !== contentEditor.value) {
-      contentEditor.value.textContent = newContent;
-    }
-  }
-);
 
 watch(
   () => props.tags,
@@ -56,10 +44,6 @@ watch(
 );
 
 onMounted(() => {
-  if (contentEditor.value) {
-    contentEditor.value.textContent = props.content;
-  }
-
   editor.value = new Editor({
     content: '',
     extensions: [
