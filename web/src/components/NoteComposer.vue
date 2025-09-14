@@ -1,12 +1,6 @@
 <script setup lang="ts">
 import { onBeforeUnmount, ref, watch } from "vue";
-import { EditorContent, useEditor } from "@tiptap/vue-3";
-import Placeholder from "@tiptap/extension-placeholder";
-import Document from "@tiptap/extension-document";
-import Paragraph from "@tiptap/extension-paragraph";
-import Text from "@tiptap/extension-text";
-import Heading from "@tiptap/extension-heading";
-import HardBreak from '@tiptap/extension-hard-break'
+import MarkdownEditor from './MarkdownEditor.vue';
 
 interface Props {
   content?: string;
@@ -28,27 +22,6 @@ const emit = defineEmits<{
 }>();
 
 const selectedTags = ref([...props.tags]);
-
-const editor = useEditor({
-  content: "",
-  extensions: [
-    Document,
-    Paragraph,
-    Text,
-    Placeholder.configure({
-      placeholder: "Any thoughts...",
-      emptyEditorClass: "is-editor-empty",
-    }),
-    Heading.configure({
-      levels: [1, 2, 3],
-    }),
-    HardBreak,
-  ],
-  autofocus: true,
-  onUpdate: () => {
-    console.log("Editor content updated:", editor.value?.getHTML());
-  },
-});
 
 watch(
   () => props.tags,
@@ -80,10 +53,6 @@ const handleTagRemove = (tagName: string) => {
   selectedTags.value = selectedTags.value.filter((tag) => tag !== tagName);
   emit("tagRemove", tagName);
 };
-
-onBeforeUnmount(() => {
-  editor.value?.destroy();
-});
 </script>
 
 <template>
@@ -93,7 +62,7 @@ onBeforeUnmount(() => {
       <div
         class="p-3 lg:p-4 bg-gray-750 rounded-lg border border-gray-600 focus-within:border-blue-500 transition-colors duration-200 outline-none text-gray-200 placeholder-gray-500 leading-relaxed text-sm lg:text-base"
       >
-        <EditorContent :editor="editor" />
+        <MarkdownEditor />
       </div>
 
       <!-- Editor Toolbar -->
