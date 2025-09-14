@@ -15,6 +15,7 @@ function handleKeyDown(event: KeyboardEvent) {
 
   if (event.key === 'Enter') {
     console.log('Enter key pressed');
+    event.preventDefault(); // Prevent default Enter behavior
     createParagraph();
   } else if (event.key === 'Backspace' && target !== editor.value) {
     console.log('Backspace key pressed');
