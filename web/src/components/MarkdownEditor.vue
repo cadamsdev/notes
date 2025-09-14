@@ -14,37 +14,78 @@ function handleKeyDown(event: KeyboardEvent) {
   // console.log('Key down event:', event.key, 'on target:', target);
 
   const isEditor = target === editor.value;
+  switch (event.key) {
+    case "Enter":
+      handleEnter(event);
+      break;
 
-  if (event.key === "Enter") {
-    console.log("Enter key pressed");
-    event.preventDefault(); // Prevent default Enter behavior
-    createParagraph();
-  } else if (event.key === "Backspace" && !isEditor) {
-    console.log("Backspace key pressed");
+    case "Backspace":
+      handleBackspace(event, isEditor);
+      break;
 
-    const target = event.target as HTMLElement;
-    if (target && target.textContent.length === 0) {
-      const previousSibling = target.previousElementSibling as HTMLElement | null;
+    case "ArrowUp":
+    case "ArrowDown":
+      handleArrowKeys(event, isEditor)
+      break;
+  
+    default:
+      handleOtherKeys(event);
+      break;
+  }
+}
 
-      if (previousSibling) {
-        previousSibling.focus();
-        // place cursor at the end
-        const range = document.createRange();
-        range.selectNodeContents(previousSibling);
-        range.collapse(false);
-        const sel = window.getSelection();
-        sel?.removeAllRanges();
-        sel?.addRange(range);
-      }
+function handleEnter(event: KeyboardEvent) {
+  if (event.key !== 'Enter') {
+    return;
+  }
 
-      target.remove();
-      event.preventDefault();
+  console.log("Enter key pressed");
+  event.preventDefault(); // Prevent default Enter behavior
+  createParagraph();
+}
 
-      if (!previousSibling) {
-        editor.value?.focus();
-      }
+function handleBackspace(event: KeyboardEvent, isEditor: boolean) {
+  if (event.key !== 'Backspace') {
+    return;
+  }
+
+  console.log("Backspace key pressed");
+  if (isEditor) {
+    return;
+  }
+
+  const target = event.target as HTMLElement;
+  if (target && target.textContent.length === 0) {
+    const previousSibling = target.previousElementSibling as HTMLElement | null;
+
+    if (previousSibling) {
+      previousSibling.focus();
+      // place cursor at the end
+      const range = document.createRange();
+      range.selectNodeContents(previousSibling);
+      range.collapse(false);
+      const sel = window.getSelection();
+      sel?.removeAllRanges();
+      sel?.addRange(range);
     }
-  } else if (event.key === "ArrowUp" && !isEditor) {
+
+    target.remove();
+    event.preventDefault();
+
+    if (!previousSibling) {
+      editor.value?.focus();
+    }
+  }
+}
+
+function handleArrowKeys(event: KeyboardEvent, isEditor: boolean) {
+  if (isEditor) {
+    return;
+  }
+
+  const target = event.target as HTMLElement;
+
+  if (event.key === 'ArrowUp') {
     console.log("UpArrow key pressed");
     const previousSibling = target.previousElementSibling as HTMLElement | null;
     if (previousSibling) {
@@ -65,7 +106,7 @@ function handleKeyDown(event: KeyboardEvent) {
       selection?.removeAllRanges();
       selection?.addRange(newRange);
     }
-  } else if (event.key === "ArrowDown" && !isEditor) {
+  } else if (event.key === 'ArrowDown') {
     const nextSibling = target.nextElementSibling as HTMLElement | null;
     if (nextSibling) {
       // get cursor position in target
@@ -86,21 +127,28 @@ function handleKeyDown(event: KeyboardEvent) {
       selection?.removeAllRanges();
       selection?.addRange(newRange);
     }
-  } else {
-    console.log(target.textContent);
-    console.log(event);
+  }
+}
 
-    const isHeading = target.textContent.match(/^#{1,3}$/) && event.code === "Space";
-    if (isHeading) {
-      // convert target to heading
-      const level = target.textContent.length;
-      const heading = document.createElement("h" + level);
-      heading.contentEditable = "true";
-      heading.textContent = "";
-      target.replaceWith(heading);
-      heading.focus();
-      event.preventDefault();
-    }
+function handleOtherKeys(event: KeyboardEvent) {
+  const target = event.target as HTMLElement;
+  if (!target) {
+    return;
+  }
+
+  console.log(target.textContent);
+  console.log(event);
+
+  const isHeading = target.textContent.match(/^#{1,3}$/) && event.code === "Space";
+  if (isHeading) {
+    // convert target to heading
+    const level = target.textContent.length;
+    const heading = document.createElement("h" + level);
+    heading.contentEditable = "true";
+    heading.textContent = "";
+    target.replaceWith(heading);
+    heading.focus();
+    event.preventDefault();
   }
 }
 
