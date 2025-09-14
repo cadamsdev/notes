@@ -57,7 +57,6 @@ const noteDates = ["2024-09-13", "2024-09-10", "2024-09-08", "2024-09-05"];
 
 // Current note being edited (for the composer)
 const currentNote = ref({
-  title: "",
   content: "",
   tags: [] as string[],
 });
@@ -83,7 +82,6 @@ const handleEditNote = (noteId: number) => {
   const note = mockNotes.value.find((n) => n.id === noteId);
   if (note) {
     currentNote.value = {
-      title: note.title,
       content: note.content,
       tags: [...note.tags],
     };
@@ -204,7 +202,6 @@ const handleDeleteNote = (noteId: number) => {
       >
         <!-- Note Composer -->
         <NoteComposer
-          :title="currentNote.title"
           :content="currentNote.content"
           :tags="currentNote.tags"
         />
