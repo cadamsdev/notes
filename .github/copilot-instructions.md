@@ -50,6 +50,9 @@ cd desktop && bun run tauri build
 - Global styles imported in `App.vue`: `import './styles/global.css'`
 - Tailwind CSS v4 with Vite plugin (`@tailwindcss/vite`)
 - Single global CSS file: `desktop/src/styles/global.css` imports Tailwind via `@import "tailwindcss"`
+- **Prefer Tailwind utility classes over custom CSS** - use inline classes in templates instead of `<style>` blocks
+- Custom CSS should only be used for: theme variables (`@theme`), global resets, or complex animations not achievable with Tailwind
+- Use CSS custom properties (e.g., `var(--color-x-blue)`) defined in `@theme` when Tailwind utilities aren't sufficient
 
 ### Tauri (Backend)
 - Commands defined with `#[tauri::command]` attribute in `lib.rs`

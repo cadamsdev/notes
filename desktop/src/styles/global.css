@@ -1,1 +1,80 @@
 @import "tailwindcss";
+
+/* X (Twitter) Inspired Theme */
+@theme {
+  /* Color Palette */
+  --color-x-black: #000000;
+  --color-x-dark: #16181c;
+  --color-x-darker: #1c1f23;
+  --color-x-border: #2f3336;
+  --color-x-hover: #181818;
+  --color-x-blue: #1d9bf0;
+  --color-x-blue-hover: #1a8cd8;
+  --color-x-text-primary: #e7e9ea;
+  --color-x-text-secondary: #71767b;
+  --color-x-text-muted: #536471;
+  
+  /* Spacing */
+  --spacing-x-xs: 0.25rem;
+  --spacing-x-sm: 0.5rem;
+  --spacing-x-md: 1rem;
+  --spacing-x-lg: 1.5rem;
+  --spacing-x-xl: 2rem;
+  
+  /* Border Radius */
+  --radius-x-sm: 0.25rem;
+  --radius-x-md: 0.5rem;
+  --radius-x-lg: 1rem;
+  --radius-x-xl: 1.5rem;
+  --radius-x-full: 9999px;
+  
+  /* Typography */
+  --font-family-x-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-size-x-xs: 0.8125rem;
+  --font-size-x-sm: 0.9375rem;
+  --font-size-x-base: 1rem;
+  --font-size-x-lg: 1.125rem;
+  --font-size-x-xl: 1.25rem;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family-x-base);
+  background-color: var(--color-x-black);
+  color: var(--color-x-text-primary);
+  font-size: var(--font-size-x-base);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-x-black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-x-border);
+  border-radius: var(--radius-x-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-x-text-muted);
+}
