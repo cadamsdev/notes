@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* X (Twitter) Inspired Theme */
+/* X (Twitter) Inspired Theme - Modern & Professional */
 @theme {
   /* Color Palette */
   --color-x-black: #000000;
@@ -10,9 +10,13 @@
   --color-x-hover: #181818;
   --color-x-blue: #1d9bf0;
   --color-x-blue-hover: #1a8cd8;
+  --color-x-blue-light: rgba(29, 155, 240, 0.1);
   --color-x-text-primary: #e7e9ea;
   --color-x-text-secondary: #71767b;
   --color-x-text-muted: #536471;
+  --color-x-success: #00ba7c;
+  --color-x-error: #f4212e;
+  --color-x-warning: #ffd400;
   
   /* Spacing */
   --spacing-x-xs: 0.25rem;
@@ -37,18 +41,19 @@
   --font-size-x-xl: 1.25rem;
   --font-weight-normal: 400;
   --font-weight-medium: 500;
+  --font-weight-semibold: 600;
   --font-weight-bold: 700;
   
   /* Transitions */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Base Styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.7), 0 10px 10px -5px rgba(0, 0, 0, 0.5);
 }
 
 body {
@@ -77,4 +82,10 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-x-text-muted);
+}
+
+/* Focus styles for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--color-x-blue);
+  outline-offset: 2px;
 }
