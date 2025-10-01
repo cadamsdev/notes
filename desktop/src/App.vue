@@ -11,6 +11,8 @@ interface Note {
 const noteContent = ref('');
 const notes = ref<Note[]>([]);
 const hoveredNoteId = ref<number | null>(null);
+const editingNoteId = ref<number | null>(null);
+const editContent = ref('');
 const selectedDate = ref<Date | null>(null);
 const selectedTag = ref<string | null>(null);
 const currentMonth = ref(new Date());
@@ -187,6 +189,34 @@ const createNote = () => {
 
 const deleteNote = (id: number) => {
   notes.value = notes.value.filter(note => note.id !== id);
+};
+
+const startEditing = (note: Note) => {
+  editingNoteId.value = note.id;
+  editContent.value = note.content;
+};
+
+const cancelEditing = () => {
+  editingNoteId.value = null;
+  editContent.value = '';
+};
+
+const saveEdit = (id: number) => {
+  if (editContent.value.trim() && editContent.value.length <= MAX_CHARS) {
+    const note = notes.value.find(n => n.id === id);
+    if (note) {
+      note.content = editContent.value;
+    }
+    cancelEditing();
+  }
+};
+
+const handleEditKeydown = (e: KeyboardEvent, id: number) => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+    saveEdit(id);
+  } else if (e.key === 'Escape') {
+    cancelEditing();
+  }
 };
 
 const formatDate = (date: Date) => {
@@ -422,22 +452,79 @@ const handleKeydown = (e: KeyboardEvent) => {
                       <span class="text-[var(--color-x-text-muted)] text-sm">{{ formatDate(note.createdAt) }}</span>
                     </div>
                     
-                    <!-- Delete button (shows on hover) -->
-                    <button
-                      @click.stop="deleteNote(note.id)"
-                      :class="[
-                        'opacity-0 group-hover:opacity-100 transition-all duration-200 p-2 rounded-full hover:bg-red-500/10 text-[var(--color-x-text-muted)] hover:text-[var(--color-x-error)]',
-                        hoveredNoteId === note.id ? 'scale-100' : 'scale-90'
-                      ]"
-                      title="Delete note"
-                    >
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                      </svg>
-                    </button>
+                    <!-- Action buttons (show on hover) -->
+                    <div class="flex items-center gap-1">
+                      <button
+                        v-if="editingNoteId !== note.id"
+                        @click.stop="startEditing(note)"
+                        :class="[
+                          'opacity-0 group-hover:opacity-100 transition-all duration-200 p-2 rounded-full hover:bg-[var(--color-x-blue-light)] text-[var(--color-x-text-muted)] hover:text-[var(--color-x-blue)]',
+                          hoveredNoteId === note.id ? 'scale-100' : 'scale-90'
+                        ]"
+                        title="Edit note"
+                      >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                        </svg>
+                      </button>
+                      
+                      <button
+                        v-if="editingNoteId !== note.id"
+                        @click.stop="deleteNote(note.id)"
+                        :class="[
+                          'opacity-0 group-hover:opacity-100 transition-all duration-200 p-2 rounded-full hover:bg-red-500/10 text-[var(--color-x-text-muted)] hover:text-[var(--color-x-error)]',
+                          hoveredNoteId === note.id ? 'scale-100' : 'scale-90'
+                        ]"
+                        title="Delete note"
+                      >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                        </svg>
+                      </button>
+                    </div>
                   </div>
                   
-                  <div class="text-[var(--color-x-text-primary)] whitespace-pre-wrap break-words leading-relaxed">
+                  <!-- Edit Mode -->
+                  <div v-if="editingNoteId === note.id" class="space-y-2">
+                    <textarea
+                      v-model="editContent"
+                      @keydown="(e) => handleEditKeydown(e, note.id)"
+                      class="w-full bg-[var(--color-x-hover)] text-[var(--color-x-text-primary)] placeholder-[var(--color-x-text-muted)] resize-none border border-[var(--color-x-border)] outline-none rounded-lg p-3 text-base leading-relaxed min-h-[100px] focus:border-[var(--color-x-blue)]"
+                      rows="3"
+                      maxlength="500"
+                      autofocus
+                    ></textarea>
+                    
+                    <div class="flex items-center justify-between">
+                      <span :class="[
+                        'text-sm font-medium transition-colors',
+                        editContent.length > MAX_CHARS ? 'text-[var(--color-x-error)]' : 
+                        editContent.length > MAX_CHARS * 0.9 ? 'text-[var(--color-x-warning)]' : 
+                        'text-[var(--color-x-text-muted)]'
+                      ]">
+                        {{ editContent.length }} / {{ MAX_CHARS }}
+                      </span>
+                      
+                      <div class="flex gap-2">
+                        <button
+                          @click="cancelEditing"
+                          class="px-4 py-1.5 text-sm font-medium text-[var(--color-x-text-primary)] hover:bg-[var(--color-x-hover)] rounded-full transition-colors"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          @click="saveEdit(note.id)"
+                          :disabled="!editContent.trim() || editContent.length > MAX_CHARS"
+                          class="px-4 py-1.5 text-sm font-semibold bg-[var(--color-btn-primary)] text-[var(--color-btn-primary-text)] rounded-full hover:bg-[var(--color-btn-primary-hover)] disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                        >
+                          Save
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- View Mode -->
+                  <div v-else class="text-[var(--color-x-text-primary)] whitespace-pre-wrap break-words leading-relaxed">
                     {{ note.content }}
                   </div>
                 </div>
