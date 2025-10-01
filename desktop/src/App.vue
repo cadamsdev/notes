@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import './styles/global.css';
 import { ref, computed } from 'vue';
+import { marked } from 'marked';
+
+// Configure marked options
+marked.setOptions({
+  breaks: true, // Convert \n to <br>
+  gfm: true, // GitHub Flavored Markdown
+});
 
 interface Note {
   id: number;
@@ -233,6 +240,11 @@ const handleKeydown = (e: KeyboardEvent) => {
   if ((e.metaKey || e.ctrlKey) && e.key === 'Enter' && canPost.value) {
     createNote();
   }
+};
+
+// Render markdown to HTML
+const renderMarkdown = (content: string): string => {
+  return marked.parse(content) as string;
 };
 </script>
 
@@ -524,9 +536,11 @@ const handleKeydown = (e: KeyboardEvent) => {
                   </div>
                   
                   <!-- View Mode -->
-                  <div v-else class="text-[var(--color-x-text-primary)] whitespace-pre-wrap break-words leading-relaxed">
-                    {{ note.content }}
-                  </div>
+                  <div 
+                    v-else 
+                    class="text-[var(--color-x-text-primary)] whitespace-pre-wrap break-words leading-relaxed prose prose-invert prose-sm max-w-none"
+                    v-html="renderMarkdown(note.content)"
+                  ></div>
                 </div>
               </div>
             </div>
