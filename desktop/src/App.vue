@@ -350,13 +350,6 @@ const handleKeydown = (e: KeyboardEvent) => {
         <div class="border-b border-[var(--color-x-border)] bg-[var(--color-x-black)]">
           <div class="p-4">
             <div class="flex gap-3">
-              <!-- Avatar with gradient -->
-              <div class="w-12 h-12 rounded-full bg-gradient-to-br from-[var(--color-x-blue)] to-[#1a8cd8] flex items-center justify-center flex-shrink-0 shadow-lg">
-                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                </svg>
-              </div>
-
               <!-- Input Area -->
               <div class="flex-1">
                 <textarea
@@ -422,13 +415,6 @@ const handleKeydown = (e: KeyboardEvent) => {
               class="p-4 hover:bg-[var(--color-x-hover)] transition-all duration-200 cursor-pointer group relative"
             >
               <div class="flex gap-3">
-                <!-- Avatar with gradient -->
-                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-[var(--color-x-blue)] to-[#1a8cd8] flex items-center justify-center flex-shrink-0 shadow-md">
-                  <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                  </svg>
-                </div>
-
                 <!-- Note Content -->
                 <div class="flex-1 min-w-0">
                   <div class="flex items-center justify-between mb-1">
