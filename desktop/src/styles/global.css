@@ -18,6 +18,11 @@
   --color-x-error: #f4212e;
   --color-x-warning: #ffd400;
   
+  /* Button Colors */
+  --color-btn-primary: #eff3f4;
+  --color-btn-primary-hover: #d7dbdc;
+  --color-btn-primary-text: #0f1419;
+  
   /* Spacing */
   --spacing-x-xs: 0.25rem;
   --spacing-x-sm: 0.5rem;

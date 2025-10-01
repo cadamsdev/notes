@@ -216,7 +216,7 @@ const handleKeydown = (e: KeyboardEvent) => {
                 'aspect-square rounded-lg flex flex-col items-center justify-center text-sm transition-all duration-200 relative',
                 day ? 'hover:bg-[var(--color-x-hover)] cursor-pointer' : 'cursor-default',
                 isToday(day) && !isSelected(day) ? 'bg-[var(--color-x-blue-light)] text-[var(--color-x-blue)] font-semibold ring-1 ring-[var(--color-x-blue)]' : '',
-                isSelected(day) ? 'bg-[var(--color-x-blue)] text-white font-semibold shadow-lg' : 'text-[var(--color-x-text-primary)]',
+                isSelected(day) ? 'bg-[var(--color-btn-primary)] text-[var(--color-btn-primary-text)] font-semibold shadow-lg' : 'text-[var(--color-x-text-primary)]',
                 !day ? 'text-transparent' : '',
                 day && !isToday(day) && !isSelected(day) && getNotesCountForDay(day) > 0 ? 'font-medium' : ''
               ]"
@@ -226,7 +226,7 @@ const handleKeydown = (e: KeyboardEvent) => {
                 v-if="day && getNotesCountForDay(day) > 0"
                 :class="[
                   'text-xs mt-0.5',
-                  isSelected(day) ? 'text-white/80' : 'text-[var(--color-x-blue)]'
+                  isSelected(day) ? 'text-[var(--color-btn-primary-text)]/70' : 'text-[var(--color-x-blue)]'
                 ]"
               >
                 {{ getNotesCountForDay(day) }}
@@ -314,7 +314,7 @@ const handleKeydown = (e: KeyboardEvent) => {
                   <button
                     @click="createNote"
                     :disabled="!canPost"
-                    class="px-6 py-2.5 bg-[var(--color-x-blue)] text-white rounded-full font-semibold hover:bg-[var(--color-x-blue-hover)] disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl disabled:shadow-none hover:scale-105 active:scale-95 disabled:hover:scale-100"
+                    class="px-6 py-2.5 bg-[var(--color-btn-primary)] text-[var(--color-btn-primary-text)] rounded-full font-semibold hover:bg-[var(--color-btn-primary-hover)] disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl disabled:shadow-none hover:scale-105 active:scale-95 disabled:hover:scale-100"
                   >
                     Post Note
                   </button>
