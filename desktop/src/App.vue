@@ -23,18 +23,12 @@ const editContent = ref('');
 const selectedDate = ref<Date | null>(null);
 const selectedTag = ref<string | null>(null);
 const currentMonth = ref(new Date());
-const MAX_CHARS = 280;
 let nextId = 1;
 
 const charCount = computed(() => noteContent.value.length);
-const charCountColor = computed(() => {
-  if (charCount.value > MAX_CHARS) return 'text-[var(--color-x-error)]';
-  if (charCount.value > MAX_CHARS * 0.9) return 'text-[var(--color-x-warning)]';
-  return 'text-[var(--color-x-text-muted)]';
-});
 
 const canPost = computed(() => {
-  return noteContent.value.trim().length > 0 && charCount.value <= MAX_CHARS;
+  return noteContent.value.trim().length > 0;
 });
 
 // Calendar computations
@@ -209,7 +203,7 @@ const cancelEditing = () => {
 };
 
 const saveEdit = (id: number) => {
-  if (editContent.value.trim() && editContent.value.length <= MAX_CHARS) {
+  if (editContent.value.trim()) {
     const note = notes.value.find(n => n.id === id);
     if (note) {
       note.content = editContent.value;
@@ -400,38 +394,10 @@ const renderMarkdown = (content: string): string => {
                   placeholder="What's on your mind?"
                   class="w-full bg-transparent text-[var(--color-x-text-primary)] placeholder-[var(--color-x-text-muted)] resize-none border-none outline-none text-lg leading-relaxed min-h-[100px] py-2 focus:placeholder-[var(--color-x-text-secondary)]"
                   rows="3"
-                  maxlength="500"
                 ></textarea>
 
-                <!-- Character Counter & Actions -->
-                <div class="flex items-center justify-between pt-3 mt-2 border-t border-[var(--color-x-border)]">
-                  <div class="flex items-center gap-2">
-                    <!-- Icon Buttons with better hover states -->
-                    <button 
-                      class="w-9 h-9 rounded-full hover:bg-[var(--color-x-blue-light)] flex items-center justify-center transition-all duration-200 text-[var(--color-x-blue)] hover:scale-110 active:scale-95"
-                      title="Add image"
-                    >
-                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                      </svg>
-                    </button>
-                    <button 
-                      class="w-9 h-9 rounded-full hover:bg-[var(--color-x-blue-light)] flex items-center justify-center transition-all duration-200 text-[var(--color-x-blue)] hover:scale-110 active:scale-95"
-                      title="Add emoji"
-                    >
-                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                      </svg>
-                    </button>
-                    
-                    <!-- Character Counter -->
-                    <div class="ml-2 flex items-center gap-2">
-                      <span :class="['text-sm font-medium transition-colors', charCountColor]">
-                        {{ charCount }} / {{ MAX_CHARS }}
-                      </span>
-                    </div>
-                  </div>
-
+                <!-- Actions -->
+                <div class="flex items-center justify-end pt-3 mt-2 border-t border-[var(--color-x-border)]">
                   <!-- Post Button -->
                   <button
                     @click="createNote"
@@ -503,20 +469,10 @@ const renderMarkdown = (content: string): string => {
                       @keydown="(e) => handleEditKeydown(e, note.id)"
                       class="w-full bg-[var(--color-x-hover)] text-[var(--color-x-text-primary)] placeholder-[var(--color-x-text-muted)] resize-none border border-[var(--color-x-border)] outline-none rounded-lg p-3 text-base leading-relaxed min-h-[100px] focus:border-[var(--color-x-blue)]"
                       rows="3"
-                      maxlength="500"
                       autofocus
                     ></textarea>
                     
-                    <div class="flex items-center justify-between">
-                      <span :class="[
-                        'text-sm font-medium transition-colors',
-                        editContent.length > MAX_CHARS ? 'text-[var(--color-x-error)]' : 
-                        editContent.length > MAX_CHARS * 0.9 ? 'text-[var(--color-x-warning)]' : 
-                        'text-[var(--color-x-text-muted)]'
-                      ]">
-                        {{ editContent.length }} / {{ MAX_CHARS }}
-                      </span>
-                      
+                    <div class="flex items-center justify-end">
                       <div class="flex gap-2">
                         <button
                           @click="cancelEditing"
@@ -526,7 +482,7 @@ const renderMarkdown = (content: string): string => {
                         </button>
                         <button
                           @click="saveEdit(note.id)"
-                          :disabled="!editContent.trim() || editContent.length > MAX_CHARS"
+                          :disabled="!editContent.trim()"
                           class="px-4 py-1.5 text-sm font-semibold bg-[var(--color-btn-primary)] text-[var(--color-btn-primary-text)] rounded-full hover:bg-[var(--color-btn-primary-hover)] disabled:opacity-40 disabled:cursor-not-allowed transition-all"
                         >
                           Save
