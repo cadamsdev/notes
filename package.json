@@ -4,12 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"bun run --filter api dev\" \"wait-on http://localhost:3001/health-check && bun run --filter web dev\"",
-    "web:dev": "bun run --filter web dev",
-    "api:dev": "bun run --filter api dev",
-    "build:web": "bun run --filter web build",
-    "build:api": "bun run --filter api build",
-    "desktop": "bun run --filter desktop start"
+    "desktop": "bun run --filter desktop tauri dev"
   },
   "workspaces": [
     "desktop"
