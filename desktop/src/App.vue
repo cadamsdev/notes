@@ -419,8 +419,6 @@ const handleKeydown = (e: KeyboardEvent) => {
                 <div class="flex-1 min-w-0">
                   <div class="flex items-center justify-between mb-1">
                     <div class="flex items-center gap-2">
-                      <span class="font-semibold text-[var(--color-x-text-primary)]">You</span>
-                      <span class="text-[var(--color-x-text-muted)] text-sm">·</span>
                       <span class="text-[var(--color-x-text-muted)] text-sm">{{ formatDate(note.createdAt) }}</span>
                     </div>
                     
