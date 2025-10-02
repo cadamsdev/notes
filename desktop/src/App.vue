@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import './styles/global.css';
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import Database from '@tauri-apps/plugin-sql';
 import { marked } from 'marked';
 import CalendarView from './components/CalendarView.vue';
 import TagsPanel from './components/TagsPanel.vue';
@@ -24,7 +25,47 @@ const notes = ref<Note[]>([]);
 const selectedDate = ref<Date | null>(null);
 const selectedTag = ref<string | null>(null);
 const currentMonth = ref(new Date());
-let nextId = 1;
+let db: any = null;
+
+// Initialize database and load notes
+onMounted(async () => {
+  try {
+    console.log('Initializing database...');
+    db = await Database.load('sqlite:notes.db');
+    console.log('Database loaded:', db);
+    
+    // Create table if it doesn't exist
+    await db.execute(`
+      CREATE TABLE IF NOT EXISTS notes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        content TEXT NOT NULL,
+        created_at TEXT NOT NULL
+      )
+    `);
+    console.log('Table created/verified');
+    
+    await loadNotes();
+    console.log('Notes loaded, count:', notes.value.length);
+  } catch (error) {
+    console.error('Failed to initialize database:', error);
+  }
+});
+
+const loadNotes = async () => {
+  try {
+    const result: Array<{ id: number; content: string; created_at: string }> = await db.select(
+      'SELECT id, content, created_at FROM notes ORDER BY created_at DESC'
+    );
+    
+    notes.value = result.map((note: { id: number; content: string; created_at: string }) => ({
+      id: note.id,
+      content: note.content,
+      createdAt: new Date(note.created_at)
+    }));
+  } catch (error) {
+    console.error('Failed to load notes:', error);
+  }
+};
 
 // Extract tags from note content (words starting with #)
 const extractTags = (content: string): string[] => {
@@ -55,22 +96,59 @@ const filteredNotes = computed(() => {
   return filtered;
 });
 
-const createNote = (content: string) => {
-  notes.value.unshift({
-    id: nextId++,
-    content,
-    createdAt: new Date()
-  });
+const createNote = async (content: string) => {
+  try {
+    if (!db) {
+      console.error('Database not initialized');
+      return;
+    }
+    
+    const now = new Date().toISOString();
+    
+    console.log('Creating note with content:', content);
+    
+    const result = await db.execute(
+      'INSERT INTO notes (content, created_at) VALUES ($1, $2)',
+      [content, now]
+    );
+    
+    console.log('Insert result:', result);
+    
+    // Add to local array
+    notes.value.unshift({
+      id: result.lastInsertId,
+      content,
+      createdAt: new Date(now)
+    });
+    
+    console.log('Note created successfully');
+  } catch (error) {
+    console.error('Failed to create note:', error);
+  }
 };
 
-const deleteNote = (id: number) => {
-  notes.value = notes.value.filter(note => note.id !== id);
+const deleteNote = async (id: number) => {
+  try {
+    await db.execute('DELETE FROM notes WHERE id = $1', [id]);
+    notes.value = notes.value.filter(note => note.id !== id);
+  } catch (error) {
+    console.error('Failed to delete note:', error);
+  }
 };
 
-const editNote = (id: number, content: string) => {
-  const note = notes.value.find(n => n.id === id);
-  if (note) {
-    note.content = content;
+const editNote = async (id: number, content: string) => {
+  try {
+    await db.execute(
+      'UPDATE notes SET content = $1 WHERE id = $2',
+      [content, id]
+    );
+    
+    const note = notes.value.find(n => n.id === id);
+    if (note) {
+      note.content = content;
+    }
+  } catch (error) {
+    console.error('Failed to update note:', error);
   }
 };
 </script>
