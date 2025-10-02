@@ -54,6 +54,22 @@ cd desktop && bun run tauri build
 - Custom CSS should only be used for: theme variables (`@theme`), global resets, or complex animations not achievable with Tailwind
 - Use CSS custom properties (e.g., `var(--color-x-blue)`) defined in `@theme` when Tailwind utilities aren't sufficient
 
+#### Component Architecture
+- All reusable components are located in `desktop/src/components/`
+- Components use TypeScript with proper interface definitions for props and emits
+- Follow Vue 3 Composition API patterns with `<script setup lang="ts">`
+- Component naming: PascalCase for files (e.g., `CalendarView.vue`, `NoteItem.vue`)
+- Props are defined using `defineProps<PropsInterface>()` with TypeScript interfaces
+- Events are defined using `defineEmits<EmitsInterface>()` with typed event signatures
+- Components should be self-contained and focused on a single responsibility
+- Prefer props and events over complex state management for component communication
+- Example components in the project:
+  - `CalendarView.vue` - Calendar with date selection and note counts
+  - `TagsPanel.vue` - Tag filtering interface
+  - `NoteCreator.vue` - Note creation form
+  - `NoteItem.vue` - Individual note display with edit/delete
+  - `EmptyState.vue` - Empty state messaging
+
 ### Tauri (Backend)
 - Commands defined with `#[tauri::command]` attribute in `lib.rs`
 - Register new commands in `invoke_handler` macro: `tauri::generate_handler![greet, new_command]`
