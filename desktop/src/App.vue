@@ -80,8 +80,8 @@ const editNote = (id: number, content: string) => {
     <!-- Main Container - 2 Column Layout -->
     <div class="w-full max-w-[1200px] flex border-x border-[var(--color-x-border)]">
       
-      <!-- Left Column - Calendar and Tags -->
-      <div class="w-[400px] border-r border-[var(--color-x-border)] flex flex-col">
+      <!-- Left Column - Calendar and Tags (Sticky) -->
+      <div class="w-[400px] border-r border-[var(--color-x-border)] flex flex-col sticky top-0 h-screen overflow-y-auto">
         <CalendarView
           :notes="notes"
           :selected-date="selectedDate"
