@@ -37,7 +37,7 @@ const handleKeydown = (e: KeyboardEvent) => {
             v-model="noteContent"
             @keydown="handleKeydown"
             placeholder="What's on your mind?"
-            class="w-full bg-transparent text-[var(--color-x-text-primary)] placeholder-[var(--color-x-text-muted)] resize-none border-none outline-none text-lg leading-relaxed min-h-[100px] py-2 focus:placeholder-[var(--color-x-text-secondary)]"
+            class="w-full bg-transparent text-[var(--color-x-text-primary)] placeholder-[var(--color-x-text-muted)] resize-none outline-none text-lg leading-relaxed min-h-[100px] p-3 rounded-lg border-2 border-transparent focus:border-[var(--color-x-blue)] focus:placeholder-[var(--color-x-text-secondary)] transition-colors"
             rows="3"
           ></textarea>
 
