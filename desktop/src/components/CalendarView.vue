@@ -173,12 +173,10 @@ const nextMonth = () => {
           <span 
             v-if="day && getNotesCountForDay(day) > 0"
             :class="[
-              'text-xs mt-0.5',
-              isSelected(day) ? 'text-[var(--color-btn-primary-text)]/70' : 'text-[var(--color-x-blue)]'
+              'w-1.5 h-1.5 rounded-full mt-1',
+              isSelected(day) ? 'bg-[var(--color-btn-primary-text)]' : 'bg-[var(--color-x-blue)]'
             ]"
-          >
-            {{ getNotesCountForDay(day) }}
-          </span>
+          ></span>
         </button>
       </div>
       
