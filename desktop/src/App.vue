@@ -234,12 +234,13 @@ const editNote = async (id: number, content: string) => {
       <div class="flex-1 flex flex-col glass-panel">
         <!-- Header -->
         <header 
-          class="bg-gradient-to-r from-[var(--color-x-dark)]/95 to-[var(--color-x-darker)]/95 backdrop-blur-xl border-b border-[var(--color-x-border)] z-30 shadow-[0_4px_20px_rgba(0,168,255,0.2)] transition-all duration-300"
+          class="bg-gradient-to-r from-[var(--color-x-dark)]/95 to-[var(--color-x-darker)]/95 backdrop-blur-xl border-b border-[var(--color-x-border)] z-30 shadow-[0_4px_20px_rgba(0,168,255,0.2)] transition-all duration-500 ease-out"
+          :class="{ 'opacity-0 -translate-y-full pointer-events-none': !headerVisible }"
         >
           <div class="px-6 py-5 relative">
             <div class="flex items-center gap-3">
               <!-- Rocket Icon -->
-              <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--color-x-blue)] to-[var(--color-x-nebula-purple)] flex items-center justify-center shadow-lg shadow-[var(--color-x-blue)]/50">
+              <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--color-x-blue)] to-[var(--color-x-nebula-purple)] flex items-center justify-center shadow-lg shadow-[var(--color-x-blue)]/50 transition-transform duration-500">
                 <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
                 </svg>
@@ -255,7 +256,7 @@ const editNote = async (id: number, content: string) => {
         </header>
 
         <!-- Search Bar -->
-        <div class="sticky top-0 z-20 transition-all duration-300">
+        <div class="sticky top-0 z-40 transition-all duration-500 ease-out">
           <SearchBar @update:search-query="searchQuery = $event" />
         </div>
 
