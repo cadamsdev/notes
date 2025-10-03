@@ -73,14 +73,6 @@ const handleKeydown = (e: KeyboardEvent) => {
               </span>
             </button>
           </div>
-          
-          <!-- Keyboard Shortcut Hint -->
-          <div class="mt-2 text-xs text-[var(--color-x-text-muted)] flex items-center gap-1">
-            <kbd class="px-2 py-1 bg-[var(--color-x-border)] rounded text-xs font-mono border border-[var(--color-x-blue)]/30">Ctrl</kbd>
-            <span>+</span>
-            <kbd class="px-2 py-1 bg-[var(--color-x-border)] rounded text-xs font-mono border border-[var(--color-x-blue)]/30">Enter</kbd>
-            <span class="ml-1">to launch</span>
-          </div>
         </div>
       </div>
     </div>
