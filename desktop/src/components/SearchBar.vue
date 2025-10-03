@@ -40,7 +40,7 @@ const clearSearch = () => {
         v-model="searchQuery"
         type="text"
         placeholder="Search notes..."
-        class="w-full pl-10 pr-10 py-2 bg-[var(--color-x-hover)] border border-[var(--color-x-border)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-x-blue)] focus:border-transparent transition-all placeholder-[var(--color-x-text-muted)]"
+        class="w-full pl-10 pr-10 py-2.5 bg-black/40 border border-white/10 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-x-blue)] focus:border-transparent transition-all placeholder-[var(--color-x-text-muted)]"
       />
 
       <!-- Clear Button -->
