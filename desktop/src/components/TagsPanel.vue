@@ -72,20 +72,20 @@ const selectTag = (tag: string) => {
           'px-2.5 py-1 rounded-full text-xs font-medium transition-all backdrop-blur-sm',
           selectedTag === tag 
             ? 'bg-[var(--color-x-blue)] text-white shadow-lg' 
-            : 'bg-white/60 text-[var(--color-x-text-secondary)] hover:bg-white/80 hover:text-[var(--color-x-blue)]'
+            : 'bg-white/60 dark:bg-white/10 text-[var(--color-x-text-secondary)] hover:bg-white/80 dark:hover:bg-white/20 hover:text-[var(--color-x-blue)]'
         ]"
       >
         #{{ tag }}
         <span :class="[
           'ml-1.5 px-1.5 py-0.5 rounded text-xs',
-          selectedTag === tag ? 'bg-white/20' : 'bg-[var(--color-x-blue)]/10'
+          selectedTag === tag ? 'bg-white/20' : 'bg-[var(--color-x-blue)]/10 dark:bg-[var(--color-x-blue)]/20'
         ]">
           {{ getNotesCountForTag(tag) }}
         </span>
       </button>
     </div>
     
-    <div v-else class="text-[var(--color-x-text-muted)] text-xs p-3 bg-white/60 rounded-lg backdrop-blur-sm">
+    <div v-else class="text-[var(--color-x-text-muted)] text-xs p-3 bg-white/60 dark:bg-white/10 rounded-lg backdrop-blur-sm">
       No tags yet. Add hashtags like <span class="text-[var(--color-x-blue)] font-mono">#ideas</span> to organize your notes.
     </div>
     
@@ -98,7 +98,7 @@ const selectTag = (tag: string) => {
         <span class="text-sm font-medium text-[var(--color-x-text-primary)]">#{{ selectedTag }}</span>
         <button
           @click="emit('update:selectedTag', null)"
-          class="px-2 py-1 text-xs font-medium text-[var(--color-x-blue)] hover:bg-white/60 rounded transition-all backdrop-blur-sm"
+          class="px-2 py-1 text-xs font-medium text-[var(--color-x-blue)] hover:bg-white/60 dark:hover:bg-white/20 rounded transition-all backdrop-blur-sm"
         >
           Clear
         </button>
