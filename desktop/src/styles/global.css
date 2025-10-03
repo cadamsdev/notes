@@ -1,27 +1,34 @@
 @import "tailwindcss";
 
-/* X (Twitter) Inspired Theme - Modern & Professional */
+/* SpaceX / Space Inspired Theme - Cosmic & Futuristic */
 @theme {
-  /* Color Palette */
+  /* Color Palette - Deep Space & Stellar */
   --color-x-black: #000000;
-  --color-x-dark: #16181c;
-  --color-x-darker: #1c1f23;
-  --color-x-border: #2f3336;
-  --color-x-hover: #181818;
-  --color-x-blue: #1d9bf0;
-  --color-x-blue-hover: #1a8cd8;
-  --color-x-blue-light: rgba(29, 155, 240, 0.1);
-  --color-x-text-primary: #e7e9ea;
-  --color-x-text-secondary: #71767b;
-  --color-x-text-muted: #536471;
-  --color-x-success: #00ba7c;
-  --color-x-error: #f4212e;
-  --color-x-warning: #ffd400;
+  --color-x-dark: #0a0e27;
+  --color-x-darker: #050816;
+  --color-x-border: #1a2332;
+  --color-x-hover: #0f1629;
+  --color-x-blue: #00a8ff;
+  --color-x-blue-hover: #0096e6;
+  --color-x-blue-light: rgba(0, 168, 255, 0.1);
+  --color-x-rocket: #ff6b35;
+  --color-x-rocket-hover: #ff5722;
+  --color-x-text-primary: #e8edf2;
+  --color-x-text-secondary: #8892b0;
+  --color-x-text-muted: #5b6382;
+  --color-x-success: #00d9a3;
+  --color-x-error: #ff4757;
+  --color-x-warning: #ffa502;
+  --color-x-nebula-purple: #8b5cf6;
+  --color-x-nebula-cyan: #06b6d4;
+  --color-x-star-glow: #ffffff;
   
   /* Button Colors */
-  --color-btn-primary: #eff3f4;
-  --color-btn-primary-hover: #d7dbdc;
-  --color-btn-primary-text: #0f1419;
+  --color-btn-primary: #00a8ff;
+  --color-btn-primary-hover: #0096e6;
+  --color-btn-primary-text: #ffffff;
+  --color-btn-secondary: #ff6b35;
+  --color-btn-secondary-hover: #ff5722;
   
   /* Spacing */
   --spacing-x-xs: 0.25rem;
@@ -54,30 +61,136 @@
   --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
   
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.7), 0 10px 10px -5px rgba(0, 0, 0, 0.5);
+  /* Shadows - Cosmic Glow Effects */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 6px -1px rgba(0, 168, 255, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 168, 255, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.7);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 168, 255, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.8);
+  --shadow-glow: 0 0 20px rgba(0, 168, 255, 0.3);
+  --shadow-glow-strong: 0 0 30px rgba(0, 168, 255, 0.5);
+}
+
+/* Animated Space Background */
+@keyframes stars {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-2000px); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
 body {
   font-family: var(--font-family-x-base);
-  background-color: var(--color-x-black);
+  background: linear-gradient(to bottom, #000000 0%, #0a0e27 50%, #050816 100%);
+  background-attachment: fixed;
   color: var(--color-x-text-primary);
   font-size: var(--font-size-x-base);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  overflow-x: hidden;
 }
 
-/* Custom Scrollbar */
+/* Animated Stars Background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200vh;
+  background-image: 
+    radial-gradient(2px 2px at 20% 30%, white, transparent),
+    radial-gradient(2px 2px at 60% 70%, white, transparent),
+    radial-gradient(1px 1px at 50% 50%, white, transparent),
+    radial-gradient(1px 1px at 80% 10%, white, transparent),
+    radial-gradient(2px 2px at 90% 60%, white, transparent),
+    radial-gradient(1px 1px at 33% 80%, white, transparent),
+    radial-gradient(1px 1px at 15% 90%, white, transparent);
+  background-size: 
+    200% 200%,
+    180% 180%,
+    220% 220%,
+    190% 190%,
+    210% 210%,
+    195% 195%,
+    205% 205%;
+  background-position: 
+    0 0,
+    40% 60%,
+    80% 20%,
+    20% 80%,
+    60% 40%,
+    90% 10%,
+    10% 90%;
+  opacity: 0.6;
+  animation: stars 200s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Custom Scrollbar - Space themed */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-x-black);
+  background: rgba(10, 14, 39, 0.5);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--color-x-blue) 0%, var(--color-x-nebula-purple) 100%);
+  border-radius: 10px;
+  border: 2px solid rgba(10, 14, 39, 0.5);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--color-x-blue-hover) 0%, var(--color-x-nebula-purple) 100%);
+  box-shadow: 0 0 10px rgba(0, 168, 255, 0.5);
+}
+
+/* Focus styles for accessibility - Cosmic glow */
+*:focus-visible {
+  outline: 2px solid var(--color-x-blue);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(0, 168, 255, 0.2);
+}
+
+/* Futuristic Glass Effect */
+.glass-panel {
+  background: rgba(10, 14, 39, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 8px 32px 0 rgba(0, 168, 255, 0.1),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Neon Glow Button Effect */
+.neon-glow {
+  position: relative;
+  overflow: hidden;
+}
+
+.neon-glow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.neon-glow:hover::before {
+  left: 100%;
 }
 
 ::-webkit-scrollbar-thumb {

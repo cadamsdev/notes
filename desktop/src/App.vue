@@ -173,12 +173,15 @@ const editNote = async (id: number, content: string) => {
 </script>
 
 <template>
-  <main class="min-h-screen flex justify-center bg-[var(--color-x-black)]">
+  <main class="min-h-screen flex justify-center relative">
+    <!-- Cosmic Background Overlay -->
+    <div class="fixed inset-0 bg-gradient-to-b from-transparent via-[var(--color-x-dark)]/30 to-transparent pointer-events-none z-0"></div>
+    
     <!-- Main Container - 2 Column Layout -->
-    <div class="w-full max-w-[1200px] flex border-x border-[var(--color-x-border)]">
+    <div class="w-full max-w-[1200px] flex border-x border-[var(--color-x-border)] relative z-10 shadow-[0_0_50px_rgba(0,168,255,0.15)]">
       
       <!-- Left Column - Calendar and Tags (Sticky) -->
-      <div class="w-[400px] border-r border-[var(--color-x-border)] flex flex-col sticky top-0 h-screen overflow-y-auto">
+      <div class="w-[400px] border-r border-[var(--color-x-border)] flex flex-col sticky top-0 h-screen overflow-y-auto glass-panel">
         <CalendarView
           :notes="notes"
           :selected-date="selectedDate"
@@ -195,24 +198,37 @@ const editNote = async (id: number, content: string) => {
       </div>
 
       <!-- Right Column - Notes Feed -->
-      <div class="flex-1 flex flex-col">
+      <div class="flex-1 flex flex-col glass-panel">
         <!-- Header -->
-        <header class="sticky top-0 bg-[var(--color-x-black)]/95 backdrop-blur-xl border-b border-[var(--color-x-border)] z-10 shadow-[0_1px_3px_rgba(0,0,0,0.5)]">
-          <div class="px-4 py-4">
-            <h1 class="text-xl font-bold tracking-tight">My Notes</h1>
+        <header class="sticky top-0 bg-gradient-to-r from-[var(--color-x-dark)]/95 to-[var(--color-x-darker)]/95 backdrop-blur-xl border-b border-[var(--color-x-border)] z-30 shadow-[0_4px_20px_rgba(0,168,255,0.2)]">
+          <div class="px-6 py-5 relative">
+            <div class="flex items-center gap-3">
+              <!-- Rocket Icon -->
+              <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--color-x-blue)] to-[var(--color-x-nebula-purple)] flex items-center justify-center shadow-lg shadow-[var(--color-x-blue)]/50">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+                </svg>
+              </div>
+              <div>
+                <h1 class="text-2xl font-bold tracking-tight bg-gradient-to-r from-[var(--color-x-text-primary)] to-[var(--color-x-blue)] bg-clip-text text-transparent">
+                  Cosmic Notes
+                </h1>
+                <p class="text-xs text-[var(--color-x-text-muted)]">Your thoughts, across the universe</p>
+              </div>
+            </div>
           </div>
         </header>
 
         <!-- Search Bar -->
-        <div class="sticky top-[60px] z-10 bg-[var(--color-x-black)]">
+        <div class="sticky top-[86px] z-20">
           <SearchBar @update:search-query="searchQuery = $event" />
         </div>
 
-        <!-- Note Creator -->
-        <NoteCreator @create="createNote" />
-
         <!-- Notes Feed -->
         <div class="flex-1 overflow-y-auto">
+          <!-- Note Creator -->
+          <NoteCreator @create="createNote" />
+          
           <div v-if="filteredNotes.length > 0" class="divide-y divide-[var(--color-x-border)]">
             <NoteItem
               v-for="note in filteredNotes"
