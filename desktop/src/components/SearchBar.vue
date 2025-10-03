@@ -18,7 +18,7 @@ const clearSearch = () => {
 </script>
 
 <template>
-  <div class="px-5 py-4 border-b border-[var(--color-x-border)] bg-gradient-to-r from-[var(--color-x-dark)]/95 to-[var(--color-x-darker)]/95 backdrop-blur-xl relative z-10">
+  <div class="px-5 py-4 border-b border-[var(--color-x-border)] bg-[var(--color-x-dark)] relative z-10">
     <div class="relative group">
       <!-- Search Icon -->
       <svg 
@@ -26,6 +26,7 @@ const clearSearch = () => {
         fill="none" 
         viewBox="0 0 24 24" 
         stroke="currentColor"
+        stroke-width="2.5"
       >
         <path 
           stroke-linecap="round" 
@@ -40,7 +41,7 @@ const clearSearch = () => {
         v-model="searchQuery"
         type="text"
         placeholder="Search across the cosmos..."
-        class="w-full pl-12 pr-12 py-3.5 bg-[var(--color-x-black)]/60 border-2 border-[var(--color-x-border)] rounded-full text-sm text-[var(--color-x-text-primary)] focus:outline-none focus:border-[var(--color-x-blue)] focus:shadow-[0_0_25px_rgba(0,168,255,0.4)] transition-all duration-300 placeholder-[var(--color-x-text-muted)] backdrop-blur-md"
+        class="w-full pl-12 pr-12 py-3.5 bg-[var(--color-x-black)]/60 border-2 border-[var(--color-x-border)] rounded-full text-sm text-[var(--color-x-text-primary)] focus:outline-none focus:border-[var(--color-x-blue)] focus:shadow-[0_0_25px_rgba(0,168,255,0.4)] transition-all duration-300 placeholder-[var(--color-x-text-muted)]"
       />
 
       <!-- Scanning Animation Line -->
