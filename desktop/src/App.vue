@@ -3,6 +3,7 @@ import './styles/global.css';
 import { ref, computed, onMounted } from 'vue';
 import Database from '@tauri-apps/plugin-sql';
 import { marked } from 'marked';
+import Fuse from 'fuse.js';
 import CalendarView from './components/CalendarView.vue';
 import TagsPanel from './components/TagsPanel.vue';
 import NoteCreator from './components/NoteCreator.vue';
@@ -76,15 +77,23 @@ const extractTags = (content: string): string[] => {
   return Array.from(matches, m => m[1].toLowerCase());
 };
 
+// Fuse.js configuration for fuzzy search
+const fuseOptions = {
+  keys: ['content'],
+  threshold: 0.4, // 0.0 = exact match, 1.0 = match anything
+  ignoreLocation: true,
+  minMatchCharLength: 2,
+  includeScore: true,
+};
+
 const filteredNotes = computed(() => {
   let filtered = notes.value;
   
-  // Filter by search query
+  // Filter by search query using Fuse.js fuzzy search
   if (searchQuery.value.trim()) {
-    const query = searchQuery.value.toLowerCase();
-    filtered = filtered.filter(note => 
-      note.content.toLowerCase().includes(query)
-    );
+    const fuse = new Fuse(filtered, fuseOptions);
+    const results = fuse.search(searchQuery.value);
+    filtered = results.map(result => result.item);
   }
   
   // Filter by date
