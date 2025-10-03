@@ -92,7 +92,7 @@ const formatDate = (date: Date) => {
   <div
     @mouseenter="isHovered = true"
     @mouseleave="isHovered = false"
-    class="p-4 hover:bg-white/40 transition-colors border-b border-white/30 group backdrop-blur-sm"
+    class="p-4 hover:bg-white/40 dark:hover:bg-white/5 transition-colors border-b border-white/30 group backdrop-blur-sm"
   >
     <div class="flex items-start justify-between mb-2">
       <!-- Time -->
@@ -105,7 +105,7 @@ const formatDate = (date: Date) => {
         <button
           v-if="!isEditing"
           @click.stop="startEditing"
-          class="p-1.5 rounded hover:bg-white/60 text-[var(--color-x-text-muted)] hover:text-[var(--color-x-text-primary)] transition-all backdrop-blur-sm"
+          class="p-1.5 rounded hover:bg-white/60 dark:hover:bg-white/20 text-[var(--color-x-text-muted)] hover:text-[var(--color-x-text-primary)] transition-all backdrop-blur-sm"
           title="Edit note"
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -116,7 +116,7 @@ const formatDate = (date: Date) => {
         <button
           v-if="!isEditing"
           @click.stop="confirmDelete"
-          class="p-1.5 rounded hover:bg-white/60 text-[var(--color-x-text-muted)] hover:text-[var(--color-x-error)] transition-all backdrop-blur-sm"
+          class="p-1.5 rounded hover:bg-white/60 dark:hover:bg-white/20 text-[var(--color-x-text-muted)] hover:text-[var(--color-x-error)] transition-all backdrop-blur-sm"
           title="Delete note"
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -131,7 +131,7 @@ const formatDate = (date: Date) => {
       <textarea
         v-model="editContent"
         @keydown="handleEditKeydown"
-        class="w-full bg-white/60 backdrop-blur-sm text-[var(--color-x-text-primary)] placeholder-[var(--color-x-text-muted)] resize-none border border-white/40 outline-none rounded-lg p-3 text-[0.9375rem] leading-relaxed min-h-[100px] focus:border-[var(--color-x-blue)] focus:ring-1 focus:ring-[var(--color-x-blue)] transition-all"
+        class="w-full bg-white/60 dark:bg-white/10 backdrop-blur-sm text-[var(--color-x-text-primary)] placeholder-[var(--color-x-text-muted)] resize-none border border-white/40 dark:border-white/20 outline-none rounded-lg p-3 text-[0.9375rem] leading-relaxed min-h-[100px] focus:border-[var(--color-x-blue)] focus:ring-1 focus:ring-[var(--color-x-blue)] transition-all"
         rows="3"
         autofocus
       ></textarea>
@@ -139,7 +139,7 @@ const formatDate = (date: Date) => {
       <div class="flex items-center justify-end gap-2">
         <button
           @click="cancelEditing"
-          class="px-3 py-1.5 text-sm font-medium text-[var(--color-x-text-primary)] hover:bg-white/60 rounded-lg transition-all backdrop-blur-sm"
+          class="px-3 py-1.5 text-sm font-medium text-[var(--color-x-text-primary)] hover:bg-white/60 dark:hover:bg-white/20 rounded-lg transition-all backdrop-blur-sm"
         >
           Cancel
         </button>
