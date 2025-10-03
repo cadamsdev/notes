@@ -28,33 +28,31 @@ const handleKeydown = (e: KeyboardEvent) => {
 </script>
 
 <template>
-  <div class="border-b border-white/30 glass-dark">
-    <div class="p-4">
-      <!-- Input Area -->
-      <textarea
-        v-model="noteContent"
-        @keydown="handleKeydown"
-        placeholder="What's on your mind?"
-        class="w-full bg-white/60 dark:bg-white/10 backdrop-blur-sm text-[var(--color-x-text-primary)] placeholder-[var(--color-x-text-muted)] resize-none outline-none text-[0.9375rem] leading-relaxed min-h-[100px] p-3 rounded-lg border-2 border-[var(--color-x-text-muted)]/20 dark:border-white/20 focus:border-[var(--color-x-blue)] focus:ring-1 focus:ring-[var(--color-x-blue)] transition-all"
-        rows="3"
-      ></textarea>
+  <div class="p-4 border-b border-white/30 backdrop-blur-sm">
+    <!-- Input Area -->
+    <textarea
+      v-model="noteContent"
+      @keydown="handleKeydown"
+      placeholder="What's on your mind?"
+      class="w-full bg-white/60 dark:bg-white/10 backdrop-blur-sm text-[var(--color-x-text-primary)] placeholder-[var(--color-x-text-muted)] resize-none outline-none text-[0.9375rem] leading-relaxed min-h-[100px] p-3 rounded-lg border-2 border-[var(--color-x-text-muted)]/20 dark:border-white/20 focus:border-[var(--color-x-blue)] focus:ring-1 focus:ring-[var(--color-x-blue)] transition-all"
+      rows="3"
+    ></textarea>
 
-      <!-- Actions -->
-      <div class="flex items-center justify-between mt-3">
-        <!-- Character Count -->
-        <div class="text-xs text-[var(--color-x-text-muted)]">
-          {{ charCount }} characters
-        </div>
-        
-        <!-- Post Button -->
-        <button
-          @click="createNote"
-          :disabled="!canPost"
-          class="px-4 py-2 bg-[var(--color-x-blue)] text-white rounded-lg text-sm font-medium hover:bg-[var(--color-x-blue-hover)] disabled:opacity-40 disabled:cursor-not-allowed transition-all disabled:hover:bg-[var(--color-x-blue)] shadow-lg"
-        >
-          Post Note
-        </button>
+    <!-- Actions -->
+    <div class="flex items-center justify-between mt-3">
+      <!-- Character Count -->
+      <div class="text-xs text-[var(--color-x-text-muted)]">
+        {{ charCount }} characters
       </div>
+      
+      <!-- Post Button -->
+      <button
+        @click="createNote"
+        :disabled="!canPost"
+        class="px-4 py-2 bg-[var(--color-x-blue)] text-white rounded-lg text-sm font-medium hover:bg-[var(--color-x-blue-hover)] disabled:opacity-40 disabled:cursor-not-allowed transition-all disabled:hover:bg-[var(--color-x-blue)] shadow-lg"
+      >
+        Post Note
+      </button>
     </div>
   </div>
 </template>
