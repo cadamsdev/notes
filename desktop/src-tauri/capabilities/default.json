@@ -7,6 +7,8 @@
   ],
   "permissions": [
     "core:default",
+    "core:path:default",
+    "core:menu:default",
     "opener:default",
     "sql:default",
     "sql:allow-load",
