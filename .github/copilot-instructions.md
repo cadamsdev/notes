@@ -50,9 +50,19 @@ cd desktop && bun run tauri build
 - Global styles imported in `App.vue`: `import './styles/global.css'`
 - Tailwind CSS v4 with Vite plugin (`@tailwindcss/vite`)
 - Single global CSS file: `desktop/src/styles/global.css` imports Tailwind via `@import "tailwindcss"`
+- **Theme**: Modern futuristic **SpaceX/Space-inspired design** with deep space colors, cosmic glows, animated starfield background, and glass morphism effects
 - **Prefer Tailwind utility classes over custom CSS** - use inline classes in templates instead of `<style>` blocks
 - Custom CSS should only be used for: theme variables (`@theme`), global resets, or complex animations not achievable with Tailwind
 - Use CSS custom properties (e.g., `var(--color-x-blue)`) defined in `@theme` when Tailwind utilities aren't sufficient
+- **Available theme colors** (defined in `@theme` in global.css):
+  - Background: `--color-x-black`, `--color-x-dark`, `--color-x-darker`
+  - Borders/UI: `--color-x-border`, `--color-x-hover`
+  - Primary: `--color-x-blue` (cyan-blue #00a8ff), `--color-x-blue-hover`, `--color-x-blue-light`
+  - Accent: `--color-x-rocket` (orange #ff6b35), `--color-x-nebula-purple`, `--color-x-nebula-cyan`
+  - Text: `--color-x-text-primary`, `--color-x-text-secondary`, `--color-x-text-muted`
+  - Status: `--color-x-success`, `--color-x-error`, `--color-x-warning`
+  - Buttons: `--color-btn-primary`, `--color-btn-primary-hover`, `--color-btn-primary-text`
+- **Design principles**: Use gradient buttons, cosmic glow effects (blue-tinted shadows), neon animations, smooth transitions with scale effects, and glass panel backgrounds (.glass-panel class)
 
 #### Component Architecture
 - All reusable components are located in `desktop/src/components/`
