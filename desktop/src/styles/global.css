@@ -84,6 +84,8 @@ body.dark {
   --color-x-text-muted: #737373;
   --color-btn-primary: #3b82f6;
   --color-btn-primary-hover: #2563eb;
+  --color-x-error: #dc2626;
+  --color-x-error-hover: #ef4444;
 }
 
 body {

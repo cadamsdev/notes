@@ -193,13 +193,13 @@ const formatDate = (date: Date) => {
             <div class="flex gap-2">
               <button
                 @click="cancelDelete"
-                class="flex-1 px-4 py-2 text-sm font-medium text-[var(--color-x-text-primary)] hover:bg-white/60 rounded-lg transition-all backdrop-blur-sm"
+                class="flex-1 px-4 py-2 text-sm font-medium text-[var(--color-x-text-primary)] hover:bg-white/60 dark:hover:bg-white/20 rounded-lg transition-all backdrop-blur-sm"
               >
                 Cancel
               </button>
               <button
                 @click="handleDelete"
-                class="flex-1 px-4 py-2 text-sm font-medium bg-[var(--color-x-error)] text-white rounded-lg hover:bg-[var(--color-x-error)]/90 transition-all shadow-lg"
+                class="flex-1 px-4 py-2 text-sm font-medium bg-[var(--color-x-error)] text-white rounded-lg hover:bg-[var(--color-x-error-hover,#dc2626)] hover:shadow-xl transition-all shadow-lg"
               >
                 Delete
               </button>
