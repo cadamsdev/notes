@@ -308,3 +308,45 @@ body {
   transform: scale(1.1);
 }
 
+/* Shiki code block styling */
+.prose pre.shiki,
+.prose pre.shiki code {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid var(--color-x-border);
+  border-radius: 8px;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 0.875em;
+  line-height: 1.6;
+}
+
+.prose pre.shiki {
+  padding: 1em !important;
+  overflow-x: auto;
+  margin: 0.75em 0;
+}
+
+.prose pre.shiki code {
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  font-weight: 400;
+}
+
+/* Scrollbar for code blocks */
+.prose pre.shiki::-webkit-scrollbar {
+  height: 8px;
+}
+
+.prose pre.shiki::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.prose pre.shiki::-webkit-scrollbar-thumb {
+  background: var(--color-x-border);
+  border-radius: 4px;
+}
+
+.prose pre.shiki::-webkit-scrollbar-thumb:hover {
+  background: var(--color-x-text-muted);
+}

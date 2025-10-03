@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { marked } from 'marked';
+import { ref, onMounted, watch } from 'vue';
+import { renderMarkdown } from '../utils/markdown';
 
 interface Note {
   id: number;
@@ -23,6 +23,21 @@ const isHovered = ref(false);
 const isEditing = ref(false);
 const editContent = ref('');
 const showDeleteModal = ref(false);
+const renderedContent = ref('');
+
+// Render markdown when component mounts or note changes
+const updateRenderedContent = async () => {
+  renderedContent.value = await renderMarkdown(props.note.content);
+};
+
+onMounted(() => {
+  updateRenderedContent();
+});
+
+// Watch for note content changes
+watch(() => props.note.content, () => {
+  updateRenderedContent();
+});
 
 const startEditing = () => {
   isEditing.value = true;
@@ -70,11 +85,6 @@ const formatDate = (date: Date) => {
   if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m`;
   if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h`;
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-};
-
-// Render markdown to HTML
-const renderMarkdown = (content: string): string => {
-  return marked.parse(content) as string;
 };
 </script>
 
@@ -157,7 +167,7 @@ const renderMarkdown = (content: string): string => {
         <div 
           v-else 
           class="text-[var(--color-x-text-primary)] whitespace-pre-wrap break-words leading-relaxed prose prose-invert prose-sm max-w-none"
-          v-html="renderMarkdown(note.content)"
+          v-html="renderedContent"
         ></div>
       </div>
     </div>
