@@ -10,6 +10,7 @@ import NoteCreator from './components/NoteCreator.vue';
 import NoteItem from './components/NoteItem.vue';
 import EmptyState from './components/EmptyState.vue';
 import SearchBar from './components/SearchBar.vue';
+import ThemeToggle from './components/ThemeToggle.vue';
 
 // Configure marked options
 marked.setOptions({
@@ -206,15 +207,12 @@ const editNote = async (id: number, content: string) => {
 </script>
 
 <template>
-  <main class="min-h-screen flex justify-center relative">
-    <!-- Cosmic Background Overlay -->
-    <div class="fixed inset-0 bg-gradient-to-b from-transparent via-[var(--color-x-dark)]/30 to-transparent pointer-events-none z-0"></div>
-    
+  <main class="min-h-screen flex justify-center">
     <!-- Main Container - 2 Column Layout -->
-    <div class="w-full max-w-[1200px] flex border-x border-[var(--color-x-border)] relative z-10 shadow-[0_0_50px_rgba(0,168,255,0.15)]">
+    <div class="w-full max-w-[1200px] flex">
       
       <!-- Left Column - Calendar and Tags (Sticky) -->
-      <div class="w-[400px] border-r border-[var(--color-x-border)] flex flex-col sticky top-0 h-screen overflow-y-auto glass-panel">
+      <div class="w-[320px] border-r border-white/30 flex flex-col sticky top-0 h-screen overflow-y-auto glass">
         <CalendarView
           :notes="notes"
           :selected-date="selectedDate"
@@ -231,32 +229,31 @@ const editNote = async (id: number, content: string) => {
       </div>
 
       <!-- Right Column - Notes Feed -->
-      <div class="flex-1 flex flex-col glass-panel">
+      <div class="flex-1 flex flex-col glass">
         <!-- Header -->
         <header 
-          class="bg-gradient-to-r from-[var(--color-x-dark)]/95 to-[var(--color-x-darker)]/95 backdrop-blur-xl border-b border-[var(--color-x-border)] z-30 shadow-[0_4px_20px_rgba(0,168,255,0.2)] transition-all duration-500 ease-out"
+          class="glass-dark border-b border-white/30 z-30 transition-all duration-300"
           :class="{ 'opacity-0 -translate-y-full pointer-events-none': !headerVisible }"
         >
-          <div class="px-6 py-5 relative">
-            <div class="flex items-center gap-3">
-              <!-- Rocket Icon -->
-              <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--color-x-blue)] to-[var(--color-x-nebula-purple)] flex items-center justify-center shadow-lg shadow-[var(--color-x-blue)]/50 transition-transform duration-500">
-                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+          <div class="px-4 py-3">
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 rounded-lg bg-[var(--color-x-blue)] flex items-center justify-center shadow-lg">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                 </svg>
               </div>
-              <div>
-                <h1 class="text-2xl font-bold tracking-tight bg-gradient-to-r from-[var(--color-x-text-primary)] to-[var(--color-x-blue)] bg-clip-text text-transparent">
-                  Cosmic Notes
+              <div class="flex-1">
+                <h1 class="text-base font-semibold text-[var(--color-x-text-primary)]">
+                  Notes
                 </h1>
-                <p class="text-xs text-[var(--color-x-text-muted)]">Your thoughts, across the universe</p>
               </div>
+              <ThemeToggle />
             </div>
           </div>
         </header>
 
         <!-- Search Bar -->
-        <div class="sticky top-0 z-40 transition-all duration-500 ease-out">
+        <div class="sticky top-0 z-40 transition-all duration-300">
           <SearchBar @update:search-query="searchQuery = $event" />
         </div>
 
@@ -265,7 +262,7 @@ const editNote = async (id: number, content: string) => {
           <!-- Note Creator -->
           <NoteCreator @create="createNote" />
           
-          <div v-if="filteredNotes.length > 0" class="divide-y divide-[var(--color-x-border)]">
+          <div v-if="filteredNotes.length > 0">
             <NoteItem
               v-for="note in filteredNotes"
               :key="note.id"

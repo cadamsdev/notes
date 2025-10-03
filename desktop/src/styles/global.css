@@ -1,34 +1,34 @@
 @import "tailwindcss";
 
-/* SpaceX / Space Inspired Theme - Cosmic & Futuristic */
+/* Modern Clean Theme - Minimalist & Refined */
 @theme {
-  /* Color Palette - Deep Space & Stellar */
-  --color-x-black: #000000;
-  --color-x-dark: #0a0e27;
-  --color-x-darker: #050816;
-  --color-x-border: #1a2332;
-  --color-x-hover: #0f1629;
-  --color-x-blue: #00a8ff;
-  --color-x-blue-hover: #0096e6;
-  --color-x-blue-light: rgba(0, 168, 255, 0.1);
-  --color-x-rocket: #ff6b35;
-  --color-x-rocket-hover: #ff5722;
-  --color-x-text-primary: #e8edf2;
-  --color-x-text-secondary: #8892b0;
-  --color-x-text-muted: #5b6382;
-  --color-x-success: #00d9a3;
-  --color-x-error: #ff4757;
-  --color-x-warning: #ffa502;
+  /* Light Mode Colors */
+  --color-x-black: #0a0a0a;
+  --color-x-dark: #fafafa;
+  --color-x-darker: #ffffff;
+  --color-x-border: #e5e5e5;
+  --color-x-hover: #f5f5f5;
+  --color-x-blue: #0066ff;
+  --color-x-blue-hover: #0052cc;
+  --color-x-blue-light: rgba(0, 102, 255, 0.08);
+  --color-x-rocket: #f97316;
+  --color-x-rocket-hover: #ea580c;
+  --color-x-text-primary: #171717;
+  --color-x-text-secondary: #525252;
+  --color-x-text-muted: #a3a3a3;
+  --color-x-success: #10b981;
+  --color-x-error: #ef4444;
+  --color-x-warning: #f59e0b;
   --color-x-nebula-purple: #8b5cf6;
   --color-x-nebula-cyan: #06b6d4;
   --color-x-star-glow: #ffffff;
   
   /* Button Colors */
-  --color-btn-primary: #00a8ff;
-  --color-btn-primary-hover: #0096e6;
+  --color-btn-primary: #0066ff;
+  --color-btn-primary-hover: #0052cc;
   --color-btn-primary-text: #ffffff;
-  --color-btn-secondary: #ff6b35;
-  --color-btn-secondary-hover: #ff5722;
+  --color-btn-secondary: #f97316;
+  --color-btn-secondary-hover: #ea580c;
   
   /* Spacing */
   --spacing-x-xs: 0.25rem;
@@ -38,18 +38,18 @@
   --spacing-x-xl: 2rem;
   
   /* Border Radius */
-  --radius-x-sm: 0.25rem;
+  --radius-x-sm: 0.375rem;
   --radius-x-md: 0.5rem;
-  --radius-x-lg: 1rem;
-  --radius-x-xl: 1.5rem;
+  --radius-x-lg: 0.75rem;
+  --radius-x-xl: 1rem;
   --radius-x-full: 9999px;
   
   /* Typography */
   --font-family-x-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-size-x-xs: 0.8125rem;
-  --font-size-x-sm: 0.9375rem;
-  --font-size-x-base: 1rem;
-  --font-size-x-lg: 1.125rem;
+  --font-size-x-sm: 0.875rem;
+  --font-size-x-base: 0.9375rem;
+  --font-size-x-lg: 1.0625rem;
   --font-size-x-xl: 1.25rem;
   --font-weight-normal: 400;
   --font-weight-medium: 500;
@@ -57,140 +57,86 @@
   --font-weight-bold: 700;
   
   /* Transitions */
-  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 120ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 250ms cubic-bezier(0.4, 0, 0.2, 1);
   
-  /* Shadows - Cosmic Glow Effects */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
-  --shadow-md: 0 4px 6px -1px rgba(0, 168, 255, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.6);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 168, 255, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.7);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 168, 255, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.8);
-  --shadow-glow: 0 0 20px rgba(0, 168, 255, 0.3);
-  --shadow-glow-strong: 0 0 30px rgba(0, 168, 255, 0.5);
+  /* Shadows - Subtle & Refined */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+  --shadow-glow-strong: 0 0 0 4px rgba(0, 102, 255, 0.15);
 }
 
-/* Animated Space Background */
-@keyframes stars {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-2000px); }
-}
-
-@keyframes glow-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+/* Dark Mode Colors */
+body.dark {
+  --color-x-dark: #1a1a1a;
+  --color-x-darker: #0f0f0f;
+  --color-x-border: #2a2a2a;
+  --color-x-hover: #252525;
+  --color-x-blue: #3b82f6;
+  --color-x-blue-hover: #2563eb;
+  --color-x-blue-light: rgba(59, 130, 246, 0.1);
+  --color-x-text-primary: #e5e5e5;
+  --color-x-text-secondary: #a3a3a3;
+  --color-x-text-muted: #737373;
+  --color-btn-primary: #3b82f6;
+  --color-btn-primary-hover: #2563eb;
 }
 
 body {
   font-family: var(--font-family-x-base);
-  background: linear-gradient(to bottom, #000000 0%, #0a0e27 50%, #050816 100%);
+  background: linear-gradient(135deg, #e0e7ff 0%, #f0f9ff 50%, #fef3c7 100%);
   background-attachment: fixed;
   color: var(--color-x-text-primary);
   font-size: var(--font-size-x-base);
   line-height: 1.5;
+  transition: background 0.3s ease, color 0.3s ease;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  position: relative;
-  overflow-x: hidden;
 }
 
-/* Animated Stars Background */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 200vh;
-  background-image: 
-    radial-gradient(2px 2px at 20% 30%, white, transparent),
-    radial-gradient(2px 2px at 60% 70%, white, transparent),
-    radial-gradient(1px 1px at 50% 50%, white, transparent),
-    radial-gradient(1px 1px at 80% 10%, white, transparent),
-    radial-gradient(2px 2px at 90% 60%, white, transparent),
-    radial-gradient(1px 1px at 33% 80%, white, transparent),
-    radial-gradient(1px 1px at 15% 90%, white, transparent);
-  background-size: 
-    200% 200%,
-    180% 180%,
-    220% 220%,
-    190% 190%,
-    210% 210%,
-    195% 195%,
-    205% 205%;
-  background-position: 
-    0 0,
-    40% 60%,
-    80% 20%,
-    20% 80%,
-    60% 40%,
-    90% 10%,
-    10% 90%;
-  opacity: 0.6;
-  animation: stars 200s linear infinite;
-  pointer-events: none;
-  z-index: 0;
+body.dark {
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
 }
 
-/* Custom Scrollbar - Space themed */
+/* Glassmorphism styles */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+}
+
+.glass-dark {
+  background: rgba(255, 255, 255, 0.5);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Dark mode glass variants */
+body.dark .glass {
+  background: rgba(20, 20, 30, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+body.dark .glass-dark {
+  background: rgba(30, 30, 40, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Custom Scrollbar - Clean & Minimal */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(10, 14, 39, 0.5);
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, var(--color-x-blue) 0%, var(--color-x-nebula-purple) 100%);
-  border-radius: 10px;
-  border: 2px solid rgba(10, 14, 39, 0.5);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, var(--color-x-blue-hover) 0%, var(--color-x-nebula-purple) 100%);
-  box-shadow: 0 0 10px rgba(0, 168, 255, 0.5);
-}
-
-/* Focus styles for accessibility - Cosmic glow */
-*:focus-visible {
-  outline: 2px solid var(--color-x-blue);
-  outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgba(0, 168, 255, 0.2);
-}
-
-/* Futuristic Glass Effect */
-.glass-panel {
-  background: rgba(10, 14, 39, 0.6);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 
-    0 8px 32px 0 rgba(0, 168, 255, 0.1),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
-}
-
-/* Neon Glow Button Effect */
-.neon-glow {
-  position: relative;
-  overflow: hidden;
-}
-
-.neon-glow::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s;
-}
-
-.neon-glow:hover::before {
-  left: 100%;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -206,21 +152,23 @@ body::before {
 *:focus-visible {
   outline: 2px solid var(--color-x-blue);
   outline-offset: 2px;
+  box-shadow: var(--shadow-glow);
 }
 
 /* Notion-Inspired Markdown Content Styles */
 .prose {
   color: var(--color-x-text-primary);
-  font-size: 1rem;
+  font-size: 0.9375rem;
+  line-height: 1.6;
 }
 
-/* Headings - Notion style with better spacing and weight */
+/* Headings */
 .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
   color: var(--color-x-text-primary);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-semibold);
   line-height: 1.3;
-  margin-top: 1.4em;
-  margin-bottom: 0.4em;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
   letter-spacing: -0.01em;
 }
 
@@ -231,32 +179,31 @@ body::before {
 }
 
 .prose h1 { 
-  font-size: 1.875em; 
+  font-size: 1.75em; 
   font-weight: 700;
-  margin-top: 0;
-  margin-bottom: 0.5em;
+  margin-bottom: 0.75em;
 }
 
 .prose h2 { 
-  font-size: 1.5em;
+  font-size: 1.375em;
   font-weight: 600;
 }
 
 .prose h3 { 
-  font-size: 1.25em;
-  font-weight: 600;
-}
-
-.prose h4 {
   font-size: 1.125em;
   font-weight: 600;
 }
 
-/* Paragraphs - Notion-like spacing */
+.prose h4 {
+  font-size: 1em;
+  font-weight: 600;
+}
+
+/* Paragraphs */
 .prose p {
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-  line-height: 1.6;
+  margin-top: 0.75em;
+  margin-bottom: 0.75em;
+  line-height: 1.7;
 }
 
 .prose p:first-child {
@@ -269,7 +216,7 @@ body::before {
 
 /* Text formatting */
 .prose strong {
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-semibold);
   color: var(--color-x-text-primary);
 }
 
@@ -277,40 +224,37 @@ body::before {
   font-style: italic;
 }
 
-/* Links - Notion style with underline */
+/* Links */
 .prose a {
-  color: var(--color-x-text-primary);
-  text-decoration: underline;
-  text-decoration-color: rgba(231, 233, 234, 0.3);
-  text-underline-offset: 2px;
+  color: var(--color-x-blue);
+  text-decoration: none;
   transition: all var(--transition-fast);
 }
 
 .prose a:hover {
-  text-decoration-color: rgba(29, 155, 240, 0.6);
-  color: var(--color-x-blue);
+  text-decoration: underline;
 }
 
-/* Inline code - Notion style */
+/* Inline code */
 .prose code {
-  background-color: rgba(135, 131, 120, 0.15);
-  color: #eb5757;
-  padding: 0.2em 0.4em;
-  border-radius: 3px;
-  font-size: 0.85em;
+  background-color: var(--color-x-hover);
+  color: var(--color-x-error);
+  padding: 0.15em 0.35em;
+  border-radius: var(--radius-x-sm);
+  font-size: 0.9em;
   font-family: 'SF Mono', 'Consolas', 'Liberation Mono', 'Menlo', 'Courier', monospace;
   font-weight: 500;
-  line-height: normal;
+  border: 1px solid var(--color-x-border);
 }
 
-/* Code blocks - Notion style */
+/* Code blocks */
 .prose pre {
-  background-color: rgba(135, 131, 120, 0.1);
-  border: 1px solid rgba(135, 131, 120, 0.2);
-  border-radius: 3px;
+  background-color: var(--color-x-hover);
+  border: 1px solid var(--color-x-border);
+  border-radius: var(--radius-x-md);
   padding: 1em;
   overflow-x: auto;
-  margin: 0.75em 0;
+  margin: 1em 0;
   line-height: 1.5;
 }
 
@@ -321,12 +265,13 @@ body::before {
   border-radius: 0;
   font-size: 0.875em;
   font-weight: 400;
+  border: none;
 }
 
-/* Lists - Notion style with better spacing */
+/* Lists */
 .prose ul, .prose ol {
-  margin: 0.5em 0;
-  padding-left: 1.65em;
+  margin: 0.75em 0;
+  padding-left: 1.5em;
 }
 
 .prose ul {
@@ -338,34 +283,34 @@ body::before {
 }
 
 .prose li {
-  margin: 0.15em 0;
+  margin: 0.25em 0;
   padding-left: 0.25em;
   line-height: 1.6;
 }
 
 .prose li > p {
-  margin: 0.15em 0;
+  margin: 0.25em 0;
 }
 
 /* Nested lists */
 .prose ul ul, .prose ol ul {
   list-style-type: circle;
-  margin-top: 0.15em;
-  margin-bottom: 0.15em;
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
 }
 
 .prose ul ul ul, .prose ol ul ul {
   list-style-type: square;
 }
 
-/* Blockquotes - Notion style */
+/* Blockquotes */
 .prose blockquote {
-  border-left: 3px solid var(--color-x-text-muted);
+  border-left: 3px solid var(--color-x-border);
   padding-left: 1em;
   padding-top: 0.25em;
   padding-bottom: 0.25em;
-  margin: 0.75em 0;
-  color: var(--color-x-text-primary);
+  margin: 1em 0;
+  color: var(--color-x-text-secondary);
   font-style: normal;
 }
 
@@ -373,61 +318,59 @@ body::before {
   margin: 0.25em 0;
 }
 
-/* Horizontal rule - Notion style */
+/* Horizontal rule */
 .prose hr {
   border: none;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  margin: 1.25em 0;
+  border-top: 1px solid var(--color-x-border);
+  margin: 1.5em 0;
 }
 
 /* Images */
 .prose img {
   max-width: 100%;
-  border-radius: 3px;
-  margin: 0.75em 0;
+  border-radius: var(--radius-x-md);
+  margin: 1em 0;
+  border: 1px solid var(--color-x-border);
 }
 
-/* Tables - Notion style */
+/* Tables */
 .prose table {
   width: 100%;
   border-collapse: collapse;
-  margin: 0.75em 0;
-  font-size: 0.95em;
+  margin: 1em 0;
+  font-size: 0.9em;
 }
 
 .prose th, .prose td {
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--color-x-border);
   padding: 0.5em 0.75em;
   text-align: left;
 }
 
 .prose th {
-  background-color: rgba(135, 131, 120, 0.1);
+  background-color: var(--color-x-hover);
   font-weight: var(--font-weight-semibold);
   color: var(--color-x-text-secondary);
   font-size: 0.875em;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
 }
 
 .prose td {
   color: var(--color-x-text-primary);
 }
 
-/* Checkboxes - Notion style */
+/* Checkboxes */
 .prose input[type="checkbox"] {
   margin-right: 0.5em;
-  transform: scale(1.1);
 }
 
-/* Shiki code block styling */
+/* Code block with header */
 .code-block-wrapper {
   position: relative;
-  margin: 0.75em 0;
-  border-radius: 8px;
-  background-color: rgba(255, 255, 255, 0.05);
+  margin: 1em 0;
+  border-radius: var(--radius-x-md);
+  background-color: var(--color-x-hover);
   border: 1px solid var(--color-x-border);
-  overflow: visible;
+  overflow: hidden;
 }
 
 .code-block-header {
@@ -440,11 +383,8 @@ body::before {
   align-items: center;
   justify-content: space-between;
   padding: 0.5rem 1rem;
-  background-color: rgba(0, 0, 0, 0.95);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  background-color: var(--color-x-darker);
   border-bottom: 1px solid var(--color-x-border);
-  border-radius: 8px 8px 0 0;
 }
 
 .code-language {
@@ -452,7 +392,7 @@ body::before {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--color-x-text-muted);
+  color: var(--color-x-text-secondary);
   font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
 }
 
@@ -463,10 +403,10 @@ body::before {
   padding: 0.25rem 0.5rem;
   background-color: transparent;
   border: 1px solid transparent;
-  border-radius: 4px;
+  border-radius: var(--radius-x-sm);
   color: var(--color-x-text-muted);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-fast);
   opacity: 0;
 }
 
@@ -475,7 +415,7 @@ body::before {
 }
 
 .code-copy-btn:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--color-x-hover);
   border-color: var(--color-x-border);
   color: var(--color-x-text-primary);
 }
@@ -509,10 +449,10 @@ body::before {
 
 .prose pre.shiki {
   padding: 1em !important;
-  padding-top: 3.5em !important;
+  padding-top: 3em !important;
   overflow-x: auto;
   margin: 0;
-  border-radius: 8px;
+  border-radius: var(--radius-x-md);
 }
 
 .prose pre.shiki code {
@@ -521,14 +461,14 @@ body::before {
   font-weight: 400;
 }
 
-/* Fallback code blocks (no Shiki) */
+/* Fallback code blocks */
 .code-block-wrapper pre {
   margin: 0;
   padding: 1em;
-  padding-top: 3.5em;
+  padding-top: 3em;
   overflow-x: auto;
   background-color: transparent;
-  border-radius: 8px;
+  border-radius: var(--radius-x-md);
 }
 
 .code-block-wrapper pre code {
@@ -539,24 +479,25 @@ body::before {
   font-size: 0.875em;
   font-weight: 400;
   font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  border: none;
 }
 
 /* Scrollbar for code blocks */
 .prose pre.shiki::-webkit-scrollbar,
 .code-block-wrapper pre::-webkit-scrollbar {
-  height: 8px;
+  height: 6px;
 }
 
 .prose pre.shiki::-webkit-scrollbar-track,
 .code-block-wrapper pre::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
+  background: transparent;
+  border-radius: var(--radius-x-sm);
 }
 
 .prose pre.shiki::-webkit-scrollbar-thumb,
 .code-block-wrapper pre::-webkit-scrollbar-thumb {
   background: var(--color-x-border);
-  border-radius: 4px;
+  border-radius: var(--radius-x-sm);
 }
 
 .prose pre.shiki::-webkit-scrollbar-thumb:hover,

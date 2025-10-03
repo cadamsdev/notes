@@ -50,19 +50,27 @@ cd desktop && bun run tauri build
 - Global styles imported in `App.vue`: `import './styles/global.css'`
 - Tailwind CSS v4 with Vite plugin (`@tailwindcss/vite`)
 - Single global CSS file: `desktop/src/styles/global.css` imports Tailwind via `@import "tailwindcss"`
-- **Theme**: Modern futuristic **SpaceX/Space-inspired design** with deep space colors, cosmic glows, animated starfield background, and glass morphism effects
+- **Theme**: Modern, clean, minimal design with **glassmorphism** aesthetics
+- **Light & Dark Mode**: Full theme support with toggle button (`ThemeToggle.vue`)
+  - Light mode: Soft gradient backgrounds (blue/cyan/yellow tones) with frosted glass panels
+  - Dark mode: Deep space blues (#0f0f23, #1a1a2e, #16213e) with darker glass panels
+  - Theme persists via localStorage and respects system preference on first load
+- **Glassmorphism**: Frosted glass UI with backdrop blur effects
+  - `.glass` class: Main glass panels with `backdrop-filter: blur(20px)`, `rgba(255,255,255,0.7)` backgrounds
+  - `.glass-dark` class: Slightly more opaque variant for headers/sidebars
+  - Dark mode automatically adapts glass panels to darker translucent backgrounds
 - **Prefer Tailwind utility classes over custom CSS** - use inline classes in templates instead of `<style>` blocks
 - Custom CSS should only be used for: theme variables (`@theme`), global resets, or complex animations not achievable with Tailwind
 - Use CSS custom properties (e.g., `var(--color-x-blue)`) defined in `@theme` when Tailwind utilities aren't sufficient
-- **Available theme colors** (defined in `@theme` in global.css):
-  - Background: `--color-x-black`, `--color-x-dark`, `--color-x-darker`
+- **Available theme colors** (defined in `@theme` in global.css, adapt in dark mode):
+  - Background: `--color-x-dark`, `--color-x-darker` (light: #fafafa, #ffffff; dark: #1a1a1a, #0f0f0f)
   - Borders/UI: `--color-x-border`, `--color-x-hover`
-  - Primary: `--color-x-blue` (cyan-blue #00a8ff), `--color-x-blue-hover`, `--color-x-blue-light`
-  - Accent: `--color-x-rocket` (orange #ff6b35), `--color-x-nebula-purple`, `--color-x-nebula-cyan`
-  - Text: `--color-x-text-primary`, `--color-x-text-secondary`, `--color-x-text-muted`
+  - Primary: `--color-x-blue` (light: #0066ff; dark: #3b82f6), `--color-x-blue-hover`, `--color-x-blue-light`
+  - Accent: `--color-x-rocket` (orange #f97316)
+  - Text: `--color-x-text-primary`, `--color-x-text-secondary`, `--color-x-text-muted` (adapt to light/dark)
   - Status: `--color-x-success`, `--color-x-error`, `--color-x-warning`
   - Buttons: `--color-btn-primary`, `--color-btn-primary-hover`, `--color-btn-primary-text`
-- **Design principles**: Use gradient buttons, cosmic glow effects (blue-tinted shadows), neon animations, smooth transitions with scale effects, and glass panel backgrounds (.glass-panel class)
+- **Design principles**: Clean minimal aesthetics, frosted glass panels, subtle shadows, smooth transitions (0.3s), backdrop blur effects, semi-transparent borders (white/30 opacity)
 
 #### Component Architecture
 - All reusable components are located in `desktop/src/components/`
@@ -79,6 +87,8 @@ cd desktop && bun run tauri build
   - `NoteCreator.vue` - Note creation form
   - `NoteItem.vue` - Individual note display with edit/delete
   - `EmptyState.vue` - Empty state messaging
+  - `SearchBar.vue` - Search input with clear functionality
+  - `ThemeToggle.vue` - Light/dark mode toggle button
 
 ### Tauri (Backend)
 - Commands defined with `#[tauri::command]` attribute in `lib.rs`
