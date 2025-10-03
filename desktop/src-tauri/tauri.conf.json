@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "NoteX",
+        "title": "Cosmic Notes",
         "width": 1536,
         "height": 864
       }
