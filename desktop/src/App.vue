@@ -211,8 +211,11 @@ const editNote = async (id: number, content: string) => {
     <!-- Main Container - 2 Column Layout -->
     <div class="w-full max-w-[1200px] flex">
       
-      <!-- Left Column - Calendar and Tags (Sticky) -->
+      <!-- Left Column - Search, Calendar and Tags (Sticky) -->
       <div class="w-[320px] border-r border-white/30 flex flex-col sticky top-0 h-screen overflow-y-auto glass">
+        <!-- Search Bar -->
+        <SearchBar @update:search-query="searchQuery = $event" />
+        
         <CalendarView
           :notes="notes"
           :selected-date="selectedDate"
@@ -251,11 +254,6 @@ const editNote = async (id: number, content: string) => {
             </div>
           </div>
         </header>
-
-        <!-- Search Bar -->
-        <div class="sticky top-0 z-40 transition-all duration-300">
-          <SearchBar @update:search-query="searchQuery = $event" />
-        </div>
 
         <!-- Notes Feed -->
         <div class="flex-1 overflow-y-auto notes-feed-container">
