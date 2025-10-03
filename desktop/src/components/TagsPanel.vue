@@ -88,21 +88,5 @@ const selectTag = (tag: string) => {
     <div v-else class="text-[var(--color-x-text-muted)] text-xs p-3 bg-white/60 dark:bg-white/10 rounded-lg backdrop-blur-sm">
       No tags yet. Add hashtags like <span class="text-[var(--color-x-blue)] font-mono">#ideas</span> to organize your notes.
     </div>
-    
-    <!-- Selected Tag Info -->
-    <div v-if="selectedTag" class="mt-3 p-2.5 glass-dark rounded-lg border border-white/30">
-      <div class="text-xs text-[var(--color-x-text-secondary)] mb-1">
-        Filtering by tag
-      </div>
-      <div class="flex items-center justify-between">
-        <span class="text-sm font-medium text-[var(--color-x-text-primary)]">#{{ selectedTag }}</span>
-        <button
-          @click="emit('update:selectedTag', null)"
-          class="px-2 py-1 text-xs font-medium text-[var(--color-x-blue)] hover:bg-white/60 dark:hover:bg-white/20 rounded transition-all backdrop-blur-sm"
-        >
-          Clear
-        </button>
-      </div>
-    </div>
   </div>
 </template>
