@@ -43,7 +43,23 @@ renderer.code = function(token: any) {
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#039;');
-    return `<pre><code class="language-${language || 'plaintext'}">${escapedCode}</code></pre>`;
+    
+    return `
+      <div class="code-block-wrapper">
+        <div class="code-block-header">
+          <span class="code-language">${language || 'plaintext'}</span>
+          <button class="code-copy-btn" onclick="copyCode(this)" title="Copy code">
+            <svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </button>
+        </div>
+        <pre><code class="language-${language || 'plaintext'}">${escapedCode}</code></pre>
+      </div>`;
   }
 
   try {
@@ -51,7 +67,24 @@ renderer.code = function(token: any) {
       lang: language,
       theme: 'github-dark',
     });
-    return html;
+    
+    // Wrap the Shiki output with header
+    return `
+      <div class="code-block-wrapper">
+        <div class="code-block-header">
+          <span class="code-language">${language}</span>
+          <button class="code-copy-btn" onclick="copyCode(this)" title="Copy code">
+            <svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </button>
+        </div>
+        ${html}
+      </div>`;
   } catch (error) {
     console.error('Shiki highlighting error:', error);
     const escapedCode = code
@@ -60,7 +93,22 @@ renderer.code = function(token: any) {
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#039;');
-    return `<pre><code class="language-${language || 'plaintext'}">${escapedCode}</code></pre>`;
+    return `
+      <div class="code-block-wrapper">
+        <div class="code-block-header">
+          <span class="code-language">${language || 'plaintext'}</span>
+          <button class="code-copy-btn" onclick="copyCode(this)" title="Copy code">
+            <svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </button>
+        </div>
+        <pre><code class="language-${language || 'plaintext'}">${escapedCode}</code></pre>
+      </div>`;
   }
 };
 
