@@ -8,6 +8,7 @@ import TagsPanel from './components/TagsPanel.vue';
 import NoteCreator from './components/NoteCreator.vue';
 import NoteItem from './components/NoteItem.vue';
 import EmptyState from './components/EmptyState.vue';
+import SearchBar from './components/SearchBar.vue';
 
 // Configure marked options
 marked.setOptions({
@@ -25,6 +26,7 @@ const notes = ref<Note[]>([]);
 const selectedDate = ref<Date | null>(null);
 const selectedTag = ref<string | null>(null);
 const currentMonth = ref(new Date());
+const searchQuery = ref<string>('');
 let db: any = null;
 
 // Initialize database and load notes
@@ -76,6 +78,14 @@ const extractTags = (content: string): string[] => {
 
 const filteredNotes = computed(() => {
   let filtered = notes.value;
+  
+  // Filter by search query
+  if (searchQuery.value.trim()) {
+    const query = searchQuery.value.toLowerCase();
+    filtered = filtered.filter(note => 
+      note.content.toLowerCase().includes(query)
+    );
+  }
   
   // Filter by date
   if (selectedDate.value) {
@@ -183,6 +193,11 @@ const editNote = async (id: number, content: string) => {
             <h1 class="text-xl font-bold tracking-tight">My Notes</h1>
           </div>
         </header>
+
+        <!-- Search Bar -->
+        <div class="sticky top-[60px] z-10 bg-[var(--color-x-black)]">
+          <SearchBar @update:search-query="searchQuery = $event" />
+        </div>
 
         <!-- Note Creator -->
         <NoteCreator @create="createNote" />
