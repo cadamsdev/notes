@@ -180,7 +180,7 @@ const formatDate = (date: Date) => {
         <!-- View Mode -->
         <div 
           v-else 
-          class="text-[var(--color-x-text-primary)] whitespace-pre-wrap break-words leading-relaxed prose prose-invert prose-sm max-w-none"
+          class="text-[var(--color-x-text-primary)] whitespace-pre-wrap break-words prose prose-invert prose-sm max-w-none leading-0"
           v-html="renderedContent"
         ></div>
       </div>

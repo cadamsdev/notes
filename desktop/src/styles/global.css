@@ -212,7 +212,6 @@ body::before {
 .prose {
   color: var(--color-x-text-primary);
   font-size: 1rem;
-  line-height: 1.6;
 }
 
 /* Headings - Notion style with better spacing and weight */
