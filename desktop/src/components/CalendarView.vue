@@ -129,7 +129,7 @@ const nextMonth = () => {
       <div class="flex items-center justify-between">
         <button
           @click="previousMonth"
-          class="p-1.5 rounded hover:bg-white/60 text-[var(--color-x-text-secondary)] hover:text-[var(--color-x-text-primary)] transition-all backdrop-blur-sm"
+          class="p-1.5 rounded hover:bg-white/60 dark:hover:bg-white/20 text-[var(--color-x-text-secondary)] hover:text-[var(--color-x-text-primary)] transition-all backdrop-blur-sm"
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
@@ -140,7 +140,7 @@ const nextMonth = () => {
         
         <button
           @click="nextMonth"
-          class="p-1.5 rounded hover:bg-white/60 text-[var(--color-x-text-secondary)] hover:text-[var(--color-x-text-primary)] transition-all backdrop-blur-sm"
+          class="p-1.5 rounded hover:bg-white/60 dark:hover:bg-white/20 text-[var(--color-x-text-secondary)] hover:text-[var(--color-x-text-primary)] transition-all backdrop-blur-sm"
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
@@ -168,7 +168,7 @@ const nextMonth = () => {
           :disabled="!day"
           :class="[
             'aspect-square rounded-md flex flex-col items-center justify-center text-xs transition-all relative backdrop-blur-sm',
-            day ? 'hover:bg-white/60 cursor-pointer' : 'cursor-default',
+            day ? 'hover:bg-white/60 dark:hover:bg-white/10 cursor-pointer' : 'cursor-default',
             isToday(day) && !isSelected(day) ? 'bg-[var(--color-x-blue)]/10 text-[var(--color-x-blue)] font-semibold ring-1 ring-[var(--color-x-blue)]' : '',
             isSelected(day) ? 'bg-[var(--color-x-blue)] text-white font-semibold shadow-lg' : day ? 'text-[var(--color-x-text-primary)]' : 'text-transparent',
             day && !isToday(day) && !isSelected(day) && getNotesCountForDay(day) > 0 ? 'font-medium' : ''
@@ -195,7 +195,7 @@ const nextMonth = () => {
         </div>
         <button
           @click="emit('update:selectedDate', null)"
-          class="w-full px-3 py-1.5 text-xs font-medium text-[var(--color-x-blue)] hover:bg-white/60 rounded transition-all backdrop-blur-sm"
+          class="w-full px-3 py-1.5 text-xs font-medium text-[var(--color-x-blue)] hover:bg-white/60 dark:hover:bg-white/20 rounded transition-all backdrop-blur-sm"
         >
           Clear filter
         </button>
