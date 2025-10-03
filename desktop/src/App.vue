@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import './styles/global.css';
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import Database from '@tauri-apps/plugin-sql';
 import { marked } from 'marked';
 import Fuse from 'fuse.js';
@@ -28,6 +28,9 @@ const selectedDate = ref<Date | null>(null);
 const selectedTag = ref<string | null>(null);
 const currentMonth = ref(new Date());
 const searchQuery = ref<string>('');
+const headerVisible = ref(true);
+const lastScrollY = ref(0);
+const scrollContainer = ref<HTMLElement | null>(null);
 let db: any = null;
 
 // Initialize database and load notes
@@ -52,7 +55,37 @@ onMounted(async () => {
   } catch (error) {
     console.error('Failed to initialize database:', error);
   }
+
+  // Set up scroll listener
+  const container = document.querySelector('.notes-feed-container');
+  if (container) {
+    scrollContainer.value = container as HTMLElement;
+    container.addEventListener('scroll', handleScroll);
+  }
 });
+
+// Clean up scroll listener
+onUnmounted(() => {
+  if (scrollContainer.value) {
+    scrollContainer.value.removeEventListener('scroll', handleScroll);
+  }
+});
+
+// Handle scroll to show/hide header
+const handleScroll = () => {
+  if (!scrollContainer.value) return;
+  
+  const currentScrollY = scrollContainer.value.scrollTop;
+  
+  // Header is only sticky/visible when at the very top
+  if (currentScrollY === 0) {
+    headerVisible.value = true;
+  } else {
+    headerVisible.value = false;
+  }
+  
+  lastScrollY.value = currentScrollY;
+};
 
 const loadNotes = async () => {
   try {
@@ -200,7 +233,9 @@ const editNote = async (id: number, content: string) => {
       <!-- Right Column - Notes Feed -->
       <div class="flex-1 flex flex-col glass-panel">
         <!-- Header -->
-        <header class="sticky top-0 bg-gradient-to-r from-[var(--color-x-dark)]/95 to-[var(--color-x-darker)]/95 backdrop-blur-xl border-b border-[var(--color-x-border)] z-30 shadow-[0_4px_20px_rgba(0,168,255,0.2)]">
+        <header 
+          class="bg-gradient-to-r from-[var(--color-x-dark)]/95 to-[var(--color-x-darker)]/95 backdrop-blur-xl border-b border-[var(--color-x-border)] z-30 shadow-[0_4px_20px_rgba(0,168,255,0.2)] transition-all duration-300"
+        >
           <div class="px-6 py-5 relative">
             <div class="flex items-center gap-3">
               <!-- Rocket Icon -->
@@ -220,12 +255,12 @@ const editNote = async (id: number, content: string) => {
         </header>
 
         <!-- Search Bar -->
-        <div class="sticky top-[86px] z-20">
+        <div class="sticky top-0 z-20 transition-all duration-300">
           <SearchBar @update:search-query="searchQuery = $event" />
         </div>
 
         <!-- Notes Feed -->
-        <div class="flex-1 overflow-y-auto">
+        <div class="flex-1 overflow-y-auto notes-feed-container">
           <!-- Note Creator -->
           <NoteCreator @create="createNote" />
           
