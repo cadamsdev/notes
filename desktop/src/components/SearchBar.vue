@@ -40,14 +40,14 @@ const clearSearch = () => {
         v-model="searchQuery"
         type="text"
         placeholder="Search notes..."
-        class="w-full pl-9 pr-9 py-2 bg-white/60 backdrop-blur-sm border-2 border-[var(--color-x-text-muted)]/20 rounded-lg text-sm text-[var(--color-x-text-primary)] focus:outline-none focus:border-[var(--color-x-blue)] focus:ring-1 focus:ring-[var(--color-x-blue)] transition-all placeholder-[var(--color-x-text-muted)]"
+        class="w-full pl-9 pr-9 py-2 bg-white/60 dark:bg-white/10 backdrop-blur-sm border-2 border-[var(--color-x-text-muted)]/20 dark:border-white/20 rounded-lg text-sm text-[var(--color-x-text-primary)] focus:outline-none focus:border-[var(--color-x-blue)] focus:ring-1 focus:ring-[var(--color-x-blue)] transition-all placeholder-[var(--color-x-text-muted)]"
       />
 
       <!-- Clear Button -->
       <button
         v-if="searchQuery"
         @click="clearSearch"
-        class="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded hover:bg-white/60 text-[var(--color-x-text-muted)] hover:text-[var(--color-x-text-primary)] transition-all"
+        class="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded hover:bg-white/60 dark:hover:bg-white/20 text-[var(--color-x-text-muted)] hover:text-[var(--color-x-text-primary)] transition-all backdrop-blur-sm"
         title="Clear search"
       >
         <svg 

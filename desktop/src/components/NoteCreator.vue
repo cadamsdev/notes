@@ -35,7 +35,7 @@ const handleKeydown = (e: KeyboardEvent) => {
         v-model="noteContent"
         @keydown="handleKeydown"
         placeholder="What's on your mind?"
-        class="w-full bg-white/60 backdrop-blur-sm text-[var(--color-x-text-primary)] placeholder-[var(--color-x-text-muted)] resize-none outline-none text-[0.9375rem] leading-relaxed min-h-[100px] p-3 rounded-lg border-2 border-[var(--color-x-text-muted)]/20 focus:border-[var(--color-x-blue)] focus:ring-1 focus:ring-[var(--color-x-blue)] transition-all"
+        class="w-full bg-white/60 dark:bg-white/10 backdrop-blur-sm text-[var(--color-x-text-primary)] placeholder-[var(--color-x-text-muted)] resize-none outline-none text-[0.9375rem] leading-relaxed min-h-[100px] p-3 rounded-lg border-2 border-[var(--color-x-text-muted)]/20 dark:border-white/20 focus:border-[var(--color-x-blue)] focus:ring-1 focus:ring-[var(--color-x-blue)] transition-all"
         rows="3"
       ></textarea>
 
