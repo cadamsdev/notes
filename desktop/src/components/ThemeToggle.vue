@@ -38,7 +38,7 @@ const toggleTheme = () => {
 <template>
   <button
     @click="toggleTheme"
-    class="p-2 rounded-lg bg-white/60 backdrop-blur-sm border border-[var(--color-x-text-muted)]/20 hover:bg-white/80 transition-all"
+    class="p-2 rounded-lg bg-white/60 dark:bg-white/10 backdrop-blur-sm border border-[var(--color-x-text-muted)]/20 dark:border-white/20 hover:bg-white/80 dark:hover:bg-white/20 transition-all"
     :title="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
   >
     <!-- Sun Icon (Light Mode) -->
