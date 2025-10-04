@@ -9,13 +9,13 @@ interface Note {
 
 interface Props {
   notes: Note[];
-  selectedTag: string | null;
+  selectedTags: string[];
 }
 
 const props = defineProps<Props>();
 
 const emit = defineEmits<{
-  'update:selectedTag': [tag: string | null];
+  'update:selectedTags': [tags: string[]];
 }>();
 
 // Extract tags from note content (words starting with #)
@@ -35,7 +35,7 @@ const allTags = computed(() => {
   return Array.from(tagSet).sort();
 });
 
-// Get note count for each tag
+// Get note count for each tag (considering current filter)
 const getNotesCountForTag = (tag: string): number => {
   return props.notes.filter(note => {
     const tags = extractTags(note.content);
@@ -43,34 +43,63 @@ const getNotesCountForTag = (tag: string): number => {
   }).length;
 };
 
-const selectTag = (tag: string) => {
-  if (props.selectedTag === tag) {
-    emit('update:selectedTag', null); // Deselect if clicking the same tag
+const toggleTag = (tag: string) => {
+  const currentTags = [...props.selectedTags];
+  const index = currentTags.indexOf(tag);
+  
+  if (index > -1) {
+    // Remove tag if already selected
+    currentTags.splice(index, 1);
   } else {
-    emit('update:selectedTag', tag);
+    // Add tag if not selected
+    currentTags.push(tag);
   }
+  
+  emit('update:selectedTags', currentTags);
+};
+
+const clearAllTags = () => {
+  emit('update:selectedTags', []);
+};
+
+const isTagSelected = (tag: string) => {
+  return props.selectedTags.includes(tag);
 };
 </script>
 
 <template>
   <div class="p-4">
-    <div class="flex items-center gap-2 mb-3">
-      <svg class="w-4 h-4 text-[var(--color-x-text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
-      </svg>
-      <h3 class="text-sm font-semibold text-[var(--color-x-text-primary)]">
-        Tags
-      </h3>
+    <div class="flex items-center justify-between mb-3">
+      <div class="flex items-center gap-2">
+        <svg class="w-4 h-4 text-[var(--color-x-text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+        </svg>
+        <h3 class="text-sm font-semibold text-[var(--color-x-text-primary)]">
+          Tags
+        </h3>
+        <span v-if="selectedTags.length > 0" class="text-xs text-[var(--color-x-text-secondary)]">
+          ({{ selectedTags.length }} selected)
+        </span>
+      </div>
+      
+      <!-- Clear all button -->
+      <button
+        v-if="selectedTags.length > 0"
+        @click="clearAllTags"
+        class="text-xs text-[var(--color-x-blue)] hover:text-[var(--color-x-blue-hover)] font-medium transition-colors"
+      >
+        Clear all
+      </button>
     </div>
     
     <div v-if="allTags.length > 0" class="flex flex-wrap gap-2">
       <button
         v-for="tag in allTags"
         :key="tag"
-        @click="selectTag(tag)"
+        @click="toggleTag(tag)"
         :class="[
           'px-2.5 py-1 rounded-full text-xs font-medium transition-all backdrop-blur-sm',
-          selectedTag === tag 
+          isTagSelected(tag)
             ? 'bg-[var(--color-x-blue)] text-white shadow-lg' 
             : 'bg-white/60 dark:bg-white/10 text-[var(--color-x-text-secondary)] hover:bg-white/80 dark:hover:bg-white/20 hover:text-[var(--color-x-blue)]'
         ]"
@@ -78,7 +107,7 @@ const selectTag = (tag: string) => {
         #{{ tag }}
         <span :class="[
           'ml-1.5 px-1.5 py-0.5 rounded text-xs',
-          selectedTag === tag ? 'bg-white/20' : 'bg-[var(--color-x-blue)]/10 dark:bg-[var(--color-x-blue)]/20'
+          isTagSelected(tag) ? 'bg-white/20' : 'bg-[var(--color-x-blue)]/10 dark:bg-[var(--color-x-blue)]/20'
         ]">
           {{ getNotesCountForTag(tag) }}
         </span>

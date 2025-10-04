@@ -28,7 +28,7 @@ interface Note {
 
 const notes = ref<Note[]>([]);
 const selectedDate = ref<Date | null>(null);
-const selectedTag = ref<string | null>(null);
+const selectedTags = ref<string[]>([]);
 const currentMonth = ref(new Date());
 const searchQuery = ref<string>('');
 let db: any = null;
@@ -119,11 +119,12 @@ const filteredNotes = computed(() => {
     });
   }
   
-  // Filter by tag
-  if (selectedTag.value) {
+  // Filter by tags (AND logic - note must have ALL selected tags)
+  if (selectedTags.value.length > 0) {
     filtered = filtered.filter(note => {
       const tags = extractTags(note.content);
-      return tags.includes(selectedTag.value!);
+      // Check if note has ALL selected tags
+      return selectedTags.value.every(selectedTag => tags.includes(selectedTag));
     });
   }
   
@@ -140,9 +141,9 @@ const hasMoreNotes = computed(() => {
 });
 
 // Reset displayed count when filters change
-watch([searchQuery, selectedDate, selectedTag], () => {
+watch([searchQuery, selectedDate, selectedTags], () => {
   displayedNotesCount.value = NOTES_PER_PAGE;
-});
+}, { deep: true });
 
 // Infinite scroll handler
 const handleScroll = (event: Event) => {
@@ -247,8 +248,8 @@ const editNote = async (id: number, content: string) => {
             <div class="px-4 pb-4">
               <TagsPanel
                 :notes="notes"
-                :selected-tag="selectedTag"
-                @update:selected-tag="selectedTag = $event"
+                :selected-tags="selectedTags"
+                @update:selected-tags="selectedTags = $event"
               />
             </div>
           </div>
