@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { invoke } from '@tauri-apps/api/core';
 
 const isOpen = ref(false);
+const appVersion = ref('Loading...');
 
 const openSettings = () => {
   isOpen.value = true;
@@ -19,6 +20,16 @@ const openDatabaseLocation = async () => {
     console.error('Failed to open database location:', error);
   }
 };
+
+// Fetch app version on mount
+onMounted(async () => {
+  try {
+    appVersion.value = await invoke('get_app_version');
+  } catch (error) {
+    console.error('Failed to get app version:', error);
+    appVersion.value = 'Unknown';
+  }
+});
 
 // Expose openSettings for parent components
 defineExpose({ openSettings });
@@ -109,7 +120,7 @@ defineExpose({ openSettings });
                 </div>
                 <div>
                   <p class="text-sm font-medium text-[var(--color-x-text-primary)]">Cosmic Notes</p>
-                  <p class="text-xs text-[var(--color-x-text-secondary)] mt-0.5">Version 0.1.0</p>
+                  <p class="text-xs text-[var(--color-x-text-secondary)] mt-0.5">Version {{ appVersion }}</p>
                 </div>
               </div>
             </div>

@@ -2,6 +2,11 @@ use tauri::Manager;
 use tauri::menu::{MenuBuilder, MenuItemBuilder, SubmenuBuilder};
 
 #[tauri::command]
+fn get_app_version() -> String {
+    env!("CARGO_PKG_VERSION").to_string()
+}
+
+#[tauri::command]
 fn open_database_location_cmd(app: tauri::AppHandle) -> Result<(), String> {
     open_database_location(&app)
 }
@@ -53,7 +58,7 @@ pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_sql::Builder::new().build())
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![open_database_location_cmd])
+        .invoke_handler(tauri::generate_handler![open_database_location_cmd, get_app_version])
         .setup(|app| {
             // Create menu items
             let open_db = MenuItemBuilder::with_id("open_db", "Open Database Location").build(app)?;
