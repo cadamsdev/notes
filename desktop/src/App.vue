@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import './styles/global.css';
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import Database from '@tauri-apps/plugin-sql';
 import { marked } from 'marked';
 import Fuse from 'fuse.js';
@@ -32,6 +32,11 @@ const selectedTag = ref<string | null>(null);
 const currentMonth = ref(new Date());
 const searchQuery = ref<string>('');
 let db: any = null;
+
+// Infinite scroll state
+const NOTES_PER_PAGE = 20;
+const displayedNotesCount = ref(NOTES_PER_PAGE);
+const notesContainer = ref<HTMLElement | null>(null);
 
 // Reference to settings panel
 const settingsPanel = ref<InstanceType<typeof SettingsPanel> | null>(null);
@@ -124,6 +129,32 @@ const filteredNotes = computed(() => {
   
   return filtered;
 });
+
+// Displayed notes with infinite scroll limit
+const displayedNotes = computed(() => {
+  return filteredNotes.value.slice(0, displayedNotesCount.value);
+});
+
+const hasMoreNotes = computed(() => {
+  return displayedNotesCount.value < filteredNotes.value.length;
+});
+
+// Reset displayed count when filters change
+watch([searchQuery, selectedDate, selectedTag], () => {
+  displayedNotesCount.value = NOTES_PER_PAGE;
+});
+
+// Infinite scroll handler
+const handleScroll = (event: Event) => {
+  const target = event.target as HTMLElement;
+  const scrollPosition = target.scrollTop + target.clientHeight;
+  const scrollHeight = target.scrollHeight;
+  
+  // Load more when user is within 200px of the bottom
+  if (scrollHeight - scrollPosition < 200 && hasMoreNotes.value) {
+    displayedNotesCount.value += NOTES_PER_PAGE;
+  }
+};
 
 const createNote = async (content: string) => {
   try {
@@ -227,7 +258,11 @@ const editNote = async (id: number, content: string) => {
       <!-- Right Column - Notes Feed -->
       <div class="flex-1 flex flex-col h-full overflow-hidden">
         <!-- Notes Feed - Scrollable Container -->
-        <div class="flex-1 overflow-y-auto pr-2 notes-feed-container">
+        <div 
+          ref="notesContainer"
+          class="flex-1 overflow-y-auto pr-2 notes-feed-container"
+          @scroll="handleScroll"
+        >
             <!-- Header -->
             <header class="glass-header rounded-2xl mb-6">
               <div class="px-8 py-6">
@@ -270,12 +305,32 @@ const editNote = async (id: number, content: string) => {
             
             <div v-if="filteredNotes.length > 0" class="space-y-4">
               <NoteItem
-                v-for="note in filteredNotes"
+                v-for="note in displayedNotes"
                 :key="note.id"
                 :note="note"
                 @delete="deleteNote"
                 @edit="editNote"
               />
+              
+              <!-- Loading indicator when there are more notes -->
+              <div v-if="hasMoreNotes" class="text-center py-4">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 border border-white/10">
+                  <svg class="w-4 h-4 animate-spin text-[var(--color-x-blue)]" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  <span class="text-sm text-[var(--color-x-text-secondary)]">
+                    Loading more notes... ({{ displayedNotes.length }} of {{ filteredNotes.length }})
+                  </span>
+                </div>
+              </div>
+              
+              <!-- End of list indicator -->
+              <div v-else class="text-center py-4">
+                <p class="text-sm text-[var(--color-x-text-secondary)]">
+                  All {{ filteredNotes.length }} {{ filteredNotes.length === 1 ? 'note' : 'notes' }} loaded
+                </p>
+              </div>
             </div>
 
             <!-- Empty State -->
