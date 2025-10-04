@@ -357,8 +357,8 @@ body.dark {
 
 /* Enhanced Custom Scrollbar - Glassy appearance */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 12px;
+  height: 12px;
 }
 
 ::-webkit-scrollbar-track {
@@ -848,7 +848,7 @@ button:disabled {
 /* Scrollbar for code blocks */
 .prose pre.shiki::-webkit-scrollbar,
 .code-block-wrapper pre::-webkit-scrollbar {
-  height: 6px;
+  height: 10px;
 }
 
 .prose pre.shiki::-webkit-scrollbar-track,
