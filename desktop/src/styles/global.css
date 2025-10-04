@@ -298,7 +298,7 @@ body.dark {
 }
 
 /* Enhanced interactive states for frosted glass */
-.glass:hover, .glass-card:hover {
+.glass:hover {
   background: var(--glass-bg-medium);
   border-color: var(--glass-border-strong);
   box-shadow: 
@@ -325,7 +325,7 @@ body.dark {
 }
 
 /* Enhanced focus states */
-.glass:focus-within, .glass-card:focus-within {
+.glass:focus-within {
   background: var(--glass-bg-medium);
   border-color: var(--color-x-blue);
   box-shadow: 
@@ -352,10 +352,6 @@ body.dark {
       var(--glass-outer-glow),
       0 12px 32px rgba(0, 0, 0, 0.12);
   }
-}
-
-.glass-card:focus-within {
-  animation: glassGlow 2s ease-in-out infinite;
 }
 
 /* Enhanced Custom Scrollbar - Glassy appearance */
