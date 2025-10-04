@@ -25,19 +25,42 @@ const extractTags = (content: string): string[] => {
   return Array.from(matches, m => m[1].toLowerCase());
 };
 
-// Get all unique tags from all notes
+// Get notes filtered by currently selected tags
+const filteredNotes = computed(() => {
+  if (props.selectedTags.length === 0) {
+    return props.notes;
+  }
+  
+  return props.notes.filter(note => {
+    const tags = extractTags(note.content);
+    // Note must have ALL selected tags
+    return props.selectedTags.every(selectedTag => tags.includes(selectedTag));
+  });
+});
+
+// Get all unique tags from filtered notes (contextual tags based on selection)
 const allTags = computed(() => {
   const tagSet = new Set<string>();
-  props.notes.forEach(note => {
+  filteredNotes.value.forEach(note => {
     const tags = extractTags(note.content);
-    tags.forEach(tag => tagSet.add(tag));
+    tags.forEach(tag => {
+      // Don't include already selected tags in the available list
+      if (!props.selectedTags.includes(tag)) {
+        tagSet.add(tag);
+      }
+    });
   });
-  return Array.from(tagSet).sort();
+  
+  // Add selected tags at the beginning
+  const selectedTagsArray = [...props.selectedTags];
+  const availableTags = Array.from(tagSet).sort();
+  
+  return [...selectedTagsArray, ...availableTags];
 });
 
 // Get note count for each tag (considering current filter)
 const getNotesCountForTag = (tag: string): number => {
-  return props.notes.filter(note => {
+  return filteredNotes.value.filter(note => {
     const tags = extractTags(note.content);
     return tags.includes(tag);
   }).length;
