@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import './styles/global.css';
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import Database from '@tauri-apps/plugin-sql';
 import { marked } from 'marked';
 import Fuse from 'fuse.js';
@@ -30,9 +30,6 @@ const selectedDate = ref<Date | null>(null);
 const selectedTag = ref<string | null>(null);
 const currentMonth = ref(new Date());
 const searchQuery = ref<string>('');
-const headerVisible = ref(true);
-const lastScrollY = ref(0);
-const scrollContainer = ref<HTMLElement | null>(null);
 let db: any = null;
 
 // Initialize database and load notes
@@ -57,37 +54,7 @@ onMounted(async () => {
   } catch (error) {
     console.error('Failed to initialize database:', error);
   }
-
-  // Set up scroll listener
-  const container = document.querySelector('.notes-feed-container');
-  if (container) {
-    scrollContainer.value = container as HTMLElement;
-    container.addEventListener('scroll', handleScroll);
-  }
 });
-
-// Clean up scroll listener
-onUnmounted(() => {
-  if (scrollContainer.value) {
-    scrollContainer.value.removeEventListener('scroll', handleScroll);
-  }
-});
-
-// Handle scroll to show/hide header
-const handleScroll = () => {
-  if (!scrollContainer.value) return;
-  
-  const currentScrollY = scrollContainer.value.scrollTop;
-  
-  // Header is only sticky/visible when at the very top
-  if (currentScrollY === 0) {
-    headerVisible.value = true;
-  } else {
-    headerVisible.value = false;
-  }
-  
-  lastScrollY.value = currentScrollY;
-};
 
 const loadNotes = async () => {
   try {
@@ -251,33 +218,30 @@ const editNote = async (id: number, content: string) => {
 
       <!-- Right Column - Notes Feed -->
       <div class="flex-1 flex flex-col h-full overflow-hidden">
-        <!-- Header -->
-        <header 
-          class="glass-header rounded-2xl z-30 transition-all duration-300 mb-2 flex-shrink-0"
-          :class="{ 'opacity-0 -translate-y-full pointer-events-none': !headerVisible }"
-        >
-          <div class="px-8 py-6">
-            <div class="flex items-center gap-4">
-              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--color-x-blue)] to-[var(--color-x-blue-hover)] flex items-center justify-center shadow-lg">
-                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                </svg>
-              </div>
-              <div class="flex-1">
-                <h1 class="text-xl font-semibold text-[var(--color-x-text-primary)] tracking-tight">
-                  Notes
-                </h1>
-                <p class="text-sm text-[var(--color-x-text-secondary)] mt-0.5">
-                  {{ filteredNotes.length }} {{ filteredNotes.length === 1 ? 'note' : 'notes' }}
-                </p>
-              </div>
-              <ThemeToggle />
-            </div>
-          </div>
-        </header>
-
         <!-- Notes Feed - Scrollable Container -->
         <div class="flex-1 overflow-y-auto pr-2 notes-feed-container">
+            <!-- Header -->
+            <header class="glass-header rounded-2xl mb-6">
+              <div class="px-8 py-6">
+                <div class="flex items-center gap-4">
+                  <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--color-x-blue)] to-[var(--color-x-blue-hover)] flex items-center justify-center shadow-lg">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                    </svg>
+                  </div>
+                  <div class="flex-1">
+                    <h1 class="text-xl font-semibold text-[var(--color-x-text-primary)] tracking-tight">
+                      Notes
+                    </h1>
+                    <p class="text-sm text-[var(--color-x-text-secondary)] mt-0.5">
+                      {{ filteredNotes.length }} {{ filteredNotes.length === 1 ? 'note' : 'notes' }}
+                    </p>
+                  </div>
+                  <ThemeToggle />
+                </div>
+              </div>
+            </header>
+            
             <!-- Note Creator -->
             <div class="mb-6">
               <NoteCreator @create="createNote" />
