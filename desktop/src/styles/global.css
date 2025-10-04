@@ -600,7 +600,7 @@ button:disabled {
 /* Inline code */
 .prose code {
   background-color: var(--color-x-hover);
-  color: var(--color-x-error);
+  color: var(--color-x-text-secondary);
   padding: 0.15em 0.35em;
   border-radius: var(--radius-x-sm);
   font-size: 0.9em;
