@@ -1,5 +1,5 @@
 <template>
-  <div class="custom-title-bar glass-header">
+  <div class="custom-title-bar">
     <div class="title-bar-content" data-tauri-drag-region @mousedown="startDrag" @dblclick="toggleMaximize">
       <!-- App Icon and Title -->
       <div class="title-section">
@@ -120,6 +120,10 @@ onMounted(async () => {
   z-index: 9999;
   user-select: none;
   -webkit-user-select: none;
+  background: var(--glass-bg-ultra);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: var(--shadow-sm), var(--glass-inner-shadow-strong), 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
 .title-bar-content {
