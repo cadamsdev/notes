@@ -32,6 +32,13 @@ async function initHighlighter() {
 // Custom renderer for code blocks using Shiki
 const renderer = new marked.Renderer();
 
+// Custom link renderer to open links in new tab
+renderer.link = function(token: any) {
+  const { href, title, text } = token;
+  const titleAttr = title ? ` title="${title}"` : '';
+  return `<a href="${href}"${titleAttr} target="_blank" rel="noopener noreferrer">${text}</a>`;
+};
+
 renderer.code = function(token: any) {
   const { text: code, lang: language } = token;
   
