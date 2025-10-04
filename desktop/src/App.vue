@@ -214,12 +214,12 @@ const editNote = async (id: number, content: string) => {
   <!-- Custom Title Bar -->
   <CustomTitleBar />
   
-  <main class="min-h-screen p-6 flex justify-center">
+  <main class="h-[calc(100vh-40px)] p-6 flex justify-center overflow-hidden">
     <!-- Main Container - Apple-style centered layout with generous spacing -->
-    <div class="w-full max-w-[1400px] flex gap-6">
+    <div class="w-full max-w-[1400px] flex gap-6 h-full">
       
       <!-- Left Column - Search, Calendar and Tags (Glass Panel) -->
-      <div class="w-[380px] flex flex-col sticky top-6 h-[calc(100vh-3rem)] overflow-hidden">
+      <div class="w-[380px] flex flex-col h-full overflow-hidden">
         <div class="glass-panel flex flex-col h-full overflow-hidden">
           <!-- Search Bar -->
           <div class="px-6 py-5 border-b border-white/10">
@@ -250,10 +250,10 @@ const editNote = async (id: number, content: string) => {
       </div>
 
       <!-- Right Column - Notes Feed -->
-      <div class="flex-1 flex flex-col min-h-0">
+      <div class="flex-1 flex flex-col h-full overflow-hidden">
         <!-- Header -->
         <header 
-          class="glass-header rounded-2xl z-30 transition-all duration-300 mb-2"
+          class="glass-header rounded-2xl z-30 transition-all duration-300 mb-2 flex-shrink-0"
           :class="{ 'opacity-0 -translate-y-full pointer-events-none': !headerVisible }"
         >
           <div class="px-8 py-6">
@@ -276,8 +276,8 @@ const editNote = async (id: number, content: string) => {
           </div>
         </header>
 
-        <!-- Notes Feed -->
-        <div class="flex-1 overflow-hidden">
+        <!-- Notes Feed - Scrollable Container -->
+        <div class="flex-1 overflow-y-auto pr-2 notes-feed-container">
             <!-- Note Creator -->
             <div class="mb-6">
               <NoteCreator @create="createNote" />
