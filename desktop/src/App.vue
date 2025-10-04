@@ -4,6 +4,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue';
 import Database from '@tauri-apps/plugin-sql';
 import { marked } from 'marked';
 import Fuse from 'fuse.js';
+import CustomTitleBar from './components/CustomTitleBar.vue';
 import CalendarView from './components/CalendarView.vue';
 import TagsPanel from './components/TagsPanel.vue';
 import NoteCreator from './components/NoteCreator.vue';
@@ -207,48 +208,68 @@ const editNote = async (id: number, content: string) => {
 </script>
 
 <template>
-  <main class="min-h-screen flex justify-center">
-    <!-- Main Container - 2 Column Layout -->
-    <div class="w-full max-w-[1200px] flex">
+  <!-- Custom blurred background -->
+  <div class="bg-[rgba(35,35,35,0.15)] absolute z-[-1]"></div>
+
+  <!-- Custom Title Bar -->
+  <CustomTitleBar />
+  
+  <main class="min-h-screen p-6 flex justify-center">
+    <!-- Main Container - Apple-style centered layout with generous spacing -->
+    <div class="w-full max-w-[1400px] flex gap-6">
       
-      <!-- Left Column - Search, Calendar and Tags (Sticky) -->
-      <div class="w-[320px] border-r border-white/30 flex flex-col sticky top-0 h-screen overflow-y-auto glass">
-        <!-- Search Bar -->
-        <SearchBar @update:search-query="searchQuery = $event" />
-        
-        <CalendarView
-          :notes="notes"
-          :selected-date="selectedDate"
-          :current-month="currentMonth"
-          @update:selected-date="selectedDate = $event"
-          @update:current-month="currentMonth = $event"
-        />
-        
-        <TagsPanel
-          :notes="notes"
-          :selected-tag="selectedTag"
-          @update:selected-tag="selectedTag = $event"
-        />
+      <!-- Left Column - Search, Calendar and Tags (Glass Panel) -->
+      <div class="w-[380px] flex flex-col sticky top-6 h-[calc(100vh-3rem)] overflow-hidden">
+        <div class="glass-panel flex flex-col h-full overflow-hidden">
+          <!-- Search Bar -->
+          <div class="px-6 py-5 border-b border-white/10">
+            <SearchBar @update:search-query="searchQuery = $event" />
+          </div>
+          
+          <!-- Scrollable Content -->
+          <div class="flex-1 overflow-y-auto">
+            <div class="px-4 py-2">
+              <CalendarView
+                :notes="notes"
+                :selected-date="selectedDate"
+                :current-month="currentMonth"
+                @update:selected-date="selectedDate = $event"
+                @update:current-month="currentMonth = $event"
+              />
+            </div>
+            
+            <div class="px-4 pb-4">
+              <TagsPanel
+                :notes="notes"
+                :selected-tag="selectedTag"
+                @update:selected-tag="selectedTag = $event"
+              />
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Right Column - Notes Feed -->
-      <div class="flex-1 flex flex-col glass">
+      <div class="flex-1 flex flex-col min-h-0">
         <!-- Header -->
         <header 
-          class="glass-dark border-b border-white/30 z-30 transition-all duration-300"
+          class="glass-header rounded-2xl z-30 transition-all duration-300 mb-2"
           :class="{ 'opacity-0 -translate-y-full pointer-events-none': !headerVisible }"
         >
-          <div class="px-4 py-3">
-            <div class="flex items-center gap-2">
-              <div class="w-8 h-8 rounded-lg bg-[var(--color-x-blue)] flex items-center justify-center shadow-lg">
-                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+          <div class="px-8 py-6">
+            <div class="flex items-center gap-4">
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--color-x-blue)] to-[var(--color-x-blue-hover)] flex items-center justify-center shadow-lg">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                 </svg>
               </div>
               <div class="flex-1">
-                <h1 class="text-base font-semibold text-[var(--color-x-text-primary)]">
+                <h1 class="text-xl font-semibold text-[var(--color-x-text-primary)] tracking-tight">
                   Notes
                 </h1>
+                <p class="text-sm text-[var(--color-x-text-secondary)] mt-0.5">
+                  {{ filteredNotes.length }} {{ filteredNotes.length === 1 ? 'note' : 'notes' }}
+                </p>
               </div>
               <ThemeToggle />
             </div>
@@ -256,22 +277,24 @@ const editNote = async (id: number, content: string) => {
         </header>
 
         <!-- Notes Feed -->
-        <div class="flex-1 overflow-y-auto notes-feed-container">
-          <!-- Note Creator -->
-          <NoteCreator @create="createNote" />
-          
-          <div v-if="filteredNotes.length > 0">
-            <NoteItem
-              v-for="note in filteredNotes"
-              :key="note.id"
-              :note="note"
-              @delete="deleteNote"
-              @edit="editNote"
-            />
-          </div>
+        <div class="flex-1 overflow-hidden">
+            <!-- Note Creator -->
+            <div class="mb-6">
+              <NoteCreator @create="createNote" />
+            </div>
+            
+            <div v-if="filteredNotes.length > 0" class="space-y-4">
+              <NoteItem
+                v-for="note in filteredNotes"
+                :key="note.id"
+                :note="note"
+                @delete="deleteNote"
+                @edit="editNote"
+              />
+            </div>
 
-          <!-- Empty State -->
-          <EmptyState v-else :has-date-filter="!!selectedDate" />
+            <!-- Empty State -->
+            <EmptyState v-else :has-date-filter="!!selectedDate" />
         </div>
       </div>
     </div>

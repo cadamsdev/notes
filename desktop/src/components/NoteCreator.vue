@@ -28,30 +28,35 @@ const handleKeydown = (e: KeyboardEvent) => {
 </script>
 
 <template>
-  <div class="p-4 border-b border-white/30 backdrop-blur-sm">
+  <div class="glass-card p-6">
     <!-- Input Area -->
     <textarea
       v-model="noteContent"
       @keydown="handleKeydown"
-      placeholder="What's on your mind?"
-      class="w-full bg-white/60 dark:bg-white/10 backdrop-blur-sm text-[var(--color-x-text-primary)] placeholder-[var(--color-x-text-muted)] resize-none outline-none text-[0.9375rem] leading-relaxed min-h-[100px] p-3 rounded-lg border-2 border-[var(--color-x-text-muted)]/20 dark:border-white/20 focus:border-[var(--color-x-blue)] focus:ring-1 focus:ring-[var(--color-x-blue)] transition-all"
-      rows="3"
+      placeholder="Share your thoughts..."
+      class="w-full bg-transparent text-[var(--color-x-text-primary)] placeholder-[var(--color-x-text-muted)] resize-none outline-none text-base leading-relaxed min-h-[120px] transition-all"
+      rows="4"
     ></textarea>
 
     <!-- Actions -->
-    <div class="flex items-center justify-between mt-3">
-      <!-- Character Count -->
-      <div class="text-xs text-[var(--color-x-text-muted)]">
-        {{ charCount }} characters
+    <div class="flex items-center justify-between mt-6 pt-4 border-t border-white/10">
+      <!-- Character Count & Hint -->
+      <div class="flex items-center gap-4">
+        <div class="text-sm text-[var(--color-x-text-muted)]">
+          {{ charCount }} characters
+        </div>
+        <div class="text-xs text-[var(--color-x-text-muted)] hidden sm:block">
+          ⌘ + Enter to post
+        </div>
       </div>
       
       <!-- Post Button -->
       <button
         @click="createNote"
         :disabled="!canPost"
-        class="px-4 py-2 bg-[var(--color-x-blue)] text-white rounded-lg text-sm font-medium hover:bg-[var(--color-x-blue-hover)] disabled:opacity-40 disabled:cursor-not-allowed transition-all disabled:hover:bg-[var(--color-x-blue)] shadow-lg"
+        class="px-6 py-3 bg-gradient-to-r from-[var(--color-x-blue)] to-[var(--color-x-blue-hover)] text-white rounded-xl text-sm font-semibold hover:shadow-lg hover:scale-105 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all duration-200 shadow-md"
       >
-        Post Note
+        Create Note
       </button>
     </div>
   </div>

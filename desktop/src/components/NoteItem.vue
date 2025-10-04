@@ -92,63 +92,63 @@ const formatDate = (date: Date) => {
   <div
     @mouseenter="isHovered = true"
     @mouseleave="isHovered = false"
-    class="p-4 hover:bg-white/40 dark:hover:bg-white/5 transition-colors border-b border-white/30 group backdrop-blur-sm"
+    class="glass-card group hover:shadow-lg transition-all duration-200 p-3"
   >
-    <div class="flex items-start justify-between mb-2">
+    <div class="flex items-start justify-between mb-4">
       <!-- Time -->
-      <span class="text-xs text-[var(--color-x-text-muted)]">
+      <span class="text-sm text-[var(--color-x-text-muted)] font-medium">
         {{ formatDate(note.createdAt) }}
       </span>
       
       <!-- Action buttons (show on hover) -->
-      <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+      <div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-200">
         <button
           v-if="!isEditing"
           @click.stop="startEditing"
-          class="p-1.5 rounded hover:bg-white/60 dark:hover:bg-white/20 text-[var(--color-x-text-muted)] hover:text-[var(--color-x-text-primary)] transition-all backdrop-blur-sm"
+          class="p-2 rounded-lg hover:bg-white/20 text-[var(--color-x-text-muted)] hover:text-[var(--color-x-text-primary)] transition-all duration-200 hover:scale-105"
           title="Edit note"
         >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
           </svg>
         </button>
         
         <button
           v-if="!isEditing"
           @click.stop="confirmDelete"
-          class="p-1.5 rounded hover:bg-white/60 dark:hover:bg-white/20 text-[var(--color-x-text-muted)] hover:text-[var(--color-x-error)] transition-all backdrop-blur-sm"
+          class="p-2 rounded-lg hover:bg-red-500/10 text-[var(--color-x-text-muted)] hover:text-[var(--color-x-error)] transition-all duration-200 hover:scale-105"
           title="Delete note"
         >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
           </svg>
         </button>
       </div>
     </div>
     
     <!-- Edit Mode -->
-    <div v-if="isEditing" class="space-y-3">
+    <div v-if="isEditing" class="space-y-4">
       <textarea
         v-model="editContent"
         @keydown="handleEditKeydown"
-        class="w-full bg-white/60 dark:bg-white/10 backdrop-blur-sm text-[var(--color-x-text-primary)] placeholder-[var(--color-x-text-muted)] resize-none border border-white/40 dark:border-white/20 outline-none rounded-lg p-3 text-[0.9375rem] leading-relaxed min-h-[100px] focus:border-[var(--color-x-blue)] focus:ring-1 focus:ring-[var(--color-x-blue)] transition-all"
-        rows="3"
+        class="w-full bg-transparent text-[var(--color-x-text-primary)] placeholder-[var(--color-x-text-muted)] resize-none outline-none text-base leading-relaxed min-h-[120px] border border-white/20 rounded-xl p-4 focus:border-[var(--color-x-blue)]/50 focus:ring-2 focus:ring-[var(--color-x-blue)]/20 transition-all"
+        rows="4"
         autofocus
       ></textarea>
       
-      <div class="flex items-center justify-end gap-2">
+      <div class="flex items-center justify-end gap-3">
         <button
           @click="cancelEditing"
-          class="px-3 py-1.5 text-sm font-medium text-[var(--color-x-text-primary)] hover:bg-white/60 dark:hover:bg-white/20 rounded-lg transition-all backdrop-blur-sm"
+          class="px-4 py-2 text-sm font-medium text-[var(--color-x-text-primary)] hover:bg-white/20 rounded-lg transition-all"
         >
           Cancel
         </button>
         <button
           @click="saveEdit"
           :disabled="!editContent.trim()"
-          class="px-3 py-1.5 text-sm font-medium bg-[var(--color-x-blue)] text-white rounded-lg hover:bg-[var(--color-x-blue-hover)] disabled:opacity-40 disabled:cursor-not-allowed transition-all disabled:hover:bg-[var(--color-x-blue)] shadow-lg"
+          class="px-5 py-2 text-sm font-semibold bg-gradient-to-r from-[var(--color-x-blue)] to-[var(--color-x-blue-hover)] text-white rounded-lg hover:shadow-lg hover:scale-105 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all duration-200 shadow-md"
         >
-          Save
+          Save Changes
         </button>
       </div>
     </div>
@@ -156,7 +156,7 @@ const formatDate = (date: Date) => {
     <!-- View Mode -->
     <div 
       v-else 
-      class="text-[var(--color-x-text-primary)] prose prose-sm max-w-none"
+      class="text-[var(--color-x-text-primary)] prose prose-sm max-w-none leading-relaxed"
       v-html="renderedContent"
     ></div>
 
@@ -169,7 +169,7 @@ const formatDate = (date: Date) => {
           @click="cancelDelete"
         >
           <div
-            class="glass border border-white/30 rounded-xl shadow-2xl max-w-sm w-full p-6"
+            class="glass-panel border border-white/30 rounded-2xl shadow-2xl max-w-sm w-full p-8"
             @click.stop
           >
             <!-- Icon -->

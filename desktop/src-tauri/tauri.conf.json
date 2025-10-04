@@ -14,7 +14,15 @@
       {
         "title": "Cosmic Notes",
         "width": 1536,
-        "height": 864
+        "height": 864,
+        "minWidth": 800,
+        "minHeight": 600,
+        "transparent": true,
+        "decorations": false,
+        "alwaysOnTop": false,
+        "resizable": true,
+        "titleBarStyle": "Overlay",
+        "center": true
       }
     ],
     "security": {
