@@ -59,10 +59,10 @@ cd desktop && bun run tauri build
   - ❌ Wrong: `text-[var(--color-x-text-primary)]`, `bg-[var(--color-btn-primary)]`, `border-[var(--color-x-border)]`
   - Custom properties defined in `@theme` in global.css automatically become Tailwind utilities
   - Example: `--color-x-text-primary` becomes `text-x-text-primary` utility class
-- **Theme**: Modern, clean, minimal design with **glassmorphism** aesthetics
+- **Theme**: Modern, clean, minimal **black/white theme inspired by SpaceX** with glassmorphism aesthetics
 - **Light & Dark Mode**: Full theme support with toggle button (`ThemeToggle.vue`)
-  - Light mode: Soft gradient backgrounds (blue/cyan/yellow tones) with frosted glass panels
-  - Dark mode: Deep space blues (#0f0f23, #1a1a2e, #16213e) with darker glass panels
+  - Light mode: Clean white/light gray backgrounds with crisp frosted glass panels
+  - Dark mode: Pure black/dark gray color scheme inspired by SpaceX's minimalist aesthetic with darker glass panels
   - Theme persists via localStorage and respects system preference on first load
 - **Glassmorphism**: Frosted glass UI with backdrop blur effects
   - `.glass` class: Main glass panels with `backdrop-filter: blur(20px)`, `rgba(255,255,255,0.7)` backgrounds
@@ -79,7 +79,7 @@ cd desktop && bun run tauri build
   - Text: `--color-x-text-primary`, `--color-x-text-secondary`, `--color-x-text-muted` (adapt to light/dark)
   - Status: `--color-x-success`, `--color-x-error`, `--color-x-warning`
   - Buttons: `--color-btn-primary`, `--color-btn-primary-hover`, `--color-btn-primary-text`
-- **Design principles**: Clean minimal aesthetics, frosted glass panels, subtle shadows, smooth transitions (0.3s), backdrop blur effects, semi-transparent borders (white/30 opacity)
+- **Design principles**: Clean minimal aesthetics inspired by SpaceX's black/white design language, frosted glass panels, subtle shadows, smooth transitions (0.3s), backdrop blur effects, semi-transparent borders (white/30 opacity), high contrast black/white color scheme
 
 #### Component Architecture
 - All reusable components are located in `desktop/src/components/`
