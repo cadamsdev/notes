@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build:desktop": "bun run --filter desktop tauri build",
     "desktop": "cross-env TAURI_ENV_USE_TEST_DB=true bun run --filter desktop tauri dev",
     "desktop:prod": "bun run --filter desktop tauri dev"
   },
