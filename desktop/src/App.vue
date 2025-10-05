@@ -42,6 +42,15 @@ const notesContainer = ref<HTMLElement | null>(null);
 // Reference to settings panel
 const settingsPanel = ref<InstanceType<typeof SettingsPanel> | null>(null);
 
+// Get database filename based on environment
+const getDbFilename = () => {
+  const useTestDb = import.meta.env.VITE_USE_TEST_DB === 'true';
+  const dbName = useTestDb ? 'notes_test.db' : 'notes.db';
+  console.log('Frontend VITE_USE_TEST_DB:', import.meta.env.VITE_USE_TEST_DB);
+  console.log('Frontend using database:', dbName);
+  return dbName;
+};
+
 const openSettings = () => {
   settingsPanel.value?.openSettings();
 };
@@ -49,8 +58,9 @@ const openSettings = () => {
 // Initialize database and load notes
 onMounted(async () => {
   try {
-    console.log('Initializing database...');
-    db = await Database.load('sqlite:notes.db');
+    const dbFilename = getDbFilename();
+    console.log('Initializing database:', dbFilename);
+    db = await Database.load(`sqlite:${dbFilename}`);
     console.log('Database loaded:', db);
     
     // Create table if it doesn't exist

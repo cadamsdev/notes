@@ -8,6 +8,11 @@ const host = process.env.TAURI_DEV_HOST;
 export default defineConfig(async () => ({
   plugins: [vue(), tailwindcss()],
 
+  // Define environment variables for the frontend
+  define: {
+    'import.meta.env.VITE_USE_TEST_DB': JSON.stringify(process.env.TAURI_ENV_USE_TEST_DB || 'false'),
+  },
+
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   //
   // 1. prevent Vite from obscuring rust errors

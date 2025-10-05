@@ -1,5 +1,22 @@
 use tauri::Manager;
 use tauri::menu::{MenuBuilder, MenuItemBuilder, SubmenuBuilder};
+use std::env;
+
+// Get the database filename based on environment
+fn get_db_filename() -> String {
+    // Check if we should use test database (set via environment variable)
+    let use_test_db = env::var("TAURI_ENV_USE_TEST_DB").is_ok();
+    let db_name = if use_test_db {
+        "notes_test.db"
+    } else {
+        "notes.db"
+    };
+    
+    println!("TAURI_ENV_USE_TEST_DB: {:?}", env::var("TAURI_ENV_USE_TEST_DB"));
+    println!("Using database: {}", db_name);
+    
+    db_name.to_string()
+}
 
 #[tauri::command]
 fn get_app_version() -> String {
@@ -16,7 +33,7 @@ fn open_database_location(app: &tauri::AppHandle) -> Result<(), String> {
     let app_data_dir = app.path().app_data_dir()
         .map_err(|e| format!("Failed to get app data directory: {}", e))?;
     
-    let db_path = app_data_dir.join("notes.db");
+    let db_path = app_data_dir.join(get_db_filename());
     
     // Open the file explorer to the database location
     #[cfg(target_os = "windows")]
