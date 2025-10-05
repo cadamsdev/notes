@@ -9,16 +9,19 @@ let mediaQueryListener: ((e: MediaQueryListEvent) => void) | null = null;
 
 const applyTheme = (themeValue: Theme) => {
   if (themeValue === 'system') {
+    // Remove both classes and let media query handle it
+    document.body.classList.remove('dark', 'light');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     if (prefersDark) {
       document.body.classList.add('dark');
-    } else {
-      document.body.classList.remove('dark');
     }
   } else if (themeValue === 'dark') {
+    document.body.classList.remove('light');
     document.body.classList.add('dark');
   } else {
+    // Light mode - add .light class to prevent media query from applying
     document.body.classList.remove('dark');
+    document.body.classList.add('light');
   }
 };
 
@@ -34,6 +37,7 @@ onMounted(() => {
     if (theme.value === 'system') {
       if (e.matches) {
         document.body.classList.add('dark');
+        document.body.classList.remove('light');
       } else {
         document.body.classList.remove('dark');
       }

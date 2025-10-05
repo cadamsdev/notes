@@ -145,6 +145,50 @@ body.dark {
   --glass-outer-glow: 0 0 30px rgba(255, 255, 255, 0.04);
 }
 
+/* System preference for dark mode */
+@media (prefers-color-scheme: dark) {
+  body:not(.light) {
+    --color-x-dark: #0a0a0a;
+    --color-x-darker: #000000;
+    --color-x-border: rgba(255, 255, 255, 0.12);
+    --color-x-hover: rgba(255, 255, 255, 0.06);
+    --color-x-blue: #ffffff;
+    --color-x-blue-hover: #e5e5e5;
+    --color-x-blue-light: rgba(255, 255, 255, 0.1);
+    --color-x-text-primary: #ffffff;
+    --color-x-text-secondary: #b0b0b0;
+    --color-x-text-muted: #707070;
+    --color-btn-primary: #ffffff;
+    --color-btn-primary-hover: #e5e5e5;
+    --color-x-error: #ffffff;
+    --color-x-error-hover: #e5e5e5;
+    --color-x-success: #ffffff;
+    --color-x-warning: #ffffff;
+    
+    /* Dark mode shadows */
+    --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.6);
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.7), 0 1px 2px -1px rgba(0, 0, 0, 0.6);
+    --shadow-md: 0 4px 8px -2px rgba(0, 0, 0, 0.8), 0 2px 4px -1px rgba(0, 0, 0, 0.7);
+    --shadow-lg: 0 10px 16px -4px rgba(0, 0, 0, 0.9), 0 2px 6px -1px rgba(0, 0, 0, 0.8);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.95), 0 8px 10px -6px rgba(0, 0, 0, 0.9);
+    --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 1);
+    --shadow-glow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+    --shadow-glow-strong: 0 0 0 4px rgba(255, 255, 255, 0.3);
+    --shadow-rocket-glow: 0 0 20px rgba(255, 255, 255, 0.15), 0 0 40px rgba(255, 255, 255, 0.08);
+    
+    /* Dark mode monochrome metallic effects */
+    --glass-bg-light: rgba(10, 10, 10, 0.7);
+    --glass-bg-medium: rgba(10, 10, 10, 0.85);
+    --glass-bg-strong: rgba(10, 10, 10, 0.92);
+    --glass-bg-ultra: rgba(10, 10, 10, 0.97);
+    --glass-border: rgba(255, 255, 255, 0.15);
+    --glass-border-strong: rgba(255, 255, 255, 0.25);
+    --glass-inner-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+    --glass-inner-shadow-strong: inset 0 2px 0 0 rgba(255, 255, 255, 0.12);
+    --glass-outer-glow: 0 0 30px rgba(255, 255, 255, 0.04);
+  }
+}
+
 body {
   font-family: var(--font-family-x-base);
   background: linear-gradient(135deg, #ffffff 0%, #fafafa 25%, #f5f5f5 50%, #fafafa 75%, #ffffff 100%);
@@ -228,6 +272,34 @@ body.dark::before {
 body.dark::after {
   background: radial-gradient(ellipse at bottom, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
               radial-gradient(ellipse at top, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+}
+
+/* System preference dark mode background */
+@media (prefers-color-scheme: dark) {
+  body:not(.light) {
+    background: linear-gradient(135deg, #000000 0%, #0a0a0a 25%, #121212 50%, #0a0a0a 75%, #000000 100%);
+    background-size: 400% 400%;
+    background-attachment: fixed;
+    animation: rocketPulseDark 35s ease-in-out infinite;
+  }
+
+  body:not(.light)::before {
+    background-image: 
+      radial-gradient(2px 2px at 20% 30%, white, transparent),
+      radial-gradient(2px 2px at 60% 70%, white, transparent),
+      radial-gradient(1px 1px at 50% 50%, white, transparent),
+      radial-gradient(1px 1px at 80% 10%, white, transparent),
+      radial-gradient(2px 2px at 90% 60%, white, transparent),
+      radial-gradient(1px 1px at 33% 80%, white, transparent),
+      radial-gradient(1px 1px at 70% 40%, white, transparent);
+    animation: starsFloatDark 150s linear infinite;
+    opacity: 0.5;
+  }
+
+  body:not(.light)::after {
+    background: radial-gradient(ellipse at bottom, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(ellipse at top, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+  }
 }
 
 /* SpaceX Monochrome Panel Components - Pure B&W Metallic */
