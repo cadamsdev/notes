@@ -47,16 +47,22 @@ const handleClick = () => {
       
       // Variant styles
       {
-        'bg-btn-primary text-btn-primary-text border-btn-primary': variant === 'primary',
-        'hover:bg-btn-primary-hover hover:border-btn-primary-hover': variant === 'primary' && !disabled,
+        // Primary button - Always black bg/white text in both themes
+        'bg-x-black text-white border-x-black': variant === 'primary' && !disabled,
+        'hover:bg-white hover:text-x-black hover:border-white': variant === 'primary' && !disabled,
         
-        'bg-transparent text-x-text-primary border-x-border': variant === 'secondary',
+        // Primary disabled - muted gray colors instead of opacity
+        'bg-x-text-muted text-x-text-secondary border-x-text-muted cursor-not-allowed': variant === 'primary' && disabled,
+        
+        'bg-transparent text-x-text-primary border-x-border': variant === 'secondary' && !disabled,
         'hover:border-x-text-primary hover:bg-glass-bg-light': variant === 'secondary' && !disabled,
+        
+        // Secondary disabled - muted gray colors
+        'bg-transparent text-x-text-muted border-x-border cursor-not-allowed': variant === 'secondary' && disabled,
       },
       
-      // Disabled state
+      // Active states
       {
-        'opacity-40 cursor-not-allowed': disabled,
         'hover:shadow-lg active:scale-95': !disabled,
       }
     ]"
