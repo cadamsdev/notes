@@ -54,6 +54,11 @@ cd desktop && bun run tauri build
   - Use array syntax with objects for conditional classes: `:class="['base-class', { 'conditional-class': condition }]"`
   - Never build class strings manually with computed properties using array.push() or string concatenation
   - Example: `:class="[{ 'text-lg': size === 'large', 'text-sm': size === 'small' }]"` instead of computed string building
+- **Tailwind Custom Properties**: Use direct Tailwind utility classes, NOT `[var(...)]` syntax
+  - ✅ Correct: `text-x-text-primary`, `bg-btn-primary`, `border-x-border`
+  - ❌ Wrong: `text-[var(--color-x-text-primary)]`, `bg-[var(--color-btn-primary)]`, `border-[var(--color-x-border)]`
+  - Custom properties defined in `@theme` in global.css automatically become Tailwind utilities
+  - Example: `--color-x-text-primary` becomes `text-x-text-primary` utility class
 - **Theme**: Modern, clean, minimal design with **glassmorphism** aesthetics
 - **Light & Dark Mode**: Full theme support with toggle button (`ThemeToggle.vue`)
   - Light mode: Soft gradient backgrounds (blue/cyan/yellow tones) with frosted glass panels

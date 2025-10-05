@@ -268,16 +268,16 @@ const editNote = async (id: number, content: string) => {
             <header class="glass-header rounded-2xl mb-6">
               <div class="px-8 py-6">
                 <div class="flex items-center gap-4">
-                  <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--color-x-blue)] to-[var(--color-x-blue-hover)] flex items-center justify-center shadow-lg">
+                  <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-x-blue to-x-blue-hover flex items-center justify-center shadow-lg">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                     </svg>
                   </div>
                   <div class="flex-1">
-                    <h1 class="text-xl font-semibold text-[var(--color-x-text-primary)] tracking-tight">
+                    <h1 class="text-xl font-semibold text-x-text-primary tracking-tight">
                       Notes
                     </h1>
-                    <p class="text-sm text-[var(--color-x-text-secondary)] mt-0.5">
+                    <p class="text-sm text-x-text-secondary mt-0.5">
                       {{ filteredNotes.length }} {{ filteredNotes.length === 1 ? 'note' : 'notes' }}
                     </p>
                   </div>
@@ -285,7 +285,7 @@ const editNote = async (id: number, content: string) => {
                     <!-- Settings Button -->
                     <button
                       @click="openSettings"
-                      class="w-9 h-9 rounded-lg hover:bg-white/10 transition-colors flex items-center justify-center text-[var(--color-x-text-secondary)] hover:text-[var(--color-x-text-primary)]"
+                      class="w-9 h-9 rounded-lg hover:bg-white/10 transition-colors flex items-center justify-center text-x-text-secondary hover:text-x-text-primary"
                       title="Settings"
                     >
                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
@@ -316,11 +316,11 @@ const editNote = async (id: number, content: string) => {
               <!-- Loading indicator when there are more notes -->
               <div v-if="hasMoreNotes" class="text-center py-4">
                 <div class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 border border-white/10">
-                  <svg class="w-4 h-4 animate-spin text-[var(--color-x-blue)]" fill="none" viewBox="0 0 24 24">
+                  <svg class="w-4 h-4 animate-spin text-x-blue" fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  <span class="text-sm text-[var(--color-x-text-secondary)]">
+                  <span class="text-sm text-x-text-secondary">
                     Loading more notes... ({{ displayedNotes.length }} of {{ filteredNotes.length }})
                   </span>
                 </div>
@@ -328,7 +328,7 @@ const editNote = async (id: number, content: string) => {
               
               <!-- End of list indicator -->
               <div v-else class="text-center py-4">
-                <p class="text-sm text-[var(--color-x-text-secondary)]">
+                <p class="text-sm text-x-text-secondary">
                   All {{ filteredNotes.length }} {{ filteredNotes.length === 1 ? 'note' : 'notes' }} loaded
                 </p>
               </div>

@@ -35,7 +35,7 @@ const handleKeydown = (e: KeyboardEvent) => {
       v-model="noteContent"
       @keydown="handleKeydown"
       placeholder="Share your thoughts..."
-      class="w-full bg-transparent text-[var(--color-x-text-primary)] placeholder-[var(--color-x-text-muted)] resize-none outline-2 outline-transparent text-base leading-relaxed min-h-[120px] transition-all rounded-lg p-3 -m-3 focus:outline-[var(--color-x-blue)] focus:bg-[var(--glass-bg-light)] hover:outline-[var(--glass-border-strong)] hover:bg-[var(--glass-bg-light)]"
+      class="w-full bg-transparent text-x-text-primary placeholder-x-text-muted resize-none outline-2 outline-transparent text-base leading-relaxed min-h-[120px] transition-all rounded-lg p-3 -m-3 focus:outline-x-blue focus:bg-glass-bg-light hover:outline-glass-border-strong hover:bg-glass-bg-light"
       rows="4"
     ></textarea>
 
@@ -43,10 +43,10 @@ const handleKeydown = (e: KeyboardEvent) => {
     <div class="flex items-center justify-between mt-6 pt-4 border-t border-white/10">
       <!-- Character Count & Hint -->
       <div class="flex items-center gap-4">
-        <div class="text-sm text-[var(--color-x-text-muted)]">
+        <div class="text-sm text-x-text-muted">
           {{ charCount }} characters
         </div>
-        <div class="text-xs text-[var(--color-x-text-muted)] hidden sm:block">
+        <div class="text-xs text-x-text-muted hidden sm:block">
           ⌘ + Enter to post
         </div>
       </div>

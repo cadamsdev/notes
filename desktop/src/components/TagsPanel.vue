@@ -94,13 +94,13 @@ const isTagSelected = (tag: string) => {
   <div class="p-4">
     <div class="flex items-center justify-between mb-3">
       <div class="flex items-center gap-2">
-        <svg class="w-4 h-4 text-[var(--color-x-text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+        <svg class="w-4 h-4 text-x-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
         </svg>
-        <h3 class="text-sm font-semibold text-[var(--color-x-text-primary)]">
+        <h3 class="text-sm font-semibold text-x-text-primary">
           Tags
         </h3>
-        <span v-if="selectedTags.length > 0" class="text-xs text-[var(--color-x-text-secondary)]">
+        <span v-if="selectedTags.length > 0" class="text-xs text-x-text-secondary">
           ({{ selectedTags.length }} selected)
         </span>
       </div>
@@ -109,7 +109,7 @@ const isTagSelected = (tag: string) => {
       <button
         v-if="selectedTags.length > 0"
         @click="clearAllTags"
-        class="text-xs text-[var(--color-x-blue)] hover:text-[var(--color-x-blue-hover)] font-medium transition-colors"
+        class="text-xs text-x-blue hover:text-x-blue-hover font-medium transition-colors"
       >
         Clear all
       </button>
@@ -123,22 +123,22 @@ const isTagSelected = (tag: string) => {
         :class="[
           'px-2.5 py-1 rounded-full text-xs font-medium transition-all backdrop-blur-sm',
           isTagSelected(tag)
-            ? 'bg-[var(--color-x-blue)] text-white shadow-lg' 
-            : 'bg-white/60 dark:bg-white/10 text-[var(--color-x-text-secondary)] hover:bg-white/80 dark:hover:bg-white/20 hover:text-[var(--color-x-blue)]'
+            ? 'bg-x-blue text-white shadow-lg' 
+            : 'bg-white/60 dark:bg-white/10 text-x-text-secondary hover:bg-white/80 dark:hover:bg-white/20 hover:text-x-blue'
         ]"
       >
         #{{ tag }}
         <span :class="[
           'ml-1.5 px-1.5 py-0.5 rounded text-xs',
-          isTagSelected(tag) ? 'bg-white/20' : 'bg-[var(--color-x-blue)]/10 dark:bg-[var(--color-x-blue)]/20'
+          isTagSelected(tag) ? 'bg-white/20' : 'bg-x-blue/10 dark:bg-x-blue/20'
         ]">
           {{ getNotesCountForTag(tag) }}
         </span>
       </button>
     </div>
     
-    <div v-else class="text-[var(--color-x-text-muted)] text-xs p-3 bg-white/60 dark:bg-white/10 rounded-lg backdrop-blur-sm">
-      No tags yet. Add hashtags like <span class="text-[var(--color-x-blue)] font-mono">#ideas</span> to organize your notes.
+    <div v-else class="text-x-text-muted text-xs p-3 bg-white/60 dark:bg-white/10 rounded-lg backdrop-blur-sm">
+      No tags yet. Add hashtags like <span class="text-x-blue font-mono">#ideas</span> to organize your notes.
     </div>
   </div>
 </template>

@@ -96,7 +96,7 @@ const formatDate = (date: Date) => {
   >
     <div class="flex items-start justify-between mb-4">
       <!-- Time -->
-      <span class="text-sm text-[var(--color-x-text-muted)] font-medium">
+      <span class="text-sm text-x-text-muted font-medium">
         {{ formatDate(note.createdAt) }}
       </span>
       
@@ -105,7 +105,7 @@ const formatDate = (date: Date) => {
         <button
           v-if="!isEditing"
           @click.stop="startEditing"
-          class="p-2 rounded-lg hover:bg-white/20 text-[var(--color-x-text-muted)] hover:text-[var(--color-x-text-primary)] transition-all duration-200 hover:scale-105"
+          class="p-2 rounded-lg hover:bg-white/20 text-x-text-muted hover:text-x-text-primary transition-all duration-200 hover:scale-105"
           title="Edit note"
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
@@ -116,7 +116,7 @@ const formatDate = (date: Date) => {
         <button
           v-if="!isEditing"
           @click.stop="confirmDelete"
-          class="p-2 rounded-lg hover:bg-red-500/10 text-[var(--color-x-text-muted)] hover:text-[var(--color-x-error)] transition-all duration-200 hover:scale-105"
+          class="p-2 rounded-lg hover:bg-red-500/10 text-x-text-muted hover:text-x-error transition-all duration-200 hover:scale-105"
           title="Delete note"
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
@@ -131,7 +131,7 @@ const formatDate = (date: Date) => {
       <textarea
         v-model="editContent"
         @keydown="handleEditKeydown"
-        class="w-full bg-transparent text-[var(--color-x-text-primary)] placeholder-[var(--color-x-text-muted)] resize-none outline-none text-base leading-relaxed min-h-[120px] border border-white/20 rounded-xl p-4 focus:border-[var(--color-x-blue)]/50 focus:ring-2 focus:ring-[var(--color-x-blue)]/20 transition-all"
+        class="w-full bg-transparent text-x-text-primary placeholder-x-text-muted resize-none outline-none text-base leading-relaxed min-h-[120px] border border-white/20 rounded-xl p-4 focus:border-x-blue/50 focus:ring-2 focus:ring-x-blue/20 transition-all"
         rows="4"
         autofocus
       ></textarea>
@@ -139,14 +139,14 @@ const formatDate = (date: Date) => {
       <div class="flex items-center justify-end gap-3">
         <button
           @click="cancelEditing"
-          class="px-4 py-2 text-sm font-medium text-[var(--color-x-text-primary)] hover:bg-white/20 rounded-lg transition-all"
+          class="px-4 py-2 text-sm font-medium text-x-text-primary hover:bg-white/20 rounded-lg transition-all"
         >
           Cancel
         </button>
         <button
           @click="saveEdit"
           :disabled="!editContent.trim()"
-          class="px-5 py-2 text-sm font-semibold bg-gradient-to-r from-[var(--color-x-blue)] to-[var(--color-x-blue-hover)] text-white rounded-lg hover:shadow-lg hover:scale-105 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all duration-200 shadow-md"
+          class="px-5 py-2 text-sm font-semibold bg-gradient-to-r from-x-blue to-x-blue-hover text-white rounded-lg hover:shadow-lg hover:scale-105 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all duration-200 shadow-md"
         >
           Save Changes
         </button>
@@ -156,7 +156,7 @@ const formatDate = (date: Date) => {
     <!-- View Mode -->
     <div 
       v-else 
-      class="text-[var(--color-x-text-primary)] prose prose-sm max-w-none leading-relaxed"
+      class="text-x-text-primary prose prose-sm max-w-none leading-relaxed"
       v-html="renderedContent"
     ></div>
 
@@ -173,19 +173,19 @@ const formatDate = (date: Date) => {
             @click.stop
           >
             <!-- Icon -->
-            <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-[var(--color-x-error)]/10 flex items-center justify-center">
-              <svg class="w-6 h-6 text-[var(--color-x-error)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-x-error/10 flex items-center justify-center">
+              <svg class="w-6 h-6 text-x-error" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
               </svg>
             </div>
 
             <!-- Title -->
-            <h3 class="text-lg font-semibold text-[var(--color-x-text-primary)] text-center mb-2">
+            <h3 class="text-lg font-semibold text-x-text-primary text-center mb-2">
               Delete note?
             </h3>
 
             <!-- Description -->
-            <p class="text-sm text-[var(--color-x-text-secondary)] text-center mb-6">
+            <p class="text-sm text-x-text-secondary text-center mb-6">
               This note will be permanently deleted. This action cannot be undone.
             </p>
 
@@ -193,13 +193,13 @@ const formatDate = (date: Date) => {
             <div class="flex gap-2">
               <button
                 @click="cancelDelete"
-                class="flex-1 px-4 py-2 text-sm font-medium text-[var(--color-x-text-primary)] hover:bg-white/60 dark:hover:bg-white/20 rounded-lg transition-all backdrop-blur-sm"
+                class="flex-1 px-4 py-2 text-sm font-medium text-x-text-primary hover:bg-white/60 dark:hover:bg-white/20 rounded-lg transition-all backdrop-blur-sm"
               >
                 Cancel
               </button>
               <button
                 @click="handleDelete"
-                class="flex-1 px-4 py-2 text-sm font-medium bg-[var(--color-x-error)] text-white rounded-lg hover:bg-[var(--color-x-error-hover,#dc2626)] hover:shadow-xl transition-all shadow-lg"
+                class="flex-1 px-4 py-2 text-sm font-medium bg-x-error text-white rounded-lg hover:bg-x-error-hover hover:shadow-xl transition-all shadow-lg"
               >
                 Delete
               </button>

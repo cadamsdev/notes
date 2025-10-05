@@ -47,11 +47,11 @@ const handleClick = () => {
       
       // Variant styles
       {
-        'bg-[var(--color-btn-primary)] text-[var(--color-btn-primary-text)] border-[var(--color-btn-primary)]': variant === 'primary',
-        'hover:bg-[var(--color-btn-primary-hover)] hover:border-[var(--color-btn-primary-hover)]': variant === 'primary' && !disabled,
+        'bg-btn-primary text-btn-primary-text border-btn-primary': variant === 'primary',
+        'hover:bg-btn-primary-hover hover:border-btn-primary-hover': variant === 'primary' && !disabled,
         
-        'bg-transparent text-[var(--color-x-text-primary)] border-[var(--color-x-border)]': variant === 'secondary',
-        'hover:border-[var(--color-x-text-primary)] hover:bg-[var(--glass-bg-light)]': variant === 'secondary' && !disabled,
+        'bg-transparent text-x-text-primary border-x-border': variant === 'secondary',
+        'hover:border-x-text-primary hover:bg-glass-bg-light': variant === 'secondary' && !disabled,
       },
       
       // Disabled state
