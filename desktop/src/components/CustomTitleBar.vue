@@ -131,7 +131,7 @@ onMounted(async () => {
   align-items: center;
   justify-content: space-between;
   height: 100%;
-  padding: 0 16px;
+  padding: 0 0 0 16px;
   cursor: move;
   cursor: -webkit-grab;
   cursor: grab;
@@ -181,7 +181,7 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
+  width: 48px;
   height: 32px;
   border: none;
   background: transparent;
