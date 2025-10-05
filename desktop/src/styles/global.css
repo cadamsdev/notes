@@ -483,13 +483,11 @@ body.dark::after {
 
 .glass-panel:hover {
   background: linear-gradient(135deg, var(--glass-bg-strong) 0%, var(--glass-bg-ultra) 100%);
-  border-color: rgba(0, 0, 0, 0.15);
   box-shadow: 
     var(--shadow-2xl),
     var(--glass-inner-shadow-strong),
     var(--shadow-rocket-glow),
     0 24px 80px rgba(0, 0, 0, 0.15);
-  transform: translateY(-1px);
   -webkit-backdrop-filter: var(--glass-backdrop-ultra);
   backdrop-filter: var(--glass-backdrop-ultra);
 }
