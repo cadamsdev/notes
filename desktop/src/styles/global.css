@@ -2,40 +2,40 @@
 
 /* SpaceX Black & White Minimalist Theme */
 @theme {
-  /* SpaceX Monochrome Palette - Pure Black & White */
+  /* Light Mode - Pure White with Black Accents */
   --color-x-black: #000000;
-  --color-x-dark: #0a0a0a;
-  --color-x-darker: #000000;
-  --color-x-border: rgba(255, 255, 255, 0.1);
-  --color-x-hover: rgba(255, 255, 255, 0.05);
-  --color-x-blue: #ffffff;
-  --color-x-blue-hover: #e5e5e5;
-  --color-x-blue-light: rgba(255, 255, 255, 0.08);
-  --color-x-rocket: #ffffff;
-  --color-x-rocket-hover: #e5e5e5;
-  --color-x-text-primary: #ffffff;
-  --color-x-text-secondary: #b0b0b0;
-  --color-x-text-muted: #707070;
-  --color-x-success: #ffffff;
-  --color-x-error: #ffffff;
-  --color-x-warning: #ffffff;
-  --color-x-nebula-purple: #ffffff;
-  --color-x-nebula-cyan: #ffffff;
-  --color-x-star-glow: #ffffff;
+  --color-x-dark: #ffffff;
+  --color-x-darker: #fafafa;
+  --color-x-border: rgba(0, 0, 0, 0.1);
+  --color-x-hover: rgba(0, 0, 0, 0.05);
+  --color-x-blue: #000000;
+  --color-x-blue-hover: #1a1a1a;
+  --color-x-blue-light: rgba(0, 0, 0, 0.05);
+  --color-x-rocket: #000000;
+  --color-x-rocket-hover: #1a1a1a;
+  --color-x-text-primary: #000000;
+  --color-x-text-secondary: #4a4a4a;
+  --color-x-text-muted: #808080;
+  --color-x-success: #000000;
+  --color-x-error: #000000;
+  --color-x-warning: #000000;
+  --color-x-nebula-purple: #000000;
+  --color-x-nebula-cyan: #000000;
+  --color-x-star-glow: #000000;
   
-  /* SpaceX Grayscale Palette */
-  --color-x-steel: #c0c0c0;
-  --color-x-steel-dark: #808080;
-  --color-x-carbon: #1a1a1a;
-  --color-x-titanium: #d0d0d0;
+  /* Light Mode Grayscale Palette */
+  --color-x-steel: #808080;
+  --color-x-steel-dark: #606060;
+  --color-x-carbon: #f5f5f5;
+  --color-x-titanium: #909090;
   --color-x-falcon-white: #ffffff;
   
-  /* Button Colors - Monochrome */
-  --color-btn-primary: #ffffff;
-  --color-btn-primary-hover: #e5e5e5;
-  --color-btn-primary-text: #000000;
-  --color-btn-secondary: #333333;
-  --color-btn-secondary-hover: #4a4a4a;
+  /* Button Colors - Black Primary */
+  --color-btn-primary: #000000;
+  --color-btn-primary-hover: #1a1a1a;
+  --color-btn-primary-text: #ffffff;
+  --color-btn-secondary: #e5e5e5;
+  --color-btn-secondary-hover: #d0d0d0;
   
   /* Spacing - Engineering Precision */
   --spacing-x-xs: 0.25rem;
@@ -76,31 +76,31 @@
   --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-bounce: 350ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
   
-  /* Shadows - Deep Space Depth */
-  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.6);
-  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.7), 0 1px 2px -1px rgba(0, 0, 0, 0.6);
-  --shadow-md: 0 4px 8px -2px rgba(0, 0, 0, 0.8), 0 2px 4px -1px rgba(0, 0, 0, 0.7);
-  --shadow-lg: 0 10px 16px -4px rgba(0, 0, 0, 0.9), 0 2px 6px -1px rgba(0, 0, 0, 0.8);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.95), 0 8px 10px -6px rgba(0, 0, 0, 0.9);
-  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 1);
-  --shadow-glow: 0 0 0 3px rgba(255, 255, 255, 0.2);
-  --shadow-glow-strong: 0 0 0 4px rgba(255, 255, 255, 0.3);
-  --shadow-rocket-glow: 0 0 20px rgba(255, 255, 255, 0.15), 0 0 40px rgba(255, 255, 255, 0.08);
+  /* Shadows - Light Mode Subtle */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px -1px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 8px -2px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 10px 16px -4px rgba(0, 0, 0, 0.12), 0 2px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.12);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
+  --shadow-glow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+  --shadow-glow-strong: 0 0 0 4px rgba(0, 0, 0, 0.15);
+  --shadow-rocket-glow: 0 0 20px rgba(0, 0, 0, 0.08), 0 0 40px rgba(0, 0, 0, 0.04);
   
-  /* Monochrome Metallic Effects - Pure B&W */
-  --glass-backdrop: saturate(0%) blur(8px);
-  --glass-backdrop-light: saturate(0%) blur(6px);
-  --glass-backdrop-strong: saturate(0%) blur(12px);
-  --glass-backdrop-ultra: saturate(0%) blur(16px);
-  --glass-bg-light: rgba(10, 10, 10, 0.6);
-  --glass-bg-medium: rgba(10, 10, 10, 0.75);
-  --glass-bg-strong: rgba(10, 10, 10, 0.85);
-  --glass-bg-ultra: rgba(10, 10, 10, 0.95);
-  --glass-border: rgba(255, 255, 255, 0.12);
-  --glass-border-strong: rgba(255, 255, 255, 0.2);
-  --glass-inner-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
-  --glass-inner-shadow-strong: inset 0 2px 0 0 rgba(255, 255, 255, 0.12);
-  --glass-outer-glow: 0 0 20px rgba(255, 255, 255, 0.06);
+  /* Light Mode Metallic Effects - White Panels */
+  --glass-backdrop: saturate(100%) blur(8px);
+  --glass-backdrop-light: saturate(100%) blur(6px);
+  --glass-backdrop-strong: saturate(100%) blur(12px);
+  --glass-backdrop-ultra: saturate(100%) blur(16px);
+  --glass-bg-light: rgba(255, 255, 255, 0.6);
+  --glass-bg-medium: rgba(255, 255, 255, 0.75);
+  --glass-bg-strong: rgba(255, 255, 255, 0.85);
+  --glass-bg-ultra: rgba(255, 255, 255, 0.95);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-border-strong: rgba(0, 0, 0, 0.12);
+  --glass-inner-shadow: inset 0 1px 0 0 rgba(0, 0, 0, 0.03);
+  --glass-inner-shadow-strong: inset 0 2px 0 0 rgba(0, 0, 0, 0.05);
+  --glass-outer-glow: 0 0 20px rgba(0, 0, 0, 0.04);
 }
 
 /* Dark Mode Colors - Pure Black & White */
@@ -122,6 +122,17 @@ body.dark {
   --color-x-success: #ffffff;
   --color-x-warning: #ffffff;
   
+  /* Dark mode shadows */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.6);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.7), 0 1px 2px -1px rgba(0, 0, 0, 0.6);
+  --shadow-md: 0 4px 8px -2px rgba(0, 0, 0, 0.8), 0 2px 4px -1px rgba(0, 0, 0, 0.7);
+  --shadow-lg: 0 10px 16px -4px rgba(0, 0, 0, 0.9), 0 2px 6px -1px rgba(0, 0, 0, 0.8);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.95), 0 8px 10px -6px rgba(0, 0, 0, 0.9);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 1);
+  --shadow-glow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+  --shadow-glow-strong: 0 0 0 4px rgba(255, 255, 255, 0.3);
+  --shadow-rocket-glow: 0 0 20px rgba(255, 255, 255, 0.15), 0 0 40px rgba(255, 255, 255, 0.08);
+  
   /* Dark mode monochrome metallic effects */
   --glass-bg-light: rgba(10, 10, 10, 0.7);
   --glass-bg-medium: rgba(10, 10, 10, 0.85);
@@ -136,7 +147,7 @@ body.dark {
 
 body {
   font-family: var(--font-family-x-base);
-  background: linear-gradient(135deg, #000000 0%, #0a0a0a 25%, #121212 50%, #0a0a0a 75%, #000000 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #fafafa 25%, #f5f5f5 50%, #fafafa 75%, #ffffff 100%);
   background-size: 400% 400%;
   background-attachment: fixed;
   animation: rocketPulse 30s ease-in-out infinite;
@@ -166,17 +177,17 @@ body::before {
   width: 100%;
   height: 100%;
   background-image: 
-    radial-gradient(2px 2px at 20% 30%, white, transparent),
-    radial-gradient(2px 2px at 60% 70%, white, transparent),
-    radial-gradient(1px 1px at 50% 50%, white, transparent),
-    radial-gradient(1px 1px at 80% 10%, white, transparent),
-    radial-gradient(2px 2px at 90% 60%, white, transparent),
-    radial-gradient(1px 1px at 33% 80%, white, transparent),
-    radial-gradient(1px 1px at 70% 40%, white, transparent);
+    radial-gradient(2px 2px at 20% 30%, black, transparent),
+    radial-gradient(2px 2px at 60% 70%, black, transparent),
+    radial-gradient(1px 1px at 50% 50%, black, transparent),
+    radial-gradient(1px 1px at 80% 10%, black, transparent),
+    radial-gradient(2px 2px at 90% 60%, black, transparent),
+    radial-gradient(1px 1px at 33% 80%, black, transparent),
+    radial-gradient(1px 1px at 70% 40%, black, transparent);
   background-size: 200% 200%;
   background-position: 0% 0%;
   animation: starsFloat 120s linear infinite;
-  opacity: 0.4;
+  opacity: 0.05;
   pointer-events: none;
   z-index: 0;
 }
@@ -188,7 +199,7 @@ body::after {
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(ellipse at bottom, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+  background: radial-gradient(ellipse at bottom, rgba(0, 0, 0, 0.01) 0%, transparent 50%);
   pointer-events: none;
   z-index: 0;
 }
@@ -202,6 +213,14 @@ body.dark {
 }
 
 body.dark::before {
+  background-image: 
+    radial-gradient(2px 2px at 20% 30%, white, transparent),
+    radial-gradient(2px 2px at 60% 70%, white, transparent),
+    radial-gradient(1px 1px at 50% 50%, white, transparent),
+    radial-gradient(1px 1px at 80% 10%, white, transparent),
+    radial-gradient(2px 2px at 90% 60%, white, transparent),
+    radial-gradient(1px 1px at 33% 80%, white, transparent),
+    radial-gradient(1px 1px at 70% 40%, white, transparent);
   animation: starsFloatDark 150s linear infinite;
   opacity: 0.5;
 }
@@ -221,7 +240,7 @@ body.dark::after {
   box-shadow: 
     var(--shadow-lg),
     var(--glass-inner-shadow),
-    0 8px 32px rgba(0, 0, 0, 0.5);
+    0 8px 32px rgba(0, 0, 0, 0.08);
   transition: all var(--transition-base);
   position: relative;
 }
@@ -267,8 +286,8 @@ body.dark::after {
     var(--shadow-xl),
     var(--glass-inner-shadow-strong),
     var(--glass-outer-glow),
-    0 16px 64px rgba(0, 0, 0, 0.8),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    0 16px 64px rgba(0, 0, 0, 0.1),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.03);
   transition: all var(--transition-base);
   position: relative;
   overflow: hidden;
@@ -321,7 +340,7 @@ body.dark::after {
     var(--shadow-md),
     var(--glass-inner-shadow),
     var(--glass-outer-glow),
-    0 8px 24px rgba(0, 0, 0, 0.6);
+    0 8px 24px rgba(0, 0, 0, 0.08);
   transition: all var(--transition-base);
   position: relative;
   overflow: hidden;
@@ -351,7 +370,7 @@ body.dark::after {
   box-shadow: 
     var(--shadow-sm),
     var(--glass-inner-shadow-strong),
-    0 4px 16px rgba(0, 0, 0, 0.6);
+    0 4px 16px rgba(0, 0, 0, 0.06);
   position: relative;
   border-bottom: 1px solid var(--glass-border);
 }
@@ -383,8 +402,8 @@ body.dark::after {
     var(--shadow-xl),
     var(--glass-inner-shadow-strong),
     var(--glass-outer-glow),
-    0 12px 48px rgba(0, 0, 0, 0.85),
-    0 0 20px rgba(255, 255, 255, 0.12);
+    0 12px 48px rgba(0, 0, 0, 0.12),
+    0 0 20px rgba(0, 0, 0, 0.06);
   transform: translateY(-2px) scale(1.005);
   -webkit-backdrop-filter: var(--glass-backdrop-strong);
   backdrop-filter: var(--glass-backdrop-strong);
@@ -392,12 +411,12 @@ body.dark::after {
 
 .glass-panel:hover {
   background: linear-gradient(135deg, var(--glass-bg-strong) 0%, var(--glass-bg-ultra) 100%);
-  border-color: rgba(255, 255, 255, 0.3);
+  border-color: rgba(0, 0, 0, 0.15);
   box-shadow: 
     var(--shadow-2xl),
     var(--glass-inner-shadow-strong),
     var(--shadow-rocket-glow),
-    0 24px 80px rgba(0, 0, 0, 0.9);
+    0 24px 80px rgba(0, 0, 0, 0.15);
   transform: translateY(-1px);
   -webkit-backdrop-filter: var(--glass-backdrop-ultra);
   backdrop-filter: var(--glass-backdrop-ultra);
