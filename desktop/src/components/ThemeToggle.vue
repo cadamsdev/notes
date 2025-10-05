@@ -1,50 +1,84 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 
-const isDark = ref(false);
+type Theme = 'light' | 'dark' | 'system';
 
-// Initialize theme from localStorage or system preference
-onMounted(() => {
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme === 'dark') {
-    isDark.value = true;
-    document.body.classList.add('dark');
-  } else if (savedTheme === 'light') {
-    isDark.value = false;
-    document.body.classList.remove('dark');
-  } else {
-    // Check system preference
+const theme = ref<Theme>('system');
+let mediaQuery: MediaQueryList | null = null;
+let mediaQueryListener: ((e: MediaQueryListEvent) => void) | null = null;
+
+const applyTheme = (themeValue: Theme) => {
+  if (themeValue === 'system') {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    isDark.value = prefersDark;
     if (prefersDark) {
       document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
     }
+  } else if (themeValue === 'dark') {
+    document.body.classList.add('dark');
+  } else {
+    document.body.classList.remove('dark');
+  }
+};
+
+// Initialize theme from localStorage or default to system
+onMounted(() => {
+  const savedTheme = localStorage.getItem('theme') as Theme | null;
+  theme.value = savedTheme || 'system';
+  applyTheme(theme.value);
+
+  // Listen for system theme changes when in system mode
+  mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  mediaQueryListener = (e: MediaQueryListEvent) => {
+    if (theme.value === 'system') {
+      if (e.matches) {
+        document.body.classList.add('dark');
+      } else {
+        document.body.classList.remove('dark');
+      }
+    }
+  };
+  mediaQuery.addEventListener('change', mediaQueryListener);
+});
+
+onUnmounted(() => {
+  if (mediaQuery && mediaQueryListener) {
+    mediaQuery.removeEventListener('change', mediaQueryListener);
   }
 });
 
-const toggleTheme = () => {
-  isDark.value = !isDark.value;
-  
-  if (isDark.value) {
-    document.body.classList.add('dark');
-    localStorage.setItem('theme', 'dark');
+const cycleTheme = () => {
+  // Cycle through: light -> dark -> system -> light...
+  if (theme.value === 'light') {
+    theme.value = 'dark';
+  } else if (theme.value === 'dark') {
+    theme.value = 'system';
   } else {
-    document.body.classList.remove('dark');
-    localStorage.setItem('theme', 'light');
+    theme.value = 'light';
   }
+
+  localStorage.setItem('theme', theme.value);
+  applyTheme(theme.value);
+};
+
+const getThemeLabel = () => {
+  if (theme.value === 'light') return 'Light mode';
+  if (theme.value === 'dark') return 'Dark mode';
+  return 'System theme';
 };
 </script>
 
 <template>
   <button
-    @click="toggleTheme"
+    @click="cycleTheme"
     class="p-3 rounded-xl glass-card hover:scale-105 transition-all duration-200 hover:shadow-lg group"
-    :title="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
+    :title="getThemeLabel()"
   >
     <!-- Sun Icon (Light Mode) -->
     <svg
-      v-if="isDark"
-      class="w-5 h-5 text-yellow-500 group-hover:rotate-45 transition-all duration-300"
+      v-if="theme === 'light'"
+      class="w-5 h-5 text-x-text-primary group-hover:rotate-45 transition-all duration-300"
       fill="currentColor"
       viewBox="0 0 24 24"
     >
@@ -55,8 +89,8 @@ const toggleTheme = () => {
     
     <!-- Moon Icon (Dark Mode) -->
     <svg
-      v-else
-      class="w-5 h-5 text-slate-600 group-hover:-rotate-12 transition-all duration-300"
+      v-else-if="theme === 'dark'"
+      class="w-5 h-5 text-x-text-primary group-hover:-rotate-12 transition-all duration-300"
       fill="currentColor"
       viewBox="0 0 24 24"
     >
@@ -64,6 +98,22 @@ const toggleTheme = () => {
         fill-rule="evenodd"
         d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z"
         clip-rule="evenodd"
+      />
+    </svg>
+
+    <!-- Computer/System Icon (System Mode) -->
+    <svg
+      v-else
+      class="w-5 h-5 text-x-text-primary group-hover:scale-110 transition-all duration-300"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      stroke-width="2"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
       />
     </svg>
   </button>
