@@ -1,7 +1,7 @@
 <script setup lang="ts">
 interface Props {
   disabled?: boolean;
-  variant?: 'primary' | 'secondary';
+  variant?: 'primary' | 'secondary' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
   fullWidth?: boolean;
 }
@@ -59,6 +59,13 @@ const handleClick = () => {
         
         // Secondary disabled - muted gray colors
         'bg-transparent text-x-text-muted border-x-border cursor-not-allowed': variant === 'secondary' && disabled,
+        
+        // Ghost button - minimal style with hover effect
+        'bg-transparent text-x-text-primary border-transparent': variant === 'ghost' && !disabled,
+        'hover:bg-white/60 dark:hover:bg-white/20': variant === 'ghost' && !disabled,
+        
+        // Ghost disabled - muted text
+        'bg-transparent text-x-text-muted border-transparent cursor-not-allowed': variant === 'ghost' && disabled,
       },
       
       // Active states
