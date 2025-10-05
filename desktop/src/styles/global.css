@@ -592,10 +592,6 @@ body.dark::after {
   }
 }
 
-.glass-panel {
-  animation: orbitalFloat 12s ease-in-out infinite;
-}
-
 /* Enhanced Custom Scrollbar - Metallic appearance */
 ::-webkit-scrollbar {
   width: 10px;
