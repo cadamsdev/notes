@@ -123,14 +123,14 @@ const isTagSelected = (tag: string) => {
         :class="[
           'px-2.5 py-1 rounded-full text-xs font-medium transition-all backdrop-blur-sm',
           isTagSelected(tag)
-            ? 'bg-x-blue text-white shadow-lg' 
-            : 'bg-white/60 dark:bg-white/10 text-x-text-secondary hover:bg-white/80 dark:hover:bg-white/20 hover:text-x-blue'
+            ? 'bg-x-black text-white shadow-lg border border-x-black' 
+            : 'bg-white/60 dark:bg-white/10 text-x-text-secondary hover:bg-white/80 dark:hover:bg-white/20 hover:text-x-text-primary border border-transparent'
         ]"
       >
         #{{ tag }}
         <span :class="[
           'ml-1.5 px-1.5 py-0.5 rounded text-xs',
-          isTagSelected(tag) ? 'bg-white/20' : 'bg-x-blue/10 dark:bg-x-blue/20'
+          isTagSelected(tag) ? 'bg-white/20' : 'bg-x-text-muted/10 dark:bg-x-text-muted/20'
         ]">
           {{ getNotesCountForTag(tag) }}
         </span>
