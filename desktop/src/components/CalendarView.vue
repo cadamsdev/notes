@@ -168,9 +168,9 @@ const nextMonth = () => {
           :disabled="!day"
           :class="[
             'aspect-square rounded-md flex flex-col items-center justify-center text-xs transition-all relative backdrop-blur-sm',
-            day ? 'hover:bg-white/60 dark:hover:bg-white/10 cursor-pointer' : 'cursor-default',
+            day && !isSelected(day) ? 'hover:bg-white/60 dark:hover:bg-white/10 cursor-pointer' : day ? 'cursor-pointer' : 'cursor-default',
             isToday(day) && !isSelected(day) ? 'bg-x-text-secondary/10 text-x-text-primary font-semibold ring-1 ring-x-text-secondary' : '',
-            isSelected(day) ? 'bg-x-black text-white font-semibold shadow-lg' : day ? 'text-x-text-primary' : 'text-transparent',
+            isSelected(day) ? 'bg-x-black text-white font-semibold shadow-lg hover:bg-white hover:text-x-black' : day ? 'text-x-text-primary' : 'text-transparent',
             day && !isToday(day) && !isSelected(day) && getNotesCountForDay(day) > 0 ? 'font-medium' : ''
           ]"
         >
