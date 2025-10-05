@@ -996,3 +996,33 @@ button:disabled {
 .code-block-wrapper pre::-webkit-scrollbar-thumb:hover {
   background: var(--color-x-text-muted);
 }
+
+/* Theme-aware Shiki code blocks */
+/* Default (light mode and system preference for light) - show light theme */
+.shiki-light-theme {
+  display: block;
+}
+
+.shiki-dark-theme {
+  display: none;
+}
+
+/* Dark mode - show dark theme */
+body.dark .shiki-light-theme {
+  display: none;
+}
+
+body.dark .shiki-dark-theme {
+  display: block;
+}
+
+/* System preference dark mode (when not explicitly set to light) */
+@media (prefers-color-scheme: dark) {
+  body:not(.light) .shiki-light-theme {
+    display: none;
+  }
+  
+  body:not(.light) .shiki-dark-theme {
+    display: block;
+  }
+}

@@ -3,11 +3,11 @@ import { createHighlighter } from 'shiki';
 
 let highlighter: any = null;
 
-// Initialize Shiki highlighter
+// Initialize Shiki highlighter with both light and dark themes
 async function initHighlighter() {
   if (!highlighter) {
     highlighter = await createHighlighter({
-      themes: ['github-dark'],
+      themes: ['github-light', 'github-dark'],
       langs: [
         'javascript',
         'typescript',
@@ -70,12 +70,18 @@ renderer.code = function(token: any) {
   }
 
   try {
-    const html = highlighter.codeToHtml(code, {
+    // Generate both light and dark theme versions
+    const lightHtml = highlighter.codeToHtml(code, {
+      lang: language,
+      theme: 'github-light',
+    });
+    
+    const darkHtml = highlighter.codeToHtml(code, {
       lang: language,
       theme: 'github-dark',
     });
     
-    // Wrap the Shiki output with header
+    // Wrap both versions with appropriate classes for theme switching
     return `
       <div class="code-block-wrapper">
         <div class="code-block-header">
@@ -90,7 +96,8 @@ renderer.code = function(token: any) {
             </svg>
           </button>
         </div>
-        ${html}
+        <div class="shiki-light-theme">${lightHtml}</div>
+        <div class="shiki-dark-theme">${darkHtml}</div>
       </div>`;
   } catch (error) {
     console.error('Shiki highlighting error:', error);
