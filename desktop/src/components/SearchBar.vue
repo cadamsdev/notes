@@ -39,8 +39,7 @@ const clearSearch = () => {
       v-model="searchQuery"
       type="text"
       placeholder="Search your notes..."
-      class="w-full pl-12 pr-12 py-4 text-base text-x-text-primary placeholder-x-text-muted focus:outline-none focus:ring-2 focus:ring-x-blue/20 focus:border-transparent transition-all rounded-xl bg-glass-bg-strong backdrop-blur-[20px] border border-glass-border-strong shadow-[var(--shadow-md),var(--glass-inner-shadow),var(--glass-outer-glow),0_8px_24px_rgba(0,0,0,0.08)]"
-      style="backdrop-filter: saturate(160%) blur(20px); -webkit-backdrop-filter: saturate(160%) blur(20px);"
+      class="w-full pl-12 pr-12 py-4 text-base text-x-text-primary placeholder-x-text-muted bg-transparent border-2 border-x-border transition-all rounded-xl focus:border-x-text-secondary focus:bg-glass-bg-light hover:border-x-hover hover:bg-glass-bg-light outline-none"
     />
 
     <!-- Clear Button -->

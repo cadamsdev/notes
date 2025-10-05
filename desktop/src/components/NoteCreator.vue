@@ -35,7 +35,7 @@ const handleKeydown = (e: KeyboardEvent) => {
       v-model="noteContent"
       @keydown="handleKeydown"
       placeholder="Share your thoughts..."
-      class="w-full bg-transparent text-x-text-primary placeholder-x-text-muted resize-none outline-2 outline-transparent text-base leading-relaxed min-h-[120px] transition-all rounded-lg p-3 -m-3 focus:outline-x-blue focus:bg-glass-bg-light hover:outline-glass-border-strong hover:bg-glass-bg-light"
+      class="w-full bg-transparent text-x-text-primary placeholder-x-text-muted resize-none border-2 border-x-border text-base leading-relaxed min-h-[120px] transition-all rounded-lg p-3 -m-3 focus:border-x-text-secondary focus:bg-glass-bg-light hover:border-x-hover hover:bg-glass-bg-light outline-none"
       rows="4"
     ></textarea>
 
