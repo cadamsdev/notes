@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "notes",
+  "productName": "notesx",
   "version": "0.1.0",
-  "identifier": "com.cosmicnotes",
+  "identifier": "com.notex",
   "build": {
     "beforeDevCommand": "bun run dev",
     "devUrl": "http://localhost:1420",
@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "Cosmic Notes",
+        "title": "NoteX",
         "width": 1536,
         "height": 864,
         "minWidth": 800,

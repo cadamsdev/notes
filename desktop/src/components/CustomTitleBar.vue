@@ -12,7 +12,7 @@
                   stroke-linejoin="round"/>
           </svg>
         </div>
-        <span class="app-title">Cosmic Notes</span>
+        <span class="app-title">NoteX</span>
       </div>
 
       <!-- Window Controls -->
