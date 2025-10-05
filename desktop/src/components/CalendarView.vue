@@ -169,8 +169,8 @@ const nextMonth = () => {
           :class="[
             'aspect-square rounded-md flex flex-col items-center justify-center text-xs transition-all relative backdrop-blur-sm',
             day ? 'hover:bg-white/60 dark:hover:bg-white/10 cursor-pointer' : 'cursor-default',
-            isToday(day) && !isSelected(day) ? 'bg-x-blue/10 text-x-blue font-semibold ring-1 ring-x-blue' : '',
-            isSelected(day) ? 'bg-x-blue text-white font-semibold shadow-lg' : day ? 'text-x-text-primary' : 'text-transparent',
+            isToday(day) && !isSelected(day) ? 'bg-x-text-secondary/10 text-x-text-primary font-semibold ring-1 ring-x-text-secondary' : '',
+            isSelected(day) ? 'bg-x-black text-white font-semibold shadow-lg' : day ? 'text-x-text-primary' : 'text-transparent',
             day && !isToday(day) && !isSelected(day) && getNotesCountForDay(day) > 0 ? 'font-medium' : ''
           ]"
         >
@@ -179,7 +179,7 @@ const nextMonth = () => {
             v-if="day && getNotesCountForDay(day) > 0"
             :class="[
               'w-1 h-1 rounded-full mt-0.5',
-              isSelected(day) ? 'bg-white' : 'bg-x-blue'
+              isSelected(day) ? 'bg-white' : 'bg-x-text-primary'
             ]"
           ></span>
         </button>
