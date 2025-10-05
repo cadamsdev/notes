@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import Button from './Button.vue';
 
 const noteContent = ref('');
 
@@ -51,13 +52,14 @@ const handleKeydown = (e: KeyboardEvent) => {
       </div>
       
       <!-- Post Button -->
-      <button
+      <Button
         @click="createNote"
         :disabled="!canPost"
-        class="px-6 py-3 bg-gradient-to-r from-[var(--color-x-blue)] to-[var(--color-x-blue-hover)] text-white rounded-xl text-sm font-semibold hover:shadow-lg hover:scale-105 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all duration-200 shadow-md"
+        variant="primary"
+        size="md"
       >
         Create Note
-      </button>
+      </Button>
     </div>
   </div>
 </template>

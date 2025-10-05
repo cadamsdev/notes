@@ -50,6 +50,10 @@ cd desktop && bun run tauri build
 - Global styles imported in `App.vue`: `import './styles/global.css'`
 - Tailwind CSS v4 with Vite plugin (`@tailwindcss/vite`)
 - Single global CSS file: `desktop/src/styles/global.css` imports Tailwind via `@import "tailwindcss"`
+- **Dynamic Classes**: Always use Vue's `:class` binding for conditional/dynamic classes
+  - Use array syntax with objects for conditional classes: `:class="['base-class', { 'conditional-class': condition }]"`
+  - Never build class strings manually with computed properties using array.push() or string concatenation
+  - Example: `:class="[{ 'text-lg': size === 'large', 'text-sm': size === 'small' }]"` instead of computed string building
 - **Theme**: Modern, clean, minimal design with **glassmorphism** aesthetics
 - **Light & Dark Mode**: Full theme support with toggle button (`ThemeToggle.vue`)
   - Light mode: Soft gradient backgrounds (blue/cyan/yellow tones) with frosted glass panels
