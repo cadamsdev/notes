@@ -58,7 +58,7 @@ const handleKeydown = (e: KeyboardEvent) => {
         variant="primary"
         size="md"
       >
-        Create Note
+        Create Note →
       </Button>
     </div>
   </div>

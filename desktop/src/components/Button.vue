@@ -77,13 +77,5 @@ const handleClick = () => {
     <span class="relative z-10 flex items-center justify-center gap-2">
       <slot />
     </span>
-    
-    <!-- Arrow icon for primary buttons -->
-    <span
-      v-if="variant === 'primary' && !disabled"
-      class="relative z-10 ml-2 transition-transform duration-200 group-hover:translate-x-1"
-    >
-      →
-    </span>
   </button>
 </template>
