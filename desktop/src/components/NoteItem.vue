@@ -104,7 +104,7 @@ const formatDate = (date: Date) => {
       <!-- Action buttons (show on hover) -->
       <div class="flex items-center gap-2 opacity-0 group-hover/card:opacity-100 transition-all duration-200">
         <button v-if="!isEditing" @click.stop="startEditing"
-          class="p-2 rounded-lg hover:bg-white/20 text-x-text-muted hover:text-x-text-primary transition-all duration-200 hover:scale-105"
+          class="p-2 rounded-lg hover:bg-white/10 text-x-text-secondary hover:text-x-text-primary transition-all duration-200 hover:scale-105"
           title="Edit note">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round"
@@ -113,7 +113,7 @@ const formatDate = (date: Date) => {
         </button>
 
         <button v-if="!isEditing" @click.stop="confirmDelete"
-          class="p-2 rounded-lg hover:bg-red-500/10 text-x-text-muted hover:text-x-error transition-all duration-200 hover:scale-105"
+          class="p-2 rounded-lg hover:bg-white/10 text-x-text-secondary hover:text-x-text-primary transition-all duration-200 hover:scale-105"
           title="Delete note">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round"
