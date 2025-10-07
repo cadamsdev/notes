@@ -4,7 +4,6 @@ import { ref, computed, onMounted, watch } from 'vue';
 import Database from '@tauri-apps/plugin-sql';
 import { marked } from 'marked';
 import Fuse from 'fuse.js';
-import CustomTitleBar from './components/CustomTitleBar.vue';
 import CalendarView from './components/CalendarView.vue';
 import TagsPanel from './components/TagsPanel.vue';
 import NoteCreator from './components/NoteCreator.vue';
@@ -228,9 +227,6 @@ const editNote = async (id: number, content: string) => {
 <template>
   <!-- Custom blurred background -->
   <div class="bg-[rgba(35,35,35,0.15)] absolute z-[-1]"></div>
-
-  <!-- Custom Title Bar -->
-  <CustomTitleBar />
   
   <main class="h-[calc(100vh-40px)] p-6 flex justify-center overflow-hidden">
     <!-- Main Container - Apple-style centered layout with generous spacing -->

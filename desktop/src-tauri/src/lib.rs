@@ -1,5 +1,4 @@
 use tauri::Manager;
-use tauri::menu::{MenuBuilder, MenuItemBuilder, SubmenuBuilder};
 use std::env;
 
 // Get the database filename based on environment
@@ -76,34 +75,6 @@ pub fn run() {
         .plugin(tauri_plugin_sql::Builder::new().build())
         .plugin(tauri_plugin_opener::init())
         .invoke_handler(tauri::generate_handler![open_database_location_cmd, get_app_version])
-        .setup(|app| {
-            // Create menu items
-            let open_db = MenuItemBuilder::with_id("open_db", "Open Database Location").build(app)?;
-            
-            // Create File submenu
-            let file_menu = SubmenuBuilder::new(app, "File")
-                .items(&[&open_db])
-                .build()?;
-            
-            // Build the main menu
-            let menu = MenuBuilder::new(app)
-                .items(&[&file_menu])
-                .build()?;
-            
-            // Set the menu for the app
-            app.set_menu(menu)?;
-            
-            // Handle menu events
-            app.on_menu_event(move |app, event| {
-                if event.id() == "open_db" {
-                    if let Err(e) = open_database_location(app) {
-                        eprintln!("Error opening database location: {}", e);
-                    }
-                }
-            });
-            
-            Ok(())
-        })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
