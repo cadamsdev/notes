@@ -19,7 +19,6 @@
         "minHeight": 600,
         "alwaysOnTop": false,
         "resizable": true,
-        "titleBarStyle": "Overlay",
         "center": true
       }
     ],
