@@ -191,11 +191,11 @@ defineExpose({ openSettings });
               <button
                 v-if="isCustomLocation"
                 @click="resetDatabaseLocation"
-                class="w-full px-4 py-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-x-rocket/50 transition-all flex items-center justify-between group"
+                class="w-full px-4 py-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all flex items-center justify-between group"
               >
                 <div class="flex items-center gap-3">
-                  <div class="w-9 h-9 rounded-lg bg-x-rocket/10 flex items-center justify-center group-hover:bg-x-rocket/20 transition-colors">
-                    <svg class="w-5 h-5 text-x-rocket" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <div class="w-9 h-9 rounded-lg bg-x-blue/10 flex items-center justify-center group-hover:bg-x-blue/20 transition-colors">
+                    <svg class="w-5 h-5 text-x-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
                     </svg>
                   </div>
@@ -204,7 +204,7 @@ defineExpose({ openSettings });
                     <p class="text-xs text-x-text-secondary mt-0.5">Move database back to app data directory</p>
                   </div>
                 </div>
-                <svg class="w-5 h-5 text-x-text-secondary group-hover:text-x-rocket transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <svg class="w-5 h-5 text-x-text-secondary group-hover:text-x-blue transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
                 </svg>
               </button>
