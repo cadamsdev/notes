@@ -2,6 +2,7 @@
 import './styles/global.css';
 import { ref, computed, onMounted, watch } from 'vue';
 import Database from '@tauri-apps/plugin-sql';
+import { invoke } from '@tauri-apps/api/core';
 import { marked } from 'marked';
 import Fuse from 'fuse.js';
 import CalendarView from './components/CalendarView.vue';
@@ -55,7 +56,9 @@ const getDbPath = async (): Promise<string> => {
   try {
     const dbPath = await invoke<string>('get_database_path_cmd');
     console.log('Using database path:', dbPath);
-    return dbPath;
+    // Format as SQLite URI - need to convert backslashes to forward slashes on Windows
+    const normalizedPath = dbPath.replace(/\\/g, '/');
+    return `sqlite:${normalizedPath}`;
   } catch (error) {
     console.error('Failed to get database path:', error);
     // Fallback to old behavior
