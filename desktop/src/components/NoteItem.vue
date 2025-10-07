@@ -94,7 +94,7 @@ const formatDate = (date: Date) => {
 
 <template>
   <div @mouseenter="isHovered = true" @mouseleave="isHovered = false"
-    class="glass-card group hover:shadow-lg transition-all duration-200 p-3">
+    class="glass-card group/card hover:shadow-lg transition-all duration-200 p-3">
     <div class="flex items-start justify-between mb-4">
       <!-- Time -->
       <span class="text-sm text-x-text-muted font-medium">
@@ -102,7 +102,7 @@ const formatDate = (date: Date) => {
       </span>
 
       <!-- Action buttons (show on hover) -->
-      <div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-200">
+      <div class="flex items-center gap-2 opacity-0 group-hover/card:opacity-100 transition-all duration-200">
         <button v-if="!isEditing" @click.stop="startEditing"
           class="p-2 rounded-lg hover:bg-white/20 text-x-text-muted hover:text-x-text-primary transition-all duration-200 hover:scale-105"
           title="Edit note">
@@ -130,14 +130,21 @@ const formatDate = (date: Date) => {
         rows="4" autofocus></textarea>
 
       <div class="flex items-center justify-end gap-3">
-        <button @click="cancelEditing"
-          class="px-4 py-2 text-sm font-medium text-x-text-primary hover:bg-white/20 rounded-lg transition-all">
+        <Button
+          @click="cancelEditing"
+          variant="ghost"
+          size="sm"
+        >
           Cancel
-        </button>
-        <button @click="saveEdit" :disabled="!editContent.trim()"
-          class="px-5 py-2 text-sm font-semibold bg-gradient-to-r from-x-blue to-x-blue-hover text-white rounded-lg hover:shadow-lg hover:scale-105 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all duration-200 shadow-md">
+        </Button>
+        <Button
+          @click="saveEdit"
+          :disabled="!editContent.trim()"
+          variant="primary"
+          size="sm"
+        >
           Save Changes
-        </button>
+        </Button>
       </div>
     </div>
 

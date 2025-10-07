@@ -32,7 +32,7 @@ const handleClick = () => {
       // Base styles
       'relative inline-flex items-center justify-center',
       'font-semibold uppercase tracking-wider',
-      'transition-all duration-200 overflow-hidden group',
+      'transition-all duration-200 overflow-hidden group/button',
       'border-2 rounded-none',
       
       // Size variants
@@ -77,7 +77,7 @@ const handleClick = () => {
     <!-- Shine effect on hover -->
     <span
       v-if="!disabled"
-      class="absolute inset-0 w-0 bg-white/10 transition-all duration-300 ease-out group-hover:w-full"
+      class="absolute inset-0 w-0 bg-white/10 transition-all duration-300 ease-out group-hover/button:w-full"
     ></span>
     
     <!-- Content -->
