@@ -2,6 +2,7 @@
 import { ref, onMounted, watch } from 'vue';
 import { renderMarkdown } from '../utils/markdown';
 import Button from './Button.vue';
+import Textarea from './Textarea.vue';
 
 interface Note {
   id: number;
@@ -125,9 +126,13 @@ const formatDate = (date: Date) => {
 
     <!-- Edit Mode -->
     <div v-if="isEditing" class="space-y-4">
-      <textarea v-model="editContent" @keydown="handleEditKeydown"
-        class="w-full bg-transparent text-x-text-primary placeholder-x-text-muted resize-none outline-none text-base leading-relaxed min-h-[120px] border border-white/20 rounded-xl p-4 focus:border-x-blue/50 focus:ring-2 focus:ring-x-blue/20 transition-all"
-        rows="4" autofocus></textarea>
+      <Textarea
+        v-model="editContent"
+        @keydown="handleEditKeydown"
+        :rows="4"
+        min-height="120px"
+        autofocus
+      />
 
       <div class="flex items-center justify-end gap-3">
         <Button
