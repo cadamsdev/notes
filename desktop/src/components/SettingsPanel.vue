@@ -119,7 +119,7 @@ defineExpose({ openSettings });
                   </svg>
                 </div>
                 <div>
-                  <p class="text-sm font-medium text-x-text-primary">Cosmic Notes</p>
+                  <p class="text-sm font-medium text-x-text-primary">NoteX</p>
                   <p class="text-xs text-x-text-secondary mt-0.5">Version {{ appVersion }}</p>
                 </div>
               </div>
