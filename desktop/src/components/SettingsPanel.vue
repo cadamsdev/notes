@@ -1,16 +1,75 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { invoke } from '@tauri-apps/api/core';
+import { open } from '@tauri-apps/plugin-dialog';
 
 const isOpen = ref(false);
 const appVersion = ref('Loading...');
+const databaseDirectory = ref('Loading...');
+const isCustomLocation = ref(false);
 
-const openSettings = () => {
+const openSettings = async () => {
   isOpen.value = true;
+  await loadDatabaseInfo();
 };
 
 const closeSettings = () => {
   isOpen.value = false;
+};
+
+const loadDatabaseInfo = async () => {
+  try {
+    const dbDir = await invoke<string>('get_database_directory_cmd');
+    databaseDirectory.value = dbDir;
+    
+    // Check if it's a custom location (not in default app data dir)
+    // This is a simple heuristic - could be improved
+    isCustomLocation.value = dbDir.includes('Google Drive') || 
+                             dbDir.includes('OneDrive') || 
+                             dbDir.includes('Dropbox') ||
+                             !dbDir.includes('AppData'); // Windows
+  } catch (error) {
+    console.error('Failed to get database directory:', error);
+    databaseDirectory.value = 'Unknown';
+  }
+};
+
+const changeDatabaseLocation = async () => {
+  try {
+    const selected = await open({
+      directory: true,
+      multiple: false,
+      title: 'Select Database Location',
+    });
+    
+    if (selected) {
+      const newPath = await invoke<string>('set_database_directory_cmd', { directoryPath: selected });
+      console.log('Database location changed to:', newPath);
+      
+      // Reload the app to use new database location
+      window.location.reload();
+    }
+  } catch (error) {
+    console.error('Failed to change database location:', error);
+    alert('Failed to change database location. Please try again.');
+  }
+};
+
+const resetDatabaseLocation = async () => {
+  if (!confirm('Reset database location to default? The current database will be copied to the default location.')) {
+    return;
+  }
+  
+  try {
+    await invoke<string>('reset_database_directory_cmd');
+    console.log('Database location reset to default');
+    
+    // Reload the app to use default database location
+    window.location.reload();
+  } catch (error) {
+    console.error('Failed to reset database location:', error);
+    alert('Failed to reset database location. Please try again.');
+  }
 };
 
 const openDatabaseLocation = async () => {
@@ -84,6 +143,72 @@ defineExpose({ openSettings });
             <h3 class="text-sm font-semibold text-x-text-primary uppercase tracking-wider mb-4">Database</h3>
             
             <div class="space-y-3">
+              <!-- Database Location Info -->
+              <div class="px-4 py-3.5 rounded-xl bg-white/5 border border-white/10">
+                <div class="flex items-start gap-3">
+                  <div class="w-9 h-9 rounded-lg bg-x-blue/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <svg class="w-5 h-5 text-x-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
+                    </svg>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-2 mb-1">
+                      <p class="text-sm font-medium text-x-text-primary">Database Location</p>
+                      <span 
+                        v-if="isCustomLocation" 
+                        class="px-2 py-0.5 rounded-md bg-x-blue/20 text-x-blue text-xs font-medium"
+                      >
+                        Custom
+                      </span>
+                    </div>
+                    <p class="text-xs text-x-text-secondary break-all font-mono">{{ databaseDirectory }}</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Change Database Location -->
+              <button
+                @click="changeDatabaseLocation"
+                class="w-full px-4 py-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all flex items-center justify-between group"
+              >
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-lg bg-x-blue/10 flex items-center justify-center group-hover:bg-x-blue/20 transition-colors">
+                    <svg class="w-5 h-5 text-x-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                    </svg>
+                  </div>
+                  <div class="text-left">
+                    <p class="text-sm font-medium text-x-text-primary">Change Database Location</p>
+                    <p class="text-xs text-x-text-secondary mt-0.5">Move database to cloud storage (OneDrive, Google Drive)</p>
+                  </div>
+                </div>
+                <svg class="w-5 h-5 text-x-text-secondary group-hover:text-x-blue transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                </svg>
+              </button>
+              
+              <!-- Reset to Default Location -->
+              <button
+                v-if="isCustomLocation"
+                @click="resetDatabaseLocation"
+                class="w-full px-4 py-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-x-rocket/50 transition-all flex items-center justify-between group"
+              >
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-lg bg-x-rocket/10 flex items-center justify-center group-hover:bg-x-rocket/20 transition-colors">
+                    <svg class="w-5 h-5 text-x-rocket" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                    </svg>
+                  </div>
+                  <div class="text-left">
+                    <p class="text-sm font-medium text-x-text-primary">Reset to Default Location</p>
+                    <p class="text-xs text-x-text-secondary mt-0.5">Move database back to app data directory</p>
+                  </div>
+                </div>
+                <svg class="w-5 h-5 text-x-text-secondary group-hover:text-x-rocket transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                </svg>
+              </button>
+              
               <!-- Open Database Location -->
               <button
                 @click="openDatabaseLocation"

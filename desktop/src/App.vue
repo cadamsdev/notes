@@ -50,6 +50,19 @@ const getDbFilename = () => {
   return dbName;
 };
 
+// Get database path from backend
+const getDbPath = async (): Promise<string> => {
+  try {
+    const dbPath = await invoke<string>('get_database_path_cmd');
+    console.log('Using database path:', dbPath);
+    return dbPath;
+  } catch (error) {
+    console.error('Failed to get database path:', error);
+    // Fallback to old behavior
+    return `sqlite:${getDbFilename()}`;
+  }
+};
+
 const openSettings = () => {
   settingsPanel.value?.openSettings();
 };
@@ -57,9 +70,9 @@ const openSettings = () => {
 // Initialize database and load notes
 onMounted(async () => {
   try {
-    const dbFilename = getDbFilename();
-    console.log('Initializing database:', dbFilename);
-    db = await Database.load(`sqlite:${dbFilename}`);
+    const dbPath = await getDbPath();
+    console.log('Initializing database:', dbPath);
+    db = await Database.load(dbPath);
     console.log('Database loaded:', db);
     
     // Create table if it doesn't exist
