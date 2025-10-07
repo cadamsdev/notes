@@ -46,7 +46,7 @@ const handleKeydown = (e: KeyboardEvent) => {
       'resize-none border-2 border-x-border text-base leading-relaxed',
       'transition-all rounded-lg p-3 outline-none',
       {
-        'focus:border-x-text-secondary focus:bg-glass-bg-light': !disabled,
+        'focus:border-x-text-secondary focus-visible:border-transparent': !disabled,
         'hover:border-x-hover hover:bg-glass-bg-light': !disabled,
         'opacity-50 cursor-not-allowed': disabled,
       }

@@ -622,6 +622,10 @@ body.dark::after {
   box-shadow: var(--shadow-glow);
 }
 
+.dark *:focus-visible {
+  outline: 2px solid var(--color-x-text-secondary);
+}
+
 /* SpaceX-style input improvements */
 input, textarea {
   font-family: var(--font-family-x-base);

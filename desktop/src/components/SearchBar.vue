@@ -39,7 +39,7 @@ const clearSearch = () => {
       v-model="searchQuery"
       type="text"
       placeholder="Search your notes..."
-      class="w-full pl-12 pr-12 py-4 text-base text-x-text-primary placeholder-x-text-muted bg-transparent border-2 border-x-border transition-all rounded-xl focus:border-x-text-secondary focus:bg-glass-bg-light hover:border-x-hover hover:bg-glass-bg-light outline-none"
+      class="w-full pl-12 pr-12 py-4 text-base text-x-text-primary border-x-border placeholder-x-text-muted bg-transparent border-2 border-x-border transition-all rounded-xl focus:border-transparent focus:bg-glass-bg-light hover:border-x-hover hover:bg-glass-bg-light outline-none"
     />
 
     <!-- Clear Button -->
