@@ -15,7 +15,7 @@
 
 ![NoteX Preview](./media/preview.png)
 
-[Features](#-features) • [Installation](#-installation) • [Contributing](#-contributing)
+[Features](#-features) • [Installation](#-installation) • [Contributing](/docs/CONTRIBUTING.md)
 
 </div>
 
