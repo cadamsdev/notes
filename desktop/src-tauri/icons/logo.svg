@@ -15,7 +15,7 @@
   </defs>
   
   <!-- Background square -->
-  <rect x="10" y="10" width="180" height="180" rx="15" fill="url(#bgGradient)" opacity="1"/>
+  <rect x="10" y="10" width="180" height="180" fill="url(#bgGradient)" opacity="1"/>
   
   <!-- Stylized note/document icon -->
   <g>
