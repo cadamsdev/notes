@@ -23,27 +23,27 @@
     <path d="M 60 50 L 60 150 L 140 150 L 140 75 L 115 50 Z" 
           fill="none" 
           stroke="#ffffff" 
-          stroke-width="4" 
+          stroke-width="6" 
           stroke-linejoin="round"/>
     
     <!-- Folded corner -->
     <path d="M 115 50 L 115 75 L 140 75" 
           fill="none" 
           stroke="#ffffff" 
-          stroke-width="4" 
+          stroke-width="6" 
           stroke-linejoin="round"/>
     
     <!-- Text lines inside note -->
-    <line x1="75" y1="95" x2="125" y2="95" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
-    <line x1="75" y1="110" x2="115" y2="110" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
-    <line x1="75" y1="125" x2="120" y2="125" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+    <line x1="75" y1="95" x2="125" y2="95" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="1"/>
+    <line x1="75" y1="110" x2="115" y2="110" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="1"/>
+    <line x1="75" y1="125" x2="120" y2="125" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="1"/>
   </g>
   
   <!-- "X" accent - rocket/futuristic element -->
   <g opacity="1">
     <path d="M 130 120 L 150 140 M 150 120 L 130 140" 
           stroke="#ffffff" 
-          stroke-width="6" 
+          stroke-width="8" 
           stroke-linecap="round"/>
   </g>
 </svg>
