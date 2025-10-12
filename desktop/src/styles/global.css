@@ -109,18 +109,18 @@ body.dark {
   --color-x-darker: #000000;
   --color-x-border: rgba(255, 255, 255, 0.12);
   --color-x-hover: rgba(255, 255, 255, 0.06);
-  --color-x-blue: #ffffff;
-  --color-x-blue-hover: #e5e5e5;
+  --color-x-blue: #e8e8e8;
+  --color-x-blue-hover: #d0d0d0;
   --color-x-blue-light: rgba(255, 255, 255, 0.1);
-  --color-x-text-primary: #ffffff;
-  --color-x-text-secondary: #b0b0b0;
+  --color-x-text-primary: #e8e8e8;
+  --color-x-text-secondary: #a0a0a0;
   --color-x-text-muted: #707070;
-  --color-btn-primary: #ffffff;
-  --color-btn-primary-hover: #e5e5e5;
-  --color-x-error: #ffffff;
-  --color-x-error-hover: #e5e5e5;
-  --color-x-success: #ffffff;
-  --color-x-warning: #ffffff;
+  --color-btn-primary: #e8e8e8;
+  --color-btn-primary-hover: #d0d0d0;
+  --color-x-error: #e8e8e8;
+  --color-x-error-hover: #d0d0d0;
+  --color-x-success: #e8e8e8;
+  --color-x-warning: #e8e8e8;
   
   /* Dark mode shadows */
   --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.6);
@@ -152,18 +152,18 @@ body.dark {
     --color-x-darker: #000000;
     --color-x-border: rgba(255, 255, 255, 0.12);
     --color-x-hover: rgba(255, 255, 255, 0.06);
-    --color-x-blue: #ffffff;
-    --color-x-blue-hover: #e5e5e5;
+    --color-x-blue: #e8e8e8;
+    --color-x-blue-hover: #d0d0d0;
     --color-x-blue-light: rgba(255, 255, 255, 0.1);
-    --color-x-text-primary: #ffffff;
-    --color-x-text-secondary: #b0b0b0;
+    --color-x-text-primary: #e8e8e8;
+    --color-x-text-secondary: #a0a0a0;
     --color-x-text-muted: #707070;
-    --color-btn-primary: #ffffff;
-    --color-btn-primary-hover: #e5e5e5;
-    --color-x-error: #ffffff;
-    --color-x-error-hover: #e5e5e5;
-    --color-x-success: #ffffff;
-    --color-x-warning: #ffffff;
+    --color-btn-primary: #e8e8e8;
+    --color-btn-primary-hover: #d0d0d0;
+    --color-x-error: #e8e8e8;
+    --color-x-error-hover: #d0d0d0;
+    --color-x-success: #e8e8e8;
+    --color-x-warning: #e8e8e8;
     
     /* Dark mode shadows */
     --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.6);
