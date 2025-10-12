@@ -1,6 +1,8 @@
 <div align="center">
 
-# 📝 NoteX
+<img src="./media/logo.svg" alt="NoteX Logo" width="120" height="120">
+
+# NoteX
 
 ### A Modern, Minimalist Note-Taking App
 
