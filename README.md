@@ -13,7 +13,7 @@
 
 ![NoteX Preview](./media/preview.png)
 
-[Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [Cloud Sync](#-cloud-sync) • [Development](#-development) • [Contributing](#-contributing)
+[Features](#-features) • [Installation](#-installation) • [Contributing](#-contributing)
 
 </div>
 
@@ -47,90 +47,8 @@
 - **GitHub Flavored Markdown** - Full GFM support
 - **Syntax Highlighting** - Code blocks with proper formatting
 
+## 📦 Installation
 Coming Soon!** Check the [Releases](https://github.com/cadamsdev/notex/releases) page for platform-specific installers.
-
-## 🚀 Usage
-
-### Creating Notes
-
-1. Click the **"What's on your mind?"** text area
-2. Type your note using markdown syntax
-3. Click **Create Note** or press `Ctrl+Enter`
-
-### Using Tags
-
-Add hashtags anywhere in your note:
-```markdown
-Meeting notes for #project #work tomorrow at 2pm
-Remember to bring #documents
-```
-
-Tags automatically appear in the sidebar for easy filtering.
-
-### Search & Filter
-
-- **Search Bar**: Fuzzy search across all notes
-- **Calendar**: Click any date to filter notes from that day
-- **Tags Panel**: Click tags to filter (supports multiple tags)
-
-### Markdown Examples
-
-```markdown
-# Heading 1
-## Heading 2
-
-**Bold text** and *italic text*
-
-- Bullet point
-- Another point
-
-1. Numbered list
-2. Second item
-
-`inline code` and code blocks:
-
-```js
-function hello() {
-  console.log("Hello, NoteX!");
-}
-```
-
-[Links](https://github.com) and images work too!
-```
-
----
-
-## ☁️ Cloud Sync
-
-NoteX supports saving your database to cloud storage for multi-device synchronization.
-
-### Setup Cloud Sync
-
-1. **Open Settings** (⚙️ icon in top-right)
-2. Click **"Change Database Location"**
-3. Select your cloud storage folder:
-   - Windows: `C:\Users\YourName\OneDrive\Notes`
-   - macOS: `~/Library/CloudStorage/OneDrive-Personal/Notes`
-   - Linux: `~/OneDrive/Notes`
-4. The app will copy your database and reload
-
-### Multi-Device Setup
-
-1. Set up cloud sync on your first device
-2. On other devices, point to the **same cloud folder**
-3. Your notes sync automatically via your cloud service
-
-⚠️ **Important**: Only open NoteX on one device at a time to avoid database conflicts.
-
-📖 **Full Guide**: See [CLOUD_SYNC_GUIDE.md](./CLOUD_SYNC_GUIDE.md) for detailed instructions.
-
----
-
-## 📝 License
-
-This project is licensed under the **GNU General Public License v3.0** - see the [LICENSE](LICENSE) file for details.
-
----
 
 ## 🙏 Acknowledgments
 
