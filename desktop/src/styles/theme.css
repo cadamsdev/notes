@@ -31,7 +31,6 @@
   /* Background Colors */
   --color-background: var(--color-gray-100);
   --color-background-overlay: hsla(0, 0%, 0%, 0.4);
-  --color-text-primary: var(--color-gray-700);
 
   /* Surface colors */
   --color-surface: var(--color-gray-200);
