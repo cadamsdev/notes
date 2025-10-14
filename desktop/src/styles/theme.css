@@ -42,6 +42,10 @@
   --color-border: var(--color-gray-200);
   --color-border-hover: var(--color-gray-300);
   --color-border-active: var(--color-gray-400);
+
+  /* Text colors */
+  --color-text-primary: var(--color-gray-700);
+  --color-text-secondary: var(--color-gray-600);
 }
 
 /* ============================================
@@ -61,4 +65,8 @@ body.dark {
   --color-border: var(--color-gray-700);
   --color-border-hover: var(--color-gray-600);
   --color-border-active: var(--color-gray-500);
+
+  /* Text colors */
+  --color-text-primary: var(--color-gray-200);
+  --color-text-secondary: var(--color-gray-300);
 }
