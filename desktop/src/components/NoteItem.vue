@@ -3,6 +3,7 @@ import { ref, onMounted, watch } from 'vue';
 import { renderMarkdown } from '../utils/markdown';
 import Button from './Button.vue';
 import Textarea from './Textarea.vue';
+import '../styles/markdown.css';
 
 interface Note {
   id: number;
