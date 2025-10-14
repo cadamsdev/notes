@@ -1,0 +1,378 @@
+.prose {
+  color: var(--color-x-text-primary);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+/* Headings */
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+  color: var(--color-x-text-primary);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.3;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  letter-spacing: -0.01em;
+}
+
+.prose h1:first-child, 
+.prose h2:first-child, 
+.prose h3:first-child {
+  margin-top: 0;
+}
+
+.prose h1 { 
+  font-size: 1.75em; 
+  font-weight: 700;
+  margin-bottom: 0.75em;
+}
+
+.prose h2 { 
+  font-size: 1.375em;
+  font-weight: 600;
+}
+
+.prose h3 { 
+  font-size: 1.125em;
+  font-weight: 600;
+}
+
+.prose h4 {
+  font-size: 1em;
+  font-weight: 600;
+}
+
+/* Paragraphs */
+.prose p {
+  margin-top: 0.75em;
+  margin-bottom: 0.75em;
+  line-height: 1.7;
+}
+
+.prose p:first-child {
+  margin-top: 0;
+}
+
+.prose p:last-child {
+  margin-bottom: 0;
+}
+
+/* Text formatting */
+.prose strong {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-x-text-primary);
+}
+
+.prose em {
+  font-style: italic;
+}
+
+/* Links */
+.prose a {
+  color: var(--color-x-blue);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.prose a:hover {
+  text-decoration: underline;
+}
+
+/* Inline code */
+.prose code {
+  background-color: var(--color-x-hover);
+  color: var(--color-x-text-secondary);
+  padding: 0.15em 0.35em;
+  border-radius: var(--radius-x-sm);
+  font-size: 0.9em;
+  font-family: 'SF Mono', 'Consolas', 'Liberation Mono', 'Menlo', 'Courier', monospace;
+  font-weight: 500;
+  border: 1px solid var(--color-x-border);
+}
+
+/* Code blocks */
+.prose pre {
+  background-color: var(--color-x-hover);
+  border: 1px solid var(--color-x-border);
+  border-radius: var(--radius-x-md);
+  padding: 1em;
+  overflow-x: auto;
+  margin: 1em 0;
+  line-height: 1.5;
+}
+
+.prose pre code {
+  background-color: transparent;
+  color: var(--color-x-text-primary);
+  padding: 0;
+  border-radius: 0;
+  font-size: 0.875em;
+  font-weight: 400;
+  border: none;
+}
+
+/* Lists */
+.prose ul, .prose ol {
+  margin: 0.75em 0;
+  padding-left: 1.5em;
+}
+
+.prose ul {
+  list-style-type: disc;
+}
+
+.prose ol {
+  list-style-type: decimal;
+}
+
+.prose li {
+  margin: 0.25em 0;
+  padding-left: 0.25em;
+  line-height: 1.6;
+}
+
+.prose li > p {
+  margin: 0.25em 0;
+}
+
+/* Nested lists */
+.prose ul ul, .prose ol ul {
+  list-style-type: circle;
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+}
+
+.prose ul ul ul, .prose ol ul ul {
+  list-style-type: square;
+}
+
+/* Blockquotes */
+.prose blockquote {
+  border-left: 3px solid var(--color-x-border);
+  padding-left: 1em;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+  margin: 1em 0;
+  color: var(--color-x-text-secondary);
+  font-style: normal;
+}
+
+.prose blockquote p {
+  margin: 0.25em 0;
+}
+
+/* Horizontal rule */
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--color-x-border);
+  margin: 1.5em 0;
+}
+
+/* Images */
+.prose img {
+  max-width: 100%;
+  border-radius: var(--radius-x-md);
+  margin: 1em 0;
+  border: 1px solid var(--color-x-border);
+}
+
+/* Tables */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1em 0;
+  font-size: 0.9em;
+}
+
+.prose th, .prose td {
+  border: 1px solid var(--color-x-border);
+  padding: 0.5em 0.75em;
+  text-align: left;
+}
+
+.prose th {
+  background-color: var(--color-x-hover);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-x-text-secondary);
+  font-size: 0.875em;
+}
+
+.prose td {
+  color: var(--color-x-text-primary);
+}
+
+/* Checkboxes */
+.prose input[type="checkbox"] {
+  margin-right: 0.5em;
+}
+
+/* Code block with header */
+.code-block-wrapper {
+  position: relative;
+  margin: 1em 0;
+  border-radius: var(--radius-x-md);
+  background-color: var(--color-x-hover);
+  border: 1px solid var(--color-x-border);
+  overflow: hidden;
+}
+
+.code-block-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  background-color: var(--color-x-darker);
+  border-bottom: 1px solid var(--color-x-border);
+}
+
+.code-language {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-x-text-secondary);
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+}
+
+.code-copy-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-x-sm);
+  color: var(--color-x-text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  opacity: 0;
+}
+
+.code-block-wrapper:hover .code-copy-btn {
+  opacity: 1;
+}
+
+.code-copy-btn:hover {
+  background-color: var(--color-x-hover);
+  border-color: var(--color-x-border);
+  color: var(--color-x-text-primary);
+}
+
+.code-copy-btn.copied {
+  color: var(--color-x-success);
+  opacity: 1;
+}
+
+.code-copy-btn .check-icon {
+  display: none;
+}
+
+.code-copy-btn.copied .copy-icon {
+  display: none;
+}
+
+.code-copy-btn.copied .check-icon {
+  display: block;
+}
+
+.prose pre.shiki,
+.prose pre.shiki code {
+  background-color: transparent !important;
+  border: none;
+  border-radius: 0;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 0.875em;
+  line-height: 1.6;
+}
+
+.prose pre.shiki {
+  padding: 1em !important;
+  padding-top: 3em !important;
+  overflow-x: auto;
+  margin: 0;
+  border-radius: var(--radius-x-md);
+}
+
+.prose pre.shiki code {
+  padding: 0 !important;
+  background: transparent !important;
+  font-weight: 400;
+}
+
+/* Fallback code blocks */
+.code-block-wrapper pre {
+  margin: 0;
+  padding: 1em;
+  padding-top: 3em;
+  overflow-x: auto;
+  background-color: transparent;
+  border-radius: var(--radius-x-md);
+}
+
+.code-block-wrapper pre code {
+  background-color: transparent;
+  color: var(--color-x-text-primary);
+  padding: 0;
+  border-radius: 0;
+  font-size: 0.875em;
+  font-weight: 400;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  border: none;
+}
+
+/* Scrollbar for code blocks */
+.prose pre.shiki::-webkit-scrollbar,
+.code-block-wrapper pre::-webkit-scrollbar {
+  height: 10px;
+}
+
+.prose pre.shiki::-webkit-scrollbar-track,
+.code-block-wrapper pre::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: var(--radius-x-sm);
+}
+
+.prose pre.shiki::-webkit-scrollbar-thumb,
+.code-block-wrapper pre::-webkit-scrollbar-thumb {
+  background: var(--color-x-border);
+  border-radius: var(--radius-x-sm);
+}
+
+.prose pre.shiki::-webkit-scrollbar-thumb:hover,
+.code-block-wrapper pre::-webkit-scrollbar-thumb:hover {
+  background: var(--color-x-text-muted);
+}
+
+/* Theme-aware Shiki code blocks */
+/* Default (light mode and system preference for light) - show light theme */
+.shiki-light-theme {
+  display: block;
+}
+
+.shiki-dark-theme {
+  display: none;
+}
+
+/* Dark mode - show dark theme */
+body.dark .shiki-light-theme {
+  display: none;
+}
+
+body.dark .shiki-dark-theme {
+  display: block;
+}
+
+/* System preference dark mode (when not explicitly set to light) */
+@media (prefers-color-scheme: dark) {
+  body:not(.light) .shiki-light-theme {
+    display: none;
+  }
+  
+  body:not(.light) .shiki-dark-theme {
+    display: block;
+  }
+}
