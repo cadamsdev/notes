@@ -1,12 +1,7 @@
 body {
-  background: var(--color-background-primary);
+  background: var(--color-background);
   color: var(--color-text-primary);
   font-family: var(--font-family-base);
-  font-size: var(--font-size-base);
-  line-height: var(--line-height-normal);
-  letter-spacing: var(--letter-spacing-wide);
-  transition: background-color var(--transition-base),
-    color var(--transition-base);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
