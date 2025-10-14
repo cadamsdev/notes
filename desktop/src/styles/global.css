@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   /* ============================================
@@ -7,19 +7,21 @@
     ============================================ */
 
   /* Grayscale Colors */
-  --color-gray-100: hsl(0, 0%, 96%);  /* Lightest - subtle backgrounds */
-  --color-gray-200: hsl(0, 0%, 88%);  /* Borders, dividers */
-  --color-gray-300: hsl(0, 0%, 76%);  /* Lighter borders */
-  --color-gray-400: hsl(0, 0%, 64%);  /* Disabled states, placeholders */
-  --color-gray-500: hsl(0, 0%, 50%);  /* Middle gray */
-  --color-gray-600: hsl(0, 0%, 38%);  /* Secondary text */
-  --color-gray-700: hsl(0, 0%, 25%);  /* Primary text (light mode) */
-  --color-gray-800: hsl(0, 0%, 13%);  /* Dark UI elements */
-  --color-gray-900: hsl(0, 0%, 6%);   /* Darkest - dark backgrounds */
+  --color-gray-100: hsl(0, 0%, 96%); /* Lightest - subtle backgrounds */
+  --color-gray-200: hsl(0, 0%, 88%); /* Borders, dividers */
+  --color-gray-300: hsl(0, 0%, 76%); /* Lighter borders */
+  --color-gray-400: hsl(0, 0%, 64%); /* Disabled states, placeholders */
+  --color-gray-500: hsl(0, 0%, 50%); /* Middle gray */
+  --color-gray-600: hsl(0, 0%, 38%); /* Secondary text */
+  --color-gray-700: hsl(0, 0%, 25%); /* Primary text (light mode) */
+  --color-gray-800: hsl(0, 0%, 13%); /* Dark UI elements */
+  --color-gray-900: hsl(0, 0%, 6%); /* Darkest - dark backgrounds */
 
   /* Typography Scale */
-  --font-family-base: "Space Mono", "SF Mono", "Roboto Mono", "Consolas", "Liberation Mono", monospace;
-  --font-family-mono: ui-monospace, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  --font-family-base: 'Space Mono', 'SF Mono', 'Roboto Mono', 'Consolas',
+    'Liberation Mono', monospace;
+  --font-family-mono: ui-monospace, 'SF Mono', Consolas, 'Liberation Mono',
+    Menlo, monospace;
 
   /* ============================================
      SEMANTIC TOKENS - Named after purpose/usage
@@ -36,128 +38,14 @@
    ============================================ */
 body.dark {
   /* Background Colors */
-  --color-background-primary: var(--color-gray-950);
-  --color-background-secondary: var(--color-gray-900);
-  --color-background-tertiary: var(--color-gray-800);
-  --color-background-hover: hsla(0, 0%, 100%, 0.06);
-  --color-background-active: hsla(0, 0%, 100%, 0.12);
-  --color-background-overlay: hsla(0, 0%, 0%, 0.6);
-
-  /* Surface Colors */
-  --color-surface-primary: var(--color-gray-900);
-  --color-surface-secondary: var(--color-gray-800);
-  --color-surface-elevated: var(--color-gray-800);
-
-  /* Border Colors */
-  --color-border-primary: hsla(0, 0%, 100%, 0.12);
-  --color-border-secondary: hsla(0, 0%, 100%, 0.08);
-  --color-border-focus: var(--color-gray-100);
-  --color-border-hover: hsla(0, 0%, 100%, 0.2);
-
-  /* Text Colors */
-  --color-text-primary: hsl(0, 0%, 91%);  /* #e8e8e8 - off-white for comfort */
-  --color-text-secondary: var(--color-gray-400);
-  --color-text-tertiary: var(--color-gray-500);
-  --color-text-disabled: var(--color-gray-600);
-  --color-text-inverse: var(--color-black);
-  --color-text-link: hsl(0, 0%, 91%);
-  --color-text-link-hover: var(--color-white);
-
-  /* Interactive Colors */
-  --color-interactive-primary: hsl(0, 0%, 91%);
-  --color-interactive-primary-hover: var(--color-white);
-  --color-interactive-primary-active: var(--color-gray-200);
-  --color-interactive-secondary: var(--color-gray-800);
-  --color-interactive-secondary-hover: var(--color-gray-700);
-  --color-interactive-secondary-active: var(--color-gray-600);
-
-  /* Status Colors */
-  --color-status-success: hsl(0, 0%, 91%);
-  --color-status-error: hsl(0, 0%, 91%);
-  --color-status-warning: hsl(0, 0%, 91%);
-  --color-status-info: hsl(0, 0%, 91%);
-
-  /* Glass Effects - Dark Mode */
-  --glass-background: hsla(0, 0%, 4%, 0.7);
-  --glass-background-strong: hsla(0, 0%, 4%, 0.9);
-  --glass-border: hsla(0, 0%, 100%, 0.15);
-  --glass-shadow: 0 8px 32px hsla(0, 0%, 0%, 0.5);
-
-  /* Shadows - Darker in dark mode */
-  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.6);
-  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.7);
-  --shadow-md: 0 4px 8px -2px rgba(0, 0, 0, 0.8);
-  --shadow-lg: 0 10px 16px -4px rgba(0, 0, 0, 0.9);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.95);
-  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 1);
-
-  /* Component Overrides */
-  --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.7);
-  --card-shadow-hover: 0 4px 8px -2px rgba(0, 0, 0, 0.8);
+  --color-background: var(--color-gray-900);
 }
 
 /* System preference dark mode */
 @media (prefers-color-scheme: dark) {
   body:not(.light) {
     /* Background Colors */
-    --color-background-primary: var(--color-gray-950);
-    --color-background-secondary: var(--color-gray-900);
-    --color-background-tertiary: var(--color-gray-800);
-    --color-background-hover: hsla(0, 0%, 100%, 0.06);
-    --color-background-active: hsla(0, 0%, 100%, 0.12);
-    --color-background-overlay: hsla(0, 0%, 0%, 0.6);
-
-    /* Surface Colors */
-    --color-surface-primary: var(--color-gray-900);
-    --color-surface-secondary: var(--color-gray-800);
-    --color-surface-elevated: var(--color-gray-800);
-
-    /* Border Colors */
-    --color-border-primary: hsla(0, 0%, 100%, 0.12);
-    --color-border-secondary: hsla(0, 0%, 100%, 0.08);
-    --color-border-focus: var(--color-gray-100);
-    --color-border-hover: hsla(0, 0%, 100%, 0.2);
-
-    /* Text Colors */
-    --color-text-primary: hsl(0, 0%, 91%);
-    --color-text-secondary: var(--color-gray-400);
-    --color-text-tertiary: var(--color-gray-500);
-    --color-text-disabled: var(--color-gray-600);
-    --color-text-inverse: var(--color-black);
-    --color-text-link: hsl(0, 0%, 91%);
-    --color-text-link-hover: var(--color-white);
-
-    /* Interactive Colors */
-    --color-interactive-primary: hsl(0, 0%, 91%);
-    --color-interactive-primary-hover: var(--color-white);
-    --color-interactive-primary-active: var(--color-gray-200);
-    --color-interactive-secondary: var(--color-gray-800);
-    --color-interactive-secondary-hover: var(--color-gray-700);
-    --color-interactive-secondary-active: var(--color-gray-600);
-
-    /* Status Colors */
-    --color-status-success: hsl(0, 0%, 91%);
-    --color-status-error: hsl(0, 0%, 91%);
-    --color-status-warning: hsl(0, 0%, 91%);
-    --color-status-info: hsl(0, 0%, 91%);
-
-    /* Glass Effects */
-    --glass-background: hsla(0, 0%, 4%, 0.7);
-    --glass-background-strong: hsla(0, 0%, 4%, 0.9);
-    --glass-border: hsla(0, 0%, 100%, 0.15);
-    --glass-shadow: 0 8px 32px hsla(0, 0%, 0%, 0.5);
-
-    /* Shadows */
-    --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.6);
-    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.7);
-    --shadow-md: 0 4px 8px -2px rgba(0, 0, 0, 0.8);
-    --shadow-lg: 0 10px 16px -4px rgba(0, 0, 0, 0.9);
-    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.95);
-    --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 1);
-
-    /* Component Overrides */
-    --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.7);
-    --card-shadow-hover: 0 4px 8px -2px rgba(0, 0, 0, 0.8);
+    --color-background: var(--color-gray-900);
   }
 }
 
@@ -171,10 +59,11 @@ body {
   font-size: var(--font-size-base);
   line-height: var(--line-height-normal);
   letter-spacing: var(--letter-spacing-wide);
-  transition: background-color var(--transition-base), color var(--transition-base);
+  transition: background-color var(--transition-base),
+    color var(--transition-base);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  
+
   /* Layout */
   padding-top: 40px;
   overflow: hidden;
@@ -212,12 +101,14 @@ body {
 }
 
 /* Input improvements */
-input, textarea {
+input,
+textarea {
   font-family: var(--font-family-base);
   letter-spacing: var(--letter-spacing-wide);
 }
 
-input::placeholder, textarea::placeholder {
+input::placeholder,
+textarea::placeholder {
   color: var(--input-placeholder);
   font-weight: var(--font-weight-normal);
   opacity: var(--opacity-60);
