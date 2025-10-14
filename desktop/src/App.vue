@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import './styles/theme.css';
 import './styles/global.css';
 import { ref, computed, onMounted, watch } from 'vue';
 import Database from '@tauri-apps/plugin-sql';

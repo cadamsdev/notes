@@ -1,0 +1,50 @@
+@import 'tailwindcss';
+
+@theme {
+  /* ============================================
+    BASE TOKENS - Named after color/value
+    These are the raw values used across the design system
+    ============================================ */
+
+  /* Grayscale Colors */
+  --color-gray-100: hsl(0, 0%, 96%); /* Lightest - subtle backgrounds */
+  --color-gray-200: hsl(0, 0%, 88%); /* Borders, dividers */
+  --color-gray-300: hsl(0, 0%, 76%); /* Lighter borders */
+  --color-gray-400: hsl(0, 0%, 64%); /* Disabled states, placeholders */
+  --color-gray-500: hsl(0, 0%, 50%); /* Middle gray */
+  --color-gray-600: hsl(0, 0%, 38%); /* Secondary text */
+  --color-gray-700: hsl(0, 0%, 25%); /* Primary text (light mode) */
+  --color-gray-800: hsl(0, 0%, 13%); /* Dark UI elements */
+  --color-gray-900: hsl(0, 0%, 6%); /* Darkest - dark backgrounds */
+
+  /* Typography Scale */
+  --font-family-base: 'Space Mono', 'SF Mono', 'Roboto Mono', 'Consolas',
+    'Liberation Mono', monospace;
+  --font-family-mono: ui-monospace, 'SF Mono', Consolas, 'Liberation Mono',
+    Menlo, monospace;
+
+  /* ============================================
+     SEMANTIC TOKENS - Named after purpose/usage
+     Light mode defaults, overridden in dark mode
+     ============================================ */
+
+  /* Background Colors */
+  --color-background: var(--color-gray-100);
+  --color-background-overlay: hsla(0, 0%, 0%, 0.4);
+}
+
+/* ============================================
+   DARK MODE - Override semantic tokens
+   ============================================ */
+body.dark {
+  /* Background Colors */
+  --color-background: var(--color-gray-900);
+}
+
+/* System preference dark mode */
+@media (prefers-color-scheme: dark) {
+  body:not(.light) {
+    /* Background Colors */
+    --color-background: var(--color-gray-900);
+  }
+}
