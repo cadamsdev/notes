@@ -96,7 +96,7 @@ const formatDate = (date: Date) => {
 
 <template>
   <div @mouseenter="isHovered = true" @mouseleave="isHovered = false"
-    class="bg-surface border border-border rounded-2xl group/card hover:shadow-lg transition-all duration-200 p-3">
+    class="bg-surface border border-border rounded-2xl group/card transition-all duration-200 p-3">
     <div class="flex items-start justify-between mb-4">
       <!-- Time -->
       <span class="text-sm text-text-secondary font-medium">
