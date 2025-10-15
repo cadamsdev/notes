@@ -47,9 +47,9 @@
   --color-surface-active: var(--color-gray-400);
 
   /* Border colors */
-  --color-border: var(--color-gray-200);
-  --color-border-hover: var(--color-gray-300);
-  --color-border-active: var(--color-gray-400);
+  --color-border: var(--color-gray-300);
+  --color-border-hover: var(--color-gray-400);
+  --color-border-active: var(--color-gray-500);
 
   /* Text colors */
   --color-text-primary: var(--color-gray-700);
