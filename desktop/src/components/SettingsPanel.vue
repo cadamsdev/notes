@@ -146,7 +146,7 @@ defineExpose({ openSettings });
               <!-- Database Location Info -->
               <div class="px-4 py-3.5 rounded-xl bg-surface border border-border">
                 <div class="flex items-start gap-3">
-                  <div class="w-9 h-9 rounded-lg bg-surface-active flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
                     <svg class="w-5 h-5 text-text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
                     </svg>
@@ -172,7 +172,7 @@ defineExpose({ openSettings });
                 class="w-full px-4 py-3.5 rounded-xl bg-surface hover:bg-surface-hover border border-border hover:border-border-hover transition-all flex items-center justify-between group"
               >
                 <div class="flex items-center gap-3">
-                  <div class="w-9 h-9 rounded-lg bg-surface-active flex items-center justify-center group-hover:bg-surface-hover transition-colors">
+                  <div class="w-9 h-9 rounded-lg flex items-center justify-center transition-colors">
                     <svg class="w-5 h-5 text-text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
                     </svg>
@@ -194,7 +194,7 @@ defineExpose({ openSettings });
                 class="w-full px-4 py-3.5 rounded-xl bg-surface hover:bg-surface-hover border border-border hover:border-border-hover transition-all flex items-center justify-between group"
               >
                 <div class="flex items-center gap-3">
-                  <div class="w-9 h-9 rounded-lg bg-surface-active flex items-center justify-center group-hover:bg-surface-hover transition-colors">
+                  <div class="w-9 h-9 rounded-lg flex items-center justify-center transition-colors">
                     <svg class="w-5 h-5 text-text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
                     </svg>
@@ -215,7 +215,7 @@ defineExpose({ openSettings });
                 class="w-full px-4 py-3.5 rounded-xl bg-surface hover:bg-surface-hover border border-border hover:border-border-hover transition-all flex items-center justify-between group"
               >
                 <div class="flex items-center gap-3">
-                  <div class="w-9 h-9 rounded-lg bg-surface-active flex items-center justify-center group-hover:bg-surface-hover transition-colors">
+                  <div class="w-9 h-9 rounded-lg flex items-center justify-center transition-colors">
                     <svg class="w-5 h-5 text-text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
                     </svg>
