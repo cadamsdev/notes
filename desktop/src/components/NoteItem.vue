@@ -155,7 +155,7 @@ const formatDate = (date: Date) => {
     </div>
 
     <!-- View Mode -->
-    <div v-else class="text-text-primary prose prose-sm max-w-none leading-relaxed" v-html="renderedContent"></div>
+    <div v-else class="markdown text-text-primary max-w-none leading-relaxed" v-html="renderedContent"></div>
 
     <!-- Delete Confirmation Modal -->
     <Teleport to="body">
@@ -201,6 +201,8 @@ const formatDate = (date: Date) => {
 </template>
 
 <style scoped>
+
+
 .modal-enter-active,
 .modal-leave-active {
   transition: opacity 0.2s ease;

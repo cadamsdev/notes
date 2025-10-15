@@ -32,6 +32,15 @@
   --font-family-mono: ui-monospace, 'SF Mono', Consolas, 'Liberation Mono',
     Menlo, monospace;
 
+  /* Font weight */
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Line heights */
+  --line-height-tight: 1.3;
+  --line-height-normal: 1.6;
+
   /* ============================================
      SEMANTIC TOKENS - Named after purpose/usage
      Light mode defaults, overridden in dark mode
