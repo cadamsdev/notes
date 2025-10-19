@@ -12,6 +12,10 @@ const isCustomLocation = ref(false);
 const showConflictModal = ref(false);
 const pendingDirectory = ref<string | null>(null);
 
+// Import modal state
+const showImportModal = ref(false);
+const pendingImportPath = ref<string | null>(null);
+
 const openSettings = async () => {
   isOpen.value = true;
   await loadDatabaseInfo();
@@ -145,6 +149,75 @@ const createDatabaseBackup = async () => {
     console.error('Failed to create database backup:', error);
     alert('Failed to create database backup. Please try again.');
   }
+};
+
+const importDatabase = async () => {
+  try {
+    const selected = await open({
+      directory: false,
+      multiple: false,
+      title: 'Select Database File to Import',
+      filters: [{
+        name: 'Database',
+        extensions: ['db']
+      }]
+    });
+    
+    if (selected) {
+      // Check if current database exists
+      const currentDbPath = await invoke<string>('get_database_path_cmd');
+      const dbExists = currentDbPath && currentDbPath.length > 0;
+      
+      if (dbExists) {
+        // Show import modal to ask about backup
+        pendingImportPath.value = selected;
+        showImportModal.value = true;
+      } else {
+        // No current database, import directly
+        await applyDatabaseImport(selected, false);
+      }
+    }
+  } catch (error) {
+    console.error('Failed to import database:', error);
+    alert('Failed to import database. Please try again.');
+  }
+};
+
+const applyDatabaseImport = async (sourcePath: string, createBackup: boolean) => {
+  try {
+    await invoke<string>('import_database_cmd', { 
+      sourcePath: sourcePath,
+      createBackup: createBackup
+    });
+    console.log('Database imported successfully');
+    
+    // Reload the app to use imported database
+    window.location.reload();
+  } catch (error) {
+    console.error('Failed to import database:', error);
+    alert('Failed to import database. Please try again.');
+  }
+};
+
+const handleImportWithBackup = async () => {
+  if (pendingImportPath.value) {
+    showImportModal.value = false;
+    await applyDatabaseImport(pendingImportPath.value, true);
+    pendingImportPath.value = null;
+  }
+};
+
+const handleImportWithoutBackup = async () => {
+  if (pendingImportPath.value) {
+    showImportModal.value = false;
+    await applyDatabaseImport(pendingImportPath.value, false);
+    pendingImportPath.value = null;
+  }
+};
+
+const handleCancelImport = () => {
+  showImportModal.value = false;
+  pendingImportPath.value = null;
 };
 
 // Fetch app version on mount
@@ -309,6 +382,27 @@ defineExpose({ openSettings });
                   <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
                 </svg>
               </button>
+              
+              <!-- Import Database -->
+              <button
+                @click="importDatabase"
+                class="w-full px-4 py-3.5 rounded-xl bg-surface hover:bg-surface-hover border border-border hover:border-border-hover transition-all flex items-center justify-between group"
+              >
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-lg flex items-center justify-center transition-colors">
+                    <svg class="w-5 h-5 text-text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                    </svg>
+                  </div>
+                  <div class="text-left">
+                    <p class="text-sm font-medium text-text-primary">Import Database</p>
+                    <p class="text-xs text-text-secondary mt-0.5">Import an existing database file from anywhere</p>
+                  </div>
+                </div>
+                <svg class="w-5 h-5 text-text-secondary group-hover:text-text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                </svg>
+              </button>
             </div>
           </div>
 
@@ -432,6 +526,94 @@ defineExpose({ openSettings });
         <div class="px-6 py-4 border-t border-border">
           <button
             @click="handleCancelConflict"
+            class="w-full px-4 py-2.5 rounded-xl bg-surface-hover hover:bg-surface-active border border-border transition-all text-sm font-medium text-text-primary"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </Transition>
+
+  <!-- Database Import Modal -->
+  <Transition name="modal">
+    <div 
+      v-if="showImportModal" 
+      class="fixed inset-0 z-[60] flex items-center justify-center p-6"
+      @click="handleCancelImport"
+    >
+      <!-- Backdrop -->
+      <div class="absolute inset-0 bg-background-overlay"></div>
+      
+      <!-- Import Dialog -->
+      <div 
+        class="bg-surface border border-border rounded-2xl relative w-full max-w-md"
+        @click.stop
+      >
+        <!-- Header -->
+        <div class="px-6 py-5 border-b border-border">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-blue-500 flex items-center justify-center shadow-lg">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-text-primary">Import Database</h3>
+              <p class="text-xs text-text-secondary mt-0.5">This will replace your current database</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="px-6 py-5">
+          <p class="text-sm text-text-primary mb-4">
+            You have an existing database. Would you like to create a backup before importing?
+          </p>
+          
+          <div class="space-y-3">
+            <!-- Import with Backup -->
+            <button
+              @click="handleImportWithBackup"
+              class="w-full px-4 py-3 rounded-xl bg-surface hover:bg-surface-hover border-2 border-border hover:border-border-hover transition-all text-left"
+            >
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-green-500 flex items-center justify-center flex-shrink-0">
+                  <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/>
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <p class="text-sm font-medium text-text-primary">Create Backup & Import</p>
+                  <p class="text-xs text-text-secondary mt-0.5">Backup current database before importing (recommended)</p>
+                </div>
+              </div>
+            </button>
+            
+            <!-- Import without Backup -->
+            <button
+              @click="handleImportWithoutBackup"
+              class="w-full px-4 py-3 rounded-xl bg-surface hover:bg-surface-hover border-2 border-border hover:border-border-hover transition-all text-left"
+            >
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-orange-500 flex items-center justify-center flex-shrink-0">
+                  <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <p class="text-sm font-medium text-text-primary">Import Without Backup</p>
+                  <p class="text-xs text-text-secondary mt-0.5">Replace current database (cannot be undone)</p>
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="px-6 py-4 border-t border-border">
+          <button
+            @click="handleCancelImport"
             class="w-full px-4 py-2.5 rounded-xl bg-surface-hover hover:bg-surface-active border border-border transition-all text-sm font-medium text-text-primary"
           >
             Cancel

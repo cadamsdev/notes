@@ -159,6 +159,43 @@ fn create_database_backup_cmd(db_path: String) -> Result<String, String> {
 }
 
 #[tauri::command]
+fn import_database_cmd(app: tauri::AppHandle, source_path: String, create_backup: bool) -> Result<String, String> {
+    let source = PathBuf::from(&source_path);
+    
+    // Validate source file exists
+    if !source.exists() {
+        return Err("Source database file does not exist".to_string());
+    }
+    
+    if !source.is_file() {
+        return Err("Source path is not a file".to_string());
+    }
+    
+    // Get current database path
+    let current_db_path = get_database_path(&app)?;
+    
+    // Create backup of current database if requested and it exists
+    if create_backup && current_db_path.exists() {
+        println!("Creating backup of current database before import");
+        create_database_backup(&current_db_path)?;
+    }
+    
+    // Ensure parent directory exists
+    if let Some(parent) = current_db_path.parent() {
+        fs::create_dir_all(parent)
+            .map_err(|e| format!("Failed to create database directory: {}", e))?;
+    }
+    
+    // Copy source file to current database location
+    fs::copy(&source, &current_db_path)
+        .map_err(|e| format!("Failed to import database: {}", e))?;
+    
+    println!("Database imported from {} to {}", source.display(), current_db_path.display());
+    
+    Ok(current_db_path.to_string_lossy().to_string())
+}
+
+#[tauri::command]
 fn set_database_directory_cmd(app: tauri::AppHandle, directory_path: String, overwrite: bool, backup: bool) -> Result<String, String> {
     let new_dir = PathBuf::from(&directory_path);
     
@@ -310,7 +347,8 @@ pub fn run() {
             set_database_directory_cmd,
             reset_database_directory_cmd,
             check_database_exists_cmd,
-            create_database_backup_cmd
+            create_database_backup_cmd,
+            import_database_cmd
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
