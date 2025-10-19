@@ -116,16 +116,20 @@ fn set_database_directory_cmd(app: tauri::AppHandle, directory_path: String) -> 
         return Err(format!("Path is not a directory: {}", directory_path));
     }
     
-    // Get old and new database paths
+    // Get old database path
     let old_db_path = get_database_path(&app)?;
     
-    // Save the new custom path
-    save_custom_db_path(&app, Some(new_dir.clone()))?;
+    // Calculate what the new database path would be
+    let db_filename = get_db_filename();
+    let new_db_path = new_dir.join(&db_filename);
     
-    let new_db_path = get_database_path(&app)?;
-    
-    // Copy existing database if it exists and new location is different
-    if old_db_path.exists() && old_db_path != new_db_path {
+    // Check if a database already exists at the new location
+    if new_db_path.exists() && new_db_path != old_db_path {
+        // Database already exists at destination - just switch to it without copying
+        println!("Database already exists at destination: {}", new_db_path.display());
+        println!("Switching to existing database (not copying)");
+    } else if old_db_path.exists() && old_db_path != new_db_path {
+        // No database at destination - copy the current one
         // Ensure parent directory exists
         if let Some(parent) = new_db_path.parent() {
             fs::create_dir_all(parent)
@@ -137,6 +141,9 @@ fn set_database_directory_cmd(app: tauri::AppHandle, directory_path: String) -> 
         
         println!("Database copied from {} to {}", old_db_path.display(), new_db_path.display());
     }
+    
+    // Save the new custom path AFTER checking/copying
+    save_custom_db_path(&app, Some(new_dir.clone()))?;
     
     Ok(new_db_path.to_string_lossy().to_string())
 }
