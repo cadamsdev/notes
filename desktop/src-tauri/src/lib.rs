@@ -116,8 +116,50 @@ fn check_database_exists_cmd(app: tauri::AppHandle, directory_path: String) -> R
     Ok(new_db_path.exists() && new_db_path != current_db_path)
 }
 
+// Create a backup of a database file
+fn create_database_backup(db_path: &PathBuf) -> Result<String, String> {
+    if !db_path.exists() {
+        return Err("Database file does not exist".to_string());
+    }
+    
+    // Get the parent directory and filename
+    let parent = db_path.parent()
+        .ok_or("Failed to get parent directory")?;
+    let filename = db_path.file_stem()
+        .ok_or("Failed to get filename")?
+        .to_string_lossy();
+    let extension = db_path.extension()
+        .unwrap_or_default()
+        .to_string_lossy();
+    
+    // Create timestamp for backup filename
+    use std::time::{SystemTime, UNIX_EPOCH};
+    let timestamp = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map_err(|e| format!("Failed to get timestamp: {}", e))?
+        .as_secs();
+    
+    // Format: notes_backup_1697712345.db
+    let backup_filename = format!("{}_backup_{}.{}", filename, timestamp, extension);
+    let backup_path = parent.join(&backup_filename);
+    
+    // Copy the database to backup
+    fs::copy(db_path, &backup_path)
+        .map_err(|e| format!("Failed to create backup: {}", e))?;
+    
+    println!("Created backup: {}", backup_path.display());
+    
+    Ok(backup_path.to_string_lossy().to_string())
+}
+
 #[tauri::command]
-fn set_database_directory_cmd(app: tauri::AppHandle, directory_path: String, overwrite: bool) -> Result<String, String> {
+fn create_database_backup_cmd(db_path: String) -> Result<String, String> {
+    let path = PathBuf::from(db_path);
+    create_database_backup(&path)
+}
+
+#[tauri::command]
+fn set_database_directory_cmd(app: tauri::AppHandle, directory_path: String, overwrite: bool, backup: bool) -> Result<String, String> {
     let new_dir = PathBuf::from(&directory_path);
     
     // Validate the directory exists
@@ -138,8 +180,14 @@ fn set_database_directory_cmd(app: tauri::AppHandle, directory_path: String, ove
     
     // Check if a database already exists at the new location
     if new_db_path.exists() && new_db_path != old_db_path {
-        if overwrite {
-            // User chose to overwrite - copy current database
+        if backup {
+            // Create backup of existing database before overwriting
+            println!("Creating backup of existing database at: {}", new_db_path.display());
+            create_database_backup(&new_db_path)?;
+        }
+        
+        if overwrite || backup {
+            // User chose to overwrite (with or without backup) - copy current database
             println!("Overwriting existing database at: {}", new_db_path.display());
             
             // Ensure parent directory exists
@@ -261,7 +309,8 @@ pub fn run() {
             get_database_directory_cmd,
             set_database_directory_cmd,
             reset_database_directory_cmd,
-            check_database_exists_cmd
+            check_database_exists_cmd,
+            create_database_backup_cmd
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

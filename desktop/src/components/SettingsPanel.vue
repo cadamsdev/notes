@@ -65,11 +65,12 @@ const changeDatabaseLocation = async () => {
   }
 };
 
-const applyDatabaseLocationChange = async (directory: string, overwrite: boolean) => {
+const applyDatabaseLocationChange = async (directory: string, overwrite: boolean, backup: boolean = false) => {
   try {
     const newPath = await invoke<string>('set_database_directory_cmd', { 
       directoryPath: directory,
-      overwrite: overwrite
+      overwrite: overwrite,
+      backup: backup
     });
     console.log('Database location changed to:', newPath);
     
@@ -84,7 +85,15 @@ const applyDatabaseLocationChange = async (directory: string, overwrite: boolean
 const handleOverwriteExisting = async () => {
   if (pendingDirectory.value) {
     showConflictModal.value = false;
-    await applyDatabaseLocationChange(pendingDirectory.value, true);
+    await applyDatabaseLocationChange(pendingDirectory.value, true, false);
+    pendingDirectory.value = null;
+  }
+};
+
+const handleBackupAndOverwrite = async () => {
+  if (pendingDirectory.value) {
+    showConflictModal.value = false;
+    await applyDatabaseLocationChange(pendingDirectory.value, true, true);
     pendingDirectory.value = null;
   }
 };
@@ -92,7 +101,7 @@ const handleOverwriteExisting = async () => {
 const handleUseExisting = async () => {
   if (pendingDirectory.value) {
     showConflictModal.value = false;
-    await applyDatabaseLocationChange(pendingDirectory.value, false);
+    await applyDatabaseLocationChange(pendingDirectory.value, false, false);
     pendingDirectory.value = null;
   }
 };
@@ -124,6 +133,17 @@ const openDatabaseLocation = async () => {
     await invoke('open_database_location_cmd');
   } catch (error) {
     console.error('Failed to open database location:', error);
+  }
+};
+
+const createDatabaseBackup = async () => {
+  try {
+    const dbPath = await invoke<string>('get_database_path_cmd');
+    const backupPath = await invoke<string>('create_database_backup_cmd', { dbPath });
+    alert(`Backup created successfully!\n\nBackup location:\n${backupPath}`);
+  } catch (error) {
+    console.error('Failed to create database backup:', error);
+    alert('Failed to create database backup. Please try again.');
   }
 };
 
@@ -192,24 +212,37 @@ defineExpose({ openSettings });
             <div class="space-y-3">
               <!-- Database Location Info -->
               <div class="px-4 py-3.5 rounded-xl bg-surface border border-border">
-                <div class="flex items-start gap-3">
-                  <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <svg class="w-5 h-5 text-text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
-                    </svg>
-                  </div>
-                  <div class="flex-1 min-w-0">
-                    <div class="flex items-center gap-2 mb-1">
-                      <p class="text-sm font-medium text-text-primary">Database Location</p>
-                      <span 
-                        v-if="isCustomLocation" 
-                        class="px-2 py-0.5 rounded-md bg-surface-active text-text-primary text-xs font-medium"
-                      >
-                        Custom
-                      </span>
+                <div class="flex items-start justify-between gap-3">
+                  <div class="flex items-start gap-3 flex-1 min-w-0">
+                    <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <svg class="w-5 h-5 text-text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
+                      </svg>
                     </div>
-                    <p class="text-xs text-text-secondary break-all font-mono">{{ databaseDirectory }}</p>
+                    <div class="flex-1 min-w-0">
+                      <div class="flex items-center gap-2 mb-1">
+                        <p class="text-sm font-medium text-text-primary">Database Location</p>
+                        <span 
+                          v-if="isCustomLocation" 
+                          class="px-2 py-0.5 rounded-md bg-surface-active text-text-primary text-xs font-medium"
+                        >
+                          Custom
+                        </span>
+                      </div>
+                      <p class="text-xs text-text-secondary break-all font-mono">{{ databaseDirectory }}</p>
+                    </div>
                   </div>
+                  <!-- Create Backup Button -->
+                  <button
+                    @click="createDatabaseBackup"
+                    class="px-3 py-2 rounded-lg bg-surface-hover hover:bg-surface-active border border-border hover:border-border-hover transition-all flex items-center gap-2 flex-shrink-0"
+                    title="Create backup"
+                  >
+                    <svg class="w-4 h-4 text-text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/>
+                    </svg>
+                    <span class="text-xs font-medium text-text-primary">Backup</span>
+                  </button>
                 </div>
               </div>
 
@@ -353,6 +386,24 @@ defineExpose({ openSettings });
                 <div class="flex-1">
                   <p class="text-sm font-medium text-text-primary">Use Existing Database</p>
                   <p class="text-xs text-text-secondary mt-0.5">Keep the database that's already there</p>
+                </div>
+              </div>
+            </button>
+            
+            <!-- Backup and Overwrite -->
+            <button
+              @click="handleBackupAndOverwrite"
+              class="w-full px-4 py-3 rounded-xl bg-surface hover:bg-surface-hover border-2 border-border hover:border-border-hover transition-all text-left"
+            >
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-green-500 flex items-center justify-center flex-shrink-0">
+                  <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/>
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <p class="text-sm font-medium text-text-primary">Backup & Replace</p>
+                  <p class="text-xs text-text-secondary mt-0.5">Create backup then overwrite with current notes</p>
                 </div>
               </div>
             </button>
