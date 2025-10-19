@@ -47,25 +47,25 @@ const handleClick = () => {
       
       // Variant styles
       {
-        // Primary button - Always black bg/white text in both themes
-        'bg-x-black text-white border-x-black': variant === 'primary' && !disabled,
-        'hover:bg-white hover:text-x-black hover:border-white': variant === 'primary' && !disabled,
+        // Primary button - surface background with text
+        'bg-text-primary text-background border-text-primary': variant === 'primary' && !disabled,
+        'hover:bg-text-secondary hover:border-text-secondary': variant === 'primary' && !disabled,
         
-        // Primary disabled - muted gray colors instead of opacity
-        'bg-x-text-muted text-x-text-secondary border-x-text-muted cursor-not-allowed': variant === 'primary' && disabled,
+        // Primary disabled
+        'bg-surface text-text-secondary border-surface cursor-not-allowed': variant === 'primary' && disabled,
         
-        'bg-transparent text-x-text-primary border-x-border': variant === 'secondary' && !disabled,
-        'hover:border-x-text-primary hover:bg-glass-bg-light': variant === 'secondary' && !disabled,
+        'bg-transparent text-text-primary border-border': variant === 'secondary' && !disabled,
+        'hover:border-border-hover hover:bg-surface': variant === 'secondary' && !disabled,
         
-        // Secondary disabled - muted gray colors
-        'bg-transparent text-x-text-muted border-x-border cursor-not-allowed': variant === 'secondary' && disabled,
+        // Secondary disabled
+        'bg-transparent text-text-secondary border-border cursor-not-allowed': variant === 'secondary' && disabled,
         
         // Ghost button - minimal style with hover effect
-        'bg-transparent text-x-text-primary border-transparent': variant === 'ghost' && !disabled,
-        'hover:bg-white/60 dark:hover:bg-white/20': variant === 'ghost' && !disabled,
+        'bg-transparent text-text-primary border-transparent': variant === 'ghost' && !disabled,
+        'hover:bg-surface': variant === 'ghost' && !disabled,
         
-        // Ghost disabled - muted text
-        'bg-transparent text-x-text-muted border-transparent cursor-not-allowed': variant === 'ghost' && disabled,
+        // Ghost disabled
+        'bg-transparent text-text-secondary border-transparent cursor-not-allowed': variant === 'ghost' && disabled,
       },
       
       // Active states
@@ -77,7 +77,7 @@ const handleClick = () => {
     <!-- Shine effect on hover -->
     <span
       v-if="!disabled"
-      class="absolute inset-0 w-0 bg-white/10 transition-all duration-300 ease-out group-hover/button:w-full"
+      class="absolute inset-0 w-0 bg-surface-hover transition-all duration-300 ease-out group-hover/button:w-full"
     ></span>
     
     <!-- Content -->

@@ -76,13 +76,13 @@ const getThemeLabel = () => {
 <template>
   <button
     @click="cycleTheme"
-    class="p-3 rounded-xl glass-card hover:scale-105 transition-all duration-200 hover:shadow-lg group"
+    class="p-3 rounded-xl bg-surface border border-border hover:scale-105 transition-all duration-200 hover:shadow-lg group"
     :title="getThemeLabel()"
   >
     <!-- Sun Icon (Light Mode) -->
     <svg
       v-if="theme === 'light'"
-      class="w-5 h-5 text-x-text-primary group-hover:rotate-45 transition-all duration-300"
+      class="w-5 h-5 text-text-primary group-hover:rotate-45 transition-all duration-300"
       fill="currentColor"
       viewBox="0 0 24 24"
     >
@@ -94,7 +94,7 @@ const getThemeLabel = () => {
     <!-- Moon Icon (Dark Mode) -->
     <svg
       v-else-if="theme === 'dark'"
-      class="w-5 h-5 text-x-text-primary group-hover:-rotate-12 transition-all duration-300"
+      class="w-5 h-5 text-text-primary group-hover:-rotate-12 transition-all duration-300"
       fill="currentColor"
       viewBox="0 0 24 24"
     >
@@ -108,7 +108,7 @@ const getThemeLabel = () => {
     <!-- Computer/System Icon (System Mode) -->
     <svg
       v-else
-      class="w-5 h-5 text-x-text-primary group-hover:scale-110 transition-all duration-300"
+      class="w-5 h-5 text-text-primary group-hover:scale-110 transition-all duration-300"
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"

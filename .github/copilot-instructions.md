@@ -47,39 +47,36 @@ cd desktop && bun run tauri build
 
 ### Vue 3 (Frontend)
 - Use `<script setup lang="ts">` syntax (Composition API)
-- Global styles imported in `App.vue`: `import './styles/global.css'`
+- Global styles imported in `App.vue`: `import './styles/theme.css'` and `import './styles/global.css'`
 - Tailwind CSS v4 with Vite plugin (`@tailwindcss/vite`)
-- Single global CSS file: `desktop/src/styles/global.css` imports Tailwind via `@import "tailwindcss"`
+- Theme system uses `desktop/src/styles/theme.css` with `@theme` directive
 - **Dynamic Classes**: Always use Vue's `:class` binding for conditional/dynamic classes
   - Use array syntax with objects for conditional classes: `:class="['base-class', { 'conditional-class': condition }]"`
   - Never build class strings manually with computed properties using array.push() or string concatenation
   - Example: `:class="[{ 'text-lg': size === 'large', 'text-sm': size === 'small' }]"` instead of computed string building
-- **Tailwind Custom Properties**: Use direct Tailwind utility classes, NOT `[var(...)]` syntax
-  - ✅ Correct: `text-x-text-primary`, `bg-btn-primary`, `border-x-border`
-  - ❌ Wrong: `text-[var(--color-x-text-primary)]`, `bg-[var(--color-btn-primary)]`, `border-[var(--color-x-border)]`
-  - Custom properties defined in `@theme` in global.css automatically become Tailwind utilities
-  - Example: `--color-x-text-primary` becomes `text-x-text-primary` utility class
-- **Theme**: Modern, clean, minimal **black/white theme inspired by SpaceX** with glassmorphism aesthetics
+- **Tailwind Custom Properties**: Use direct Tailwind utility classes based on theme tokens
+  - Custom properties defined in `@theme` in theme.css automatically become Tailwind utilities
+  - Example: `--color-text-primary` becomes `text-text-primary` utility class
+  - Example: `--color-surface` becomes `bg-surface` utility class
+- **Theme System**: Two-tier token architecture for maintainability
+  - **Base Tokens** (named after color/value): Raw values like `--color-gray-100`, `--color-gray-200`, etc.
+    - Grayscale: `gray-100` (lightest) through `gray-900` (darkest)
+    - Typography: `font-family-base`, `font-family-mono`
+  - **Semantic Tokens** (named after purpose): Context-specific tokens that reference base tokens
+    - Backgrounds: `background`, `background-overlay`
+    - Surfaces: `surface`, `surface-hover`, `surface-active`
+    - Borders: `border`, `border-hover`, `border-active`
+    - Text: `text-primary`, `text-secondary`
+  - **Always use semantic tokens** in components (e.g., `text-text-primary`, `bg-surface`, `border-border`)
+  - Semantic tokens automatically adapt to light/dark mode via `body.dark` overrides
 - **Light & Dark Mode**: Full theme support with toggle button (`ThemeToggle.vue`)
-  - Light mode: Clean white/light gray backgrounds with crisp frosted glass panels
-  - Dark mode: Pure black/dark gray color scheme inspired by SpaceX's minimalist aesthetic with darker glass panels
+  - Light mode: Uses lighter grayscale values (`gray-100`, `gray-200`, `gray-700`)
+  - Dark mode: Uses darker grayscale values (`gray-800`, `gray-900`, `gray-200`)
   - Theme persists via localStorage and respects system preference on first load
-- **Glassmorphism**: Frosted glass UI with backdrop blur effects
-  - `.glass` class: Main glass panels with `backdrop-filter: blur(20px)`, `rgba(255,255,255,0.7)` backgrounds
-  - `.glass-dark` class: Slightly more opaque variant for headers/sidebars
-  - Dark mode automatically adapts glass panels to darker translucent backgrounds
+  - Dark mode class added to `<body>` element: `body.dark`
 - **Prefer Tailwind utility classes over custom CSS** - use inline classes in templates instead of `<style>` blocks
 - Custom CSS should only be used for: theme variables (`@theme`), global resets, or complex animations not achievable with Tailwind
-- Use CSS custom properties (e.g., `var(--color-x-blue)`) defined in `@theme` when Tailwind utilities aren't sufficient
-- **Available theme colors** (defined in `@theme` in global.css, adapt in dark mode):
-  - Background: `--color-x-dark`, `--color-x-darker` (light: #fafafa, #ffffff; dark: #1a1a1a, #0f0f0f)
-  - Borders/UI: `--color-x-border`, `--color-x-hover`
-  - Primary: `--color-x-blue` (light: #0066ff; dark: #3b82f6), `--color-x-blue-hover`, `--color-x-blue-light`
-  - Accent: `--color-x-rocket` (orange #f97316)
-  - Text: `--color-x-text-primary`, `--color-x-text-secondary`, `--color-x-text-muted` (adapt to light/dark)
-  - Status: `--color-x-success`, `--color-x-error`, `--color-x-warning`
-  - Buttons: `--color-btn-primary`, `--color-btn-primary-hover`, `--color-btn-primary-text`
-- **Design principles**: Clean minimal aesthetics inspired by SpaceX's black/white design language, frosted glass panels, subtle shadows, smooth transitions (0.3s), backdrop blur effects, semi-transparent borders (white/30 opacity), high contrast black/white color scheme
+- **Design principles**: Clean minimal aesthetics with semantic color system, subtle shadows, smooth transitions (0.3s), high contrast for readability
 
 #### Component Architecture
 - All reusable components are located in `desktop/src/components/`

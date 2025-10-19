@@ -1,0 +1,375 @@
+.markdown {
+  line-height: var(--line-height-normal);
+}
+
+/* Headings */
+.markdown h1, .markdown h2, .markdown h3, .markdown h4, .markdown h5, .markdown h6 {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.markdown h1:first-child, 
+.markdown h2:first-child, 
+.markdown h3:first-child {
+  margin-top: 0;
+}
+
+.markdown h1 { 
+  font-size: 1.75em; 
+  font-weight: var(--font-weight-bold);
+  margin-bottom: 0.75em;
+}
+
+.markdown h2 { 
+  font-size: 1.375em;
+  font-weight: var(--font-weight-semibold);
+}
+
+.markdown h3 { 
+  font-size: 1.125em;
+  font-weight: var(--font-weight-semibold);
+}
+
+.markdown h4 {
+  font-size: 1em;
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Paragraphs */
+.markdown p {
+  margin-top: 0.75em;
+  margin-bottom: 0.75em;
+  line-height: var(--line-height-normal);
+}
+
+.markdown p:first-child {
+  margin-top: 0;
+}
+
+.markdown p:last-child {
+  margin-bottom: 0;
+}
+
+/* Text formatting */
+.markdown strong {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.markdown em {
+  font-style: italic;
+}
+
+/* Links */
+.markdown a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  transition: all var(--transition-fast);
+}
+
+.markdown a:hover {
+  text-decoration: none;
+}
+
+/* Inline code */
+.markdown code {
+  background-color: var(--color-x-hover);
+  color: var(--color-x-text-secondary);
+  padding: 0.15em 0.35em;
+  border-radius: var(--radius-x-sm);
+  font-size: 0.9em;
+  font-family: 'SF Mono', 'Consolas', 'Liberation Mono', 'Menlo', 'Courier', monospace;
+  font-weight: 500;
+  border: 1px solid var(--color-x-border);
+}
+
+/* Code blocks */
+.markdown pre {
+  background-color: var(--color-x-hover);
+  border: 1px solid var(--color-x-border);
+  border-radius: var(--radius-x-md);
+  padding: 1em;
+  overflow-x: auto;
+  margin: 1em 0;
+  line-height: 1.5;
+}
+
+.markdown pre code {
+  background-color: transparent;
+  color: var(--color-x-text-primary);
+  padding: 0;
+  border-radius: 0;
+  font-size: 0.875em;
+  font-weight: 400;
+  border: none;
+}
+
+/* Lists */
+.markdown ul, .markdown ol {
+  margin: 0.75em 0;
+  padding-left: 1.5em;
+}
+
+.markdown ul {
+  list-style-type: disc;
+}
+
+.markdown ol {
+  list-style-type: decimal;
+}
+
+.markdown li {
+  margin: 0.25em 0;
+  padding-left: 0.25em;
+  line-height: 1.6;
+}
+
+.markdown li > p {
+  margin: 0.25em 0;
+}
+
+/* Nested lists */
+.markdown ul ul, .markdown ol ul {
+  list-style-type: circle;
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+}
+
+.markdown ul ul ul, .markdown ol ul ul {
+  list-style-type: square;
+}
+
+/* Blockquotes */
+.markdown blockquote {
+  border-left: 3px solid var(--color-x-border);
+  padding-left: 1em;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+  margin: 1em 0;
+  color: var(--color-x-text-secondary);
+  font-style: normal;
+}
+
+.markdown blockquote p {
+  margin: 0.25em 0;
+}
+
+/* Horizontal rule */
+.markdown hr {
+  border: none;
+  border-top: 1px solid var(--color-x-border);
+  margin: 1.5em 0;
+}
+
+/* Images */
+.markdown img {
+  max-width: 100%;
+  border-radius: var(--radius-x-md);
+  margin: 1em 0;
+  border: 1px solid var(--color-x-border);
+}
+
+/* Tables */
+.markdown table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1em 0;
+  font-size: 0.9em;
+}
+
+.markdown th, .markdown td {
+  border: 1px solid var(--color-x-border);
+  padding: 0.5em 0.75em;
+  text-align: left;
+}
+
+.markdown th {
+  background-color: var(--color-x-hover);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-x-text-secondary);
+  font-size: 0.875em;
+}
+
+.markdown td {
+  color: var(--color-x-text-primary);
+}
+
+/* Checkboxes */
+.markdown input[type="checkbox"] {
+  margin-right: 0.5em;
+}
+
+/* Code block with header */
+.code-block-wrapper {
+  position: relative;
+  margin: 1em 0;
+  border-radius: var(--radius-x-md);
+  background-color: var(--color-x-hover);
+  border: 1px solid var(--color-x-border);
+  overflow: hidden;
+}
+
+.code-block-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  background-color: var(--color-x-darker);
+  border-bottom: 1px solid var(--color-x-border);
+}
+
+.code-language {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-x-text-secondary);
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+}
+
+.code-copy-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-x-sm);
+  color: var(--color-x-text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  opacity: 0;
+}
+
+.code-block-wrapper:hover .code-copy-btn {
+  opacity: 1;
+}
+
+.code-copy-btn:hover {
+  background-color: var(--color-x-hover);
+  border-color: var(--color-x-border);
+  color: var(--color-x-text-primary);
+}
+
+.code-copy-btn.copied {
+  color: var(--color-x-success);
+  opacity: 1;
+}
+
+.code-copy-btn .check-icon {
+  display: none;
+}
+
+.code-copy-btn.copied .copy-icon {
+  display: none;
+}
+
+.code-copy-btn.copied .check-icon {
+  display: block;
+}
+
+.markdown pre.shiki,
+.markdown pre.shiki code {
+  background-color: transparent !important;
+  border: none;
+  border-radius: 0;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 0.875em;
+  line-height: 1.6;
+}
+
+.markdown pre.shiki {
+  padding: 1em !important;
+  padding-top: 3em !important;
+  overflow-x: auto;
+  margin: 0;
+  border-radius: var(--radius-x-md);
+}
+
+.markdown pre.shiki code {
+  padding: 0 !important;
+  background: transparent !important;
+  font-weight: 400;
+}
+
+/* Fallback code blocks */
+.code-block-wrapper pre {
+  margin: 0;
+  padding: 1em;
+  padding-top: 3em;
+  overflow-x: auto;
+  background-color: transparent;
+  border-radius: var(--radius-x-md);
+}
+
+.code-block-wrapper pre code {
+  background-color: transparent;
+  color: var(--color-x-text-primary);
+  padding: 0;
+  border-radius: 0;
+  font-size: 0.875em;
+  font-weight: 400;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  border: none;
+}
+
+/* Scrollbar for code blocks */
+.markdown pre.shiki::-webkit-scrollbar,
+.code-block-wrapper pre::-webkit-scrollbar {
+  height: 10px;
+}
+
+.markdown pre.shiki::-webkit-scrollbar-track,
+.code-block-wrapper pre::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: var(--radius-x-sm);
+}
+
+.markdown pre.shiki::-webkit-scrollbar-thumb,
+.code-block-wrapper pre::-webkit-scrollbar-thumb {
+  background: var(--color-x-border);
+  border-radius: var(--radius-x-sm);
+}
+
+.markdown pre.shiki::-webkit-scrollbar-thumb:hover,
+.code-block-wrapper pre::-webkit-scrollbar-thumb:hover {
+  background: var(--color-x-text-muted);
+}
+
+/* Theme-aware Shiki code blocks */
+/* Default (light mode and system preference for light) - show light theme */
+.shiki-light-theme {
+  display: block;
+}
+
+.shiki-dark-theme {
+  display: none;
+}
+
+/* Dark mode - show dark theme */
+body.dark .shiki-light-theme {
+  display: none;
+}
+
+body.dark .shiki-dark-theme {
+  display: block;
+}
+
+/* System preference dark mode (when not explicitly set to light) */
+@media (prefers-color-scheme: dark) {
+  body:not(.light) .shiki-light-theme {
+    display: none;
+  }
+  
+  body:not(.light) .shiki-dark-theme {
+    display: block;
+  }
+}

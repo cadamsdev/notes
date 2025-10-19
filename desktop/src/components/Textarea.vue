@@ -42,12 +42,12 @@ const handleKeydown = (e: KeyboardEvent) => {
     :autofocus="autofocus"
     :style="{ minHeight }"
     :class="[
-      'w-full bg-transparent text-x-text-primary placeholder-x-text-muted',
-      'resize-none border-2 border-x-border text-base leading-relaxed',
+      'w-full bg-transparent text-text-primary placeholder-text-secondary',
+      'resize-none border-2 border-border text-base leading-relaxed',
       'transition-all rounded-lg p-3 outline-none',
       {
-        'focus:border-x-text-secondary focus-visible:border-transparent': !disabled,
-        'hover:border-x-hover hover:bg-glass-bg-light': !disabled,
+        'focus:border-border-active focus-visible:border-border-active': !disabled,
+        'hover:border-border-hover hover:bg-surface': !disabled,
         'opacity-50 cursor-not-allowed': disabled,
       }
     ]"

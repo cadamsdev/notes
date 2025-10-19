@@ -30,7 +30,7 @@ const handleKeydown = (e: KeyboardEvent) => {
 </script>
 
 <template>
-  <div class="glass-card p-6">
+  <div class="bg-surface border border-border rounded-2xl p-6">
     <!-- Input Area -->
     <Textarea
       v-model="noteContent"
@@ -41,13 +41,13 @@ const handleKeydown = (e: KeyboardEvent) => {
     />
 
     <!-- Actions -->
-    <div class="flex items-center justify-between mt-6 pt-4 border-t border-white/10">
+    <div class="flex items-center justify-between mt-6 pt-4 border-t border-border">
       <!-- Character Count & Hint -->
       <div class="flex items-center gap-4">
-        <div class="text-sm text-x-text-muted">
+        <div class="text-sm text-text-secondary">
           {{ charCount }} characters
         </div>
-        <div class="text-xs text-x-text-muted hidden sm:block">
+        <div class="text-xs text-text-secondary hidden sm:block">
           ⌘ + Enter to post
         </div>
       </div>
