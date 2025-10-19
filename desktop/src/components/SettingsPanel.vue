@@ -8,6 +8,10 @@ const appVersion = ref('Loading...');
 const databaseDirectory = ref('Loading...');
 const isCustomLocation = ref(false);
 
+// Conflict modal state
+const showConflictModal = ref(false);
+const pendingDirectory = ref<string | null>(null);
+
 const openSettings = async () => {
   isOpen.value = true;
   await loadDatabaseInfo();
@@ -43,16 +47,59 @@ const changeDatabaseLocation = async () => {
     });
     
     if (selected) {
-      const newPath = await invoke<string>('set_database_directory_cmd', { directoryPath: selected });
-      console.log('Database location changed to:', newPath);
+      // Check if a database already exists at this location
+      const dbExists = await invoke<boolean>('check_database_exists_cmd', { directoryPath: selected });
       
-      // Reload the app to use new database location
-      window.location.reload();
+      if (dbExists) {
+        // Show conflict modal
+        pendingDirectory.value = selected;
+        showConflictModal.value = true;
+      } else {
+        // No conflict, proceed with change
+        await applyDatabaseLocationChange(selected, false);
+      }
     }
   } catch (error) {
     console.error('Failed to change database location:', error);
     alert('Failed to change database location. Please try again.');
   }
+};
+
+const applyDatabaseLocationChange = async (directory: string, overwrite: boolean) => {
+  try {
+    const newPath = await invoke<string>('set_database_directory_cmd', { 
+      directoryPath: directory,
+      overwrite: overwrite
+    });
+    console.log('Database location changed to:', newPath);
+    
+    // Reload the app to use new database location
+    window.location.reload();
+  } catch (error) {
+    console.error('Failed to change database location:', error);
+    alert('Failed to change database location. Please try again.');
+  }
+};
+
+const handleOverwriteExisting = async () => {
+  if (pendingDirectory.value) {
+    showConflictModal.value = false;
+    await applyDatabaseLocationChange(pendingDirectory.value, true);
+    pendingDirectory.value = null;
+  }
+};
+
+const handleUseExisting = async () => {
+  if (pendingDirectory.value) {
+    showConflictModal.value = false;
+    await applyDatabaseLocationChange(pendingDirectory.value, false);
+    pendingDirectory.value = null;
+  }
+};
+
+const handleCancelConflict = () => {
+  showConflictModal.value = false;
+  pendingDirectory.value = null;
 };
 
 const resetDatabaseLocation = async () => {
@@ -250,6 +297,94 @@ defineExpose({ openSettings });
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </Transition>
+
+  <!-- Database Conflict Modal -->
+  <Transition name="modal">
+    <div 
+      v-if="showConflictModal" 
+      class="fixed inset-0 z-[60] flex items-center justify-center p-6"
+      @click="handleCancelConflict"
+    >
+      <!-- Backdrop -->
+      <div class="absolute inset-0 bg-background-overlay"></div>
+      
+      <!-- Conflict Dialog -->
+      <div 
+        class="bg-surface border border-border rounded-2xl relative w-full max-w-md"
+        @click.stop
+      >
+        <!-- Header -->
+        <div class="px-6 py-5 border-b border-border">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-yellow-500 flex items-center justify-center shadow-lg">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-text-primary">Database Already Exists</h3>
+              <p class="text-xs text-text-secondary mt-0.5">Choose how to proceed</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="px-6 py-5">
+          <p class="text-sm text-text-primary mb-4">
+            A database file already exists in the selected location. What would you like to do?
+          </p>
+          
+          <div class="space-y-3">
+            <!-- Use Existing Database -->
+            <button
+              @click="handleUseExisting"
+              class="w-full px-4 py-3 rounded-xl bg-surface hover:bg-surface-hover border-2 border-border hover:border-border-hover transition-all text-left"
+            >
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-blue-500 flex items-center justify-center flex-shrink-0">
+                  <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <p class="text-sm font-medium text-text-primary">Use Existing Database</p>
+                  <p class="text-xs text-text-secondary mt-0.5">Keep the database that's already there</p>
+                </div>
+              </div>
+            </button>
+            
+            <!-- Overwrite Existing -->
+            <button
+              @click="handleOverwriteExisting"
+              class="w-full px-4 py-3 rounded-xl bg-surface hover:bg-surface-hover border-2 border-border hover:border-border-hover transition-all text-left"
+            >
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-orange-500 flex items-center justify-center flex-shrink-0">
+                  <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <p class="text-sm font-medium text-text-primary">Replace with Current Database</p>
+                  <p class="text-xs text-text-secondary mt-0.5">Overwrite with your current notes (cannot be undone)</p>
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="px-6 py-4 border-t border-border">
+          <button
+            @click="handleCancelConflict"
+            class="w-full px-4 py-2.5 rounded-xl bg-surface-hover hover:bg-surface-active border border-border transition-all text-sm font-medium text-text-primary"
+          >
+            Cancel
+          </button>
         </div>
       </div>
     </div>

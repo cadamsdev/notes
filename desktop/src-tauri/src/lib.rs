@@ -104,7 +104,20 @@ fn get_database_directory_cmd(app: tauri::AppHandle) -> Result<String, String> {
 }
 
 #[tauri::command]
-fn set_database_directory_cmd(app: tauri::AppHandle, directory_path: String) -> Result<String, String> {
+fn check_database_exists_cmd(app: tauri::AppHandle, directory_path: String) -> Result<bool, String> {
+    let new_dir = PathBuf::from(&directory_path);
+    let db_filename = get_db_filename();
+    let new_db_path = new_dir.join(&db_filename);
+    
+    // Get current database path to compare
+    let current_db_path = get_database_path(&app)?;
+    
+    // Return true if database exists and is different from current
+    Ok(new_db_path.exists() && new_db_path != current_db_path)
+}
+
+#[tauri::command]
+fn set_database_directory_cmd(app: tauri::AppHandle, directory_path: String, overwrite: bool) -> Result<String, String> {
     let new_dir = PathBuf::from(&directory_path);
     
     // Validate the directory exists
@@ -125,9 +138,24 @@ fn set_database_directory_cmd(app: tauri::AppHandle, directory_path: String) -> 
     
     // Check if a database already exists at the new location
     if new_db_path.exists() && new_db_path != old_db_path {
-        // Database already exists at destination - just switch to it without copying
-        println!("Database already exists at destination: {}", new_db_path.display());
-        println!("Switching to existing database (not copying)");
+        if overwrite {
+            // User chose to overwrite - copy current database
+            println!("Overwriting existing database at: {}", new_db_path.display());
+            
+            // Ensure parent directory exists
+            if let Some(parent) = new_db_path.parent() {
+                fs::create_dir_all(parent)
+                    .map_err(|e| format!("Failed to create database directory: {}", e))?;
+            }
+            
+            fs::copy(&old_db_path, &new_db_path)
+                .map_err(|e| format!("Failed to copy database: {}", e))?;
+            
+            println!("Database copied from {} to {}", old_db_path.display(), new_db_path.display());
+        } else {
+            // User chose to use existing database - just switch to it
+            println!("Using existing database at: {}", new_db_path.display());
+        }
     } else if old_db_path.exists() && old_db_path != new_db_path {
         // No database at destination - copy the current one
         // Ensure parent directory exists
@@ -232,7 +260,8 @@ pub fn run() {
             get_database_path_cmd,
             get_database_directory_cmd,
             set_database_directory_cmd,
-            reset_database_directory_cmd
+            reset_database_directory_cmd,
+            check_database_exists_cmd
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
