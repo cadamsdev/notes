@@ -1,26 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
-  <!-- Background square -->
+  <!-- Black background -->
   <rect x="0" y="0" width="200" height="200" fill="#000000"/>
   
-  <!-- Large simplified note icon -->
+  <!-- Note lines - larger and more visible -->
   <g>
-    <!-- Main document shape - filled -->
-    <path d="M 50 40 L 50 160 L 150 160 L 150 40 Z" 
-          fill="none"
-          stroke="#ffffff" 
-          stroke-width="8" 
-          stroke-linejoin="round"/>
-    
-    <!-- Single bold text line for simplicity -->
-    <line x1="70" y1="110" x2="130" y2="110" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
-    <line x1="70" y1="135" x2="110" y2="135" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+    <!-- Three bold text lines -->
+    <line x1="40" y1="50" x2="130" y2="50" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+    <line x1="40" y1="85" x2="160" y2="85" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+    <line x1="40" y1="120" x2="120" y2="120" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
   </g>
   
-  <!-- Bold "X" accent -->
+  <!-- Bold X symbol - much larger -->
   <g>
-    <path d="M 115 120 L 165 170 M 165 120 L 115 170" 
-          stroke="#ffffff" 
-          stroke-width="14" 
-          stroke-linecap="round"/>
+    <line x1="110" y1="140" x2="160" y2="190" stroke="#ffffff" stroke-width="12" stroke-linecap="round"/>
+    <line x1="160" y1="140" x2="110" y2="190" stroke="#ffffff" stroke-width="12" stroke-linecap="round"/>
   </g>
 </svg>
