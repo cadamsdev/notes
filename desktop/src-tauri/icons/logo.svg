@@ -5,15 +5,8 @@
   <!-- Large simplified note icon -->
   <g>
     <!-- Main document shape - filled -->
-    <path d="M 50 40 L 50 160 L 150 160 L 150 80 L 110 40 Z" 
+    <path d="M 50 40 L 50 160 L 150 160 L 150 40 Z" 
           fill="none"
-          stroke="#ffffff" 
-          stroke-width="8" 
-          stroke-linejoin="round"/>
-    
-    <!-- Folded corner accent -->
-    <path d="M 110 40 L 110 80 L 150 80" 
-          fill="none" 
           stroke="#ffffff" 
           stroke-width="8" 
           stroke-linejoin="round"/>
