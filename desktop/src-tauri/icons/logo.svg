@@ -2,15 +2,15 @@
   <!-- Black background -->
   <rect x="0" y="0" width="200" height="200" fill="#000000"/>
   
-  <!-- Note lines - centered vertically -->
+  <!-- Note lines - moved up for centering -->
   <g>
     <!-- Three bold text lines -->
-    <line x1="40" y1="50" x2="130" y2="50" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
-    <line x1="40" y1="80" x2="160" y2="80" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
-    <line x1="40" y1="110" x2="120" y2="110" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+    <line x1="40" y1="40" x2="130" y2="40" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+    <line x1="40" y1="70" x2="160" y2="70" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+    <line x1="40" y1="100" x2="120" y2="100" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
   </g>
   
-  <!-- Bold X symbol - centered -->
+  <!-- Bold X symbol - moved up for centering -->
   <g transform="translate(115, 150)">
     <line x1="-25" y1="-25" x2="25" y2="25" stroke="#ffffff" stroke-width="12" stroke-linecap="round"/>
     <line x1="25" y1="-25" x2="-25" y2="25" stroke="#ffffff" stroke-width="12" stroke-linecap="round"/>
