@@ -76,7 +76,7 @@
 
 /* Inline code */
 .markdown code {
-  background-color: var(--color-surface-secondary);
+  background-color: var(--color-code-background);
   color: var(--color-x-text-secondary);
   padding: 0.375rem;
   border-radius: var(--radius-x-sm);
@@ -207,7 +207,7 @@
   position: relative;
   margin: 1em 0;
   border-radius: var(--radius-x-md);
-  background-color: var(--color-surface-secondary);
+  background-color: var(--color-code-background);
   border: 1px solid var(--color-x-border);
   overflow: hidden;
 }
