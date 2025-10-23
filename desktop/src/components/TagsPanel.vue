@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import Tag from './Tag.vue';
 
 interface Note {
   id: number;
@@ -116,25 +117,14 @@ const isTagSelected = (tag: string) => {
     </div>
     
     <div v-if="allTags.length > 0" class="flex flex-wrap gap-2">
-      <button
+      <Tag
         v-for="tag in allTags"
         :key="tag"
+        :tag="tag"
+        :count="getNotesCountForTag(tag)"
+        :selected="isTagSelected(tag)"
         @click="toggleTag(tag)"
-        :class="[
-          'inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium transition-all',
-          isTagSelected(tag)
-            ? 'bg-text-primary text-background shadow-md border border-text-primary' 
-            : 'bg-surface text-text-secondary hover:bg-surface-hover hover:text-text-primary border border-border'
-        ]"
-      >
-        <span class="leading-none">#{{ tag }}</span>
-        <span :class="[
-          'inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full text-xs font-semibold leading-none',
-          isTagSelected(tag) ? 'bg-background/20 text-background' : 'bg-surface-active text-text-primary'
-        ]">
-          {{ getNotesCountForTag(tag) }}
-        </span>
-      </button>
+      />
     </div>
     
     <div v-else class="text-text-secondary text-xs p-3 bg-surface rounded-lg">
