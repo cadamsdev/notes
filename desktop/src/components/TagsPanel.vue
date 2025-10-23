@@ -121,16 +121,16 @@ const isTagSelected = (tag: string) => {
         :key="tag"
         @click="toggleTag(tag)"
         :class="[
-          'px-2.5 py-1 rounded-full text-xs font-medium transition-all',
+          'inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium transition-all',
           isTagSelected(tag)
-            ? 'bg-text-primary text-background shadow-lg border border-text-primary' 
-            : 'bg-surface text-text-secondary hover:bg-surface-hover hover:text-text-primary border border-transparent'
+            ? 'bg-text-primary text-background shadow-md border border-text-primary' 
+            : 'bg-surface text-text-secondary hover:bg-surface-hover hover:text-text-primary border border-border'
         ]"
       >
-        #{{ tag }}
+        <span class="leading-none">#{{ tag }}</span>
         <span :class="[
-          'ml-1.5 px-1.5 py-0.5 rounded text-xs',
-          isTagSelected(tag) ? 'bg-background/20' : 'bg-surface-active'
+          'inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full text-xs font-semibold leading-none',
+          isTagSelected(tag) ? 'bg-background/20 text-background' : 'bg-surface-active text-text-primary'
         ]">
           {{ getNotesCountForTag(tag) }}
         </span>
