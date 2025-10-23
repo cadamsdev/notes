@@ -76,9 +76,9 @@
 
 /* Inline code */
 .markdown code {
-  background-color: var(--color-x-hover);
+  background-color: var(--color-surface-secondary);
   color: var(--color-x-text-secondary);
-  padding: 0.15em 0.35em;
+  padding: 0.375rem;
   border-radius: var(--radius-x-sm);
   font-size: 0.9em;
   font-family: 'SF Mono', 'Consolas', 'Liberation Mono', 'Menlo', 'Courier', monospace;
@@ -88,7 +88,6 @@
 
 /* Code blocks */
 .markdown pre {
-  background-color: var(--color-x-hover);
   border: 1px solid var(--color-x-border);
   border-radius: var(--radius-x-md);
   padding: 1em;
@@ -207,7 +206,7 @@
   position: relative;
   margin: 1em 0;
   border-radius: var(--radius-x-md);
-  background-color: var(--color-x-hover);
+  background-color: var(--color-surface-secondary);
   border: 1px solid var(--color-x-border);
   overflow: hidden;
 }
