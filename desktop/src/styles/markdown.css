@@ -1,5 +1,6 @@
 .markdown {
   line-height: var(--line-height-normal);
+  color: var(--color-text-primary);
 }
 
 /* Headings */
@@ -55,41 +56,44 @@
 
 /* Text formatting */
 .markdown strong {
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
 }
 
 .markdown em {
   font-style: italic;
+  color: var(--color-text-primary);
 }
 
 /* Links */
 .markdown a {
-  color: var(--color-primary);
+  color: var(--color-text-primary);
   text-decoration: underline;
-  transition: all var(--transition-fast);
+  text-decoration-color: var(--color-border);
+  transition: text-decoration-color 0.2s ease;
 }
 
 .markdown a:hover {
-  text-decoration: none;
+  text-decoration-color: var(--color-border-hover);
 }
 
 /* Inline code */
 .markdown code {
-  background-color: var(--color-code-background);
-  color: var(--color-x-text-secondary);
-  padding: 0.375rem;
-  border-radius: var(--radius-x-sm);
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  padding: 0.125em 0.375em;
+  border-radius: 0.25rem;
   font-size: 0.9em;
-  font-family: 'SF Mono', 'Consolas', 'Liberation Mono', 'Menlo', 'Courier', monospace;
-  font-weight: 500;
-  border: 1px solid var(--color-x-border);
+  font-family: var(--font-family-mono);
+  font-weight: var(--font-weight-regular);
+  border: 1px solid var(--color-border);
 }
 
 /* Code blocks */
 .markdown pre {
-  border: 1px solid var(--color-x-border);
-  border-radius: var(--radius-x-md);
+  background-color: var(--color-code-background);
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
   padding: 1em;
   overflow-x: auto;
   margin: 1em 0;
@@ -98,11 +102,11 @@
 
 .markdown pre code {
   background-color: transparent;
-  color: var(--color-x-text-primary);
+  color: var(--color-text-primary);
   padding: 0;
   border-radius: 0;
   font-size: 0.875em;
-  font-weight: 400;
+  font-weight: var(--font-weight-regular);
   border: none;
 }
 
@@ -124,7 +128,8 @@
 .markdown li {
   margin: 0.25em 0;
   padding-left: 0.25em;
-  line-height: 1.6;
+  line-height: var(--line-height-normal);
+  color: var(--color-text-primary);
 }
 
 .markdown li > p {
@@ -144,13 +149,15 @@
 
 /* Blockquotes */
 .markdown blockquote {
-  border-left: 3px solid var(--color-x-border);
+  border-left: 3px solid var(--color-border);
   padding-left: 1em;
-  padding-top: 0.25em;
-  padding-bottom: 0.25em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
   margin: 1em 0;
-  color: var(--color-x-text-secondary);
+  color: var(--color-text-secondary);
   font-style: normal;
+  background-color: var(--color-surface);
+  border-radius: 0.25rem;
 }
 
 .markdown blockquote p {
@@ -160,16 +167,16 @@
 /* Horizontal rule */
 .markdown hr {
   border: none;
-  border-top: 1px solid var(--color-x-border);
+  border-top: 1px solid var(--color-border);
   margin: 1.5em 0;
 }
 
 /* Images */
 .markdown img {
   max-width: 100%;
-  border-radius: var(--radius-x-md);
+  border-radius: 0.5rem;
   margin: 1em 0;
-  border: 1px solid var(--color-x-border);
+  border: 1px solid var(--color-border);
 }
 
 /* Tables */
@@ -178,61 +185,61 @@
   border-collapse: collapse;
   margin: 1em 0;
   font-size: 0.9em;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  overflow: hidden;
 }
 
 .markdown th, .markdown td {
-  border: 1px solid var(--color-x-border);
+  border: 1px solid var(--color-border);
   padding: 0.5em 0.75em;
   text-align: left;
 }
 
 .markdown th {
-  background-color: var(--color-x-hover);
+  background-color: var(--color-surface);
   font-weight: var(--font-weight-semibold);
-  color: var(--color-x-text-secondary);
+  color: var(--color-text-primary);
   font-size: 0.875em;
 }
 
 .markdown td {
-  color: var(--color-x-text-primary);
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
 }
 
 /* Checkboxes */
 .markdown input[type="checkbox"] {
   margin-right: 0.5em;
+  accent-color: var(--color-text-primary);
 }
 
 /* Code block with header */
 .code-block-wrapper {
   position: relative;
   margin: 1em 0;
-  border-radius: var(--radius-x-md);
+  border-radius: 0.5rem;
   background-color: var(--color-code-background);
-  border: 1px solid var(--color-x-border);
+  border: 1px solid var(--color-border);
   overflow: hidden;
 }
 
 .code-block-header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
   z-index: 10;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0.5rem 1rem;
-  background-color: var(--color-x-darker);
-  border-bottom: 1px solid var(--color-x-border);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .code-language {
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--color-x-text-secondary);
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  color: var(--color-text-secondary);
+  font-family: var(--font-family-mono);
 }
 
 .code-copy-btn {
@@ -242,11 +249,12 @@
   padding: 0.25rem 0.5rem;
   background-color: transparent;
   border: 1px solid transparent;
-  border-radius: var(--radius-x-sm);
-  color: var(--color-x-text-muted);
+  border-radius: 0.25rem;
+  color: var(--color-text-secondary);
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: all 0.2s ease;
   opacity: 0;
+  font-size: 0.875rem;
 }
 
 .code-block-wrapper:hover .code-copy-btn {
@@ -254,14 +262,15 @@
 }
 
 .code-copy-btn:hover {
-  background-color: var(--color-x-hover);
-  border-color: var(--color-x-border);
-  color: var(--color-x-text-primary);
+  background-color: var(--color-surface-hover);
+  border-color: var(--color-border);
+  color: var(--color-text-primary);
 }
 
 .code-copy-btn.copied {
-  color: var(--color-x-success);
+  color: var(--color-text-primary);
   opacity: 1;
+  background-color: var(--color-surface-hover);
 }
 
 .code-copy-btn .check-icon {
@@ -281,67 +290,66 @@
   background-color: transparent !important;
   border: none;
   border-radius: 0;
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: var(--font-family-mono);
   font-size: 0.875em;
   line-height: 1.6;
 }
 
 .markdown pre.shiki {
   padding: 1em !important;
-  padding-top: 3em !important;
   overflow-x: auto;
   margin: 0;
-  border-radius: var(--radius-x-md);
+  border-radius: 0.5rem;
 }
 
 .markdown pre.shiki code {
   padding: 0 !important;
   background: transparent !important;
-  font-weight: 400;
+  font-weight: var(--font-weight-regular);
 }
 
 /* Fallback code blocks */
 .code-block-wrapper pre {
   margin: 0;
   padding: 1em;
-  padding-top: 3em;
   overflow-x: auto;
   background-color: transparent;
-  border-radius: var(--radius-x-md);
+  border-radius: 0.5rem;
 }
 
 .code-block-wrapper pre code {
   background-color: transparent;
-  color: var(--color-x-text-primary);
+  color: var(--color-text-primary);
   padding: 0;
   border-radius: 0;
   font-size: 0.875em;
-  font-weight: 400;
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-weight: var(--font-weight-regular);
+  font-family: var(--font-family-mono);
   border: none;
 }
 
 /* Scrollbar for code blocks */
 .markdown pre.shiki::-webkit-scrollbar,
 .code-block-wrapper pre::-webkit-scrollbar {
-  height: 10px;
+  height: 8px;
 }
 
 .markdown pre.shiki::-webkit-scrollbar-track,
 .code-block-wrapper pre::-webkit-scrollbar-track {
   background: transparent;
-  border-radius: var(--radius-x-sm);
+  border-radius: 0.25rem;
 }
 
 .markdown pre.shiki::-webkit-scrollbar-thumb,
 .code-block-wrapper pre::-webkit-scrollbar-thumb {
-  background: var(--color-x-border);
-  border-radius: var(--radius-x-sm);
+  background: var(--color-border);
+  border-radius: 0.25rem;
+  border: 1px solid var(--color-border);
 }
 
 .markdown pre.shiki::-webkit-scrollbar-thumb:hover,
 .code-block-wrapper pre::-webkit-scrollbar-thumb:hover {
-  background: var(--color-x-text-muted);
+  background: var(--color-border-hover);
 }
 
 /* Theme-aware Shiki code blocks */
