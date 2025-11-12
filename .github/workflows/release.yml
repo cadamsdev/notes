@@ -4,7 +4,6 @@ on:
   push:
     tags:
       - "v*"
-  workflow_dispatch:
 
 jobs:
   release-notes:
@@ -17,7 +16,7 @@ jobs:
       - name: Generate release notes
         id: generate
         run: |
-          NOTES=$(bun lazy-release release-notes)
+          NOTES=$(bun run lazy-release release-notes --current)
           echo "notes<<EOF" >> $GITHUB_OUTPUT
           echo "$NOTES" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
