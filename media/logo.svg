@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Background square -->
+  <rect x="0" y="0" width="200" height="200" fill="#000000"/>
+  
+  <!-- Large simplified note icon -->
+  <g>
+    <!-- Main document shape - filled -->
+    <path d="M 50 40 L 50 160 L 150 160 L 150 80 L 110 40 Z" 
+          fill="none"
+          stroke="#ffffff" 
+          stroke-width="8" 
+          stroke-linejoin="round"/>
+    
+    <!-- Folded corner accent -->
+    <path d="M 110 40 L 110 80 L 150 80" 
+          fill="none" 
+          stroke="#ffffff" 
+          stroke-width="8" 
+          stroke-linejoin="round"/>
+    
+    <!-- Single bold text line for simplicity -->
+    <line x1="70" y1="110" x2="130" y2="110" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+    <line x1="70" y1="135" x2="110" y2="135" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Bold "X" accent -->
+  <g>
+    <path d="M 115 120 L 165 170 M 165 120 L 115 170" 
+          stroke="#ffffff" 
+          stroke-width="14" 
+          stroke-linecap="round"/>
+  </g>
+</svg>

@@ -1,27 +1,27 @@
 {
-  "name": "notes",
-  "version": "0.0.1",
+  "name": "notex",
+  "version": "0.5.0",
+  "private": true,
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"npm run api:dev\" \"wait-on http://localhost:3001/health-check && npm run web:dev\"",
-    "web:dev": "npm run -w web dev",
-    "api:dev": "npm run -w api dev",
-    "build:web": "npm run -w web build",
-    "build:api": "npm run -w api build",
-    "desktop": "npm run -w desktop start"
+    "build": "bun run --filter desktop tauri build",
+    "dev": "cross-env TAURI_ENV_USE_TEST_DB=true bun run --filter desktop tauri dev",
+    "prod": "bun run --filter desktop tauri dev",
+    "lazy-release": "lazy-release"
   },
   "workspaces": [
-    "apps/*"
+    "desktop"
   ],
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@actions/core": "^1.10.1",
-    "@types/better-sqlite3": "^7.6.10",
-    "concurrently": "^8.2.2",
-    "electron": "^29.2.0",
-    "wait-on": "^7.2.0"
+    "@actions/core": "^1.11.1",
+    "@lazy-release/cli": "0.0.0-snapshot-1763015883869",
+    "@types/better-sqlite3": "^7.6.13",
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.1.0",
+    "wait-on": "^8.0.4"
   }
 }

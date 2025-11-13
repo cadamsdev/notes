@@ -1,0 +1,28 @@
+name: Prepare Release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write # Needed to publish tags and create releases
+  pull-requests: write # Needed to create Release PRs
+
+jobs:
+  prepare-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0 # Fetch full history for proper commit analysis
+      
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Bump version and update changelog
+        run: bun run lazy-release --github-token=${{ secrets.GITHUB_TOKEN }} --skip-github-release
+      
+      # This will create a tag which triggers the Tauri build

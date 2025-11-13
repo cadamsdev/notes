@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Black background -->
+  <rect x="0" y="0" width="200" height="200" fill="#000000"/>
+  
+  <!-- Note lines - moved up for centering -->
+  <g>
+    <!-- Three bold text lines -->
+    <line x1="40" y1="40" x2="130" y2="40" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+    <line x1="40" y1="70" x2="160" y2="70" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+    <line x1="40" y1="100" x2="120" y2="100" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Bold X symbol - moved up for centering -->
+  <g transform="translate(115, 150)">
+    <line x1="-25" y1="-25" x2="25" y2="25" stroke="#ffffff" stroke-width="12" stroke-linecap="round"/>
+    <line x1="25" y1="-25" x2="-25" y2="25" stroke="#ffffff" stroke-width="12" stroke-linecap="round"/>
+  </g>
+</svg>

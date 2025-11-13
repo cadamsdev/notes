@@ -1,96 +1,70 @@
-# Notes
-[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/cadamsdev/notes/issues)
+<div align="center">
 
-Note: This app is in early alpha. Expect breaking changes and bugs.
+<img src="./media/logo.svg" alt="NoteX Logo" width="120" height="120">
 
-![Screenshot_8-6-2024_135854_chad lan](https://github.com/cadamsdev/notes/assets/12568665/c9797014-a246-4e1a-b9a6-a50f67a16928)
+# NoteX
 
-## Why another note app?
-For taking technical notes I wanted a note taking app that is...
-- Simple like Apple notes (but has code syntax highlighting)
-- Block-based editor like Notion
-- Works offline (Like Obsidian)
-- Uses tags instead of a folder structure
-  - Don't have to worry about categorizing your notes in a hierarchy, just create the note.
-  - To categorize the notes add a tag (Also will help you find it)
-- Works on Windows, Linux or Mac
-- Self hostable
-- Privacy respecting (no telemetry, no selling data)
-- Secure
-- Highly configurable
-- Free and open-source
+### A Modern, Minimalist Note-Taking App
 
-## Roadmap
-- More blocks
-- Light mode (currently only dark mode)
-- Settings page
-- AI Integration
-- Password protected notes
-- Graph view (like Obsidian)
-- Plugins (Extensible)
-- Desktop app
-- Mobile app
-- Support more architectures
+*Fast • Beautiful • Cross-Platform • Cloud-Syncable*
 
-## Supported architectures
-| Architecture    | Support |
-| -------- | ------- |
-| x86-64 (AMD64)  | ✅ |
-| ARM64 | ✅ |
-| x86 (32-bit) | ❌ |
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/cadamsdev/notes-app/issues)
+[![Built with Tauri](https://img.shields.io/badge/Built%20with-Tauri-24C8DB?logo=tauri)](https://tauri.app/)
+[![Vue 3](https://img.shields.io/badge/Vue-3-42b883?logo=vue.js)](https://vuejs.org/)
 
-## Current Features
-- Self-hostable
-- Create notes
-- Edit notes
-- Search notes
-- Add tags to notes
-- Edit tags (tag name, color)
-- Delete tags
-- Block editor
-    - Headings (h1, h2, h3)
-    - Paragraphs
-    - Bulleted list
-    - Numbered lists
-    - Inline code 
-    - Code blocks
-    - Divider
-    - Quote
+![NoteX Preview](./media/preview.png)
 
-## Local development
-1. Install dependencies
-```
-npm install
-```
-2. Start the development server
-```
-npm run dev
-```
-3. Navigate to http://localhost:5173/
+[Features](#-features) • [Installation](#-installation) • [Contributing](/docs/CONTRIBUTING.md)
 
-## Self hosting with Docker
+</div>
 
-Docker compose is the easiest way to get started.
+---
 
-Create a `docker-compose.yml` file with the following:
-```yaml
-services:
-  api:
-    image: cadamsdev/notes-api:latest
-    ports:
-      - "3001:3001"
-    volumes:
-      - ./apps/api/data:/app/data
-  web-app:
-    image: cadamsdev/notes:latest
-    ports:
-      - "4173:4173"
-    depends_on:
-      - api
-    environment:
-      - PUBLIC_API_URL=http://localhost:3001
-```
+## ✨ Features
 
-Run `docker compose up`
+### 🎨 **Beautiful Design**
+- **SpaceX-Inspired UI** - Clean, minimal black/white aesthetic
+- **Light & Dark Mode** - Seamless theme switching with automatic system preference detection
+- **Responsive Layout** - Optimized for various screen sizes
 
-Navigate to http://localhost:4173/
+### 📅 **Smart Organization**
+- **Calendar View** - Visual calendar with note count indicators per day
+- **Tag System** - Organize notes with hashtags (`#work`, `#personal`, etc.)
+- **Advanced Search** - Fuzzy search with real-time filtering
+- **Date Filtering** - Quickly find notes by date
+
+### ⚡ **Performance**
+- **Native Performance** - Built with Tauri (Rust + Vue 3) for blazing fast speeds
+- **Infinite Scroll** - Smooth loading of large note collections
+- **SQLite Database** - Fast, reliable local storage
+
+### 🔄 **Cloud Sync**
+- **Custom Database Location** - Save your notes anywhere
+- **Multi-Device Sync** - Use with OneDrive, Google Drive, Dropbox, or any cloud storage
+- **Automatic Migration** - Seamless database copying when changing locations
+- **Cross-Platform** - Sync notes between Windows, macOS, and Linux
+
+### 📝 **Markdown Support**
+- **GitHub Flavored Markdown** - Full GFM support
+- **Syntax Highlighting** - Code blocks with proper formatting
+
+## 📦 Installation
+Coming Soon!** Check the [Releases](https://github.com/cadamsdev/notex/releases) page for platform-specific installers.
+
+## 🙏 Acknowledgments
+
+- **Tauri Team** - For the amazing framework
+- **Vue.js Team** - For Vue 3 and its excellent ecosystem
+- **Tailwind CSS** - For the utility-first CSS framework
+- **SpaceX** - Design inspiration
+
+---
+
+<div align="center">
+
+**If you find NoteX useful, please consider giving it a ⭐ on GitHub!**
+
+Made with ❤️ by [Chad Adams](https://github.com/cadamsdev)
+
+</div>

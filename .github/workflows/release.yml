@@ -1,69 +1,71 @@
 name: Release
+
 on:
-  workflow_dispatch:
-    inputs:
-      semver:
-        description: 'The semver increment'
-        required: true
-        default: 'patch'
-        type: choice
-        options:
-          - 'major'
-          - 'minor'
-          - 'patch'
+  push:
+    tags:
+      - "v*"
+
 jobs:
-  publish:
+  release-notes:
     runs-on: ubuntu-latest
+    outputs:
+      notes: ${{ steps.generate.outputs.notes }}
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0 # Fetch full history for proper commit analysis
 
-    - name: Set git user
-      run: |
-        git config --global user.name "github-actions[bot]"
-        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-  
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@v3
+      - uses: oven-sh/setup-bun@v2
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+      - name: Install dependencies
+        run: bun install
 
-    - name: Login to Docker Hub
-      uses: docker/login-action@v3
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Generate release notes
+        id: generate
+        run: |
+          NOTES=$(bun run lazy-release release-notes --current)
+          echo "notes=$NOTES" >> $GITHUB_OUTPUT
 
-    - name: Install dependencies
-      run: npm ci
+  release:
+    needs: release-notes
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: "macos-latest"
+            args: "--target aarch64-apple-darwin"
+          - platform: "windows-latest"
+            args: ""
 
-    - name: Bump version
-      id: version
-      run: node scripts/bump-version.mjs ${{ github.event.inputs.semver }}
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v5
 
-    - name: Build and push api
-      uses: docker/build-push-action@v5
-      with:
-        context: "{{defaultContext}}:apps/api"
-        platforms: linux/amd64,linux/arm64
-        push: true
-        tags: |
-          cadamsdev/notes-api:${{ steps.version.outputs.formatted_version }}
-          cadamsdev/notes-api:latest
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
 
-    - name: Build and push web-app
-      uses: docker/build-push-action@v5
-      with:
-        context: "{{defaultContext}}:apps/web-app"
-        platforms: linux/amd64,linux/arm64
-        push: true
-        tags: |
-          cadamsdev/notes:${{ steps.version.outputs.formatted_version }}
-          cadamsdev/notes:latest
+      - name: Install frontend dependencies
+        run: bun install
 
-    - name: Push commits and tags
-      run: node scripts/publish.mjs
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin' || '' }}
+
+      - name: Build
+        run: bun run build
+
+      - name: Build Tauri app
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          projectPath: ./desktop
+          tagName: ${{ github.ref_name }}
+          releaseName: ${{ github.ref_name }}
+          releaseBody: ${{ needs.release-notes.outputs.notes }}
+          releaseDraft: true
+          prerelease: false
+          args: ${{ matrix.args }}

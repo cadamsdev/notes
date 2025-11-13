@@ -1,31 +1,45 @@
-name: ci
+name: CI
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest]
+    
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup Node
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20'
-        cache: 'npm'
-    - run: npm ci
-      name: Install dependencies
-
-    - run: node scripts/setup.mjs
-      name: Initial setup
-
-    - run: npm run build:api
-      name: Build api
-
-    - run: npm run build:web
-      name: Build web
-      env:
-        PUBLIC_API_URL: ${{ vars.PUBLIC_API_URL }}
+      - uses: actions/checkout@v5
+      
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+      
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+      
+      - name: Install dependencies
+        run: bun install
+      
+        # TODO linting
+      # - name: Lint frontend
+      #   working-directory: ./desktop
+      #   run: bun run lint
+      
+      - name: Check Rust formatting
+        working-directory: ./desktop/src-tauri
+        run: cargo fmt --check
+      
+      - name: Run Rust tests
+        working-directory: ./desktop/src-tauri
+        run: cargo test
+      
+      - name: Build application
+        run: bun run build

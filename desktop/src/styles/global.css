@@ -1,0 +1,69 @@
+body {
+  background: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Layout */
+  padding-top: 40px;
+  overflow: hidden;
+  height: 100vh;
+  position: relative;
+}
+
+/* Enhanced Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--glass-background);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--glass-border);
+  transition: background var(--transition-base);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--glass-background-strong);
+}
+
+/* Focus styles for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+/* Input improvements */
+input,
+textarea {
+  font-family: var(--font-family-base);
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--input-placeholder);
+  font-weight: var(--font-weight-normal);
+  opacity: var(--opacity-60);
+}
+
+/* Button improvements */
+button {
+  font-family: var(--font-family-base);
+  letter-spacing: var(--letter-spacing-wider);
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: var(--font-weight-semibold);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: var(--opacity-50);
+}
