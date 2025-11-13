@@ -5,6 +5,16 @@ on:
     tags:
       - "v*"
   workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to release (e.g., v1.0.0)'
+        required: true
+        type: string
+      draft:
+        description: 'Create a draft release'
+        required: false
+        type: boolean
+        default: true
 
 jobs:
   release-notes:
@@ -68,9 +78,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           projectPath: ./desktop
-          tagName: ${{ github.ref_name }}
-          releaseName: ${{ github.ref_name }}
+          tagName: ${{ github.event.inputs.tag || github.ref_name }}
+          releaseName: ${{ github.event.inputs.tag || github.ref_name }}
           releaseBody: ${{ needs.release-notes.outputs.notes }}
-          releaseDraft: true
+          releaseDraft: ${{ github.event.inputs.draft || 'true' }}
           prerelease: false
           args: ${{ matrix.args }}
