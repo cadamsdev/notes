@@ -7,16 +7,16 @@
 - Added a custom shiki code block ([#54](https://github.com/cadamsdev/notes/pull/54))
 
 ### 🐛 Bug Fixes
-- Set a better default value for APU_URL env var
-- Showing tags when they are adding or removed
-- Create database.sqlite file if it does not exist
-- Turn off autocomplete and spellcheck on the TagCombobox input
+- Set a better default value for APU_URL env var ([f2f993d](https://github.com/cadamsdev/notes/commit/f2f993d))
+- Showing tags when they are adding or removed ([7a0a54b](https://github.com/cadamsdev/notes/commit/7a0a54b))
+- Create database.sqlite file if it does not exist ([08227da](https://github.com/cadamsdev/notes/commit/08227da))
+- Turn off autocomplete and spellcheck on the TagCombobox input ([0c3daa3](https://github.com/cadamsdev/notes/commit/0c3daa3))
 
 ### 🏠 Chores
-- Release branch
-- Release branch
-- Show create note button when there's no notes
-- Create API_URL env var
+- Release branch ([7174f78](https://github.com/cadamsdev/notes/commit/7174f78))
+- Release branch ([33acbd3](https://github.com/cadamsdev/notes/commit/33acbd3))
+- Show create note button when there's no notes ([5db9550](https://github.com/cadamsdev/notes/commit/5db9550))
+- Create API_URL env var ([cc29aea](https://github.com/cadamsdev/notes/commit/cc29aea))
 
 ### 🤖 Automation
-- Fix issue with Release PR markdown
+- Fix issue with Release PR markdown ([fc864cc](https://github.com/cadamsdev/notes/commit/fc864cc))
