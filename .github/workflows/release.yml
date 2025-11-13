@@ -46,13 +46,16 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
 
+      - name: Install frontend dependencies
+        run: bun install
+
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
         with:
           targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin' || '' }}
 
-      - name: Install frontend dependencies
-        run: bun install
+      - name: Build
+        run: bun run build
 
       - name: Build Tauri app
         uses: tauri-apps/tauri-action@v0
@@ -61,7 +64,7 @@ jobs:
         with:
           projectPath: ./desktop
           tagName: ${{ github.ref_name }}
-          releaseName: "Notes App v__VERSION__"
+          releaseName: ${{ github.ref_name }}
           releaseBody: ${{ needs.release-notes.outputs.notes }}
           releaseDraft: true
           prerelease: false
