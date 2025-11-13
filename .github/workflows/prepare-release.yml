@@ -24,7 +24,5 @@ jobs:
 
       - name: Bump version and update changelog
         run: bun run lazy-release --github-token=${{ secrets.GITHUB_TOKEN }} --skip-github-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
       # This will create a tag which triggers the Tauri build
