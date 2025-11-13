@@ -1,6 +1,6 @@
 [package]
 name = "notex"
-version = "0.6.0"
+version = "0.0.0"
 description = "A modern markdown note taking app."
 authors = ["Chad Adams"]
 edition = "2021"
