@@ -2,6 +2,7 @@
 
 ### ⚠️ Breaking Changes
 - Complete Rewrite + Redesign with a focus on the desktop app ([#55](https://github.com/cadamsdev/notes/pull/55))
+
 ### 🚀 New Features
 - Added a custom shiki code block ([#54](https://github.com/cadamsdev/notes/pull/54))
 
@@ -13,5 +14,9 @@
 
 ### 🏠 Chores
 - Release branch
+- Release branch
 - Show create note button when there's no notes
 - Create API_URL env var
+
+### 🤖 Automation
+- Fix issue with Release PR markdown
