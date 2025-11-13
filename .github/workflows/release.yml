@@ -25,7 +25,11 @@ jobs:
         id: generate
         run: |
           NOTES=$(bun run lazy-release release-notes --current)
-          echo "notes=$NOTES" >> $GITHUB_OUTPUT
+          {
+            echo "notes<<EOF"
+            echo "$NOTES"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
 
   release:
     needs: release-notes
