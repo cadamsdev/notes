@@ -22,11 +22,8 @@ jobs:
       - name: Install dependencies
         run: bun install
 
-      - name: Build
-        run: bun run build
-
       - name: Bump version and update changelog
-        run: bun run lazy-release bump --changelogs --commit --push --tag --from v0.5.0
+        run: bun run lazy-release --github-token=${{ secrets.GITHUB_TOKEN }} --skip-github-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
