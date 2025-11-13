@@ -18,7 +18,7 @@
   "license": "ISC",
   "devDependencies": {
     "@actions/core": "^1.11.1",
-    "@lazy-release/cli": "0.0.0-snapshot-1763046082869",
+    "@lazy-release/cli": "^0.1.0",
     "@types/better-sqlite3": "^7.6.13",
     "concurrently": "^9.2.1",
     "cross-env": "^10.1.0",
