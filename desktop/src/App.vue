@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import './styles/theme.css';
+import './styles/reset.css';
 import './styles/global.css';
 import { ref, computed, onMounted, watch } from 'vue';
 import Database from '@tauri-apps/plugin-sql';
@@ -243,23 +244,23 @@ const editNote = async (id: number, content: string) => {
 
 <template>
   <!-- Custom blurred background -->
-  <div class="bg-[rgba(35,35,35,0.15)] absolute z-[-1]"></div>
+  <div class="app-background"></div>
   
-  <main class="h-[calc(100vh-40px)] p-6 flex justify-center overflow-hidden">
+  <main class="main-container">
     <!-- Main Container - Apple-style centered layout with generous spacing -->
-    <div class="w-full max-w-[1400px] flex gap-6 h-full">
+    <div class="content-wrapper">
       
       <!-- Left Column - Search, Calendar and Tags (Glass Panel) -->
-      <div class="w-[380px] flex flex-col h-full overflow-hidden">
-        <div class="bg-surface border border-border rounded-2xl flex flex-col h-full overflow-hidden">
+      <div class="left-column">
+        <div class="left-panel">
           <!-- Search Bar -->
-          <div class="px-6 py-5 border-b border-border">
+          <div class="search-section">
             <SearchBar @update:search-query="searchQuery = $event" />
           </div>
           
           <!-- Scrollable Content -->
-          <div class="flex-1 overflow-y-auto">
-            <div class="px-4 py-2">
+          <div class="scrollable-content">
+            <div class="calendar-wrapper">
               <CalendarView
                 :notes="notes"
                 :selected-date="selectedDate"
@@ -269,7 +270,7 @@ const editNote = async (id: number, content: string) => {
               />
             </div>
             
-            <div class="px-4 pb-4">
+            <div class="tags-wrapper">
               <TagsPanel
                 :notes="notes"
                 :selected-tags="selectedTags"
@@ -281,11 +282,11 @@ const editNote = async (id: number, content: string) => {
       </div>
 
       <!-- Right Column - Notes Feed -->
-      <div class="flex-1 flex flex-col h-full overflow-hidden">
+      <div class="right-column">
         <!-- Notes Feed - Scrollable Container -->
         <div 
           ref="notesContainer"
-          class="flex-1 overflow-y-auto pr-2 notes-feed-container"
+          class="notes-feed-container"
           @scroll="handleScroll"
         >
             <!-- Header -->
@@ -299,11 +300,11 @@ const editNote = async (id: number, content: string) => {
             </NotesHeader>
             
             <!-- Note Creator -->
-            <div class="mb-6">
+            <div class="note-creator-wrapper">
               <NoteCreator @create="createNote" />
             </div>
             
-            <div v-if="filteredNotes.length > 0" class="space-y-4">
+            <div v-if="filteredNotes.length > 0" class="notes-list">
               <NoteItem
                 v-for="note in displayedNotes"
                 :key="note.id"
@@ -313,21 +314,21 @@ const editNote = async (id: number, content: string) => {
               />
               
               <!-- Loading indicator when there are more notes -->
-              <div v-if="hasMoreNotes" class="text-center py-4">
-                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-surface border border-border">
-                  <svg class="w-4 h-4 animate-spin text-text-primary" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              <div v-if="hasMoreNotes" class="loading-indicator">
+                <div class="loading-content">
+                  <svg class="spinner" fill="none" viewBox="0 0 24 24">
+                    <circle class="spinner-track" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="spinner-path" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  <span class="text-sm text-text-secondary">
+                  <span class="loading-text">
                     Loading more notes... ({{ displayedNotes.length }} of {{ filteredNotes.length }})
                   </span>
                 </div>
               </div>
               
               <!-- End of list indicator -->
-              <div v-else class="text-center py-4">
-                <p class="text-sm text-text-secondary">
+              <div v-else class="end-indicator">
+                <p class="end-text">
                   All {{ filteredNotes.length }} {{ filteredNotes.length === 1 ? 'note' : 'notes' }} loaded
                 </p>
               </div>
@@ -343,3 +344,145 @@ const editNote = async (id: number, content: string) => {
   <!-- Settings Panel -->
   <SettingsPanel ref="settingsPanel" />
 </template>
+
+<style scoped>
+.app-background {
+  background: rgba(35, 35, 35, 0.15);
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.main-container {
+  height: calc(100vh - 40px);
+  padding: 1.5rem;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.content-wrapper {
+  width: 100%;
+  max-width: 1400px;
+  display: flex;
+  gap: 1.5rem;
+  height: 100%;
+}
+
+.left-column {
+  width: 380px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.left-panel {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.search-section {
+  padding: 1.5rem 1.5rem 1.25rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.scrollable-content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.calendar-wrapper {
+  padding: 1rem 1rem 0.5rem;
+}
+
+.tags-wrapper {
+  padding: 0 1rem 1rem;
+}
+
+.right-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.notes-feed-container {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.note-creator-wrapper {
+  margin-bottom: 1.5rem;
+}
+
+.notes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.loading-indicator {
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.loading-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+}
+
+.spinner {
+  width: 1rem;
+  height: 1rem;
+  animation: spin 1s linear infinite;
+  color: var(--color-text-primary);
+}
+
+.spinner-track {
+  opacity: 0.25;
+}
+
+.spinner-path {
+  opacity: 0.75;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.end-indicator {
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.end-text {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+</style>

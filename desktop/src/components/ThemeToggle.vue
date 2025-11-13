@@ -76,13 +76,13 @@ const getThemeLabel = () => {
 <template>
   <button
     @click="cycleTheme"
-    class="p-3 rounded-xl bg-surface border border-border hover:scale-105 transition-all duration-200 hover:shadow-lg group"
+    class="theme-toggle"
     :title="getThemeLabel()"
   >
     <!-- Sun Icon (Light Mode) -->
     <svg
       v-if="theme === 'light'"
-      class="w-5 h-5 text-text-primary group-hover:rotate-45 transition-all duration-300"
+      class="theme-icon theme-icon-light"
       fill="currentColor"
       viewBox="0 0 24 24"
     >
@@ -94,7 +94,7 @@ const getThemeLabel = () => {
     <!-- Moon Icon (Dark Mode) -->
     <svg
       v-else-if="theme === 'dark'"
-      class="w-5 h-5 text-text-primary group-hover:-rotate-12 transition-all duration-300"
+      class="theme-icon theme-icon-dark"
       fill="currentColor"
       viewBox="0 0 24 24"
     >
@@ -108,7 +108,7 @@ const getThemeLabel = () => {
     <!-- Computer/System Icon (System Mode) -->
     <svg
       v-else
-      class="w-5 h-5 text-text-primary group-hover:scale-110 transition-all duration-300"
+      class="theme-icon theme-icon-system"
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"
@@ -122,3 +122,37 @@ const getThemeLabel = () => {
     </svg>
   </button>
 </template>
+
+<style scoped>
+.theme-toggle {
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  transition: all 0.2s;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.theme-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--color-text-primary);
+  transition: all 0.3s;
+}
+
+.theme-icon-light:hover {
+  transform: rotate(45deg);
+}
+
+.theme-icon-dark:hover {
+  transform: rotate(-12deg);
+}
+
+.theme-icon-system:hover {
+  transform: scale(1.1);
+}
+</style>

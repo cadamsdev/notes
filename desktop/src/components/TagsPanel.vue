@@ -92,31 +92,25 @@ const isTagSelected = (tag: string) => {
 </script>
 
 <template>
-  <div class="p-4">
-    <div class="flex items-center justify-between mb-3">
-      <div class="flex items-center gap-2">
-        <svg class="w-4 h-4 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+  <div class="tags-panel">
+    <div class="tags-header">
+      <div class="header-title">
+        <svg class="title-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
         </svg>
-        <h3 class="text-sm font-semibold text-text-primary">
-          Tags
-        </h3>
-        <span v-if="selectedTags.length > 0" class="text-xs text-text-secondary">
+        <h3 class="header-text">Tags</h3>
+        <span v-if="selectedTags.length > 0" class="header-count">
           ({{ selectedTags.length }} selected)
         </span>
       </div>
       
       <!-- Clear all button -->
-      <button
-        v-if="selectedTags.length > 0"
-        @click="clearAllTags"
-        class="text-xs text-text-primary hover:text-text-secondary font-medium transition-colors"
-      >
+      <button v-if="selectedTags.length > 0" @click="clearAllTags" class="clear-button">
         Clear all
       </button>
     </div>
     
-    <div v-if="allTags.length > 0" class="flex flex-wrap gap-2">
+    <div v-if="allTags.length > 0" class="tags-list">
       <Tag
         v-for="tag in allTags"
         :key="tag"
@@ -127,8 +121,74 @@ const isTagSelected = (tag: string) => {
       />
     </div>
     
-    <div v-else class="text-text-secondary text-xs p-3 bg-surface rounded-lg">
-      No tags yet. Add hashtags like <span class="text-text-primary font-mono">#ideas</span> to organize your notes.
+    <div v-else class="empty-tags">
+      No tags yet. Add hashtags like <span class="example-tag">#ideas</span> to organize your notes.
     </div>
   </div>
 </template>
+
+<style scoped>
+.tags-panel {
+  padding: 1rem;
+}
+
+.tags-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.title-icon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--color-text-secondary);
+}
+
+.header-text {
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.header-count {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+.clear-button {
+  font-size: 0.75rem;
+  color: var(--color-text-primary);
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.clear-button:hover {
+  color: var(--color-text-secondary);
+}
+
+.tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.empty-tags {
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  padding: 0.75rem;
+  background-color: var(--color-surface);
+  border-radius: 0.5rem;
+}
+
+.example-tag {
+  color: var(--color-text-primary);
+  font-family: monospace;
+}
+</style>

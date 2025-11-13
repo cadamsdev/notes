@@ -1,6 +1,4 @@
-@import 'tailwindcss';
-
-@theme {
+:root {
   /* ============================================
     BASE TOKENS - Named after color/value
     These are the raw values used across the design system

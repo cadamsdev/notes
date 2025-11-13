@@ -30,7 +30,7 @@ const handleKeydown = (e: KeyboardEvent) => {
 </script>
 
 <template>
-  <div class="bg-surface border border-border rounded-2xl p-6">
+  <div class="note-creator">
     <!-- Input Area -->
     <Textarea
       v-model="noteContent"
@@ -41,13 +41,13 @@ const handleKeydown = (e: KeyboardEvent) => {
     />
 
     <!-- Actions -->
-    <div class="flex items-center justify-between mt-6 pt-4 border-t border-border">
+    <div class="actions">
       <!-- Character Count & Hint -->
-      <div class="flex items-center gap-4">
-        <div class="text-sm text-text-secondary">
+      <div class="actions-left">
+        <div class="char-count">
           {{ charCount }} characters
         </div>
-        <div class="text-xs text-text-secondary hidden sm:block">
+        <div class="keyboard-hint">
           ⌘ + Enter to post
         </div>
       </div>
@@ -64,3 +64,43 @@ const handleKeydown = (e: KeyboardEvent) => {
     </div>
   </div>
 </template>
+
+<style scoped>
+.note-creator {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.actions-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.char-count {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.keyboard-hint {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 640px) {
+  .keyboard-hint {
+    display: none;
+  }
+}
+</style>
