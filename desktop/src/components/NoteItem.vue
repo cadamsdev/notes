@@ -2,7 +2,7 @@
 import { ref, onMounted, watch } from 'vue';
 import { renderMarkdown } from '../utils/markdown';
 import Button from './Button.vue';
-import Textarea from './Textarea.vue';
+import ContentEditable from './ContentEditable.vue';
 import ConfirmModal from './ConfirmModal.vue';
 import '../styles/markdown.css';
 
@@ -196,9 +196,10 @@ const formatDate = (date: Date) => {
     </div>
 
     <!-- Content container with edit overlay -->
-    <div class="content-container" :class="{ editing: isEditing }">
+    <div class="content-container">
       <!-- View Mode (always rendered, hidden during edit) -->
       <div
+        v-if="!isEditing"
         ref="contentElement"
         class="markdown"
         :class="{
@@ -207,6 +208,34 @@ const formatDate = (date: Date) => {
         }"
         v-html="renderedContent"
       ></div>
+
+      <div v-if="isEditing" class="edit-container">
+        <ContentEditable
+          v-model="editContent"
+          @keydown="handleEditKeydown"
+          autofocus
+        />
+
+        <div class="edit-footer">
+          <div class="keyboard-hint">
+            <kbd>⌘</kbd>/<kbd>Ctrl</kbd> + <kbd>Enter</kbd> to save ·
+            <kbd>Esc</kbd> to cancel
+          </div>
+          <div class="edit-actions">
+            <Button @click="cancelEditing" variant="ghost" size="sm">
+              Cancel
+            </Button>
+            <Button
+              @click="saveEdit"
+              :disabled="!editContent.trim() || editContent === note.content"
+              variant="primary"
+              size="sm"
+            >
+              Save
+            </Button>
+          </div>
+        </div>
+      </div>
 
       <!-- Expand/Collapse button -->
       <button
@@ -230,38 +259,6 @@ const formatDate = (date: Date) => {
           />
         </svg>
       </button>
-
-      <!-- Edit Mode (overlay on top of content) -->
-      <Transition name="edit-fade">
-        <div v-if="isEditing" class="edit-overlay">
-          <Textarea
-            v-model="editContent"
-            @keydown="handleEditKeydown"
-            class="edit-textarea"
-            autofocus
-          />
-
-          <div class="edit-footer">
-            <div class="keyboard-hint">
-              <kbd>⌘</kbd>/<kbd>Ctrl</kbd> + <kbd>Enter</kbd> to save ·
-              <kbd>Esc</kbd> to cancel
-            </div>
-            <div class="edit-actions">
-              <Button @click="cancelEditing" variant="ghost" size="sm">
-                Cancel
-              </Button>
-              <Button
-                @click="saveEdit"
-                :disabled="!editContent.trim() || editContent === note.content"
-                variant="primary"
-                size="sm"
-              >
-                Save
-              </Button>
-            </div>
-          </div>
-        </div>
-      </Transition>
     </div>
 
     <!-- Delete Confirmation Modal -->
@@ -406,24 +403,10 @@ const formatDate = (date: Date) => {
   transform: rotate(180deg);
 }
 
-.edit-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+.edit-container {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-}
-
-.edit-textarea {
-  flex: 1;
-  overflow-y: auto;
-  min-height: 0;
-  resize: none;
-  background-color: var(--color-background);
-  border-color: var(--color-border-active);
+  gap: 1rem;
 }
 
 .edit-footer {
@@ -432,8 +415,6 @@ const formatDate = (date: Date) => {
   justify-content: space-between;
   gap: 1rem;
   flex-shrink: 0;
-  padding-top: 0.5rem;
-  border-top: 1px solid var(--color-border);
 }
 
 .keyboard-hint {

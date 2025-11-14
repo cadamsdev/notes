@@ -381,7 +381,7 @@ const editNote = async (id: number, content: string) => {
 .content-wrapper {
   flex: 1;
   margin-left: 380px;
-  padding: 1.5rem;
+  padding-top: 1.5rem;
   padding-left: 0.75rem;
   display: flex;
   height: 100%;
