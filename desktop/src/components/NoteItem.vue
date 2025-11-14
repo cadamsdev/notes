@@ -152,33 +152,35 @@ const formatDate = (date: Date) => {
       </div>
     </div>
 
-    <!-- Edit Mode -->
-    <div v-if="isEditing" class="edit-mode">
-      <Textarea
-        v-model="editContent"
-        @keydown="handleEditKeydown"
-        :rows="4"
-        min-height="120px"
-        autofocus
-      />
+    <!-- Content container with edit overlay -->
+    <div class="content-container">
+      <!-- View Mode (always rendered, hidden during edit) -->
+      <div class="markdown" :class="{ 'is-hidden': isEditing }" v-html="renderedContent"></div>
 
-      <div class="edit-actions">
-        <Button @click="cancelEditing" variant="ghost" size="sm">
-          Cancel
-        </Button>
-        <Button
-          @click="saveEdit"
-          :disabled="!editContent.trim()"
-          variant="primary"
-          size="sm"
-        >
-          Save Changes
-        </Button>
+      <!-- Edit Mode (overlay on top of content) -->
+      <div v-if="isEditing" class="edit-overlay">
+        <Textarea
+          v-model="editContent"
+          @keydown="handleEditKeydown"
+          class="edit-textarea"
+          autofocus
+        />
+
+        <div class="edit-actions">
+          <Button @click="cancelEditing" variant="ghost" size="sm">
+            Cancel
+          </Button>
+          <Button
+            @click="saveEdit"
+            :disabled="!editContent.trim()"
+            variant="primary"
+            size="sm"
+          >
+            Save Changes
+          </Button>
+        </div>
       </div>
     </div>
-
-    <!-- View Mode -->
-    <div v-else class="markdown" v-html="renderedContent"></div>
 
     <!-- Delete Confirmation Modal -->
     <Teleport to="body">
@@ -285,10 +287,34 @@ const formatDate = (date: Date) => {
   height: 1rem;
 }
 
-.edit-mode {
+.content-container {
+  position: relative;
+}
+
+.markdown {
+  color: var(--color-text-primary);
+  max-width: 100%;
+  line-height: 1.6;
+}
+
+.markdown.is-hidden {
+  visibility: hidden;
+}
+
+.edit-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+.edit-textarea {
+  flex: 1;
+  min-height: 100%;
 }
 
 .edit-actions {
@@ -296,12 +322,7 @@ const formatDate = (date: Date) => {
   align-items: center;
   justify-content: flex-end;
   gap: 0.75rem;
-}
-
-.markdown {
-  color: var(--color-text-primary);
-  max-width: 100%;
-  line-height: 1.6;
+  margin-top: auto;
 }
 
 /* Modal styles */
