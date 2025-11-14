@@ -5,9 +5,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  /* Layout */
-  padding-top: 40px;
-  overflow: hidden;
   height: 100vh;
   position: relative;
 }
@@ -24,14 +21,13 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--glass-background);
+  background: var(--color-border);
   border-radius: var(--radius-sm);
-  border: 1px solid var(--glass-border);
   transition: background var(--transition-base);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--glass-background-strong);
+  background: var(--color-border-hover);
 }
 
 /* Focus styles for accessibility */
