@@ -29,60 +29,150 @@ const handleClick = () => {
     @click="handleClick" 
     :disabled="disabled"
     :class="[
-      // Base styles
-      'relative inline-flex items-center justify-center',
-      'font-semibold uppercase tracking-wider',
-      'transition-all duration-200 overflow-hidden group/button',
-      'border-2 rounded-none',
-      
-      // Size variants
-      {
-        'px-4 py-2 text-xs': size === 'sm',
-        'px-6 py-3 text-sm': size === 'md',
-        'px-8 py-4 text-base': size === 'lg',
-      },
-      
-      // Width
-      { 'w-full': fullWidth },
-      
-      // Variant styles
-      {
-        // Primary button - surface background with text
-        'bg-text-primary text-background border-text-primary': variant === 'primary' && !disabled,
-        'hover:bg-text-secondary hover:border-text-secondary': variant === 'primary' && !disabled,
-        
-        // Primary disabled
-        'bg-surface text-text-secondary border-surface cursor-not-allowed': variant === 'primary' && disabled,
-        
-        'bg-transparent text-text-primary border-border': variant === 'secondary' && !disabled,
-        'hover:border-border-hover hover:bg-surface': variant === 'secondary' && !disabled,
-        
-        // Secondary disabled
-        'bg-transparent text-text-secondary border-border cursor-not-allowed': variant === 'secondary' && disabled,
-        
-        // Ghost button - minimal style with hover effect
-        'bg-transparent text-text-primary border-transparent': variant === 'ghost' && !disabled,
-        'hover:bg-surface': variant === 'ghost' && !disabled,
-        
-        // Ghost disabled
-        'bg-transparent text-text-secondary border-transparent cursor-not-allowed': variant === 'ghost' && disabled,
-      },
-      
-      // Active states
-      {
-        'hover:shadow-lg active:scale-95': !disabled,
-      }
+      'btn',
+      `btn-${variant}`,
+      `btn-${size}`,
+      { 'btn-full-width': fullWidth },
+      { 'btn-disabled': disabled }
     ]"
   >
     <!-- Shine effect on hover -->
-    <span
-      v-if="!disabled"
-      class="absolute inset-0 w-0 bg-surface-hover transition-all duration-300 ease-out group-hover/button:w-full"
-    ></span>
+    <span v-if="!disabled" class="btn-shine"></span>
     
     <!-- Content -->
-    <span class="relative z-10 flex items-center justify-center gap-2">
+    <span class="btn-content">
       <slot />
     </span>
   </button>
 </template>
+
+<style scoped>
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.2s ease;
+  overflow: hidden;
+  border: 2px solid;
+  border-radius: 0;
+}
+
+/* Size variants */
+.btn-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+}
+
+.btn-md {
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+}
+
+.btn-lg {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+}
+
+/* Width */
+.btn-full-width {
+  width: 100%;
+}
+
+/* Primary variant */
+.btn-primary {
+  background-color: var(--color-text-primary);
+  color: var(--color-background);
+  border-color: var(--color-text-primary);
+}
+
+.btn-primary:not(.btn-disabled):hover {
+  background-color: var(--color-text-secondary);
+  border-color: var(--color-text-secondary);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.btn-primary:not(.btn-disabled):active {
+  transform: scale(0.95);
+}
+
+.btn-primary.btn-disabled {
+  background-color: var(--color-surface);
+  color: var(--color-text-secondary);
+  border-color: var(--color-surface);
+  cursor: not-allowed;
+}
+
+/* Secondary variant */
+.btn-secondary {
+  background-color: transparent;
+  color: var(--color-text-primary);
+  border-color: var(--color-border);
+}
+
+.btn-secondary:not(.btn-disabled):hover {
+  border-color: var(--color-border-hover);
+  background-color: var(--color-surface);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.btn-secondary:not(.btn-disabled):active {
+  transform: scale(0.95);
+}
+
+.btn-secondary.btn-disabled {
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  border-color: var(--color-border);
+  cursor: not-allowed;
+}
+
+/* Ghost variant */
+.btn-ghost {
+  background-color: transparent;
+  color: var(--color-text-primary);
+  border-color: transparent;
+}
+
+.btn-ghost:not(.btn-disabled):hover {
+  background-color: var(--color-surface);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.btn-ghost:not(.btn-disabled):active {
+  transform: scale(0.95);
+}
+
+.btn-ghost.btn-disabled {
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+/* Shine effect */
+.btn-shine {
+  position: absolute;
+  inset: 0;
+  width: 0;
+  background-color: var(--color-surface-hover);
+  transition: all 0.3s ease-out;
+}
+
+.btn:not(.btn-disabled):hover .btn-shine {
+  width: 100%;
+}
+
+/* Content */
+.btn-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+</style>

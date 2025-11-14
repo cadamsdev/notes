@@ -56,7 +56,6 @@ Coming Soon!** Check the [Releases](https://github.com/cadamsdev/notex/releases)
 
 - **Tauri Team** - For the amazing framework
 - **Vue.js Team** - For Vue 3 and its excellent ecosystem
-- **Tailwind CSS** - For the utility-first CSS framework
 - **SpaceX** - Design inspiration
 
 ---

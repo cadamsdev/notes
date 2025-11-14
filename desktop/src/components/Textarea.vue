@@ -41,15 +41,41 @@ const handleKeydown = (e: KeyboardEvent) => {
     :disabled="disabled"
     :autofocus="autofocus"
     :style="{ minHeight }"
-    :class="[
-      'w-full bg-transparent text-text-primary placeholder-text-secondary',
-      'resize-none border-2 border-border text-base leading-relaxed',
-      'transition-all rounded-lg p-3 outline-none',
-      {
-        'focus:border-border-active focus-visible:border-border-active': !disabled,
-        'hover:border-border-hover hover:bg-surface': !disabled,
-        'opacity-50 cursor-not-allowed': disabled,
-      }
-    ]"
+    :class="['textarea', { 'textarea-disabled': disabled }]"
   ></textarea>
 </template>
+
+<style scoped>
+.textarea {
+  width: 100%;
+  background-color: transparent;
+  color: var(--color-text-primary);
+  resize: none;
+  border: 2px solid var(--color-border);
+  font-size: 1rem;
+  line-height: 1.6;
+  transition: all 0.2s;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  outline: none;
+}
+
+.textarea::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.textarea:hover:not(.textarea-disabled) {
+  border-color: var(--color-border-hover);
+  background-color: var(--color-surface);
+}
+
+.textarea:focus:not(.textarea-disabled),
+.textarea:focus-visible:not(.textarea-disabled) {
+  border-color: var(--color-border-active);
+}
+
+.textarea-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+</style>

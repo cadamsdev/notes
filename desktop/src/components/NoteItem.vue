@@ -95,29 +95,38 @@ const formatDate = (date: Date) => {
 </script>
 
 <template>
-  <div @mouseenter="isHovered = true" @mouseleave="isHovered = false"
-    class="bg-surface border border-border rounded-2xl group/card transition-all duration-200 p-3">
-    <div class="flex items-start justify-between mb-4">
+  <div 
+    @mouseenter="isHovered = true" 
+    @mouseleave="isHovered = false"
+    class="note-item"
+  >
+    <div class="note-header">
       <!-- Time -->
-      <span class="text-sm text-text-secondary font-medium">
+      <span class="note-time">
         {{ formatDate(note.createdAt) }}
       </span>
 
       <!-- Action buttons (show on hover) -->
-      <div class="flex items-center gap-2 opacity-0 group-hover/card:opacity-100 transition-all duration-200">
-        <button v-if="!isEditing" @click.stop="startEditing"
-          class="p-2 rounded-lg hover:bg-surface text-text-secondary hover:text-text-primary transition-all duration-200 hover:scale-105"
-          title="Edit note">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+      <div class="action-buttons">
+        <button 
+          v-if="!isEditing" 
+          @click.stop="startEditing"
+          class="action-button"
+          title="Edit note"
+        >
+          <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round"
               d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
           </svg>
         </button>
 
-        <button v-if="!isEditing" @click.stop="confirmDelete"
-          class="p-2 rounded-lg hover:bg-surface text-text-secondary hover:text-text-primary transition-all duration-200 hover:scale-105"
-          title="Delete note">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+        <button 
+          v-if="!isEditing" 
+          @click.stop="confirmDelete"
+          class="action-button"
+          title="Delete note"
+        >
+          <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round"
               d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
           </svg>
@@ -126,7 +135,7 @@ const formatDate = (date: Date) => {
     </div>
 
     <!-- Edit Mode -->
-    <div v-if="isEditing" class="space-y-4">
+    <div v-if="isEditing" class="edit-mode">
       <Textarea
         v-model="editContent"
         @keydown="handleEditKeydown"
@@ -135,7 +144,7 @@ const formatDate = (date: Date) => {
         autofocus
       />
 
-      <div class="flex items-center justify-end gap-3">
+      <div class="edit-actions">
         <Button
           @click="cancelEditing"
           variant="ghost"
@@ -155,36 +164,35 @@ const formatDate = (date: Date) => {
     </div>
 
     <!-- View Mode -->
-    <div v-else class="markdown text-text-primary max-w-none leading-relaxed" v-html="renderedContent"></div>
+    <div v-else class="markdown" v-html="renderedContent"></div>
 
     <!-- Delete Confirmation Modal -->
     <Teleport to="body">
       <Transition name="modal">
-        <div v-if="showDeleteModal"
-          class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background-overlay"
-          @click="cancelDelete">
-          <div class="bg-surface border border-border rounded-2xl shadow-2xl max-w-sm w-full p-8" @click.stop>
+        <div 
+          v-if="showDeleteModal"
+          class="modal-overlay"
+          @click="cancelDelete"
+        >
+          <div class="modal-content" @click.stop>
             <!-- Icon -->
-            <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-surface flex items-center justify-center">
-              <svg class="w-6 h-6 text-text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="modal-icon">
+              <svg class="modal-icon-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
               </svg>
             </div>
 
             <!-- Title -->
-            <h3 class="text-lg font-semibold text-text-primary text-center mb-2">
-              Delete note?
-            </h3>
+            <h3 class="modal-title">Delete note?</h3>
 
             <!-- Description -->
-            <p class="text-sm text-text-secondary text-center mb-6">
-              This note will be permanently deleted. This action cannot be
-              undone.
+            <p class="modal-description">
+              This note will be permanently deleted. This action cannot be undone.
             </p>
 
             <!-- Actions -->
-            <div class="flex gap-2">
+            <div class="modal-actions">
               <Button @click="cancelDelete" variant="ghost" fullWidth size="sm">
                 Cancel
               </Button>
@@ -201,15 +209,143 @@ const formatDate = (date: Date) => {
 </template>
 
 <style scoped>
+.note-item {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  transition: all 0.2s;
+  padding: 0.75rem;
+}
 
+.note-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
 
+.note-time {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0;
+  transition: all 0.2s;
+}
+
+.note-item:hover .action-buttons {
+  opacity: 1;
+}
+
+.action-button {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  color: var(--color-text-secondary);
+  transition: all 0.2s;
+}
+
+.action-button:hover {
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  transform: scale(1.05);
+}
+
+.action-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.edit-mode {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.edit-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.markdown {
+  color: var(--color-text-primary);
+  max-width: 100%;
+  line-height: 1.6;
+}
+
+/* Modal styles */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: var(--color-background-overlay);
+}
+
+.modal-content {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  max-width: 28rem;
+  width: 100%;
+  padding: 2rem;
+}
+
+.modal-icon {
+  width: 3rem;
+  height: 3rem;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  background-color: var(--color-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-icon-svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--color-text-primary);
+}
+
+.modal-title {
+  font-size: 1.125rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.modal-description {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Modal transition */
 .modal-enter-active,
 .modal-leave-active {
   transition: opacity 0.2s ease;
 }
 
-.modal-enter-active .bg-\[var\(--color-x-black\)\],
-.modal-leave-active .bg-\[var\(--color-x-black\)\] {
+.modal-enter-active .modal-content,
+.modal-leave-active .modal-content {
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
@@ -218,12 +354,12 @@ const formatDate = (date: Date) => {
   opacity: 0;
 }
 
-.modal-enter-from .bg-\[var\(--color-x-black\)\] {
+.modal-enter-from .modal-content {
   transform: scale(0.95);
   opacity: 0;
 }
 
-.modal-leave-to .bg-\[var\(--color-x-black\)\] {
+.modal-leave-to .modal-content {
   transform: scale(0.95);
   opacity: 0;
 }

@@ -48,8 +48,12 @@ cd desktop && bun run tauri build
 ### Vue 3 (Frontend)
 - Use `<script setup lang="ts">` syntax (Composition API)
 - Global styles imported in `App.vue`: `import './styles/theme.css'` and `import './styles/global.css'`
-- Tailwind CSS v4 with Vite plugin (`@tailwindcss/vite`)
 - Theme system uses `desktop/src/styles/theme.css` with `@theme` directive
+- **Prefer Vue scoped styles over Tailwind classes** for component-specific styling
+  - Use `<style scoped>` blocks in Vue components for better maintainability and encapsulation
+  - Leverage CSS custom properties from theme.css (e.g., `var(--color-text-primary)`, `var(--color-surface)`)
+  - Only use Tailwind for prototyping or when rapid iteration is needed
+  - Semantic class names in scoped styles improve readability and maintenance
 - **Dynamic Classes**: Always use Vue's `:class` binding for conditional/dynamic classes
   - Use array syntax with objects for conditional classes: `:class="['base-class', { 'conditional-class': condition }]"`
   - Never build class strings manually with computed properties using array.push() or string concatenation
@@ -74,8 +78,12 @@ cd desktop && bun run tauri build
   - Dark mode: Uses darker grayscale values (`gray-800`, `gray-900`, `gray-200`)
   - Theme persists via localStorage and respects system preference on first load
   - Dark mode class added to `<body>` element: `body.dark`
-- **Prefer Tailwind utility classes over custom CSS** - use inline classes in templates instead of `<style>` blocks
-- Custom CSS should only be used for: theme variables (`@theme`), global resets, or complex animations not achievable with Tailwind
+- **Styling Approach**:
+  - **Prefer Vue scoped styles** (`<style scoped>`) for component-specific styling
+  - Use semantic CSS class names that describe purpose (e.g., `.action-button`, `.info-card`, `.panel-header`)
+  - Reference theme CSS custom properties directly in scoped styles (e.g., `var(--color-surface)`, `var(--color-text-primary)`)
+  - Reserve Tailwind utility classes for prototyping or quick iterations only
+  - Benefits: Better maintainability, clearer component boundaries, easier refactoring, improved readability
 - **Design principles**: Clean minimal aesthetics with semantic color system, subtle shadows, smooth transitions (0.3s), high contrast for readability
 
 #### Component Architecture

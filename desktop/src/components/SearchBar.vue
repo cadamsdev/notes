@@ -18,20 +18,10 @@ const clearSearch = () => {
 </script>
 
 <template>
-  <div class="relative">
+  <div class="search-container">
     <!-- Search Icon -->
-    <svg 
-      class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-secondary transition-colors duration-200 pointer-events-none"
-      fill="none" 
-      viewBox="0 0 24 24" 
-      stroke="currentColor"
-      stroke-width="2"
-    >
-      <path 
-        stroke-linecap="round" 
-        stroke-linejoin="round" 
-        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" 
-      />
+    <svg class="search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
     </svg>
 
     <!-- Search Input -->
@@ -39,29 +29,79 @@ const clearSearch = () => {
       v-model="searchQuery"
       type="text"
       placeholder="Search your notes..."
-      class="w-full pl-12 pr-12 py-4 text-base text-text-primary border-border placeholder-text-secondary bg-transparent border-2 transition-all rounded-xl focus:border-border-active focus:bg-surface hover:border-border-hover hover:bg-surface outline-none"
+      class="search-input"
     />
 
     <!-- Clear Button -->
-    <button
-      v-if="searchQuery"
-      @click="clearSearch"
-      class="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-lg hover:bg-surface-hover text-text-secondary hover:text-text-primary transition-all"
-      title="Clear search"
-    >
-      <svg 
-        class="w-4 h-4" 
-        fill="none" 
-        viewBox="0 0 24 24" 
-        stroke="currentColor"
-        stroke-width="2.5"
-      >
-        <path 
-          stroke-linecap="round" 
-          stroke-linejoin="round" 
-          d="M6 18L18 6M6 6l12 12" 
-        />
+    <button v-if="searchQuery" @click="clearSearch" class="clear-button" title="Clear search">
+      <svg class="clear-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
       </svg>
     </button>
   </div>
 </template>
+
+<style scoped>
+.search-container {
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--color-text-secondary);
+  transition: color 0.2s;
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  padding: 1rem 3rem;
+  font-size: 1rem;
+  color: var(--color-text-primary);
+  background-color: transparent;
+  border: 2px solid var(--color-border);
+  border-radius: 0.75rem;
+  transition: all 0.2s;
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.search-input:hover {
+  border-color: var(--color-border-hover);
+  background-color: var(--color-surface);
+}
+
+.search-input:focus {
+  border-color: var(--color-border-active);
+  background-color: var(--color-surface);
+}
+
+.clear-button {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  color: var(--color-text-secondary);
+  transition: all 0.2s;
+}
+
+.clear-button:hover {
+  background-color: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+.clear-icon {
+  width: 1rem;
+  height: 1rem;
+}
+</style>
