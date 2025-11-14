@@ -7,12 +7,10 @@ import Database from '@tauri-apps/plugin-sql';
 import { invoke } from '@tauri-apps/api/core';
 import { marked } from 'marked';
 import Fuse from 'fuse.js';
-import CalendarView from './components/CalendarView.vue';
-import TagsPanel from './components/TagsPanel.vue';
+import SidePanel from './components/SidePanel.vue';
 import NoteCreator from './components/NoteCreator.vue';
 import NoteItem from './components/NoteItem.vue';
 import EmptyState from './components/EmptyState.vue';
-import SearchBar from './components/SearchBar.vue';
 import ThemeToggle from './components/ThemeToggle.vue';
 import SettingsPanel from './components/SettingsPanel.vue';
 import NotesHeader from './components/NotesHeader.vue';
@@ -257,40 +255,23 @@ const editNote = async (id: number, content: string) => {
   <div class="app-background"></div>
 
   <main class="main-container">
-    <!-- Main Container - Apple-style centered layout with generous spacing -->
+    <!-- Side Panel - Fixed to left -->
+    <aside class="side-panel-container">
+      <SidePanel
+        :notes="notes"
+        :selected-date="selectedDate"
+        :selected-tags="selectedTags"
+        :current-month="currentMonth"
+        @update:selected-date="selectedDate = $event"
+        @update:selected-tags="selectedTags = $event"
+        @update:current-month="currentMonth = $event"
+        @update:search-query="searchQuery = $event"
+      />
+    </aside>
+
+    <!-- Main Content Area -->
     <div class="content-wrapper">
-      <!-- Left Column - Search, Calendar and Tags (Glass Panel) -->
-      <div class="left-column">
-        <div class="left-panel">
-          <!-- Search Bar -->
-          <div class="search-section">
-            <SearchBar @update:search-query="searchQuery = $event" />
-          </div>
-
-          <!-- Scrollable Content -->
-          <div class="scrollable-content">
-            <div class="calendar-wrapper">
-              <CalendarView
-                :notes="notes"
-                :selected-date="selectedDate"
-                :current-month="currentMonth"
-                @update:selected-date="selectedDate = $event"
-                @update:current-month="currentMonth = $event"
-              />
-            </div>
-
-            <div class="tags-wrapper">
-              <TagsPanel
-                :notes="notes"
-                :selected-tags="selectedTags"
-                @update:selected-tags="selectedTags = $event"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Right Column - Notes Feed -->
+      <!-- Notes Feed -->
       <div class="right-column">
         <!-- Notes Feed - Scrollable Container -->
         <div
@@ -379,55 +360,32 @@ const editNote = async (id: number, content: string) => {
 }
 
 .main-container {
-  height: calc(100vh - 40px);
-  padding: 1.5rem;
+  height: 100vh;
   display: flex;
-  justify-content: center;
   overflow: hidden;
+}
+
+.side-panel-container {
+  width: 380px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  padding: 1.5rem;
+  padding-right: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
 }
 
 .content-wrapper {
-  width: 100%;
-  max-width: 1400px;
-  display: flex;
-  gap: 1.5rem;
-  height: 100%;
-}
-
-.left-column {
-  width: 380px;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  overflow: hidden;
-}
-
-.left-panel {
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 1rem;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  overflow: hidden;
-}
-
-.search-section {
-  padding: 1.5rem 1.5rem 1.25rem;
-  border-bottom: 1px solid var(--color-border);
-}
-
-.scrollable-content {
   flex: 1;
-  overflow-y: auto;
-}
-
-.calendar-wrapper {
-  padding: 1rem 1rem 0.5rem;
-}
-
-.tags-wrapper {
-  padding: 0 1rem 1rem;
+  margin-left: 380px;
+  padding: 1.5rem;
+  padding-left: 0.75rem;
+  display: flex;
+  height: 100%;
+  overflow: hidden;
 }
 
 .right-column {
@@ -442,16 +400,23 @@ const editNote = async (id: number, content: string) => {
   flex: 1;
   overflow-y: auto;
   padding-right: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .note-creator-wrapper {
   margin-bottom: 1.5rem;
+  max-width: 978px;
+  width: 100%;
 }
 
 .notes-list {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  max-width: 978px;
+  width: 100%;
 }
 
 .loading-indicator {
