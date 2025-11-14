@@ -1,82 +1,47 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted } from 'vue';
 
-type Theme = 'light' | 'dark' | 'system';
+type Theme = 'light' | 'dark';
 
-const theme = ref<Theme>('system');
-let mediaQuery: MediaQueryList | null = null;
-let mediaQueryListener: ((e: MediaQueryListEvent) => void) | null = null;
+const theme = ref<Theme>('dark');
 
 const applyTheme = (themeValue: Theme) => {
-  if (themeValue === 'system') {
-    // Remove both classes and let media query handle it
-    document.body.classList.remove('dark', 'light');
-    const prefersDark = window.matchMedia(
-      '(prefers-color-scheme: dark)',
-    ).matches;
-    if (prefersDark) {
-      document.body.classList.add('dark');
-    }
-  } else if (themeValue === 'dark') {
-    document.body.classList.remove('light');
+  if (themeValue === 'dark') {
     document.body.classList.add('dark');
   } else {
-    // Light mode - add .light class to prevent media query from applying
     document.body.classList.remove('dark');
-    document.body.classList.add('light');
   }
 };
 
-// Initialize theme from localStorage or default to system
+// Initialize theme from localStorage or system preference
 onMounted(() => {
   const savedTheme = localStorage.getItem('theme') as Theme | null;
-  theme.value = savedTheme || 'system';
-  applyTheme(theme.value);
-
-  // Listen for system theme changes when in system mode
-  mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-  mediaQueryListener = (e: MediaQueryListEvent) => {
-    if (theme.value === 'system') {
-      if (e.matches) {
-        document.body.classList.add('dark');
-        document.body.classList.remove('light');
-      } else {
-        document.body.classList.remove('dark');
-      }
-    }
-  };
-  mediaQuery.addEventListener('change', mediaQueryListener);
-});
-
-onUnmounted(() => {
-  if (mediaQuery && mediaQueryListener) {
-    mediaQuery.removeEventListener('change', mediaQueryListener);
-  }
-});
-
-const cycleTheme = () => {
-  // Cycle through: light -> dark -> system -> light...
-  if (theme.value === 'light') {
-    theme.value = 'dark';
-  } else if (theme.value === 'dark') {
-    theme.value = 'system';
+  
+  if (savedTheme) {
+    theme.value = savedTheme;
   } else {
-    theme.value = 'light';
+    // Detect system preference
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    theme.value = prefersDark ? 'dark' : 'light';
   }
+  
+  applyTheme(theme.value);
+});
 
+const toggleTheme = () => {
+  // Toggle between light and dark
+  theme.value = theme.value === 'light' ? 'dark' : 'light';
   localStorage.setItem('theme', theme.value);
   applyTheme(theme.value);
 };
 
 const getThemeLabel = () => {
-  if (theme.value === 'light') return 'Light mode';
-  if (theme.value === 'dark') return 'Dark mode';
-  return 'System theme';
+  return theme.value === 'light' ? 'Light mode' : 'Dark mode';
 };
 </script>
 
 <template>
-  <button @click="cycleTheme" class="theme-toggle" :title="getThemeLabel()">
+  <button @click="toggleTheme" class="theme-toggle" :title="getThemeLabel()">
     <!-- Sun Icon (Light Mode) -->
     <svg
       v-if="theme === 'light'"
@@ -91,7 +56,7 @@ const getThemeLabel = () => {
 
     <!-- Moon Icon (Dark Mode) -->
     <svg
-      v-else-if="theme === 'dark'"
+      v-else
       class="theme-icon theme-icon-dark"
       fill="currentColor"
       viewBox="0 0 24 24"
@@ -100,22 +65,6 @@ const getThemeLabel = () => {
         fill-rule="evenodd"
         d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z"
         clip-rule="evenodd"
-      />
-    </svg>
-
-    <!-- Computer/System Icon (System Mode) -->
-    <svg
-      v-else
-      class="theme-icon theme-icon-system"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-      stroke-width="2"
-    >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
       />
     </svg>
   </button>
