@@ -64,14 +64,24 @@ const handleDelete = () => {
 };
 
 const cancelEditing = () => {
+  // Check if content changed to warn user
+  if (editContent.value !== props.note.content && editContent.value.trim()) {
+    if (!confirm('Discard changes?')) return;
+  }
   isEditing.value = false;
   editContent.value = '';
 };
 
 const saveEdit = () => {
-  if (editContent.value.trim()) {
+  const trimmedContent = editContent.value.trim();
+  if (trimmedContent && trimmedContent !== props.note.content) {
     emit('edit', props.note.id, editContent.value);
-    cancelEditing();
+    isEditing.value = false;
+    editContent.value = '';
+  } else if (trimmedContent === props.note.content) {
+    // No changes made, just exit edit mode
+    isEditing.value = false;
+    editContent.value = '';
   }
 };
 
@@ -153,33 +163,40 @@ const formatDate = (date: Date) => {
     </div>
 
     <!-- Content container with edit overlay -->
-    <div class="content-container">
+    <div class="content-container" :class="{ 'editing': isEditing }">
       <!-- View Mode (always rendered, hidden during edit) -->
       <div class="markdown" :class="{ 'is-hidden': isEditing }" v-html="renderedContent"></div>
 
       <!-- Edit Mode (overlay on top of content) -->
-      <div v-if="isEditing" class="edit-overlay">
-        <Textarea
-          v-model="editContent"
-          @keydown="handleEditKeydown"
-          class="edit-textarea"
-          autofocus
-        />
+      <Transition name="edit-fade">
+        <div v-if="isEditing" class="edit-overlay">
+          <Textarea
+            v-model="editContent"
+            @keydown="handleEditKeydown"
+            class="edit-textarea"
+            autofocus
+          />
 
-        <div class="edit-actions">
-          <Button @click="cancelEditing" variant="ghost" size="sm">
-            Cancel
-          </Button>
-          <Button
-            @click="saveEdit"
-            :disabled="!editContent.trim()"
-            variant="primary"
-            size="sm"
-          >
-            Save Changes
-          </Button>
+          <div class="edit-footer">
+            <div class="keyboard-hint">
+              <kbd>⌘</kbd>/<kbd>Ctrl</kbd> + <kbd>Enter</kbd> to save · <kbd>Esc</kbd> to cancel
+            </div>
+            <div class="edit-actions">
+              <Button @click="cancelEditing" variant="ghost" size="sm">
+                Cancel
+              </Button>
+              <Button
+                @click="saveEdit"
+                :disabled="!editContent.trim() || editContent === note.content"
+                variant="primary"
+                size="sm"
+              >
+                Save
+              </Button>
+            </div>
+          </div>
         </div>
-      </div>
+      </Transition>
     </div>
 
     <!-- Delete Confirmation Modal -->
@@ -289,6 +306,7 @@ const formatDate = (date: Date) => {
 
 .content-container {
   position: relative;
+  min-height: fit-content;
 }
 
 .markdown {
@@ -309,12 +327,46 @@ const formatDate = (date: Date) => {
   bottom: 0;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .edit-textarea {
   flex: 1;
-  min-height: 100%;
+  overflow-y: auto;
+  min-height: 0;
+  resize: none;
+  background-color: var(--color-background);
+  border-color: var(--color-border-active);
+}
+
+.edit-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-shrink: 0;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.keyboard-hint {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.keyboard-hint kbd {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 0.25rem;
+  padding: 0.125rem 0.375rem;
+  font-family: var(--font-family-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .edit-actions {
@@ -322,7 +374,18 @@ const formatDate = (date: Date) => {
   align-items: center;
   justify-content: flex-end;
   gap: 0.75rem;
-  margin-top: auto;
+  flex-shrink: 0;
+}
+
+/* Edit mode transitions */
+.edit-fade-enter-active,
+.edit-fade-leave-active {
+  transition: opacity 0.15s ease;
+}
+
+.edit-fade-enter-from,
+.edit-fade-leave-to {
+  opacity: 0;
 }
 
 /* Modal styles */
