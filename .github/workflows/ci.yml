@@ -25,8 +25,30 @@ jobs:
       - name: Run oxlint
         run: bun run lint
 
+  format:
+      name: Format Check
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v5
+
+        - name: Setup Bun
+          uses: oven-sh/setup-bun@v2
+
+        - name: Install dependencies
+          run: bun install
+
+        - name: Check code format
+          run: bun run format:check
+
+        - name: Setup Rust
+          uses: dtolnay/rust-toolchain@stable
+
+        - name: Check Rust formatting
+          working-directory: ./desktop/src-tauri
+          run: cargo fmt --check
+
   test:
-    needs: lint
+    needs: [lint, format]
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -43,10 +65,6 @@ jobs:
       
       - name: Install dependencies
         run: bun install
-      
-      - name: Check Rust formatting
-        working-directory: ./desktop/src-tauri
-        run: cargo fmt --check
       
       - name: Run Rust tests
         working-directory: ./desktop/src-tauri
