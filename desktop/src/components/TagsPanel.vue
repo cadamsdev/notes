@@ -21,7 +21,7 @@ const emit = defineEmits<{
 
 // Extract tags from note content (words starting with #)
 const extractTags = (content: string): string[] => {
-  const tagRegex = /#(\w+)/g;
+  const tagRegex = /(?<=\s|^)#([\w+-]+)/g;
   const matches = content.matchAll(tagRegex);
   return Array.from(matches, (m) => m[1].toLowerCase());
 };
