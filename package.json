@@ -9,7 +9,9 @@
     "dev": "cross-env TAURI_ENV_USE_TEST_DB=true bun run --filter desktop tauri dev",
     "prod": "bun run --filter desktop tauri dev",
     "lazy-release": "lazy-release",
-    "lint": "oxlint desktop/src/**/*.{ts,js,vue}"
+    "lint": "oxlint desktop/src/**/*.{ts,js,vue}",
+    "format": "prettier --write desktop/src/**",
+    "format:check": "prettier --check desktop/src/**"
   },
   "workspaces": [
     "desktop"
@@ -24,6 +26,7 @@
     "concurrently": "^9.2.1",
     "cross-env": "^10.1.0",
     "oxlint": "^1.28.0",
+    "prettier": "^3.6.2",
     "wait-on": "^8.0.4"
   }
 }

@@ -37,32 +37,35 @@ const calendarDays = computed(() => {
   const days = [];
   const totalDays = daysInMonth.value;
   const firstDay = firstDayOfMonth.value;
-  
+
   // Add empty cells for days before the first day of the month
   for (let i = 0; i < firstDay; i++) {
     days.push(null);
   }
-  
+
   // Add the days of the month
   for (let i = 1; i <= totalDays; i++) {
     days.push(i);
   }
-  
+
   return days;
 });
 
 const monthName = computed(() => {
-  return props.currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  return props.currentMonth.toLocaleDateString('en-US', {
+    month: 'long',
+    year: 'numeric',
+  });
 });
 
 const getNotesCountForDay = (day: number | null): number => {
   if (!day) return 0;
-  
+
   const year = props.currentMonth.getFullYear();
   const month = props.currentMonth.getMonth();
   const date = new Date(year, month, day);
-  
-  return props.notes.filter(note => {
+
+  return props.notes.filter((note) => {
     const noteDate = new Date(note.createdAt);
     return noteDate.toDateString() === date.toDateString();
   }).length;
@@ -70,32 +73,32 @@ const getNotesCountForDay = (day: number | null): number => {
 
 const isToday = (day: number | null): boolean => {
   if (!day) return false;
-  
+
   const today = new Date();
   const year = props.currentMonth.getFullYear();
   const month = props.currentMonth.getMonth();
   const date = new Date(year, month, day);
-  
+
   return date.toDateString() === today.toDateString();
 };
 
 const isSelected = (day: number | null): boolean => {
   if (!day || !props.selectedDate) return false;
-  
+
   const year = props.currentMonth.getFullYear();
   const month = props.currentMonth.getMonth();
   const date = new Date(year, month, day);
-  
+
   return date.toDateString() === props.selectedDate.toDateString();
 };
 
 const selectDate = (day: number | null) => {
   if (!day) return;
-  
+
   const year = props.currentMonth.getFullYear();
   const month = props.currentMonth.getMonth();
   const date = new Date(year, month, day);
-  
+
   if (props.selectedDate?.toDateString() === date.toDateString()) {
     emit('update:selectedDate', null); // Deselect if clicking the same date
   } else {
@@ -104,11 +107,23 @@ const selectDate = (day: number | null) => {
 };
 
 const previousMonth = () => {
-  emit('update:currentMonth', new Date(props.currentMonth.getFullYear(), props.currentMonth.getMonth() - 1));
+  emit(
+    'update:currentMonth',
+    new Date(
+      props.currentMonth.getFullYear(),
+      props.currentMonth.getMonth() - 1,
+    ),
+  );
 };
 
 const nextMonth = () => {
-  emit('update:currentMonth', new Date(props.currentMonth.getFullYear(), props.currentMonth.getMonth() + 1));
+  emit(
+    'update:currentMonth',
+    new Date(
+      props.currentMonth.getFullYear(),
+      props.currentMonth.getMonth() + 1,
+    ),
+  );
 };
 </script>
 
@@ -117,39 +132,73 @@ const nextMonth = () => {
     <!-- Calendar Header -->
     <div class="calendar-header">
       <div class="header-title">
-        <svg class="title-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+        <svg
+          class="title-icon"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+          />
         </svg>
         <h2 class="title-text">Calendar</h2>
       </div>
-      
+
       <!-- Month Navigation -->
       <div class="month-navigation">
         <button @click="previousMonth" class="nav-button">
-          <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+          <svg
+            class="nav-icon"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15 19l-7-7 7-7"
+            />
           </svg>
         </button>
-        
+
         <h3 class="month-name">{{ monthName }}</h3>
-        
+
         <button @click="nextMonth" class="nav-button">
-          <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+          <svg
+            class="nav-icon"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M9 5l7 7-7 7"
+            />
           </svg>
         </button>
       </div>
     </div>
-    
+
     <!-- Calendar Grid -->
     <div class="calendar-grid">
       <!-- Day Labels -->
       <div class="day-labels">
-        <div v-for="day in ['S', 'M', 'T', 'W', 'T', 'F', 'S']" :key="day" class="day-label">
+        <div
+          v-for="day in ['S', 'M', 'T', 'W', 'T', 'F', 'S']"
+          :key="day"
+          class="day-label"
+        >
           {{ day }}
         </div>
       </div>
-      
+
       <!-- Days -->
       <div class="days-grid">
         <button
@@ -161,24 +210,42 @@ const nextMonth = () => {
             'day-cell',
             { 'day-today': isToday(day) && !isSelected(day) },
             { 'day-selected': isSelected(day) },
-            { 'day-has-notes': day && !isToday(day) && !isSelected(day) && getNotesCountForDay(day) > 0 }
+            {
+              'day-has-notes':
+                day &&
+                !isToday(day) &&
+                !isSelected(day) &&
+                getNotesCountForDay(day) > 0,
+            },
           ]"
         >
           <span>{{ day || '' }}</span>
-          <span 
+          <span
             v-if="day && getNotesCountForDay(day) > 0"
-            :class="['note-indicator', { 'note-indicator-selected': isSelected(day) }]"
+            :class="[
+              'note-indicator',
+              { 'note-indicator-selected': isSelected(day) },
+            ]"
           ></span>
         </button>
       </div>
-      
+
       <!-- Selected Date Info -->
       <div v-if="selectedDate" class="selected-date-info">
         <div class="info-label">Filtering by date</div>
         <div class="info-date">
-          {{ selectedDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) }}
+          {{
+            selectedDate.toLocaleDateString('en-US', {
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric',
+            })
+          }}
         </div>
-        <button @click="emit('update:selectedDate', null)" class="clear-filter-button">
+        <button
+          @click="emit('update:selectedDate', null)"
+          class="clear-filter-button"
+        >
           Clear filter
         </button>
       </div>
@@ -308,7 +375,9 @@ const nextMonth = () => {
   background-color: var(--color-text-primary);
   color: var(--color-background);
   font-weight: var(--font-weight-semibold);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .day-selected:hover {

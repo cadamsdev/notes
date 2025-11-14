@@ -20,8 +20,18 @@ const clearSearch = () => {
 <template>
   <div class="search-container">
     <!-- Search Icon -->
-    <svg class="search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    <svg
+      class="search-icon"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      stroke-width="2"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+      />
     </svg>
 
     <!-- Search Input -->
@@ -33,9 +43,24 @@ const clearSearch = () => {
     />
 
     <!-- Clear Button -->
-    <button v-if="searchQuery" @click="clearSearch" class="clear-button" title="Clear search">
-      <svg class="clear-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+    <button
+      v-if="searchQuery"
+      @click="clearSearch"
+      class="clear-button"
+      title="Clear search"
+    >
+      <svg
+        class="clear-icon"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2.5"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M6 18L18 6M6 6l12 12"
+        />
       </svg>
     </button>
   </div>

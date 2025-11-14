@@ -33,15 +33,15 @@ async function initHighlighter() {
 const renderer = new marked.Renderer();
 
 // Custom link renderer to open links in new tab
-renderer.link = function(token: any) {
+renderer.link = function (token: any) {
   const { href, title, text } = token;
   const titleAttr = title ? ` title="${title}"` : '';
   return `<a href="${href}"${titleAttr} target="_blank" rel="noopener noreferrer">${text}</a>`;
 };
 
-renderer.code = function(token: any) {
+renderer.code = function (token: any) {
   const { text: code, lang: language } = token;
-  
+
   if (!highlighter || !language) {
     // Fallback to default - create basic code block
     const escapedCode = code
@@ -50,7 +50,7 @@ renderer.code = function(token: any) {
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#039;');
-    
+
     return `
       <div class="code-block-wrapper">
         <div class="code-block-header">
@@ -75,12 +75,12 @@ renderer.code = function(token: any) {
       lang: language,
       theme: 'github-light',
     });
-    
+
     const darkHtml = highlighter.codeToHtml(code, {
       lang: language,
       theme: 'github-dark',
     });
-    
+
     // Wrap both versions with appropriate classes for theme switching
     return `
       <div class="code-block-wrapper">

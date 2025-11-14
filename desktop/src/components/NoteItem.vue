@@ -42,7 +42,7 @@ watch(
   () => props.note.content,
   () => {
     updateRenderedContent();
-  }
+  },
 );
 
 const startEditing = () => {
@@ -95,8 +95,8 @@ const formatDate = (date: Date) => {
 </script>
 
 <template>
-  <div 
-    @mouseenter="isHovered = true" 
+  <div
+    @mouseenter="isHovered = true"
     @mouseleave="isHovered = false"
     class="note-item"
   >
@@ -108,27 +108,45 @@ const formatDate = (date: Date) => {
 
       <!-- Action buttons (show on hover) -->
       <div class="action-buttons">
-        <button 
-          v-if="!isEditing" 
+        <button
+          v-if="!isEditing"
           @click.stop="startEditing"
           class="action-button"
           title="Edit note"
         >
-          <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round"
-              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+          <svg
+            class="action-icon"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+            />
           </svg>
         </button>
 
-        <button 
-          v-if="!isEditing" 
+        <button
+          v-if="!isEditing"
           @click.stop="confirmDelete"
           class="action-button"
           title="Delete note"
         >
-          <svg class="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round"
-              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          <svg
+            class="action-icon"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+            />
           </svg>
         </button>
       </div>
@@ -145,11 +163,7 @@ const formatDate = (date: Date) => {
       />
 
       <div class="edit-actions">
-        <Button
-          @click="cancelEditing"
-          variant="ghost"
-          size="sm"
-        >
+        <Button @click="cancelEditing" variant="ghost" size="sm">
           Cancel
         </Button>
         <Button
@@ -169,17 +183,22 @@ const formatDate = (date: Date) => {
     <!-- Delete Confirmation Modal -->
     <Teleport to="body">
       <Transition name="modal">
-        <div 
-          v-if="showDeleteModal"
-          class="modal-overlay"
-          @click="cancelDelete"
-        >
+        <div v-if="showDeleteModal" class="modal-overlay" @click="cancelDelete">
           <div class="modal-content" @click.stop>
             <!-- Icon -->
             <div class="modal-icon">
-              <svg class="modal-icon-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              <svg
+                class="modal-icon-svg"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                />
               </svg>
             </div>
 
@@ -188,7 +207,8 @@ const formatDate = (date: Date) => {
 
             <!-- Description -->
             <p class="modal-description">
-              This note will be permanently deleted. This action cannot be undone.
+              This note will be permanently deleted. This action cannot be
+              undone.
             </p>
 
             <!-- Actions -->
@@ -197,7 +217,12 @@ const formatDate = (date: Date) => {
                 Cancel
               </Button>
 
-              <Button @click="handleDelete" variant="primary" fullWidth size="sm">
+              <Button
+                @click="handleDelete"
+                variant="primary"
+                fullWidth
+                size="sm"
+              >
                 Delete
               </Button>
             </div>
@@ -346,7 +371,9 @@ const formatDate = (date: Date) => {
 
 .modal-enter-active .modal-content,
 .modal-leave-active .modal-content {
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .modal-enter-from,

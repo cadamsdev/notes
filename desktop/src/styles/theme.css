@@ -25,10 +25,11 @@
   /* Darkest - dark backgrounds */
 
   /* Typography Scale */
-  --font-family-base: 'Space Mono', 'SF Mono', 'Roboto Mono', 'Consolas',
-    'Liberation Mono', monospace;
-  --font-family-mono: ui-monospace, 'SF Mono', Consolas, 'Liberation Mono',
-    Menlo, monospace;
+  --font-family-base:
+    'Space Mono', 'SF Mono', 'Roboto Mono', 'Consolas', 'Liberation Mono',
+    monospace;
+  --font-family-mono:
+    ui-monospace, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
 
   /* Font weight */
   --font-weight-regular: 400;

@@ -4,7 +4,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  hasDateFilter: false
+  hasDateFilter: false,
 });
 </script>
 
@@ -12,24 +12,35 @@ const props = withDefaults(defineProps<Props>(), {
   <div class="empty-state">
     <!-- Icon -->
     <div class="empty-icon">
-      <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+      <svg
+        class="icon"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        stroke-width="2"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+        />
       </svg>
     </div>
-    
+
     <!-- Title -->
     <div class="empty-title">
       {{ hasDateFilter ? 'No notes found' : 'No notes yet' }}
     </div>
-    
+
     <!-- Description -->
     <div class="empty-description">
-      {{ hasDateFilter 
-        ? 'No notes on this date. Try selecting a different date or create a new note.' 
-        : 'Start by creating your first note above.' 
+      {{
+        hasDateFilter
+          ? 'No notes on this date. Try selecting a different date or create a new note.'
+          : 'Start by creating your first note above.'
       }}
     </div>
-    
+
     <!-- Keyboard Shortcut Hint -->
     <div v-if="!hasDateFilter" class="keyboard-hint">
       <span class="hint-text">Quick tip:</span>
