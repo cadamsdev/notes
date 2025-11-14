@@ -156,7 +156,6 @@ const filteredNotes = computed(() => {
       const tags = extractTags(note.content);
       // Check if note has ALL selected tags
 
-      debugger;
       return selectedTags.value.every((selectedTag) =>
         tags.includes(selectedTag),
       );
