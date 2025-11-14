@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import Tag from './Tag.vue';
+import { TAG_REGEX } from '../utils/regex';
 
 interface Note {
   id: number;
@@ -21,8 +22,7 @@ const emit = defineEmits<{
 
 // Extract tags from note content (words starting with #)
 const extractTags = (content: string): string[] => {
-  const tagRegex = /#(\w+)/g;
-  const matches = content.matchAll(tagRegex);
+  const matches = content.matchAll(TAG_REGEX);
   return Array.from(matches, (m) => m[1].toLowerCase());
 };
 
