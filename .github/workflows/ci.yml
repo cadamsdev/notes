@@ -48,6 +48,7 @@ jobs:
           run: cargo fmt --check
 
   test:
+    name: Test
     needs: [lint, format]
     runs-on: ${{ matrix.os }}
     strategy:

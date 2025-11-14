@@ -79,7 +79,7 @@ onMounted(async () => {
     console.log('Initializing database:', dbPath);
     db = await Database.load(dbPath);
     console.log('Database loaded:', db);
-    
+
     // Create table if it doesn't exist
     await db.execute(`
       CREATE TABLE IF NOT EXISTS notes (
@@ -89,7 +89,7 @@ onMounted(async () => {
       )
     `);
     console.log('Table created/verified');
-    
+
     await loadNotes();
     console.log('Notes loaded, count:', notes.value.length);
   } catch (error) {
@@ -99,15 +99,18 @@ onMounted(async () => {
 
 const loadNotes = async () => {
   try {
-    const result: Array<{ id: number; content: string; created_at: string }> = await db.select(
-      'SELECT id, content, created_at FROM notes ORDER BY created_at DESC'
+    const result: Array<{ id: number; content: string; created_at: string }> =
+      await db.select(
+        'SELECT id, content, created_at FROM notes ORDER BY created_at DESC',
+      );
+
+    notes.value = result.map(
+      (note: { id: number; content: string; created_at: string }) => ({
+        id: note.id,
+        content: note.content,
+        createdAt: new Date(note.created_at),
+      }),
     );
-    
-    notes.value = result.map((note: { id: number; content: string; created_at: string }) => ({
-      id: note.id,
-      content: note.content,
-      createdAt: new Date(note.created_at)
-    }));
   } catch (error) {
     console.error('Failed to load notes:', error);
   }
@@ -117,7 +120,7 @@ const loadNotes = async () => {
 const extractTags = (content: string): string[] => {
   const tagRegex = /#(\w+)/g;
   const matches = content.matchAll(tagRegex);
-  return Array.from(matches, m => m[1].toLowerCase());
+  return Array.from(matches, (m) => m[1].toLowerCase());
 };
 
 // Fuse.js configuration for fuzzy search
@@ -131,31 +134,33 @@ const fuseOptions = {
 
 const filteredNotes = computed(() => {
   let filtered = notes.value;
-  
+
   // Filter by search query using Fuse.js fuzzy search
   if (searchQuery.value.trim()) {
     const fuse = new Fuse(filtered, fuseOptions);
     const results = fuse.search(searchQuery.value);
-    filtered = results.map(result => result.item);
+    filtered = results.map((result) => result.item);
   }
-  
+
   // Filter by date
   if (selectedDate.value) {
-    filtered = filtered.filter(note => {
+    filtered = filtered.filter((note) => {
       const noteDate = new Date(note.createdAt);
       return noteDate.toDateString() === selectedDate.value!.toDateString();
     });
   }
-  
+
   // Filter by tags (AND logic - note must have ALL selected tags)
   if (selectedTags.value.length > 0) {
-    filtered = filtered.filter(note => {
+    filtered = filtered.filter((note) => {
       const tags = extractTags(note.content);
       // Check if note has ALL selected tags
-      return selectedTags.value.every(selectedTag => tags.includes(selectedTag));
+      return selectedTags.value.every((selectedTag) =>
+        tags.includes(selectedTag),
+      );
     });
   }
-  
+
   return filtered;
 });
 
@@ -169,16 +174,20 @@ const hasMoreNotes = computed(() => {
 });
 
 // Reset displayed count when filters change
-watch([searchQuery, selectedDate, selectedTags], () => {
-  displayedNotesCount.value = NOTES_PER_PAGE;
-}, { deep: true });
+watch(
+  [searchQuery, selectedDate, selectedTags],
+  () => {
+    displayedNotesCount.value = NOTES_PER_PAGE;
+  },
+  { deep: true },
+);
 
 // Infinite scroll handler
 const handleScroll = (event: Event) => {
   const target = event.target as HTMLElement;
   const scrollPosition = target.scrollTop + target.clientHeight;
   const scrollHeight = target.scrollHeight;
-  
+
   // Load more when user is within 200px of the bottom
   if (scrollHeight - scrollPosition < 200 && hasMoreNotes.value) {
     displayedNotesCount.value += NOTES_PER_PAGE;
@@ -191,25 +200,25 @@ const createNote = async (content: string) => {
       console.error('Database not initialized');
       return;
     }
-    
+
     const now = new Date().toISOString();
-    
+
     console.log('Creating note with content:', content);
-    
+
     const result = await db.execute(
       'INSERT INTO notes (content, created_at) VALUES ($1, $2)',
-      [content, now]
+      [content, now],
     );
-    
+
     console.log('Insert result:', result);
-    
+
     // Add to local array
     notes.value.unshift({
       id: result.lastInsertId,
       content,
-      createdAt: new Date(now)
+      createdAt: new Date(now),
     });
-    
+
     console.log('Note created successfully');
   } catch (error) {
     console.error('Failed to create note:', error);
@@ -219,7 +228,7 @@ const createNote = async (content: string) => {
 const deleteNote = async (id: number) => {
   try {
     await db.execute('DELETE FROM notes WHERE id = $1', [id]);
-    notes.value = notes.value.filter(note => note.id !== id);
+    notes.value = notes.value.filter((note) => note.id !== id);
   } catch (error) {
     console.error('Failed to delete note:', error);
   }
@@ -227,12 +236,12 @@ const deleteNote = async (id: number) => {
 
 const editNote = async (id: number, content: string) => {
   try {
-    await db.execute(
-      'UPDATE notes SET content = $1 WHERE id = $2',
-      [content, id]
-    );
-    
-    const note = notes.value.find(n => n.id === id);
+    await db.execute('UPDATE notes SET content = $1 WHERE id = $2', [
+      content,
+      id,
+    ]);
+
+    const note = notes.value.find((n) => n.id === id);
     if (note) {
       note.content = content;
     }
@@ -245,11 +254,10 @@ const editNote = async (id: number, content: string) => {
 <template>
   <!-- Custom blurred background -->
   <div class="app-background"></div>
-  
+
   <main class="main-container">
     <!-- Main Container - Apple-style centered layout with generous spacing -->
     <div class="content-wrapper">
-      
       <!-- Left Column - Search, Calendar and Tags (Glass Panel) -->
       <div class="left-column">
         <div class="left-panel">
@@ -257,7 +265,7 @@ const editNote = async (id: number, content: string) => {
           <div class="search-section">
             <SearchBar @update:search-query="searchQuery = $event" />
           </div>
-          
+
           <!-- Scrollable Content -->
           <div class="scrollable-content">
             <div class="calendar-wrapper">
@@ -269,7 +277,7 @@ const editNote = async (id: number, content: string) => {
                 @update:current-month="currentMonth = $event"
               />
             </div>
-            
+
             <div class="tags-wrapper">
               <TagsPanel
                 :notes="notes"
@@ -284,58 +292,71 @@ const editNote = async (id: number, content: string) => {
       <!-- Right Column - Notes Feed -->
       <div class="right-column">
         <!-- Notes Feed - Scrollable Container -->
-        <div 
+        <div
           ref="notesContainer"
           class="notes-feed-container"
           @scroll="handleScroll"
         >
-            <!-- Header -->
-            <NotesHeader 
-              :note-count="filteredNotes.length"
-              @open-settings="openSettings"
-            >
-              <template #theme-toggle>
-                <ThemeToggle />
-              </template>
-            </NotesHeader>
-            
-            <!-- Note Creator -->
-            <div class="note-creator-wrapper">
-              <NoteCreator @create="createNote" />
-            </div>
-            
-            <div v-if="filteredNotes.length > 0" class="notes-list">
-              <NoteItem
-                v-for="note in displayedNotes"
-                :key="note.id"
-                :note="note"
-                @delete="deleteNote"
-                @edit="editNote"
-              />
-              
-              <!-- Loading indicator when there are more notes -->
-              <div v-if="hasMoreNotes" class="loading-indicator">
-                <div class="loading-content">
-                  <svg class="spinner" fill="none" viewBox="0 0 24 24">
-                    <circle class="spinner-track" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="spinner-path" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  <span class="loading-text">
-                    Loading more notes... ({{ displayedNotes.length }} of {{ filteredNotes.length }})
-                  </span>
-                </div>
-              </div>
-              
-              <!-- End of list indicator -->
-              <div v-else class="end-indicator">
-                <p class="end-text">
-                  All {{ filteredNotes.length }} {{ filteredNotes.length === 1 ? 'note' : 'notes' }} loaded
-                </p>
+          <!-- Header -->
+          <NotesHeader
+            :note-count="filteredNotes.length"
+            @open-settings="openSettings"
+          >
+            <template #theme-toggle>
+              <ThemeToggle />
+            </template>
+          </NotesHeader>
+
+          <!-- Note Creator -->
+          <div class="note-creator-wrapper">
+            <NoteCreator @create="createNote" />
+          </div>
+
+          <div v-if="filteredNotes.length > 0" class="notes-list">
+            <NoteItem
+              v-for="note in displayedNotes"
+              :key="note.id"
+              :note="note"
+              @delete="deleteNote"
+              @edit="editNote"
+            />
+
+            <!-- Loading indicator when there are more notes -->
+            <div v-if="hasMoreNotes" class="loading-indicator">
+              <div class="loading-content">
+                <svg class="spinner" fill="none" viewBox="0 0 24 24">
+                  <circle
+                    class="spinner-track"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="spinner-path"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+                <span class="loading-text">
+                  Loading more notes... ({{ displayedNotes.length }} of
+                  {{ filteredNotes.length }})
+                </span>
               </div>
             </div>
 
-            <!-- Empty State -->
-            <EmptyState v-else :has-date-filter="!!selectedDate" />
+            <!-- End of list indicator -->
+            <div v-else class="end-indicator">
+              <p class="end-text">
+                All {{ filteredNotes.length }}
+                {{ filteredNotes.length === 1 ? 'note' : 'notes' }} loaded
+              </p>
+            </div>
+          </div>
+
+          <!-- Empty State -->
+          <EmptyState v-else :has-date-filter="!!selectedDate" />
         </div>
       </div>
     </div>

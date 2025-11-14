@@ -4,7 +4,12 @@
 }
 
 /* Headings */
-.markdown h1, .markdown h2, .markdown h3, .markdown h4, .markdown h5, .markdown h6 {
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6 {
   color: var(--color-text-primary);
   font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-tight);
@@ -12,24 +17,24 @@
   margin-bottom: 0.5em;
 }
 
-.markdown h1:first-child, 
-.markdown h2:first-child, 
+.markdown h1:first-child,
+.markdown h2:first-child,
 .markdown h3:first-child {
   margin-top: 0;
 }
 
-.markdown h1 { 
-  font-size: 1.75em; 
+.markdown h1 {
+  font-size: 1.75em;
   font-weight: var(--font-weight-bold);
   margin-bottom: 0.75em;
 }
 
-.markdown h2 { 
+.markdown h2 {
   font-size: 1.375em;
   font-weight: var(--font-weight-semibold);
 }
 
-.markdown h3 { 
+.markdown h3 {
   font-size: 1.125em;
   font-weight: var(--font-weight-semibold);
 }
@@ -111,7 +116,8 @@
 }
 
 /* Lists */
-.markdown ul, .markdown ol {
+.markdown ul,
+.markdown ol {
   margin: 0.75em 0;
   padding-left: 1.5em;
   list-style-position: inside;
@@ -137,13 +143,15 @@
 }
 
 /* Nested lists */
-.markdown ul ul, .markdown ol ul {
+.markdown ul ul,
+.markdown ol ul {
   list-style-type: circle;
   margin-top: 0.25em;
   margin-bottom: 0.25em;
 }
 
-.markdown ul ul ul, .markdown ol ul ul {
+.markdown ul ul ul,
+.markdown ol ul ul {
   list-style-type: square;
 }
 
@@ -190,7 +198,8 @@
   overflow: hidden;
 }
 
-.markdown th, .markdown td {
+.markdown th,
+.markdown td {
   border: 1px solid var(--color-border);
   padding: 0.5em 0.75em;
   text-align: left;
@@ -209,7 +218,7 @@
 }
 
 /* Checkboxes */
-.markdown input[type="checkbox"] {
+.markdown input[type='checkbox'] {
   margin-right: 0.5em;
   accent-color: var(--color-text-primary);
 }
@@ -376,7 +385,7 @@ body.dark .shiki-dark-theme {
   body:not(.light) .shiki-light-theme {
     display: none;
   }
-  
+
   body:not(.light) .shiki-dark-theme {
     display: block;
   }

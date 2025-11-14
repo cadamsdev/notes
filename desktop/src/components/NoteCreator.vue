@@ -6,7 +6,7 @@ import Textarea from './Textarea.vue';
 const noteContent = ref('');
 
 const emit = defineEmits<{
-  'create': [content: string];
+  create: [content: string];
 }>();
 
 const charCount = computed(() => noteContent.value.length);
@@ -44,14 +44,10 @@ const handleKeydown = (e: KeyboardEvent) => {
     <div class="actions">
       <!-- Character Count & Hint -->
       <div class="actions-left">
-        <div class="char-count">
-          {{ charCount }} characters
-        </div>
-        <div class="keyboard-hint">
-          ⌘ + Enter to post
-        </div>
+        <div class="char-count">{{ charCount }} characters</div>
+        <div class="keyboard-hint">⌘ + Enter to post</div>
       </div>
-      
+
       <!-- Post Button -->
       <Button
         @click="createNote"

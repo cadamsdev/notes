@@ -25,20 +25,20 @@ const handleClick = () => {
 </script>
 
 <template>
-  <button 
-    @click="handleClick" 
+  <button
+    @click="handleClick"
     :disabled="disabled"
     :class="[
       'btn',
       `btn-${variant}`,
       `btn-${size}`,
       { 'btn-full-width': fullWidth },
-      { 'btn-disabled': disabled }
+      { 'btn-disabled': disabled },
     ]"
   >
     <!-- Shine effect on hover -->
     <span v-if="!disabled" class="btn-shine"></span>
-    
+
     <!-- Content -->
     <span class="btn-content">
       <slot />
@@ -92,7 +92,9 @@ const handleClick = () => {
 .btn-primary:not(.btn-disabled):hover {
   background-color: var(--color-text-secondary);
   border-color: var(--color-text-secondary);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .btn-primary:not(.btn-disabled):active {
@@ -116,7 +118,9 @@ const handleClick = () => {
 .btn-secondary:not(.btn-disabled):hover {
   border-color: var(--color-border-hover);
   background-color: var(--color-surface);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .btn-secondary:not(.btn-disabled):active {
@@ -139,7 +143,9 @@ const handleClick = () => {
 
 .btn-ghost:not(.btn-disabled):hover {
   background-color: var(--color-surface);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .btn-ghost:not(.btn-disabled):active {

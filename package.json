@@ -10,7 +10,7 @@
     "prod": "bun run --filter desktop tauri dev",
     "lazy-release": "lazy-release",
     "lint": "oxlint desktop/src/**/*.{ts,js,vue}",
-    "format": "prettier desktop/src/**",
+    "format": "prettier --write desktop/src/**",
     "format:check": "prettier --check desktop/src/**"
   },
   "workspaces": [
