@@ -36,8 +36,8 @@ const handleClick = () => {
       { 'btn-disabled': disabled },
     ]"
   >
-    <!-- Shine effect on hover -->
-    <span v-if="!disabled" class="btn-shine"></span>
+    <!-- Shine effect on hover (only for primary and secondary) -->
+    <span v-if="!disabled && variant !== 'ghost'" class="btn-shine"></span>
 
     <!-- Content -->
     <span class="btn-content">
@@ -57,7 +57,7 @@ const handleClick = () => {
   letter-spacing: 0.05em;
   transition: all 0.2s ease;
   overflow: hidden;
-  border: 2px solid;
+  border: 1px solid;
   border-radius: 0;
 }
 
@@ -84,14 +84,15 @@ const handleClick = () => {
 
 /* Primary variant */
 .btn-primary {
-  background-color: var(--color-text-primary);
-  color: var(--color-background);
-  border-color: var(--color-text-primary);
+  background-color: var(--color-gray-900);
+  color: var(--color-gray-100);
+  border-color: var(--color-gray-700);
 }
 
 .btn-primary:not(.btn-disabled):hover {
-  background-color: var(--color-text-secondary);
-  border-color: var(--color-text-secondary);
+  background-color: var(--color-gray-800);
+  border-color: var(--color-gray-600);
+  color: var(--color-gray-900);
   box-shadow:
     0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -102,22 +103,24 @@ const handleClick = () => {
 }
 
 .btn-primary.btn-disabled {
-  background-color: var(--color-surface);
-  color: var(--color-text-secondary);
-  border-color: var(--color-surface);
+  background-color: var(--color-gray-300);
+  color: var(--color-gray-500);
+  border-color: var(--color-gray-400);
   cursor: not-allowed;
+  opacity: 0.6;
 }
 
 /* Secondary variant */
 .btn-secondary {
   background-color: transparent;
-  color: var(--color-text-primary);
-  border-color: var(--color-border);
+  color: var(--color-gray-900);
+  border-color: var(--color-gray-700);
 }
 
 .btn-secondary:not(.btn-disabled):hover {
-  border-color: var(--color-border-hover);
-  background-color: var(--color-surface);
+  border-color: var(--color-gray-600);
+  background-color: var(--color-gray-900);
+  color: var(--color-gray-100);
   box-shadow:
     0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -129,9 +132,10 @@ const handleClick = () => {
 
 .btn-secondary.btn-disabled {
   background-color: transparent;
-  color: var(--color-text-secondary);
-  border-color: var(--color-border);
+  color: var(--color-gray-500);
+  border-color: var(--color-gray-400);
   cursor: not-allowed;
+  opacity: 0.6;
 }
 
 /* Ghost variant */
@@ -142,10 +146,12 @@ const handleClick = () => {
 }
 
 .btn-ghost:not(.btn-disabled):hover {
-  background-color: var(--color-surface);
+  background-color: var(--color-gray-900);
+  color: var(--color-gray-100);
+  border-color: transparent;
   box-shadow:
-    0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .btn-ghost:not(.btn-disabled):active {
@@ -154,9 +160,10 @@ const handleClick = () => {
 
 .btn-ghost.btn-disabled {
   background-color: transparent;
-  color: var(--color-text-secondary);
+  color: var(--color-gray-400);
   border-color: transparent;
   cursor: not-allowed;
+  opacity: 0.6;
 }
 
 /* Shine effect */
@@ -164,11 +171,12 @@ const handleClick = () => {
   position: absolute;
   inset: 0;
   width: 0;
-  background-color: var(--color-surface-hover);
+  background-color: hsl(0, 0%, 100%);
   transition: all 0.3s ease-out;
 }
 
-.btn:not(.btn-disabled):hover .btn-shine {
+.btn-primary:not(.btn-disabled):hover .btn-shine,
+.btn-secondary:not(.btn-disabled):hover .btn-shine {
   width: 100%;
 }
 
