@@ -3,6 +3,7 @@ import { ref, onMounted, watch } from 'vue';
 import { renderMarkdown } from '../utils/markdown';
 import Button from './Button.vue';
 import Textarea from './Textarea.vue';
+import ConfirmModal from './ConfirmModal.vue';
 import '../styles/markdown.css';
 
 interface Note {
@@ -26,6 +27,7 @@ const isHovered = ref(false);
 const isEditing = ref(false);
 const editContent = ref('');
 const showDeleteModal = ref(false);
+const showDiscardModal = ref(false);
 const renderedContent = ref('');
 
 // Render markdown when component mounts or note changes
@@ -64,14 +66,36 @@ const handleDelete = () => {
 };
 
 const cancelEditing = () => {
+  // Check if content changed to warn user
+  if (editContent.value !== props.note.content) {
+    showDiscardModal.value = true;
+  } else {
+    // No changes made, just exit edit mode
+    isEditing.value = false;
+    editContent.value = '';
+  }
+};
+
+const confirmDiscard = () => {
+  showDiscardModal.value = false;
   isEditing.value = false;
   editContent.value = '';
 };
 
+const cancelDiscard = () => {
+  showDiscardModal.value = false;
+};
+
 const saveEdit = () => {
-  if (editContent.value.trim()) {
+  const trimmedContent = editContent.value.trim();
+  if (trimmedContent && trimmedContent !== props.note.content) {
     emit('edit', props.note.id, editContent.value);
-    cancelEditing();
+    isEditing.value = false;
+    editContent.value = '';
+  } else if (trimmedContent === props.note.content) {
+    // No changes made, just exit edit mode
+    isEditing.value = false;
+    editContent.value = '';
   }
 };
 
@@ -152,84 +176,73 @@ const formatDate = (date: Date) => {
       </div>
     </div>
 
-    <!-- Edit Mode -->
-    <div v-if="isEditing" class="edit-mode">
-      <Textarea
-        v-model="editContent"
-        @keydown="handleEditKeydown"
-        :rows="4"
-        min-height="120px"
-        autofocus
-      />
+    <!-- Content container with edit overlay -->
+    <div class="content-container" :class="{ editing: isEditing }">
+      <!-- View Mode (always rendered, hidden during edit) -->
+      <div
+        class="markdown"
+        :class="{ 'is-hidden': isEditing }"
+        v-html="renderedContent"
+      ></div>
 
-      <div class="edit-actions">
-        <Button @click="cancelEditing" variant="ghost" size="sm">
-          Cancel
-        </Button>
-        <Button
-          @click="saveEdit"
-          :disabled="!editContent.trim()"
-          variant="primary"
-          size="sm"
-        >
-          Save Changes
-        </Button>
-      </div>
-    </div>
+      <!-- Edit Mode (overlay on top of content) -->
+      <Transition name="edit-fade">
+        <div v-if="isEditing" class="edit-overlay">
+          <Textarea
+            v-model="editContent"
+            @keydown="handleEditKeydown"
+            class="edit-textarea"
+            autofocus
+          />
 
-    <!-- View Mode -->
-    <div v-else class="markdown" v-html="renderedContent"></div>
-
-    <!-- Delete Confirmation Modal -->
-    <Teleport to="body">
-      <Transition name="modal">
-        <div v-if="showDeleteModal" class="modal-overlay" @click="cancelDelete">
-          <div class="modal-content" @click.stop>
-            <!-- Icon -->
-            <div class="modal-icon">
-              <svg
-                class="modal-icon-svg"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                />
-              </svg>
+          <div class="edit-footer">
+            <div class="keyboard-hint">
+              <kbd>⌘</kbd>/<kbd>Ctrl</kbd> + <kbd>Enter</kbd> to save ·
+              <kbd>Esc</kbd> to cancel
             </div>
-
-            <!-- Title -->
-            <h3 class="modal-title">Delete note?</h3>
-
-            <!-- Description -->
-            <p class="modal-description">
-              This note will be permanently deleted. This action cannot be
-              undone.
-            </p>
-
-            <!-- Actions -->
-            <div class="modal-actions">
-              <Button @click="cancelDelete" variant="ghost" fullWidth size="sm">
+            <div class="edit-actions">
+              <Button @click="cancelEditing" variant="ghost" size="sm">
                 Cancel
               </Button>
-
               <Button
-                @click="handleDelete"
+                @click="saveEdit"
+                :disabled="!editContent.trim() || editContent === note.content"
                 variant="primary"
-                fullWidth
                 size="sm"
               >
-                Delete
+                Save
               </Button>
             </div>
           </div>
         </div>
       </Transition>
-    </Teleport>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <ConfirmModal
+      :show="showDeleteModal"
+      title="Delete note?"
+      message="This note will be permanently deleted. This action cannot be undone."
+      confirmText="Delete"
+      cancelText="Cancel"
+      variant="danger"
+      icon="delete"
+      @confirm="handleDelete"
+      @cancel="cancelDelete"
+    />
+
+    <!-- Discard Changes Modal -->
+    <ConfirmModal
+      :show="showDiscardModal"
+      title="Discard changes?"
+      message="You have unsaved changes. Are you sure you want to discard them?"
+      confirmText="Discard"
+      cancelText="Keep Editing"
+      variant="warning"
+      icon="warning"
+      @confirm="confirmDiscard"
+      @cancel="cancelDiscard"
+    />
   </div>
 </template>
 
@@ -285,17 +298,9 @@ const formatDate = (date: Date) => {
   height: 1rem;
 }
 
-.edit-mode {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.edit-actions {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 0.75rem;
+.content-container {
+  position: relative;
+  min-height: fit-content;
 }
 
 .markdown {
@@ -304,90 +309,76 @@ const formatDate = (date: Date) => {
   line-height: 1.6;
 }
 
-/* Modal styles */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  background-color: var(--color-background-overlay);
+.markdown.is-hidden {
+  visibility: hidden;
 }
 
-.modal-content {
+.edit-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.edit-textarea {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  resize: none;
+  background-color: var(--color-background);
+  border-color: var(--color-border-active);
+}
+
+.edit-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-shrink: 0;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.keyboard-hint {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.keyboard-hint kbd {
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 1rem;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  max-width: 28rem;
-  width: 100%;
-  padding: 2rem;
+  border-radius: 0.25rem;
+  padding: 0.125rem 0.375rem;
+  font-family: var(--font-family-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-.modal-icon {
-  width: 3rem;
-  height: 3rem;
-  margin: 0 auto 1rem;
-  border-radius: 50%;
-  background-color: var(--color-surface);
+.edit-actions {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  flex-shrink: 0;
 }
 
-.modal-icon-svg {
-  width: 1.5rem;
-  height: 1.5rem;
-  color: var(--color-text-primary);
+/* Edit mode transitions */
+.edit-fade-enter-active,
+.edit-fade-leave-active {
+  transition: opacity 0.15s ease;
 }
 
-.modal-title {
-  font-size: 1.125rem;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-  text-align: center;
-  margin-bottom: 0.5rem;
-}
-
-.modal-description {
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-.modal-actions {
-  display: flex;
-  gap: 0.5rem;
-}
-
-/* Modal transition */
-.modal-enter-active,
-.modal-leave-active {
-  transition: opacity 0.2s ease;
-}
-
-.modal-enter-active .modal-content,
-.modal-leave-active .modal-content {
-  transition:
-    transform 0.2s ease,
-    opacity 0.2s ease;
-}
-
-.modal-enter-from,
-.modal-leave-to {
-  opacity: 0;
-}
-
-.modal-enter-from .modal-content {
-  transform: scale(0.95);
-  opacity: 0;
-}
-
-.modal-leave-to .modal-content {
-  transform: scale(0.95);
+.edit-fade-enter-from,
+.edit-fade-leave-to {
   opacity: 0;
 }
 </style>
