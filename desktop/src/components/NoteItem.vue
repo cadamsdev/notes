@@ -29,10 +29,28 @@ const editContent = ref('');
 const showDeleteModal = ref(false);
 const showDiscardModal = ref(false);
 const renderedContent = ref('');
+const isExpanded = ref(false);
+const contentElement = ref<HTMLElement | null>(null);
+const isContentOverflowing = ref(false);
 
 // Render markdown when component mounts or note changes
 const updateRenderedContent = async () => {
   renderedContent.value = await renderMarkdown(props.note.content);
+  // Check if content overflows after render
+  setTimeout(() => {
+    checkContentOverflow();
+  }, 0);
+};
+
+const checkContentOverflow = () => {
+  if (contentElement.value) {
+    const maxHeight = 200; // 200px max height
+    isContentOverflowing.value = contentElement.value.scrollHeight > maxHeight;
+  }
+};
+
+const toggleExpand = () => {
+  isExpanded.value = !isExpanded.value;
 };
 
 onMounted(() => {
@@ -50,6 +68,7 @@ watch(
 const startEditing = () => {
   isEditing.value = true;
   editContent.value = props.note.content;
+  isExpanded.value = true; // Expand note when editing
 };
 
 const confirmDelete = () => {
@@ -180,10 +199,34 @@ const formatDate = (date: Date) => {
     <div class="content-container" :class="{ editing: isEditing }">
       <!-- View Mode (always rendered, hidden during edit) -->
       <div
+        ref="contentElement"
         class="markdown"
-        :class="{ 'is-hidden': isEditing }"
+        :class="{ 'is-hidden': isEditing, 'is-collapsed': !isExpanded && isContentOverflowing }"
         v-html="renderedContent"
       ></div>
+
+      <!-- Expand/Collapse button -->
+      <button
+        v-if="isContentOverflowing && !isEditing"
+        @click="toggleExpand"
+        class="expand-button"
+      >
+        {{ isExpanded ? 'Show less' : 'Read more' }}
+        <svg
+          class="expand-icon"
+          :class="{ 'is-rotated': isExpanded }"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M19 9l-7 7-7-7"
+          />
+        </svg>
+      </button>
 
       <!-- Edit Mode (overlay on top of content) -->
       <Transition name="edit-fade">
@@ -307,10 +350,57 @@ const formatDate = (date: Date) => {
   color: var(--color-text-primary);
   max-width: 100%;
   line-height: 1.6;
+  transition: max-height 0.3s ease;
+  overflow: hidden;
+}
+
+.markdown.is-collapsed {
+  max-height: 200px;
+  position: relative;
+}
+
+.markdown.is-collapsed::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(to bottom, transparent, var(--color-surface));
+  pointer-events: none;
 }
 
 .markdown.is-hidden {
   visibility: hidden;
+}
+
+.expand-button {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-top: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+  background-color: transparent;
+}
+
+.expand-button:hover {
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-hover);
+}
+
+.expand-icon {
+  width: 1rem;
+  height: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.expand-icon.is-rotated {
+  transform: rotate(180deg);
 }
 
 .edit-overlay {
