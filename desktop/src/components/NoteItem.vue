@@ -201,7 +201,10 @@ const formatDate = (date: Date) => {
       <div
         ref="contentElement"
         class="markdown"
-        :class="{ 'is-hidden': isEditing, 'is-collapsed': !isExpanded && isContentOverflowing }"
+        :class="{
+          'is-hidden': isEditing,
+          'is-collapsed': !isExpanded && isContentOverflowing,
+        }"
         v-html="renderedContent"
       ></div>
 
