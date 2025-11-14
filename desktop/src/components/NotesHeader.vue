@@ -78,12 +78,15 @@ const handleSettingsClick = () => {
   border: 1px solid var(--color-border);
   border-radius: 1rem;
   margin-bottom: 1.5rem;
+  max-width: 978px;
+  width: 100%;
 }
 
 .header-container {
   display: flex;
   justify-content: space-between;
   padding: 1.5rem 2rem;
+  max-width: 978px;
 }
 
 .header-content {
