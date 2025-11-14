@@ -177,9 +177,13 @@ const formatDate = (date: Date) => {
     </div>
 
     <!-- Content container with edit overlay -->
-    <div class="content-container" :class="{ 'editing': isEditing }">
+    <div class="content-container" :class="{ editing: isEditing }">
       <!-- View Mode (always rendered, hidden during edit) -->
-      <div class="markdown" :class="{ 'is-hidden': isEditing }" v-html="renderedContent"></div>
+      <div
+        class="markdown"
+        :class="{ 'is-hidden': isEditing }"
+        v-html="renderedContent"
+      ></div>
 
       <!-- Edit Mode (overlay on top of content) -->
       <Transition name="edit-fade">
@@ -193,7 +197,8 @@ const formatDate = (date: Date) => {
 
           <div class="edit-footer">
             <div class="keyboard-hint">
-              <kbd>⌘</kbd>/<kbd>Ctrl</kbd> + <kbd>Enter</kbd> to save · <kbd>Esc</kbd> to cancel
+              <kbd>⌘</kbd>/<kbd>Ctrl</kbd> + <kbd>Enter</kbd> to save ·
+              <kbd>Esc</kbd> to cancel
             </div>
             <div class="edit-actions">
               <Button @click="cancelEditing" variant="ghost" size="sm">
