@@ -1,16 +1,3 @@
-## [0.6.1](https://github.com/usenotex/notex/compare/v0.6.0...v0.6.1) (2025-11-14)
-
-### 🐛 Bug Fixes
-- Fix showing vertical scrollbar in the notes list ([#64](https://github.com/usenotex/notex/pull/64))
-
-### 🏠 Chores
-- Improve edit view ([#62](https://github.com/usenotex/notex/pull/62))
-
-### 🤖 Automation
-- Check code formatting using prettier ([#61](https://github.com/usenotex/notex/pull/61))
-- Added linting using oxlint ([#60](https://github.com/usenotex/notex/pull/60))
-
-
 ## [0.6.0](https://github.com/cadamsdev/notes/compare/v0.5.0...v0.6.0) (2025-11-13)
 
 ### ⚠️ Breaking Changes
