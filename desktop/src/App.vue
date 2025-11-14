@@ -16,6 +16,7 @@ import SearchBar from './components/SearchBar.vue';
 import ThemeToggle from './components/ThemeToggle.vue';
 import SettingsPanel from './components/SettingsPanel.vue';
 import NotesHeader from './components/NotesHeader.vue';
+import { TAG_REGEX } from './utils/regex';
 
 // Configure marked options
 marked.setOptions({
@@ -118,8 +119,7 @@ const loadNotes = async () => {
 
 // Extract tags from note content (words starting with #)
 const extractTags = (content: string): string[] => {
-  const tagRegex = /#(\w+)/g;
-  const matches = content.matchAll(tagRegex);
+  const matches = content.matchAll(TAG_REGEX);
   return Array.from(matches, (m) => m[1].toLowerCase());
 };
 
@@ -155,6 +155,8 @@ const filteredNotes = computed(() => {
     filtered = filtered.filter((note) => {
       const tags = extractTags(note.content);
       // Check if note has ALL selected tags
+
+      debugger
       return selectedTags.value.every((selectedTag) =>
         tags.includes(selectedTag),
       );
