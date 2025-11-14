@@ -193,7 +193,7 @@ const isTagSelected = (tag: string) => {
 .tags-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.375rem;
 }
 
 .empty-tags {

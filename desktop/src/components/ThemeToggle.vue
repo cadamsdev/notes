@@ -16,15 +16,17 @@ const applyTheme = (themeValue: Theme) => {
 // Initialize theme from localStorage or system preference
 onMounted(() => {
   const savedTheme = localStorage.getItem('theme') as Theme | null;
-  
+
   if (savedTheme) {
     theme.value = savedTheme;
   } else {
     // Detect system preference
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const prefersDark = window.matchMedia(
+      '(prefers-color-scheme: dark)',
+    ).matches;
     theme.value = prefersDark ? 'dark' : 'light';
   }
-  
+
   applyTheme(theme.value);
 });
 

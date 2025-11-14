@@ -25,10 +25,10 @@ const emit = defineEmits<{
 .tag {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.375rem 0.75rem;
+  gap: 0.375rem;
+  padding: 0.25rem 0.5rem;
   border-radius: 9999px;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 500;
   transition: all 0.2s;
   background-color: var(--color-surface);
@@ -58,11 +58,11 @@ const emit = defineEmits<{
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 1.25rem;
-  height: 1.25rem;
-  padding: 0 0.375rem;
+  min-width: 1rem;
+  height: 1rem;
+  padding: 0 0.25rem;
   border-radius: 9999px;
-  font-size: 0.75rem;
+  font-size: 0.625rem;
   font-weight: var(--font-weight-semibold);
   line-height: 1;
   background-color: var(--color-surface-active);
