@@ -29,13 +29,14 @@ const loadDatabaseInfo = async () => {
   try {
     const dbDir = await invoke<string>('get_database_directory_cmd');
     databaseDirectory.value = dbDir;
-    
+
     // Check if it's a custom location (not in default app data dir)
     // This is a simple heuristic - could be improved
-    isCustomLocation.value = dbDir.includes('Google Drive') || 
-                             dbDir.includes('OneDrive') || 
-                             dbDir.includes('Dropbox') ||
-                             !dbDir.includes('AppData'); // Windows
+    isCustomLocation.value =
+      dbDir.includes('Google Drive') ||
+      dbDir.includes('OneDrive') ||
+      dbDir.includes('Dropbox') ||
+      !dbDir.includes('AppData'); // Windows
   } catch (error) {
     console.error('Failed to get database directory:', error);
     databaseDirectory.value = 'Unknown';
@@ -49,11 +50,13 @@ const changeDatabaseLocation = async () => {
       multiple: false,
       title: 'Select Database Location',
     });
-    
+
     if (selected) {
       // Check if a database already exists at this location
-      const dbExists = await invoke<boolean>('check_database_exists_cmd', { directoryPath: selected });
-      
+      const dbExists = await invoke<boolean>('check_database_exists_cmd', {
+        directoryPath: selected,
+      });
+
       if (dbExists) {
         // Show conflict modal
         pendingDirectory.value = selected;
@@ -69,15 +72,19 @@ const changeDatabaseLocation = async () => {
   }
 };
 
-const applyDatabaseLocationChange = async (directory: string, overwrite: boolean, backup: boolean = false) => {
+const applyDatabaseLocationChange = async (
+  directory: string,
+  overwrite: boolean,
+  backup: boolean = false,
+) => {
   try {
-    const newPath = await invoke<string>('set_database_directory_cmd', { 
+    const newPath = await invoke<string>('set_database_directory_cmd', {
       directoryPath: directory,
       overwrite: overwrite,
-      backup: backup
+      backup: backup,
     });
     console.log('Database location changed to:', newPath);
-    
+
     // Reload the app to use new database location
     window.location.reload();
   } catch (error) {
@@ -116,14 +123,18 @@ const handleCancelConflict = () => {
 };
 
 const resetDatabaseLocation = async () => {
-  if (!confirm('Reset database location to default? The current database will be copied to the default location.')) {
+  if (
+    !confirm(
+      'Reset database location to default? The current database will be copied to the default location.',
+    )
+  ) {
     return;
   }
-  
+
   try {
     await invoke<string>('reset_database_directory_cmd');
     console.log('Database location reset to default');
-    
+
     // Reload the app to use default database location
     window.location.reload();
   } catch (error) {
@@ -143,7 +154,9 @@ const openDatabaseLocation = async () => {
 const createDatabaseBackup = async () => {
   try {
     const dbPath = await invoke<string>('get_database_path_cmd');
-    const backupPath = await invoke<string>('create_database_backup_cmd', { dbPath });
+    const backupPath = await invoke<string>('create_database_backup_cmd', {
+      dbPath,
+    });
     alert(`Backup created successfully!\n\nBackup location:\n${backupPath}`);
   } catch (error) {
     console.error('Failed to create database backup:', error);
@@ -157,17 +170,19 @@ const importDatabase = async () => {
       directory: false,
       multiple: false,
       title: 'Select Database File to Import',
-      filters: [{
-        name: 'Database',
-        extensions: ['db']
-      }]
+      filters: [
+        {
+          name: 'Database',
+          extensions: ['db'],
+        },
+      ],
     });
-    
+
     if (selected) {
       // Check if current database exists
       const currentDbPath = await invoke<string>('get_database_path_cmd');
       const dbExists = currentDbPath && currentDbPath.length > 0;
-      
+
       if (dbExists) {
         // Show import modal to ask about backup
         pendingImportPath.value = selected;
@@ -183,14 +198,17 @@ const importDatabase = async () => {
   }
 };
 
-const applyDatabaseImport = async (sourcePath: string, createBackup: boolean) => {
+const applyDatabaseImport = async (
+  sourcePath: string,
+  createBackup: boolean,
+) => {
   try {
-    await invoke<string>('import_database_cmd', { 
+    await invoke<string>('import_database_cmd', {
       sourcePath: sourcePath,
-      createBackup: createBackup
+      createBackup: createBackup,
     });
     console.log('Database imported successfully');
-    
+
     // Reload the app to use imported database
     window.location.reload();
   } catch (error) {
@@ -237,27 +255,34 @@ defineExpose({ openSettings });
 <template>
   <!-- Settings Modal Overlay -->
   <Transition name="modal">
-    <div 
-      v-if="isOpen" 
-      class="modal-overlay"
-      @click="closeSettings"
-    >
+    <div v-if="isOpen" class="modal-overlay" @click="closeSettings">
       <!-- Backdrop -->
       <div class="backdrop"></div>
-      
+
       <!-- Settings Panel -->
-      <div 
-        class="panel"
-        @click.stop
-      >
+      <div class="panel" @click.stop>
         <!-- Header -->
         <div class="panel-header">
           <div class="header-content">
             <div class="header-info">
               <div class="icon-container">
-                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                <svg
+                  class="icon"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
                 </svg>
               </div>
               <div>
@@ -266,41 +291,77 @@ defineExpose({ openSettings });
               </div>
             </div>
             <button @click="closeSettings" class="close-button">
-              <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+              <svg
+                class="icon"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
           </div>
         </div>
-        
+
         <!-- Settings Content -->
         <div class="panel-content">
           <!-- Database Section -->
           <div class="section">
             <h3 class="section-title">Database</h3>
-            
+
             <div class="section-items">
               <!-- Database Location Info -->
               <div class="info-card">
                 <div class="info-card-content">
                   <div class="info-card-main">
                     <div class="info-icon">
-                      <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
+                      <svg
+                        class="icon"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        stroke-width="2"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
+                        />
                       </svg>
                     </div>
                     <div class="info-text">
                       <div class="info-header">
                         <p class="info-label">Database Location</p>
-                        <span v-if="isCustomLocation" class="badge">Custom</span>
+                        <span v-if="isCustomLocation" class="badge"
+                          >Custom</span
+                        >
                       </div>
                       <p class="info-path">{{ databaseDirectory }}</p>
                     </div>
                   </div>
                   <!-- Create Backup Button -->
-                  <button @click="createDatabaseBackup" class="backup-button" title="Create backup">
-                    <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/>
+                  <button
+                    @click="createDatabaseBackup"
+                    class="backup-button"
+                    title="Create backup"
+                  >
+                    <svg
+                      class="icon-sm"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"
+                      />
                     </svg>
                     <span class="backup-text">Backup</span>
                   </button>
@@ -311,71 +372,163 @@ defineExpose({ openSettings });
               <button @click="changeDatabaseLocation" class="action-button">
                 <div class="action-content">
                   <div class="action-icon">
-                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                    <svg
+                      class="icon"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
+                      />
                     </svg>
                   </div>
                   <div class="action-text">
                     <p class="action-label">Change Database Location</p>
-                    <p class="action-description">Move database to cloud storage (OneDrive, Google Drive)</p>
+                    <p class="action-description">
+                      Move database to cloud storage (OneDrive, Google Drive)
+                    </p>
                   </div>
                 </div>
-                <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                <svg
+                  class="chevron"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9 5l7 7-7 7"
+                  />
                 </svg>
               </button>
-              
+
               <!-- Reset to Default Location -->
-              <button v-if="isCustomLocation" @click="resetDatabaseLocation" class="action-button">
+              <button
+                v-if="isCustomLocation"
+                @click="resetDatabaseLocation"
+                class="action-button"
+              >
                 <div class="action-content">
                   <div class="action-icon">
-                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                    <svg
+                      class="icon"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                      />
                     </svg>
                   </div>
                   <div class="action-text">
                     <p class="action-label">Reset to Default Location</p>
-                    <p class="action-description">Move database back to app data directory</p>
+                    <p class="action-description">
+                      Move database back to app data directory
+                    </p>
                   </div>
                 </div>
-                <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                <svg
+                  class="chevron"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9 5l7 7-7 7"
+                  />
                 </svg>
               </button>
-              
+
               <!-- Open Database Location -->
               <button @click="openDatabaseLocation" class="action-button">
                 <div class="action-content">
                   <div class="action-icon">
-                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
+                    <svg
+                      class="icon"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
+                      />
                     </svg>
                   </div>
                   <div class="action-text">
                     <p class="action-label">Open Database Location</p>
-                    <p class="action-description">View the database file in your file explorer</p>
+                    <p class="action-description">
+                      View the database file in your file explorer
+                    </p>
                   </div>
                 </div>
-                <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                <svg
+                  class="chevron"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                  />
                 </svg>
               </button>
-              
+
               <!-- Import Database -->
               <button @click="importDatabase" class="action-button">
                 <div class="action-content">
                   <div class="action-icon">
-                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                    <svg
+                      class="icon"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+                      />
                     </svg>
                   </div>
                   <div class="action-text">
                     <p class="action-label">Import Database</p>
-                    <p class="action-description">Import an existing database file from anywhere</p>
+                    <p class="action-description">
+                      Import an existing database file from anywhere
+                    </p>
                   </div>
                 </div>
-                <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                <svg
+                  class="chevron"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9 5l7 7-7 7"
+                  />
                 </svg>
               </button>
             </div>
@@ -384,12 +537,22 @@ defineExpose({ openSettings });
           <!-- About Section -->
           <div class="section">
             <h3 class="section-title">About</h3>
-            
+
             <div class="about-card">
               <div class="about-content">
                 <div class="about-icon">
-                  <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                  <svg
+                    class="icon"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                    />
                   </svg>
                 </div>
                 <div>
@@ -406,18 +569,32 @@ defineExpose({ openSettings });
 
   <!-- Database Conflict Modal -->
   <Transition name="modal">
-    <div v-if="showConflictModal" class="modal-overlay conflict-modal" @click="handleCancelConflict">
+    <div
+      v-if="showConflictModal"
+      class="modal-overlay conflict-modal"
+      @click="handleCancelConflict"
+    >
       <!-- Backdrop -->
       <div class="backdrop"></div>
-      
+
       <!-- Conflict Dialog -->
       <div class="conflict-dialog" @click.stop>
         <!-- Header -->
         <div class="dialog-header">
           <div class="dialog-header-content">
             <div class="dialog-icon warning">
-              <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+              <svg
+                class="icon"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                />
               </svg>
             </div>
             <div>
@@ -426,61 +603,98 @@ defineExpose({ openSettings });
             </div>
           </div>
         </div>
-        
+
         <!-- Content -->
         <div class="dialog-content">
           <p class="dialog-description">
-            A database file already exists in the selected location. What would you like to do?
+            A database file already exists in the selected location. What would
+            you like to do?
           </p>
-          
+
           <div class="dialog-options">
             <!-- Use Existing Database -->
             <button @click="handleUseExisting" class="option-button">
               <div class="option-content">
                 <div class="option-icon blue">
-                  <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  <svg
+                    class="icon-sm"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
                   </svg>
                 </div>
                 <div class="option-text">
                   <p class="option-label">Use Existing Database</p>
-                  <p class="option-description">Keep the database that's already there</p>
+                  <p class="option-description">
+                    Keep the database that's already there
+                  </p>
                 </div>
               </div>
             </button>
-            
+
             <!-- Backup and Overwrite -->
             <button @click="handleBackupAndOverwrite" class="option-button">
               <div class="option-content">
                 <div class="option-icon green">
-                  <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/>
+                  <svg
+                    class="icon-sm"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"
+                    />
                   </svg>
                 </div>
                 <div class="option-text">
                   <p class="option-label">Backup & Replace</p>
-                  <p class="option-description">Create backup then overwrite with current notes</p>
+                  <p class="option-description">
+                    Create backup then overwrite with current notes
+                  </p>
                 </div>
               </div>
             </button>
-            
+
             <!-- Overwrite Existing -->
             <button @click="handleOverwriteExisting" class="option-button">
               <div class="option-content">
                 <div class="option-icon orange">
-                  <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                  <svg
+                    class="icon-sm"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                    />
                   </svg>
                 </div>
                 <div class="option-text">
                   <p class="option-label">Replace with Current Database</p>
-                  <p class="option-description">Overwrite with your current notes (cannot be undone)</p>
+                  <p class="option-description">
+                    Overwrite with your current notes (cannot be undone)
+                  </p>
                 </div>
               </div>
             </button>
           </div>
         </div>
-        
+
         <!-- Footer -->
         <div class="dialog-footer">
           <button @click="handleCancelConflict" class="cancel-button">
@@ -493,66 +707,107 @@ defineExpose({ openSettings });
 
   <!-- Database Import Modal -->
   <Transition name="modal">
-    <div v-if="showImportModal" class="modal-overlay import-modal" @click="handleCancelImport">
+    <div
+      v-if="showImportModal"
+      class="modal-overlay import-modal"
+      @click="handleCancelImport"
+    >
       <!-- Backdrop -->
       <div class="backdrop"></div>
-      
+
       <!-- Import Dialog -->
       <div class="import-dialog" @click.stop>
         <!-- Header -->
         <div class="dialog-header">
           <div class="dialog-header-content">
             <div class="dialog-icon blue">
-              <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+              <svg
+                class="icon"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+                />
               </svg>
             </div>
             <div>
               <h3 class="dialog-title">Import Database</h3>
-              <p class="dialog-subtitle">This will replace your current database</p>
+              <p class="dialog-subtitle">
+                This will replace your current database
+              </p>
             </div>
           </div>
         </div>
-        
+
         <!-- Content -->
         <div class="dialog-content">
           <p class="dialog-description">
-            You have an existing database. Would you like to create a backup before importing?
+            You have an existing database. Would you like to create a backup
+            before importing?
           </p>
-          
+
           <div class="dialog-options">
             <!-- Import with Backup -->
             <button @click="handleImportWithBackup" class="option-button">
               <div class="option-content">
                 <div class="option-icon green">
-                  <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/>
+                  <svg
+                    class="icon-sm"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"
+                    />
                   </svg>
                 </div>
                 <div class="option-text">
                   <p class="option-label">Create Backup & Import</p>
-                  <p class="option-description">Backup current database before importing (recommended)</p>
+                  <p class="option-description">
+                    Backup current database before importing (recommended)
+                  </p>
                 </div>
               </div>
             </button>
-            
+
             <!-- Import without Backup -->
             <button @click="handleImportWithoutBackup" class="option-button">
               <div class="option-content">
                 <div class="option-icon orange">
-                  <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                  <svg
+                    class="icon-sm"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+                    />
                   </svg>
                 </div>
                 <div class="option-text">
                   <p class="option-label">Import Without Backup</p>
-                  <p class="option-description">Replace current database (cannot be undone)</p>
+                  <p class="option-description">
+                    Replace current database (cannot be undone)
+                  </p>
                 </div>
               </div>
             </button>
           </div>
         </div>
-        
+
         <!-- Footer -->
         <div class="dialog-footer">
           <button @click="handleCancelImport" class="cancel-button">
@@ -655,7 +910,9 @@ defineExpose({ openSettings });
   align-items: center;
   justify-content: center;
   color: var(--color-text-secondary);
-  transition: background-color 0.3s, color 0.3s;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
 }
 
 .close-button:hover {
@@ -1086,7 +1343,9 @@ defineExpose({ openSettings });
 .modal-leave-active .conflict-dialog,
 .modal-enter-active .import-dialog,
 .modal-leave-active .import-dialog {
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
 }
 
 .modal-enter-from .panel,

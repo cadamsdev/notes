@@ -18,7 +18,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   'update:modelValue': [value: string];
-  'keydown': [event: KeyboardEvent];
+  keydown: [event: KeyboardEvent];
 }>();
 
 const handleInput = (e: Event) => {
