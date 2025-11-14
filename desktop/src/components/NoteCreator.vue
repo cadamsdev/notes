@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import Button from './Button.vue';
-import Textarea from './Textarea.vue';
+import ContentEditable from './ContentEditable.vue';
 
 const noteContent = ref('');
 
@@ -32,11 +32,10 @@ const handleKeydown = (e: KeyboardEvent) => {
 <template>
   <div class="note-creator">
     <!-- Input Area -->
-    <Textarea
+    <ContentEditable
       v-model="noteContent"
       @keydown="handleKeydown"
       placeholder="Share your thoughts..."
-      :rows="4"
       min-height="120px"
     />
 
