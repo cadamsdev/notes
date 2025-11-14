@@ -3,6 +3,7 @@ import { ref, onMounted, watch } from 'vue';
 import { renderMarkdown } from '../utils/markdown';
 import Button from './Button.vue';
 import Textarea from './Textarea.vue';
+import ConfirmModal from './ConfirmModal.vue';
 import '../styles/markdown.css';
 
 interface Note {
@@ -26,6 +27,7 @@ const isHovered = ref(false);
 const isEditing = ref(false);
 const editContent = ref('');
 const showDeleteModal = ref(false);
+const showDiscardModal = ref(false);
 const renderedContent = ref('');
 
 // Render markdown when component mounts or note changes
@@ -65,11 +67,23 @@ const handleDelete = () => {
 
 const cancelEditing = () => {
   // Check if content changed to warn user
-  if (editContent.value !== props.note.content && editContent.value.trim()) {
-    if (!confirm('Discard changes?')) return;
+  if (editContent.value !== props.note.content) {
+    showDiscardModal.value = true;
+  } else {
+    // No changes made, just exit edit mode
+    isEditing.value = false;
+    editContent.value = '';
   }
+};
+
+const confirmDiscard = () => {
+  showDiscardModal.value = false;
   isEditing.value = false;
   editContent.value = '';
+};
+
+const cancelDiscard = () => {
+  showDiscardModal.value = false;
 };
 
 const saveEdit = () => {
@@ -200,55 +214,30 @@ const formatDate = (date: Date) => {
     </div>
 
     <!-- Delete Confirmation Modal -->
-    <Teleport to="body">
-      <Transition name="modal">
-        <div v-if="showDeleteModal" class="modal-overlay" @click="cancelDelete">
-          <div class="modal-content" @click.stop>
-            <!-- Icon -->
-            <div class="modal-icon">
-              <svg
-                class="modal-icon-svg"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                />
-              </svg>
-            </div>
+    <ConfirmModal
+      :show="showDeleteModal"
+      title="Delete note?"
+      message="This note will be permanently deleted. This action cannot be undone."
+      confirmText="Delete"
+      cancelText="Cancel"
+      variant="danger"
+      icon="delete"
+      @confirm="handleDelete"
+      @cancel="cancelDelete"
+    />
 
-            <!-- Title -->
-            <h3 class="modal-title">Delete note?</h3>
-
-            <!-- Description -->
-            <p class="modal-description">
-              This note will be permanently deleted. This action cannot be
-              undone.
-            </p>
-
-            <!-- Actions -->
-            <div class="modal-actions">
-              <Button @click="cancelDelete" variant="ghost" fullWidth size="sm">
-                Cancel
-              </Button>
-
-              <Button
-                @click="handleDelete"
-                variant="primary"
-                fullWidth
-                size="sm"
-              >
-                Delete
-              </Button>
-            </div>
-          </div>
-        </div>
-      </Transition>
-    </Teleport>
+    <!-- Discard Changes Modal -->
+    <ConfirmModal
+      :show="showDiscardModal"
+      title="Discard changes?"
+      message="You have unsaved changes. Are you sure you want to discard them?"
+      confirmText="Discard"
+      cancelText="Keep Editing"
+      variant="warning"
+      icon="warning"
+      @confirm="confirmDiscard"
+      @cancel="cancelDiscard"
+    />
   </div>
 </template>
 
@@ -385,93 +374,6 @@ const formatDate = (date: Date) => {
 
 .edit-fade-enter-from,
 .edit-fade-leave-to {
-  opacity: 0;
-}
-
-/* Modal styles */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  background-color: var(--color-background-overlay);
-}
-
-.modal-content {
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 1rem;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  max-width: 28rem;
-  width: 100%;
-  padding: 2rem;
-}
-
-.modal-icon {
-  width: 3rem;
-  height: 3rem;
-  margin: 0 auto 1rem;
-  border-radius: 50%;
-  background-color: var(--color-surface);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.modal-icon-svg {
-  width: 1.5rem;
-  height: 1.5rem;
-  color: var(--color-text-primary);
-}
-
-.modal-title {
-  font-size: 1.125rem;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-  text-align: center;
-  margin-bottom: 0.5rem;
-}
-
-.modal-description {
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-.modal-actions {
-  display: flex;
-  gap: 0.5rem;
-}
-
-/* Modal transition */
-.modal-enter-active,
-.modal-leave-active {
-  transition: opacity 0.2s ease;
-}
-
-.modal-enter-active .modal-content,
-.modal-leave-active .modal-content {
-  transition:
-    transform 0.2s ease,
-    opacity 0.2s ease;
-}
-
-.modal-enter-from,
-.modal-leave-to {
-  opacity: 0;
-}
-
-.modal-enter-from .modal-content {
-  transform: scale(0.95);
-  opacity: 0;
-}
-
-.modal-leave-to .modal-content {
-  transform: scale(0.95);
   opacity: 0;
 }
 </style>
