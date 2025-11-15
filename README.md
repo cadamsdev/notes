@@ -30,7 +30,7 @@
 
 ### ⚡ **Performant**
 - Built with Tauri (Rust + Vue 3) for blazing fast speeds
-- Smooth loading of large note collections
+- Fast startup times
 - Fast, reliable local SQLite storage
 
 ### 🔄 **Cloud Sync**
@@ -44,10 +44,9 @@
 ### 📅 **Smart Organization**
 - Organize notes with hashtags (`#work`, `#personal`, etc.)
 - Fuzzy search with real-time filtering
-- Calendar view with note count indicators per day
 
 ### 🎨 **Beautiful Design**
-- Clean, minimal and has light/dark themes
+- Clean, minimal and supports light/dark themes
 - Mobile-responsive layout
 
 ## 📦 Installation
