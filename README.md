@@ -4,7 +4,7 @@
 
 # NoteX
 
-### A Minimal Markdown Note-Taking App
+### A Minimal, Local-first, Markdown-based Note Taking App
 
 *Local-First • Privacy-Focused • Cross-Platform • Cloud-Syncable*
 
@@ -52,11 +52,6 @@
 
 ## 📦 Installation
 Check the [Releases](https://github.com/cadamsdev/notex/releases) page for platform-specific installers.
-
-## 🙏 Acknowledgments
-
-- **Tauri Team** - For the amazing framework
-- **Vue.js Team** - For Vue 3 and its excellent ecosystem
 
 ---
 
