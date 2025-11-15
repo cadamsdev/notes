@@ -50,7 +50,7 @@
 - Mobile-responsive layout
 
 ## 📦 Installation
-Check the [Releases](https://github.com/cadamsdev/notex/releases) page for platform-specific installers.
+Check the [Releases](https://github.com/usenotex/notex/releases) page for platform-specific installers.
 
 ---
 
