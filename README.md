@@ -4,9 +4,9 @@
 
 # NoteX
 
-### A Modern, Minimalist Note-Taking App
+### A Minimal Markdown Note-Taking App
 
-*Fast • Beautiful • Cross-Platform • Cloud-Syncable*
+*Local-First • Privacy-Focused • Cross-Platform • Cloud-Syncable*
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/cadamsdev/notes-app/issues)
@@ -23,40 +23,40 @@
 
 ## ✨ Features
 
-### 🎨 **Beautiful Design**
-- **SpaceX-Inspired UI** - Clean, minimal black/white aesthetic
-- **Light & Dark Mode** - Seamless theme switching with automatic system preference detection
-- **Responsive Layout** - Optimized for various screen sizes
+### 📦 **Lightweight**
+- Small installation size ~5MB
+- Minimal resource usage
+- Fast startup times
 
-### 📅 **Smart Organization**
-- **Calendar View** - Visual calendar with note count indicators per day
-- **Tag System** - Organize notes with hashtags (`#work`, `#personal`, etc.)
-- **Advanced Search** - Fuzzy search with real-time filtering
-- **Date Filtering** - Quickly find notes by date
-
-### ⚡ **Performance**
-- **Native Performance** - Built with Tauri (Rust + Vue 3) for blazing fast speeds
-- **Infinite Scroll** - Smooth loading of large note collections
-- **SQLite Database** - Fast, reliable local storage
+### ⚡ **Performant**
+- Built with Tauri (Rust + Vue 3) for blazing fast speeds
+- Smooth loading of large note collections
+- Fast, reliable local SQLite storage
 
 ### 🔄 **Cloud Sync**
-- **Custom Database Location** - Save your notes anywhere
-- **Multi-Device Sync** - Use with OneDrive, Google Drive, Dropbox, or any cloud storage
-- **Automatic Migration** - Seamless database copying when changing locations
-- **Cross-Platform** - Sync notes between Windows, macOS, and Linux
+- Save your notes anywhere on your filesystem
+- Use with OneDrive, Google Drive, Dropbox, or any cloud storage
 
 ### 📝 **Markdown Support**
-- **GitHub Flavored Markdown** - Full GFM support
-- **Syntax Highlighting** - Code blocks with proper formatting
+- Write your notes in plain text files, take your data anywhere
+- Supports GitHub Flavored Markdown (GFM)
+
+### 📅 **Smart Organization**
+- Organize notes with hashtags (`#work`, `#personal`, etc.)
+- Fuzzy search with real-time filtering
+- Calendar view with note count indicators per day
+
+### 🎨 **Beautiful Design**
+- Clean, minimal and has light/dark themes
+- Mobile-responsive layout
 
 ## 📦 Installation
-Coming Soon!** Check the [Releases](https://github.com/cadamsdev/notex/releases) page for platform-specific installers.
+Check the [Releases](https://github.com/cadamsdev/notex/releases) page for platform-specific installers.
 
 ## 🙏 Acknowledgments
 
 - **Tauri Team** - For the amazing framework
 - **Vue.js Team** - For Vue 3 and its excellent ecosystem
-- **SpaceX** - Design inspiration
 
 ---
 
