@@ -13,7 +13,9 @@
 [![Built with Tauri](https://img.shields.io/badge/Built%20with-Tauri-24C8DB?logo=tauri)](https://tauri.app/)
 [![Vue 3](https://img.shields.io/badge/Vue-3-42b883?logo=vue.js)](https://vuejs.org/)
 
-![NoteX Preview](./media/preview.png)
+![NoteX Light](./media/preview-light.png)
+
+![NoteX Dark](./media/preview-dark.png)
 
 [Features](#-features) • [Installation](#-installation) • [Contributing](/docs/CONTRIBUTING.md)
 
