@@ -1,3 +1,29 @@
+## [0.7.0](https://github.com/usenotex/notex/compare/v0.6.0...v0.7.0) (2025-11-16)
+
+### 🚀 New Features
+- Can now collapse/expand notes ([#65](https://github.com/usenotex/notex/pull/65))
+
+### 🐛 Bug Fixes
+- Fix create note textbox height ([b639b27](https://github.com/usenotex/notex/commit/b639b27))
+- Fix some scrolling issues ([1d9ae2c](https://github.com/usenotex/notex/commit/1d9ae2c))
+- Fix issue where tags are getting cut off when using hypens ([#67](https://github.com/usenotex/notex/pull/67))
+- Fix showing vertical scrollbar in the notes list ([#64](https://github.com/usenotex/notex/pull/64))
+
+### 🏠 Chores
+- Cycle between only light and dark theme instead of 3 modes ([f4d671a](https://github.com/usenotex/notex/commit/f4d671a))
+- Improve edit view ([#62](https://github.com/usenotex/notex/pull/62))
+
+### 🎨 Styles
+- Fix issue with code block border ([6f1bbf9](https://github.com/usenotex/notex/commit/6f1bbf9))
+- Made improvements to light and dark theme ([#68](https://github.com/usenotex/notex/pull/68))
+- Make the tags smaller ([83f73a4](https://github.com/usenotex/notex/commit/83f73a4))
+- Improve the button styles ([#66](https://github.com/usenotex/notex/pull/66))
+
+### 🤖 Automation
+- Check code formatting using prettier ([#61](https://github.com/usenotex/notex/pull/61))
+- Added linting using oxlint ([#60](https://github.com/usenotex/notex/pull/60))
+
+
 ## [0.6.0](https://github.com/cadamsdev/notes/compare/v0.5.0...v0.6.0) (2025-11-13)
 
 ### ⚠️ Breaking Changes
