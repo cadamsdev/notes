@@ -97,7 +97,6 @@
 /* Code blocks */
 .markdown pre {
   background-color: var(--color-code-background);
-  border: 1px solid var(--color-border);
   border-radius: 0.5rem;
   padding: 1em;
   overflow-x: auto;
@@ -323,7 +322,6 @@
   padding: 1em;
   overflow-x: auto;
   background-color: transparent;
-  border-radius: 0.5rem;
 }
 
 .code-block-wrapper pre code {
