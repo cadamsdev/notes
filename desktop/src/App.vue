@@ -350,7 +350,6 @@ const editNote = async (id: number, content: string) => {
 
 <style scoped>
 .app-background {
-  background: rgba(35, 35, 35, 0.15);
   position: absolute;
   z-index: -1;
   top: 0;
