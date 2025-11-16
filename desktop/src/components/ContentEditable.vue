@@ -28,7 +28,6 @@ const handleInput = () => {
   if (!editableRef.value) return;
 
   const text = editableRef.value.innerText;
-  console.log(text);
   showPlaceholder.value = text.length === 0;
   emit('update:modelValue', text);
 };
