@@ -28,6 +28,7 @@ const handleInput = () => {
   if (!editableRef.value) return;
 
   const text = editableRef.value.innerText;
+  console.log(text);
   showPlaceholder.value = text.length === 0;
   emit('update:modelValue', text);
 };
@@ -44,7 +45,7 @@ const updateContent = (newValue: string) => {
     editableRef.value.innerText = newValue;
   }
 
-  showPlaceholder.value = newValue.length === 0;
+  showPlaceholder.value = newValue.trim().length === 0;
 };
 
 // Focus if autofocus is enabled
