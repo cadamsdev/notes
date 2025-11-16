@@ -1,0 +1,6 @@
+{
+  "bumpPackages": [
+    "package.json",
+    "desktop/package.json"
+  ]
+}
