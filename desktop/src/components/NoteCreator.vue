@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import Button from './Button.vue';
-import ContentEditable from './ContentEditable.vue';
+import Textarea from './Textarea.vue';
 
 const noteContent = ref('');
 
@@ -16,6 +16,7 @@ const canPost = computed(() => {
 });
 
 const createNote = () => {
+  console.log(noteContent.value)
   if (canPost.value) {
     emit('create', noteContent.value);
     noteContent.value = '';
@@ -32,11 +33,11 @@ const handleKeydown = (e: KeyboardEvent) => {
 <template>
   <div class="note-creator">
     <!-- Input Area -->
-    <ContentEditable
+    <Textarea
+      class="textarea"
       v-model="noteContent"
       @keydown="handleKeydown"
       placeholder="Share your thoughts..."
-      min-height="120px"
     />
 
     <!-- Actions -->
@@ -91,6 +92,10 @@ const handleKeydown = (e: KeyboardEvent) => {
 .keyboard-hint {
   font-size: 0.75rem;
   color: var(--color-text-secondary);
+}
+
+.textarea {
+  min-height: 120px;
 }
 
 @media (max-width: 640px) {
