@@ -25,15 +25,14 @@
 
 ## ✨ Features
 
-### 📦 **Lightweight**
-- Small installation size ~5MB
-- Minimal resource usage
-- Fast startup times
-
 ### ⚡ **Performant**
 - Built with Tauri (Rust + Vue 3) for blazing fast speeds
 - Fast startup times
 - Fast, reliable local SQLite storage
+
+### 📦 **Lightweight**
+- Small installation size ~5MB
+- Minimal resource usage
 
 ### 🔄 **Cloud Sync**
 - Save your notes anywhere on your filesystem
