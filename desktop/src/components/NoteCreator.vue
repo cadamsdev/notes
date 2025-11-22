@@ -37,7 +37,8 @@ const handleKeydown = (e: KeyboardEvent) => {
       class="textarea"
       v-model="noteContent"
       @keydown="handleKeydown"
-      placeholder="Share your thoughts..."
+      placeholder="What's on your mind?"
+      :rows="2"
     />
 
     <!-- Actions -->
@@ -92,10 +93,6 @@ const handleKeydown = (e: KeyboardEvent) => {
 .keyboard-hint {
   font-size: 0.75rem;
   color: var(--color-text-secondary);
-}
-
-.textarea {
-  min-height: 120px;
 }
 
 @media (max-width: 640px) {

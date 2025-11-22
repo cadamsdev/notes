@@ -1,26 +1,31 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { useTextareaAutosize } from '@vueuse/core'
 
 interface Props {
   modelValue: string;
   placeholder?: string;
-  minHeight?: string;
   disabled?: boolean;
   autofocus?: boolean;
+  rows?: number;
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   placeholder: '',
   disabled: false,
   autofocus: false,
+  rows: 1,
+  modelValue: '',
+});
+
+const { textarea, input } = useTextareaAutosize({
+  styleProp: 'minHeight',
+  input: props.modelValue,
 });
 
 const emit = defineEmits<{
   'update:modelValue': [value: string];
   keydown: [event: KeyboardEvent];
 }>();
-
-const textareaRef = ref<HTMLTextAreaElement | null>(null);
 
 const handleInput = (e: Event) => {
   const target = e.target as HTMLTextAreaElement;
@@ -30,29 +35,26 @@ const handleInput = (e: Event) => {
 const handleKeydown = (e: KeyboardEvent) => {
   emit('keydown', e);
 };
-
-// Expose focus method for parent components
-defineExpose({
-  focus: () => textareaRef.value?.focus(),
-});
 </script>
 
 <template>
   <textarea
-    ref="textareaRef"
-    :value="modelValue"
+    ref="textarea"
+    v-model="input"
     @input="handleInput"
     @keydown="handleKeydown"
     :placeholder="placeholder"
     :disabled="disabled"
     :autofocus="autofocus"
-    :style="{ minHeight }"
+    :rows="rows"
     class="textarea"
   ></textarea>
 </template>
 
 <style scoped>
 .textarea {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
   field-sizing: content;
   width: 100%;
   background-color: transparent;
@@ -68,8 +70,12 @@ defineExpose({
   outline: none;
   box-sizing: border-box;
   font-family: inherit;
-  resize: vertical;
+  resize: none;
   overflow-y: hidden;
+}
+
+.textarea::-webkit-scrollbar {
+  display: none;
 }
 
 .textarea::placeholder {
