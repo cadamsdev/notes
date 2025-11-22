@@ -23,11 +23,14 @@ const { textarea, input } = useTextareaAutosize({
   input: props.modelValue,
 });
 
-watch(() => props.modelValue, (newValue) => {
-  if (input.value !== newValue) {
-    input.value = newValue;
-  }
-});
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    if (input.value !== newValue) {
+      input.value = newValue;
+    }
+  },
+);
 
 const emit = defineEmits<{
   'update:modelValue': [value: string];
