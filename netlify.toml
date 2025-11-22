@@ -1,9 +1,0 @@
-# Netlify configuration
-[build]
-  command = "cd apps/website && bun run generate"
-  publish = "apps/website/.output/public"
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
