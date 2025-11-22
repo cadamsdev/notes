@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useTextareaAutosize } from '@vueuse/core'
+import { useTextareaAutosize } from '@vueuse/core';
 
 interface Props {
   modelValue: string;
