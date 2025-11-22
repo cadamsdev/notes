@@ -13,7 +13,7 @@ const props = withDefaults(defineProps<Props>(), {
   placeholder: '',
   disabled: false,
   autofocus: false,
-  rows: 1,
+  rows: 2,
   modelValue: '',
 });
 
@@ -55,7 +55,6 @@ const handleKeydown = (e: KeyboardEvent) => {
 .textarea {
   -ms-overflow-style: none;
   scrollbar-width: none;
-  field-sizing: content;
   width: 100%;
   background-color: transparent;
   color: var(--color-text-primary);
