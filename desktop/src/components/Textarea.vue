@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { watch } from 'vue';
 import { useTextareaAutosize } from '@vueuse/core';
 
 interface Props {
@@ -20,6 +21,12 @@ const props = withDefaults(defineProps<Props>(), {
 const { textarea, input } = useTextareaAutosize({
   styleProp: 'minHeight',
   input: props.modelValue,
+});
+
+watch(() => props.modelValue, (newValue) => {
+  if (input.value !== newValue) {
+    input.value = newValue;
+  }
 });
 
 const emit = defineEmits<{
