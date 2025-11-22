@@ -1,15 +1,43 @@
-# website
+# NoteX Marketing Website
 
-To install dependencies:
+Marketing website for NoteX built with Nuxt 3 in SSG mode.
+
+## Development
 
 ```bash
+# Install dependencies
 bun install
+
+# Start dev server
+bun run dev
+
+# Generate static site
+bun run generate
+
+# Preview production build
+bun run preview
 ```
 
-To run:
+## Build Output
 
-```bash
-bun run index.ts
-```
+The static site will be generated in the `.output/public` directory and can be deployed to any static hosting service.
 
-This project was created using `bun init` in bun v1.3.2. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
+## Features
+
+- ⚡ Nuxt 3 with SSG mode
+- 🎨 Tailwind CSS for styling
+- 📱 Fully responsive design
+- 🌙 Dark mode support
+- 🎯 SEO optimized with meta tags
+- 🚀 Fast and lightweight
+
+## Deployment
+
+The generated static site can be deployed to:
+- GitHub Pages
+- Netlify
+- Vercel
+- Cloudflare Pages
+- Any static hosting service
+
+Simply run `bun run generate` and deploy the `.output/public` directory.

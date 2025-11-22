@@ -1,6 +1,13 @@
 # dependencies (bun install)
 node_modules
 
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+
 # output
 out
 dist

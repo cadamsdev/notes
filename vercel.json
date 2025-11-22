@@ -1,0 +1,6 @@
+{
+  "buildCommand": "cd apps/website && bun run generate",
+  "outputDirectory": "apps/website/.output/public",
+  "devCommand": "cd apps/website && bun run dev",
+  "installCommand": "cd apps/website && bun install"
+}
