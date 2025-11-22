@@ -16,7 +16,6 @@ const canPost = computed(() => {
 });
 
 const createNote = () => {
-  console.log(noteContent.value);
   if (canPost.value) {
     emit('create', noteContent.value);
     noteContent.value = '';

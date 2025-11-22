@@ -359,54 +359,51 @@ const editNote = async (id: number, content: string) => {
 }
 
 .main-container {
+  display: grid;
+  grid-template-columns: 380px 1fr;
   height: 100vh;
-  display: flex;
   overflow: hidden;
 }
 
 .side-panel-container {
   width: 380px;
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  padding: 1.5rem;
-  padding-right: 0.75rem;
+  max-height: 100vh;
+  padding: 1rem;
+  padding-right: 0.5rem;
   display: flex;
   flex-direction: column;
   z-index: 10;
 }
 
 .content-wrapper {
-  flex: 1;
-  margin-left: 380px;
-  padding-top: 1.5rem;
-  padding-left: 0.75rem;
+  max-width: 986px;
+  max-height: 100vh;
+  padding-top: 1rem;
+  padding-left: 0.5rem;
   display: flex;
   height: 100%;
   overflow: hidden;
 }
 
 .right-column {
-  flex: 1;
   display: flex;
   flex-direction: column;
   height: 100%;
   overflow: hidden;
+  flex-grow: 1;
 }
 
 .notes-feed-container {
   flex: 1;
   overflow-y: auto;
-  padding-right: 0.5rem;
+  padding-right: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .note-creator-wrapper {
-  margin-bottom: 1.5rem;
-  max-width: 978px;
+  margin-bottom: 1rem;
   width: 100%;
 }
 
@@ -414,7 +411,6 @@ const editNote = async (id: number, content: string) => {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  max-width: 978px;
   width: 100%;
 }
 
