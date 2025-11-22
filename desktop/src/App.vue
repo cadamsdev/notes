@@ -389,6 +389,7 @@ const editNote = async (id: number, content: string) => {
   flex-direction: column;
   height: 100%;
   overflow: hidden;
+  flex-grow: 1;
 }
 
 .notes-feed-container {
