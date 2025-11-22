@@ -2,7 +2,7 @@
 import { ref, onMounted, watch } from 'vue';
 import { renderMarkdown } from '../utils/markdown';
 import Button from './Button.vue';
-import ContentEditable from './ContentEditable.vue';
+import Textarea from './Textarea.vue';
 import ConfirmModal from './ConfirmModal.vue';
 import '../styles/markdown.css';
 
@@ -210,7 +210,7 @@ const formatDate = (date: Date) => {
       ></div>
 
       <div v-if="isEditing" class="edit-container">
-        <ContentEditable
+        <Textarea
           v-model="editContent"
           @keydown="handleEditKeydown"
           autofocus
