@@ -367,6 +367,7 @@ const editNote = async (id: number, content: string) => {
 
 .side-panel-container {
   width: 380px;
+  max-height: 100vh;
   padding: 1rem;
   padding-right: 0.5rem;
   display: flex;
