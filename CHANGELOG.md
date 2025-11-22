@@ -1,9 +1,3 @@
-## [0.7.1](https://github.com/usenotex/notex/compare/v0.7.0...v0.7.1) (2025-11-22)
-
-### 🐛 Bug Fixes
-- Use auto resizable Textarea ([#69](https://github.com/usenotex/notex/pull/69))
-
-
 ## [0.7.0](https://github.com/usenotex/notex/compare/v0.6.0...v0.7.0) (2025-11-16)
 
 ### 🚀 New Features
