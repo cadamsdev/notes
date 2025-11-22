@@ -55,7 +55,7 @@
           <!-- Feature Cards -->
           <FeatureCard 
             icon="heroicons:bolt"
-            title="⚡ Performant"
+            title="Performant"
             :features="[
               'Built with Tauri (Rust + Vue 3)',
               'Blazing fast startup times',
@@ -65,7 +65,7 @@
           
           <FeatureCard 
             icon="heroicons:cube"
-            title="📦 Lightweight"
+            title="Lightweight"
             :features="[
               'Small installation size ~5MB',
               'Minimal resource usage',
@@ -75,7 +75,7 @@
           
           <FeatureCard 
             icon="heroicons:arrow-path"
-            title="🔄 Cloud Sync"
+            title="Cloud Sync"
             :features="[
               'Save notes anywhere on your filesystem',
               'Works with OneDrive, Google Drive, Dropbox',
@@ -85,7 +85,7 @@
           
           <FeatureCard 
             icon="heroicons:document-text"
-            title="📝 Markdown Support"
+            title="Markdown Support"
             :features="[
               'Write in plain text files',
               'GitHub Flavored Markdown (GFM)',
@@ -95,7 +95,7 @@
           
           <FeatureCard 
             icon="heroicons:calendar-days"
-            title="📅 Smart Organization"
+            title="Smart Organization"
             :features="[
               'Organize with hashtags (#work, #personal)',
               'Fuzzy search with real-time filtering',
@@ -105,7 +105,7 @@
           
           <FeatureCard 
             icon="heroicons:sparkles"
-            title="🎨 Beautiful Design"
+            title="Beautiful Design"
             :features="[
               'Clean, minimal interface',
               'Light/dark themes',
