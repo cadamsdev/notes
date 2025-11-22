@@ -32,7 +32,7 @@
     },
     "desktop": {
       "name": "desktop",
-      "version": "0.7.0",
+      "version": "0.7.1",
       "dependencies": {
         "@tauri-apps/api": "^2",
         "@tauri-apps/plugin-dialog": "^2.4.0",
