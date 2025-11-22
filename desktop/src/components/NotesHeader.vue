@@ -77,7 +77,7 @@ const handleSettingsClick = () => {
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   width: 100%;
 }
 

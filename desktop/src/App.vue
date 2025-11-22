@@ -367,17 +367,17 @@ const editNote = async (id: number, content: string) => {
 
 .side-panel-container {
   width: 380px;
-  padding: 1.5rem;
-  padding-right: 0.75rem;
+  padding: 1rem;
+  padding-right: 0.5rem;
   display: flex;
   flex-direction: column;
   z-index: 10;
 }
 
 .content-wrapper {
-  max-width: 900px;
-  padding-top: 1.5rem;
-  padding-left: 0.75rem;
+  max-width: 986px;
+  padding-top: 1rem;
+  padding-left: 0.5rem;
   display: flex;
   height: 100%;
   overflow: hidden;
@@ -393,14 +393,14 @@ const editNote = async (id: number, content: string) => {
 .notes-feed-container {
   flex: 1;
   overflow-y: auto;
-  padding-right: 0.5rem;
+  padding-right: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .note-creator-wrapper {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   width: 100%;
 }
 
