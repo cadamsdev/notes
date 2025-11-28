@@ -43,15 +43,15 @@ interface FaqItem {
 
 const faqItems: FaqItem[] = [
   {
-    question: "I'm unable to install the app on macOS",
+    question: "Why does macOS say the app is damaged or from an unidentified developer?",
     answer: [
       {
         type: 'text',
-        value: 'Apple charges $99/year for code signing certificates. Since NoteX is a free, open-source app, we don\'t have code signing enabled. macOS may show a warning that the app is "damaged" or from an "unidentified developer."'
+        value: 'NoteX is a free, open-source app and we don\'t pay the $99/year Apple developer fee for code signing. This causes macOS to block the app by default.'
       },
       {
         type: 'text',
-        value: 'To install the DMG without issues, run this command in Terminal before opening the file:'
+        value: 'To fix this, run the following command in Terminal before opening the DMG:'
       },
       {
         type: 'code',
