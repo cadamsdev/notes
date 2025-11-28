@@ -12,11 +12,19 @@
 
       <div class="faq-container">
         <div v-for="(item, index) in faqItems" :key="index" class="faq-item">
-          <h3 class="faq-question">
+          <button 
+            class="faq-question" 
+            @click="toggleItem(index)"
+            :aria-expanded="openItems.has(index)"
+          >
             <Icon name="heroicons:question-mark-circle" class="faq-icon" />
-            {{ item.question }}
-          </h3>
-          <div class="faq-answer">
+            <span class="faq-question-text">{{ item.question }}</span>
+            <Icon 
+              name="heroicons:chevron-down" 
+              :class="['faq-chevron', { 'faq-chevron-open': openItems.has(index) }]" 
+            />
+          </button>
+          <div v-show="openItems.has(index)" class="faq-answer">
             <template v-for="(content, contentIndex) in item.answer" :key="contentIndex">
               <p v-if="content.type === 'text'">{{ content.value }}</p>
               <InlineCodeBlock v-else-if="content.type === 'code'" :code="content.value" />
@@ -33,6 +41,8 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
+
 interface FaqContent {
   type: 'text' | 'code' | 'note'
   value: string
@@ -41,6 +51,18 @@ interface FaqContent {
 interface FaqItem {
   question: string
   answer: FaqContent[]
+}
+
+const openItems = ref<Set<number>>(new Set())
+
+function toggleItem(index: number) {
+  if (openItems.value.has(index)) {
+    openItems.value.delete(index)
+  } else {
+    openItems.value.add(index)
+  }
+  // Trigger reactivity
+  openItems.value = new Set(openItems.value)
 }
 
 const faqItems: FaqItem[] = [
@@ -117,9 +139,9 @@ body.dark .section-description {
 .faq-item {
   background-color: var(--color-white);
   border-radius: var(--radius-lg);
-  padding: var(--spacing-xl);
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--color-gray-200);
+  overflow: hidden;
 }
 
 body.dark .faq-item {
@@ -128,17 +150,35 @@ body.dark .faq-item {
 }
 
 .faq-question {
+  width: 100%;
+  padding: var(--spacing-xl);
   font-size: var(--font-size-xl);
   font-weight: 600;
   color: var(--color-gray-900);
-  margin-bottom: var(--spacing-lg);
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color var(--transition-base);
+}
+
+.faq-question:hover {
+  background-color: var(--color-gray-50);
 }
 
 body.dark .faq-question {
   color: var(--color-white);
+}
+
+body.dark .faq-question:hover {
+  background-color: var(--color-gray-800);
+}
+
+.faq-question-text {
+  flex: 1;
 }
 
 .faq-icon {
@@ -148,7 +188,20 @@ body.dark .faq-question {
   flex-shrink: 0;
 }
 
+.faq-chevron {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--color-gray-400);
+  flex-shrink: 0;
+  transition: transform var(--transition-base);
+}
+
+.faq-chevron-open {
+  transform: rotate(180deg);
+}
+
 .faq-answer {
+  padding: 0 var(--spacing-xl) var(--spacing-xl) var(--spacing-xl);
   color: var(--color-gray-600);
   line-height: 1.7;
 }
