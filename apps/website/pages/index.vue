@@ -192,6 +192,44 @@
       </div>
     </section>
 
+    <!-- FAQ Section -->
+    <section id="faq" class="section faq-section">
+      <div class="container-custom">
+        <div class="section-header">
+          <h2 class="section-title">
+            Frequently Asked Questions
+          </h2>
+          <p class="section-description">
+            Common questions and answers about NoteX
+          </p>
+        </div>
+
+        <div class="faq-container">
+          <div class="faq-item">
+            <h3 class="faq-question">
+              <Icon name="heroicons:question-mark-circle" class="faq-icon" />
+              I'm unable to install the app on macOS
+            </h3>
+            <div class="faq-answer">
+              <p>
+                Apple charges $99/year for code signing certificates. Since NoteX is a free, 
+                open-source app, we don't have code signing enabled. macOS may show a warning 
+                that the app is "damaged" or from an "unidentified developer."
+              </p>
+              <p>
+                To install the DMG without issues, run this command in Terminal before opening the file:
+              </p>
+              <InlineCodeBlock code="xattr -d com.apple.quarantine ~/Downloads/NoteX_0.7.1_aarch64.dmg" />
+              <p class="faq-note">
+                <Icon name="heroicons:light-bulb" class="faq-note-icon" />
+                Replace the filename with the actual DMG file you downloaded.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- CTA Section -->
     <section class="section cta-section">
       <div class="container-custom">
@@ -582,5 +620,78 @@ body.dark .cta-section {
 
 .cta-btn-outlined:hover {
   background-color: var(--color-primary-800);
+}
+
+/* FAQ Section */
+.faq-section {
+  background-color: var(--color-gray-50);
+}
+
+body.dark .faq-section {
+  background-color: var(--color-gray-800);
+}
+
+.faq-container {
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.faq-item {
+  background-color: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-gray-200);
+}
+
+body.dark .faq-item {
+  background-color: var(--color-gray-900);
+  border-color: var(--color-gray-700);
+}
+
+.faq-question {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--color-gray-900);
+  margin-bottom: var(--spacing-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+body.dark .faq-question {
+  color: var(--color-white);
+}
+
+.faq-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--color-primary-600);
+  flex-shrink: 0;
+}
+
+.faq-answer {
+  color: var(--color-gray-600);
+  line-height: 1.7;
+}
+
+body.dark .faq-answer {
+  color: var(--color-gray-300);
+}
+
+.faq-answer p {
+  margin-bottom: var(--spacing-md);
+}
+
+.faq-answer p:last-child {
+  margin-bottom: 0;
+}
+
+.faq-note-icon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
 }
 </style>
