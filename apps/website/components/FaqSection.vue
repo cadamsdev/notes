@@ -11,38 +11,26 @@
       </div>
 
       <div class="faq-container">
-        <div v-for="(item, index) in faqItems" :key="index" class="faq-item">
-          <button 
-            class="faq-question" 
-            @click="toggleItem(index)"
-            :aria-expanded="openItems.has(index)"
-          >
+        <Accordion v-for="(item, index) in faqItems" :key="index">
+          <template #icon>
             <Icon name="heroicons:question-mark-circle" class="faq-icon" />
-            <span class="faq-question-text">{{ item.question }}</span>
-            <Icon 
-              name="heroicons:chevron-down" 
-              :class="['faq-chevron', { 'faq-chevron-open': openItems.has(index) }]" 
-            />
-          </button>
-          <div v-show="openItems.has(index)" class="faq-answer">
-            <template v-for="(content, contentIndex) in item.answer" :key="contentIndex">
-              <p v-if="content.type === 'text'">{{ content.value }}</p>
-              <InlineCodeBlock v-else-if="content.type === 'code'" :code="content.value" />
-              <p v-else-if="content.type === 'note'" class="faq-note">
-                <Icon name="heroicons:light-bulb" class="faq-note-icon" />
-                {{ content.value }}
-              </p>
-            </template>
-          </div>
-        </div>
+          </template>
+          <template #title>{{ item.question }}</template>
+          <template v-for="(content, contentIndex) in item.answer" :key="contentIndex">
+            <p v-if="content.type === 'text'">{{ content.value }}</p>
+            <InlineCodeBlock v-else-if="content.type === 'code'" :code="content.value" />
+            <p v-else-if="content.type === 'note'" class="faq-note">
+              <Icon name="heroicons:light-bulb" class="faq-note-icon" />
+              {{ content.value }}
+            </p>
+          </template>
+        </Accordion>
       </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-
 interface FaqContent {
   type: 'text' | 'code' | 'note'
   value: string
@@ -51,18 +39,6 @@ interface FaqContent {
 interface FaqItem {
   question: string
   answer: FaqContent[]
-}
-
-const openItems = ref<Set<number>>(new Set())
-
-function toggleItem(index: number) {
-  if (openItems.value.has(index)) {
-    openItems.value.delete(index)
-  } else {
-    openItems.value.add(index)
-  }
-  // Trigger reactivity
-  openItems.value = new Set(openItems.value)
 }
 
 const faqItems: FaqItem[] = [
@@ -136,86 +112,11 @@ body.dark .section-description {
   gap: var(--spacing-lg);
 }
 
-.faq-item {
-  background-color: var(--color-white);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--color-gray-200);
-  overflow: hidden;
-}
-
-body.dark .faq-item {
-  background-color: var(--color-gray-900);
-  border-color: var(--color-gray-700);
-}
-
-.faq-question {
-  width: 100%;
-  padding: var(--spacing-xl);
-  font-size: var(--font-size-xl);
-  font-weight: 600;
-  color: var(--color-gray-900);
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  background: none;
-  border: none;
-  cursor: pointer;
-  text-align: left;
-  transition: background-color var(--transition-base);
-}
-
-.faq-question:hover {
-  background-color: var(--color-gray-50);
-}
-
-body.dark .faq-question {
-  color: var(--color-white);
-}
-
-body.dark .faq-question:hover {
-  background-color: var(--color-gray-800);
-}
-
-.faq-question-text {
-  flex: 1;
-}
-
 .faq-icon {
   width: 1.5rem;
   height: 1.5rem;
   color: var(--color-primary-600);
   flex-shrink: 0;
-}
-
-.faq-chevron {
-  width: 1.25rem;
-  height: 1.25rem;
-  color: var(--color-gray-400);
-  flex-shrink: 0;
-  transition: transform var(--transition-base);
-}
-
-.faq-chevron-open {
-  transform: rotate(180deg);
-}
-
-.faq-answer {
-  padding: 0 var(--spacing-xl) var(--spacing-xl) var(--spacing-xl);
-  color: var(--color-gray-600);
-  line-height: 1.7;
-}
-
-body.dark .faq-answer {
-  color: var(--color-gray-300);
-}
-
-.faq-answer p {
-  margin-bottom: var(--spacing-md);
-}
-
-.faq-answer p:last-child {
-  margin-bottom: 0;
 }
 
 .faq-note {
@@ -229,5 +130,13 @@ body.dark .faq-answer {
   height: 1rem;
   flex-shrink: 0;
   margin-top: 0.125rem;
+}
+
+:deep(.accordion-content p) {
+  margin-bottom: var(--spacing-md);
+}
+
+:deep(.accordion-content p:last-child) {
+  margin-bottom: 0;
 }
 </style>
